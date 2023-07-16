@@ -1,0 +1,158 @@
+/* Your main CSS styles go here */
+@import url("../style.css");
+
+/* Your CSS specific to the registration page goes here */
+
+/* Registration Form Styles */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Set fixed width for both username and password fields */
+#username {
+  width: 100%;
+}
+
+#password {
+  width: 100%;
+}
+
+button {
+  background-color: #333;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+/* Password Requirements */
+#password-requirements {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #777;
+}
+
+#password-requirements ul {
+  list-style: square;
+}
+
+/* Rounded Corners */
+input[type="text"],
+input[type="password"],
+button,
+#password-requirements {
+  border-radius: 6px;
+}
+
+/* Password Requirements Box */
+#password-requirements {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 200px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+#password-requirements ul {
+  margin-left: 20px;
+}
+
+#password-requirements li {
+  list-style-type: none;
+  margin-bottom: 5px;
+}
+
+#password-requirements li.completed {
+  color: #43a047;
+}
+
+#password-requirements li.missing {
+  color: #f44336;
+}
+
+/* Password Input Container */
+.password-input-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.password-input-container input[type="password"] {
+  flex: 1;
+  padding-right: 40px;
+  border-radius: 4px 0 0 4px;
+}
+
+.password-input-container button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Eye Button Container */
+.eye-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.eye-button-container button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 16px;
+  transition: background-color 0.3s;
+}
+
+.eye-button-container button:hover {
+  background-color: #f5f5f5;
+}
+
+/* Adjust the order of elements for responsive layout */
+@media (max-width: 600px) {
+  .password-input-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .password-input-container input[type="password"] {
+    padding-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+
+  .password-input-container button {
+    align-self: flex-end;
+  }
+}

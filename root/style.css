@@ -1,0 +1,105 @@
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* probably global style */
+body {
+  background: radial-gradient(circle, #00ff00, #0000ff);
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li:first-child {
+  margin-left: 0;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #ddd;
+}
+
+main {
+  margin: 20px;
+}
+
+section {
+  margin-bottom: 40px;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+/* Styles specific to the Maps page */
+body.maps-page {
+  background-color: #f0f0f0; /* Custom background color for the maps page */
+}
+
+header.maps-page {
+  background-color: #555; /* Custom header background color for the maps page */
+}
+
+nav.maps-page ul li a {
+  color: #fff; /* Custom link color for the maps page */
+}
+
+/* Styles for the search form */
+#searchForm {
+  text-align: center;
+}
+
+#searchInput {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 300px;
+  font-size: 16px;
+}
+
+/* Adjust the order of elements for responsive layout */
+@media (max-width: 600px) {
+  .password-input-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .password-input-container input[type="password"] {
+    padding-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+
+  .password-input-container button {
+    align-self: flex-end;
+  }
+}

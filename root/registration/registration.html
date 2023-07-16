@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration | My Website</title>
+  <link rel="stylesheet" type="text/css" href="registration.css">
+</head>
+<body>
+  <header>
+    <h1>Welcome to My Website</h1>
+    <nav>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="#">Register</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <section>
+      <h2>Register</h2>
+      <form id="registrationForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <div class="password-input-container">
+          <input type="password" id="password" name="password" required>
+        </div>
+        <div class="eye-button-container">
+          <button type="button" id="togglePasswordVisibility" onclick="togglePasswordVisibility()">👁️</button>
+        </div>
+        <div id="password-requirements">
+          Password must have:
+          <ul>
+            <li id="lengthRequirement">At least 8 characters</li>
+            <li id="capitalLetterRequirement">At least one capital letter</li>
+            <li id="numberRequirement">At least one number</li>
+            <li id="specialCharRequirement">At least one special character</li>
+          </ul>
+        </div>
+        <button type="submit">Register</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 My Website. All rights reserved.</p>
+  </footer>
+
+  <script src="../registration/registration.js"></script>
+</body>
+</html>

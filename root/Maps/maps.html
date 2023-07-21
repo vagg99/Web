@@ -21,14 +21,18 @@
   <main>
     <section>
       <h2>Maps</h2>
+      <!-- Add the map container with a default view -->
       <div id="map" style="height: 400px;"></div>
     </section>
+    <!-- Add the "Get My Location" button -->
+    <button onclick="getUserLocation()">Get My Location</button>
   </main>
 
   <footer>
     <p>&copy; 2023 My Website. All rights reserved.</p>
   </footer>
 
+  <!-- Add the Leaflet library and your maps.js script -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="maps.js"></script>
 </body>

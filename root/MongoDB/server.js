@@ -8,7 +8,8 @@ const mongoURI = "mongodb+srv://webproject7:HVHDmG6eK2nuq9rM@cluster0.03czzuj.mo
 async function connectToDatabase() {
   const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
-  return client.db('your_database_name').collection('users'); // Replace 'your_database_name' with the actual name of your database and collection
+  console.log("connected to database !");
+  return client.db('website7').collection('users'); // Replace 'your_database_name' with the actual name of your database and collection
 }
 
 async function getRequestBody(request) {
@@ -40,8 +41,13 @@ async function registerUser(username, password) {
 
 // Add a new route to handle the registration data
 async function handleRegistration(req, res) {
+  console.log("aaaaa");
+  console.log(req.url);
+  console.log(req.method);
+  console.log(req.method === 'POST')
   if (req.method === 'POST' && req.url === '/register') {
     try {
+      console.log("a")
       const body = await getRequestBody(req);
       const { username, password } = JSON.parse(body);
 
@@ -62,6 +68,8 @@ async function handleRegistration(req, res) {
 
 // Attach the handleRegistration function to the server
 const server = http.createServer(async (req, res) => {
+  console.log(req)
+  console.log(req.method)
   if (req.method === 'GET' && req.url === '/users') {
     // Handle GET request for fetching users
     try {

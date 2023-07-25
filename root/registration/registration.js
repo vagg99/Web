@@ -14,13 +14,16 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   } else {
     try {
       // Send the registration data to the server
+      console.error("b");
       const response = await fetch('http://localhost:3000/register', {
         method: 'POST',
+        //dataType: 'jsonp',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ username, password })
       });
+      console.error("c");
 
       const data = await response.json();
       console.log(data.message); // This will display the success message from the server
@@ -59,7 +62,7 @@ function showError(message) {
 
   setTimeout(function() {
     errorBox.style.display = 'none';
-  }, 5000);
+  }, 10000);
 }
 
 // Attach event listener to the eye button to toggle password visibility

@@ -1,5 +1,10 @@
 const { MongoClient } = require('mongodb');
-const http = require('http');
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+
+app.use(cors());
 
 const port = 3000;
 
@@ -41,8 +46,6 @@ async function registerUser(username, password) {
 
 // Add a new route to handle the registration data
 async function handleRegistration(req, res) {
-  console.log("aaaaa");
-  console.log(req.url);
   console.log(req.method);
   console.log(req.method === 'POST')
   if (req.method === 'POST' && req.url === '/register') {
@@ -66,27 +69,20 @@ async function handleRegistration(req, res) {
   }
 }
 
-// Attach the handleRegistration function to the server
-const server = http.createServer(async (req, res) => {
-  console.log(req)
-  console.log(req.method)
-  if (req.method === 'GET' && req.url === '/users') {
-    // Handle GET request for fetching users
-    try {
-      const users = await getUsers();
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(users));
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: 'Internal server error' }));
-    }
-  } else {
-    // Handle POST request for registration
-    handleRegistration(req, res);
+// GET request for fetching users
+app.get('/users', async (req, res) => {
+  try {
+    const users = await getUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-server.listen(port, () => {
+// POST request for registration
+app.post('/register', handleRegistration);
+
+app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

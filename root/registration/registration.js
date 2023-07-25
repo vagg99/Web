@@ -14,7 +14,6 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   } else {
     try {
       // Send the registration data to the server
-      console.error("b");
       const response = await fetch('http://localhost:3000/register', {
         method: 'POST',
         //dataType: 'jsonp',
@@ -23,7 +22,6 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
         },
         body: JSON.stringify({ username, password })
       });
-      console.error("c");
 
       const data = await response.json();
       console.log(data.message); // This will display the success message from the server

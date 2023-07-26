@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const jsSHA = require("jssha");
 const express = require('express');
 const cors = require('cors');
 
@@ -31,10 +32,18 @@ async function getRequestBody(request) {
   });
 }
 
-async function registerUser(username, password) {
+async function registerUser(username, email, password) {
   const collection = await connectToDatabase();
   // You should hash the password here before storing it in the database for security purposes
-  const userData = { username, password };
+  var userData = { username, email, password };
+  /*
+  // Μετα τα testing με αυτες τις γραμμες θα ειναι hashed τα passwords
+  // (testαρισμενο δουλευει)
+  let Obj = new jsSHA("SHA-256", "TEXT", "Nektarios");
+  Obj.update(password);
+  password_hashed = Obj.getHash("HEX");
+  var userData = { username, email, password_hashed };
+  */
   const result = await collection.insertOne(userData);
   if (result.insertedCount === 1) {
     return 'User registered successfully!';
@@ -48,10 +57,10 @@ async function handleRegistration(req, res) {
   if (req.method === 'POST' && req.url === '/register') {
     try {
       const body = await getRequestBody(req);
-      const { username, password } = JSON.parse(body);
+      const { username, email, password } = JSON.parse(body);
 
       // Call the registerUser function to store the user data
-      const message = await registerUser(username, password);
+      const message = await registerUser(username, email, password);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message }));

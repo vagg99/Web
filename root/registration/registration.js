@@ -4,37 +4,49 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   // Get form input values
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
+  var email = document.getElementById('email').value;
 
   // Password validation regex
   var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
+  // Email validation regex
+  var emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
   // Perform password validation
   if (!passwordRegex.test(password)) {
     showError('Password must be at least 8 characters long, contain at least one capital letter, one number, and one special character.');
-  } else {
-    try {
-      // Send the registration data to the server
-      const response = await fetch('http://localhost:3000/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-      });
+    return;
+  }
 
-      const data = await response.json();
-      console.log(data.message); // This will display the success message from the server
+  // Perform email validation
+  if (!emailRegex.test(email)) {
+    showError("Please enter a valid email address.");
+    return;
+  }
 
-      // Clear the form
-      document.getElementById('registrationForm').reset();
+  try {
+    // Send the registration data to the server
+    const response = await fetch('http://localhost:3000/register', {
+      method: 'POST',
+      //dataType: 'jsonp',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, email, password })
+    });
 
-      // Show a success message to the user (you can keep your existing success message code)
-      showSuccess(data.message);
-    } catch (error) {
-      console.error('Error during registration:', error);
-      // Handle errors and show an error message to the user, if needed
-      showError('An error occurred during registration. Please try again later.');
-    }
+    const data = await response.json();
+    console.log(data.message); // This will display the success message from the server
+
+    // Clear the form
+    document.getElementById('registrationForm').reset();
+
+    // Show a success message to the user (you can keep your existing success message code)
+    showSuccess(data.message);
+  } catch (error) {
+    console.error('Error during registration:', error);
+    // Handle errors and show an error message to the user, if needed
+    showError('An error occurred during registration. Please try again later.');
   }
 });
 
@@ -59,7 +71,7 @@ function showError(message) {
 
   setTimeout(function() {
     errorBox.style.display = 'none';
-  }, 5000);
+  }, 10000);
 }
 
 // Attach event listener to the eye button to toggle password visibility

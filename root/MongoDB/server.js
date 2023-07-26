@@ -1,5 +1,11 @@
 const { MongoClient } = require('mongodb');
-const http = require('http');
+const jsSHA = require("jssha");
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+
+app.use(cors());
 
 const port = 3000;
 
@@ -8,7 +14,7 @@ const mongoURI = "mongodb+srv://webproject7:HVHDmG6eK2nuq9rM@cluster0.03czzuj.mo
 async function connectToDatabase() {
   const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
-  return client.db('your_database_name').collection('users'); // Replace 'your_database_name' with the actual name of your database and collection
+  return client.db('website7').collection('users'); // Replace 'your_database_name' with the actual name of your database and collection
 }
 
 async function getRequestBody(request) {
@@ -26,10 +32,13 @@ async function getRequestBody(request) {
   });
 }
 
-async function registerUser(username, password) {
+async function registerUser(username, email, password) {
   const collection = await connectToDatabase();
-  // You should hash the password here before storing it in the database for security purposes
-  const userData = { username, password };
+  let Obj = new jsSHA("SHA-256", "TEXT", "Nektarios");
+  Obj.update(password);
+  password_hashed = Obj.getHash("HEX");
+  // για unhashed password κανε var userData = { username, email, password };
+  var userData = { username, email, password_hashed };
   const result = await collection.insertOne(userData);
   if (result.insertedCount === 1) {
     return 'User registered successfully!';
@@ -43,10 +52,10 @@ async function handleRegistration(req, res) {
   if (req.method === 'POST' && req.url === '/register') {
     try {
       const body = await getRequestBody(req);
-      const { username, password } = JSON.parse(body);
+      const { username, email, password } = JSON.parse(body);
 
       // Call the registerUser function to store the user data
-      const message = await registerUser(username, password);
+      const message = await registerUser(username, email, password);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message }));
@@ -60,25 +69,20 @@ async function handleRegistration(req, res) {
   }
 }
 
-// Attach the handleRegistration function to the server
-const server = http.createServer(async (req, res) => {
-  if (req.method === 'GET' && req.url === '/users') {
-    // Handle GET request for fetching users
-    try {
-      const users = await getUsers();
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(users));
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: 'Internal server error' }));
-    }
-  } else {
-    // Handle POST request for registration
-    handleRegistration(req, res);
+// GET request for fetching users
+app.get('/users', async (req, res) => {
+  try {
+    const users = await getUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-server.listen(port, () => {
+// POST request for registration
+app.post('/register', handleRegistration);
+
+app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

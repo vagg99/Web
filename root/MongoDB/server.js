@@ -34,16 +34,11 @@ async function getRequestBody(request) {
 
 async function registerUser(username, email, password) {
   const collection = await connectToDatabase();
-  // You should hash the password here before storing it in the database for security purposes
-  var userData = { username, email, password };
-  /*
-  // Μετα τα testing με αυτες τις γραμμες θα ειναι hashed τα passwords
-  // (testαρισμενο δουλευει)
   let Obj = new jsSHA("SHA-256", "TEXT", "Nektarios");
   Obj.update(password);
   password_hashed = Obj.getHash("HEX");
+  // για unhashed password κανε var userData = { username, email, password };
   var userData = { username, email, password_hashed };
-  */
   const result = await collection.insertOne(userData);
   if (result.insertedCount === 1) {
     return 'User registered successfully!';

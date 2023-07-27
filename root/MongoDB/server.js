@@ -8,7 +8,7 @@ const app = express();
 
 //cron.schedule("0 0 0 1 * *", distributeTokens); // EVERY MONTH
 
-cron.schedule("*/15 * * * * *", distributeTokens); // EVERY 15 SECONDS FOR TESTING
+cron.schedule("*/10 * * * * *", distributeTokens); // EVERY 10 SECONDS FOR TESTING
 
 app.use(cors());
 
@@ -79,7 +79,9 @@ function hash(username,password) {
 }
 
 async function distributeTokens() {
-  const {users, collection} = getUsers();
+  console.log("Distributing tokens...");
+  const {users, collection} = await getUsers();
+  console.log('1. Users:', users);
   ApothematikoTokens = 0;
   TotalPoints = 0;
   for (let i = 0; i < users.length; i++) {
@@ -92,16 +94,7 @@ async function distributeTokens() {
     users[i].points["total"] += users[i].points["monthly"];
     users[i].points["monthly"] = 0;
   }
-  await updateDatabase(users,collection);
-}
-
-async function getUsers() {
-  const collection = await connectToDatabase();
-  const users = await collection.find({}).toArray();
-  return users,collection;
-}
-
-async function updateDatabase(users,collection) {
+  console.log('Updating database...');
   const updateOperations = users.map(user => ({
     updateOne: {
       filter: { _id: user._id },
@@ -109,6 +102,14 @@ async function updateDatabase(users,collection) {
     },
   }));
   await collection.bulkWrite(updateOperations);
+  console.log('Users:', users);
+  console.log('Database updated successfully!');
+}
+
+async function getUsers() {
+  const collection = await connectToDatabase();
+  const users = await collection.find({}).toArray();
+  return {users,collection};
 }
 
 // GET request for fetching users

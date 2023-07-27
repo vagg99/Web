@@ -1,9 +1,12 @@
-const { MongoClient } = require('mongodb');
-const jsSHA = require("jssha");
 const express = require('express');
-const cors = require('cors');
+const { MongoClient } = require('mongodb'); // DATABASE
+const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
+const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
+const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 
 const app = express();
+
+cron.schedule("0 0 0 1 * *", updatePointsandTokens); // EVERY MONTH
 
 app.use(cors());
 
@@ -32,11 +35,10 @@ async function getRequestBody(request) {
   });
 }
 
-async function registerUser(username, email, password) {
+async function registerUser(username, tokens, points, email, password, isAdmin) {
   const collection = await connectToDatabase();
-  let password_hashed = hash(password);
-  // για unhashed password κανε const userData = { username, email, password };
-  const userData = { username, email, password_hashed };
+  let password_hashed = hash(username,password);
+  const userData = { username, tokens, points, email, password_hashed, isAdmin };
   const result = await collection.insertOne(userData);
   if (result.insertedCount === 1) {
     return 'User registered successfully!';
@@ -50,10 +52,10 @@ async function handleRegistration(req, res) {
   if (req.method === 'POST' && req.url === '/register') {
     try {
       const body = await getRequestBody(req);
-      const { username, email, password } = JSON.parse(body);
+      const { username, tokens, points, email, password, isAdmin } = JSON.parse(body);
 
       // Call the registerUser function to store the user data
-      const message = await registerUser(username, email, password);
+      const message = await registerUser(username, tokens, points, email, password, isAdmin);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message }));
@@ -68,10 +70,31 @@ async function handleRegistration(req, res) {
 }
 
 // for encrypting passwords
-function hash(password) {
-  let Obj = new jsSHA("SHA-256", "TEXT", "Nektarios");
+function hash(username,password) {
+  let Obj = new jsSHA("SHA-256", "TEXT", username);
   Obj.update(password);
   return Obj.getHash("HEX");
+}
+
+async function updatePointsandTokens() {
+  const users = getUsers();
+  Apothematiko = 0;
+  for (let i = 0; i < users.length; i++) {
+    Apothematiko += users[i].tokens["monthly"];
+  }
+  distributeTokens(Apothematiko);
+  for (let i = 0; i < users.length; i++) {
+    users[i].tokens["total"] += users[i].tokens["monthly"];
+    users[i].tokens["monthly"] = 0;
+    users[i].points["total"] += users[i].points["monthly"];
+    users[i].points["monthly"] = 0;
+  }
+}
+
+async function distributeTokens(Apothematiko , users) {
+  for (let i = 0; i < users.length; i++) {
+    users[i].tokens["monthly"] = Math.round(Apothematiko * users[i].points["monthly"] / users.length);
+  }
 }
 
 async function getUsers() {

@@ -34,11 +34,9 @@ async function getRequestBody(request) {
 
 async function registerUser(username, email, password) {
   const collection = await connectToDatabase();
-  let Obj = new jsSHA("SHA-256", "TEXT", "Nektarios");
-  Obj.update(password);
-  password_hashed = Obj.getHash("HEX");
-  // για unhashed password κανε var userData = { username, email, password };
-  var userData = { username, email, password_hashed };
+  let password_hashed = hash(password);
+  // για unhashed password κανε const userData = { username, email, password };
+  const userData = { username, email, password_hashed };
   const result = await collection.insertOne(userData);
   if (result.insertedCount === 1) {
     return 'User registered successfully!';
@@ -67,6 +65,19 @@ async function handleRegistration(req, res) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Endpoint not found' }));
   }
+}
+
+// for encrypting passwords
+function hash(password) {
+  let Obj = new jsSHA("SHA-256", "TEXT", "Nektarios");
+  Obj.update(password);
+  return Obj.getHash("HEX");
+}
+
+async function getUsers() {
+  const collection = await connectToDatabase();
+  const users = await collection.find({}).toArray();
+  return users;
 }
 
 // GET request for fetching users

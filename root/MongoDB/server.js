@@ -6,7 +6,9 @@ const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 
 const app = express();
 
-cron.schedule("0 0 0 1 * *", updatePointsandTokens); // EVERY MONTH
+//cron.schedule("0 0 0 1 * *", updatePointsandTokens); // EVERY MONTH
+
+cron.schedule("0 0 0 1 * *", updatePointsandTokens);
 
 app.use(cors());
 
@@ -77,7 +79,7 @@ function hash(username,password) {
 }
 
 async function updatePointsandTokens() {
-  const users = getUsers();
+  const {users, collection} = getUsers();
   Apothematiko = 0;
   for (let i = 0; i < users.length; i++) {
     Apothematiko += users[i].tokens["monthly"];
@@ -89,6 +91,7 @@ async function updatePointsandTokens() {
     users[i].points["total"] += users[i].points["monthly"];
     users[i].points["monthly"] = 0;
   }
+  updateDatabase(users,collection);
 }
 
 async function distributeTokens(Apothematiko , users) {
@@ -104,13 +107,23 @@ async function distributeTokens(Apothematiko , users) {
 async function getUsers() {
   const collection = await connectToDatabase();
   const users = await collection.find({}).toArray();
-  return users;
+  return users,collection;
+}
+
+async function updateDatabase(users,collection) {
+  const updateOperations = users.map(user => ({
+    updateOne: {
+      filter: { _id: user._id },
+      update: { $set: { points: user.points , tokens: user.tokens } },
+    },
+  }));
+  await collection.bulkWrite(updateOperations);
 }
 
 // GET request for fetching users
 app.get('/users', async (req, res) => {
   try {
-    const users = await getUsers();
+    const {users, collection} = await getUsers();
     res.status(200).json(users);
   } catch (error) {
     console.error('Error fetching users:', error);

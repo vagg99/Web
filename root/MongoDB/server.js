@@ -92,8 +92,12 @@ async function updatePointsandTokens() {
 }
 
 async function distributeTokens(Apothematiko , users) {
+  points = 0
   for (let i = 0; i < users.length; i++) {
-    users[i].tokens["monthly"] = Math.round(Apothematiko * users[i].points["monthly"] / users.length);
+    points += users[i].points["monthly"];
+  }
+  for (let i = 0; i < users.length; i++) {
+    users[i].tokens["monthly"] = Math.round(Apothematiko * users[i].points["monthly"] / points);
   }
 }
 

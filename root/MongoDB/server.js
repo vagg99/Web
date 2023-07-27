@@ -6,9 +6,9 @@ const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 
 const app = express();
 
-//cron.schedule("0 0 0 1 * *", updatePointsandTokens); // EVERY MONTH
+//cron.schedule("0 0 0 1 * *", distributeTokens); // EVERY MONTH
 
-cron.schedule("0 0 0 1 * *", updatePointsandTokens);
+cron.schedule("*/15 * * * * *", distributeTokens); // EVERY 15 SECONDS FOR TESTING
 
 app.use(cors());
 
@@ -78,30 +78,21 @@ function hash(username,password) {
   return Obj.getHash("HEX");
 }
 
-async function updatePointsandTokens() {
+async function distributeTokens() {
   const {users, collection} = getUsers();
-  Apothematiko = 0;
+  ApothematikoTokens = 0;
+  TotalPoints = 0;
   for (let i = 0; i < users.length; i++) {
-    Apothematiko += users[i].tokens["monthly"];
-  }
-  distributeTokens(Apothematiko);
-  for (let i = 0; i < users.length; i++) {
-    users[i].tokens["total"] += users[i].tokens["monthly"];
-    users[i].tokens["monthly"] = 0;
-    users[i].points["total"] += users[i].points["monthly"];
-    users[i].points["monthly"] = 0;
-  }
-  updateDatabase(users,collection);
-}
-
-async function distributeTokens(Apothematiko , users) {
-  points = 0
-  for (let i = 0; i < users.length; i++) {
-    points += users[i].points["monthly"];
+    ApothematikoTokens += users[i].tokens["monthly"];
+    TotalPoints += users[i].points["monthly"];
   }
   for (let i = 0; i < users.length; i++) {
     users[i].tokens["monthly"] = Math.round(Apothematiko * users[i].points["monthly"] / points);
+    users[i].tokens["total"] += users[i].tokens["monthly"];
+    users[i].points["total"] += users[i].points["monthly"];
+    users[i].points["monthly"] = 0;
   }
+  await updateDatabase(users,collection);
 }
 
 async function getUsers() {

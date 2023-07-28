@@ -1,0 +1,24 @@
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+label, select {
+  display: block;
+  margin-bottom: 10px;
+}
+
+select {
+  padding: 5px;
+}

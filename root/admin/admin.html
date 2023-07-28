@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="/root/style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="Registration/registration.html">Register</a></li>
+        <li><a href="Maps/maps.html">Maps</a></li>
+        <li><a href="#">Category 3</a></li>
+        <li><a href="#">Αξιολόγηση</a></li>
+        <li><a href="#">Υποβολή</a></li>
+        <li><a href="#">Το προφίλ μου</a></li>
+        <li><a href="#">Admin</a></li>
+      </ul>
+    </nav>
+    <h1 style="padding: 10px 0;">Καταναλωτ-e-ς 😂😊</h1>
+  </header>
+
+  <main>
+    <h1>Admin Page</h1>
+    <div class="container">
+      <h2>Supermarket Products</h2>
+        <p>Επιλέξτε κατηγορία, υποκατηγορία και προϊόν</p>
+        <div class="dropdown">
+          <label for="category">Κατηγορία:</label>
+          <select id="category" onchange="populateSubcategories()">
+            <option value="0">Επιλέξτε κατηγορία</option>
+            <option value="1">Category 1</option>
+            <option value="2">Category 2</option>
+            <option value="3">Category 3</option>
+          </select>
+        </div>
+      
+        <div class="dropdown">
+          <label for="subcategory">Υποκατηγορία:</label>
+          <select id="subcategory" onchange="populateProducts()">
+            <option value="0">Επιλέξτε υποκατηγορία</option>
+          </select>
+        </div>
+      
+        <div class="dropdown">
+          <label for="product">Προϊόντα:</label>
+          <select id="product">
+            <option value="0">Επιλέξτε προϊόν</option>
+          </select>
+        </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 My Website. All rights reserved.</p>
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>

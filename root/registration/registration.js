@@ -5,7 +5,8 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
   var email = document.getElementById('email').value;
-  var tokens = { "total" : 0 , "monthly" : 0};
+  var StartingTokens = 100;
+  var tokens = { "total" : StartingTokens , "monthly" : StartingTokens};
   var points = { "total" : 0 , "monthly" : 0};
   var isAdmin = false;
 

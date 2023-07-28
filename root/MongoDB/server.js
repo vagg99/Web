@@ -6,9 +6,7 @@ const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 
 const app = express();
 
-//cron.schedule("0 0 0 1 * *", distributeTokens); // EVERY MONTH
-
-cron.schedule("*/10 * * * * *", distributeTokens); // EVERY 10 SECONDS FOR TESTING
+cron.schedule("0 0 0 1 * *", distributeTokens); // EVERY MONTH
 
 app.use(cors());
 
@@ -79,22 +77,24 @@ function hash(username,password) {
 }
 
 async function distributeTokens() {
-  console.log("Distributing tokens...");
+  console.log(`Monthly Token Distribution ! Distributing tokens to ${users.length} users...`);
+  // Χρειαζομαστε και το collection για να κανουμε save τις αλλαγες στη βαση
   const {users, collection} = await getUsers();
-  console.log('1. Users:', users);
-  ApothematikoTokens = 0;
-  TotalPoints = 0;
+  // Υπολογισμός νέων tokens για κάθε χρήστη και μηδενισμός πόντων
+  let ApothematikoTokens = 0;
+  let TotalPoints = 0;
   for (let i = 0; i < users.length; i++) {
     ApothematikoTokens += users[i].tokens["monthly"];
     TotalPoints += users[i].points["monthly"];
   }
   for (let i = 0; i < users.length; i++) {
-    users[i].tokens["monthly"] = Math.round(Apothematiko * users[i].points["monthly"] / points);
-    users[i].tokens["total"] += users[i].tokens["monthly"];
-    users[i].points["total"] += users[i].points["monthly"];
-    users[i].points["monthly"] = 0;
+    if (TotalPoints) {
+      users[i].tokens["monthly"] = Math.round(ApothematikoTokens * users[i].points["monthly"] / TotalPoints);
+      users[i].points["monthly"] = 0;
+    }
+    users[i].tokens["total"] += await users[i].tokens["monthly"];
   }
-  console.log('Updating database...');
+  // UPDATING MONGODB DATABASE
   const updateOperations = users.map(user => ({
     updateOne: {
       filter: { _id: user._id },
@@ -102,8 +102,6 @@ async function distributeTokens() {
     },
   }));
   await collection.bulkWrite(updateOperations);
-  console.log('Users:', users);
-  console.log('Database updated successfully!');
 }
 
 async function getUsers() {

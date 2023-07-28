@@ -1,9 +1,12 @@
-const { MongoClient } = require('mongodb');
-const jsSHA = require("jssha");
 const express = require('express');
-const cors = require('cors');
+const { MongoClient } = require('mongodb'); // DATABASE
+const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
+const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
+const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 
 const app = express();
+
+cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 
 app.use(cors());
 
@@ -32,11 +35,10 @@ async function getRequestBody(request) {
   });
 }
 
-async function registerUser(username, email, password) {
+async function registerUser(username, tokens, points, email, password, isAdmin) {
   const collection = await connectToDatabase();
-  let password_hashed = hash(password);
-  // για unhashed password κανε const userData = { username, email, password };
-  const userData = { username, email, password_hashed };
+  let password_hashed = hash(username,password);
+  const userData = { username, tokens, points, email, password_hashed, isAdmin };
   const result = await collection.insertOne(userData);
   if (result.insertedCount === 1) {
     return 'User registered successfully!';
@@ -50,10 +52,10 @@ async function handleRegistration(req, res) {
   if (req.method === 'POST' && req.url === '/register') {
     try {
       const body = await getRequestBody(req);
-      const { username, email, password } = JSON.parse(body);
+      const { username, tokens, points, email, password, isAdmin } = JSON.parse(body);
 
       // Call the registerUser function to store the user data
-      const message = await registerUser(username, email, password);
+      const message = await registerUser(username, tokens, points, email, password, isAdmin);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message }));
@@ -68,22 +70,50 @@ async function handleRegistration(req, res) {
 }
 
 // for encrypting passwords
-function hash(password) {
-  let Obj = new jsSHA("SHA-256", "TEXT", "Nektarios");
+function hash(username,password) {
+  let Obj = new jsSHA("SHA-256", "TEXT", username); // uses the user's username as salt
   Obj.update(password);
   return Obj.getHash("HEX");
+}
+
+async function distributeTokens() {
+  console.log(`Monthly Token Distribution ! Distributing tokens to ${users.length} users...`);
+  // Χρειαζομαστε και το collection για να κανουμε save τις αλλαγες στη βαση
+  const {users, collection} = await getUsers();
+  // Υπολογισμός νέων tokens για κάθε χρήστη και μηδενισμός πόντων
+  let ApothematikoTokens = 0;
+  let TotalPoints = 0;
+  for (let i = 0; i < users.length; i++) {
+    ApothematikoTokens += users[i].tokens["monthly"];
+    TotalPoints += users[i].points["monthly"];
+  }
+  for (let i = 0; i < users.length; i++) {
+    if (TotalPoints) {
+      users[i].tokens["monthly"] = Math.round(ApothematikoTokens * users[i].points["monthly"] / TotalPoints);
+      users[i].points["monthly"] = 0;
+    }
+    users[i].tokens["total"] += await users[i].tokens["monthly"];
+  }
+  // UPDATING MONGODB
+  const updateOperations = users.map(user => ({
+    updateOne: {
+      filter: { _id: user._id },
+      update: { $set: { points: user.points , tokens: user.tokens } },
+    },
+  }));
+  await collection.bulkWrite(updateOperations);
 }
 
 async function getUsers() {
   const collection = await connectToDatabase();
   const users = await collection.find({}).toArray();
-  return users;
+  return {users,collection};
 }
 
 // GET request for fetching users
 app.get('/users', async (req, res) => {
   try {
-    const users = await getUsers();
+    const {users, collection} = await getUsers();
     res.status(200).json(users);
   } catch (error) {
     console.error('Error fetching users:', error);

@@ -5,6 +5,10 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
   var email = document.getElementById('email').value;
+  var StartingTokens = 100;
+  var tokens = { "total" : StartingTokens , "monthly" : StartingTokens};
+  var points = { "total" : 0 , "monthly" : 0};
+  var isAdmin = false;
 
   // Password validation regex
   var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -32,7 +36,7 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username, email, password })
+      body: JSON.stringify({ username, tokens, points, email, password, isAdmin })
     });
 
     const data = await response.json();

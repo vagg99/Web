@@ -6,7 +6,7 @@ const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 
 const app = express();
 
-cron.schedule("0 0 0 1 * *", distributeTokens); // EVERY MONTH
+cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 
 app.use(cors());
 
@@ -71,7 +71,7 @@ async function handleRegistration(req, res) {
 
 // for encrypting passwords
 function hash(username,password) {
-  let Obj = new jsSHA("SHA-256", "TEXT", username);
+  let Obj = new jsSHA("SHA-256", "TEXT", username); // uses the user's username as salt
   Obj.update(password);
   return Obj.getHash("HEX");
 }
@@ -94,7 +94,7 @@ async function distributeTokens() {
     }
     users[i].tokens["total"] += await users[i].tokens["monthly"];
   }
-  // UPDATING MONGODB DATABASE
+  // UPDATING MONGODB
   const updateOperations = users.map(user => ({
     updateOne: {
       filter: { _id: user._id },

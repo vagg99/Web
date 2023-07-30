@@ -47,6 +47,17 @@ async function registerUser(username, tokens, points, email, password, isAdmin) 
   }
 }
 
+async function loginUser(username, password) {
+  const {users, collection} = await getUsers();
+  let password_hashed = hash(username,password);
+  for (user in users) {
+    if (users[user].username === username && users[user].password_hashed === password_hashed) {
+      return 'User logged in successfully!';
+    }
+  }
+  return false;
+}
+
 // Add a new route to handle the registration data
 async function handleRegistration(req, res) {
   if (req.method === 'POST' && req.url === '/register') {
@@ -56,6 +67,33 @@ async function handleRegistration(req, res) {
 
       // Call the registerUser function to store the user data
       const message = await registerUser(username, tokens, points, email, password, isAdmin);
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message }));
+    } catch (error) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+  } else {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Endpoint not found' }));
+  }
+}
+
+async function handleLogin(req, res) {
+  if (req.method === 'POST' && req.url === '/login') {
+    try {
+      const body = await getRequestBody(req);
+      const { username, password } = JSON.parse(body);
+
+      // Call the loginUser function to check if the user exists
+      const message = await loginUser(username, password);
+      
+      if (!message){
+        res.writeHead(403, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Wrong username or password.' }));
+        return;
+      }
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message }));
@@ -123,6 +161,9 @@ app.get('/users', async (req, res) => {
 
 // POST request for registration
 app.post('/register', handleRegistration);
+
+// POST request for login
+app.post('/login', handleLogin);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

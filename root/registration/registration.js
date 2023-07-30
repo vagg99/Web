@@ -32,7 +32,6 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
     // Send the registration data to the server
     const response = await fetch('http://localhost:3000/register', {
       method: 'POST',
-      //dataType: 'jsonp',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -51,6 +50,41 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
     console.error('Error during registration:', error);
     // Handle errors and show an error message to the user, if needed
     showError('An error occurred during registration. Please try again later.');
+  }
+});
+
+document.getElementById('loginForm').addEventListener('submit', async function(event) {
+  event.preventDefault(); // Prevent form submission
+  var username = document.getElementById('username2').value;
+  var password = document.getElementById('password2').value;
+
+  try {
+    // Send the login data to the server
+    const response = await fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await response.json();
+    if (!data.message){
+      console.log("Incorrect username or password."); 
+      showError("Incorrect username or password.");
+      return;
+    }
+    console.log(data.message); // This will display the success message from the server
+
+    // Clear the form
+    document.getElementById('loginForm').reset();
+
+    // Show a success message to the user (you can keep your existing success message code)
+    showSuccess(data.message);
+  } catch (error) {
+    console.error('Error during login:', error);
+    // Handle errors and show an error message to the user, if needed
+    showError(error.message);
   }
 });
 
@@ -79,16 +113,15 @@ function showError(message) {
 }
 
 // Attach event listener to the eye button to toggle password visibility
-document.getElementById('togglePasswordVisibility').addEventListener('click', togglePasswordVisibility);
+document.getElementById('togglePasswordVisibilityRegister').addEventListener('click', () => togglePasswordVisibility(true));
+document.getElementById('togglePasswordVisibilityLogin').addEventListener('click', () => togglePasswordVisibility(false));
 
 // Function to toggle password visibility
-function togglePasswordVisibility() {
-  var passwordInput = document.getElementById('password');
-  if (passwordInput.type === 'password') {
-    passwordInput.type = 'text';
-  } else {
-    passwordInput.type = 'password';
-  }
+// If register is true, then the password input is the one in the registration form
+// If register is false, then the password input is the one in the login form
+function togglePasswordVisibility(register) {
+  var p = register ? document.getElementById('password') : document.getElementById('password2');
+  p.type = p.type === 'password' ? 'text' : 'password';
 }
 
 // Attach event listener to the password input for real-time validation

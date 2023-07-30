@@ -11,6 +11,8 @@
       <ul>
         <li><a href="../index.html">Home</a></li>
         <li><a href="#">Register</a></li>
+        <li id="profileBtn"><a href="#">Profile</a></li>
+        <li id="adminDashboardBtn"><a href="../admin/admin.html">Admin Dashboard</a></li>
       </ul>
     </nav>
   </header>
@@ -28,7 +30,7 @@
           <input type="password" id="password" name="password" required>
         </div>
         <div class="eye-button-container">
-          <button type="button" id="togglePasswordVisibility" >👁️</button>
+          <button type="button" id="togglePasswordVisibilityRegister" >👁️</button>
         </div>
         <div id="password-requirements">
           Password must have:
@@ -40,6 +42,24 @@
           </ul>
         </div>
         <button type="submit">Register</button>
+      </form>
+    </section>
+    <section>
+      <h3>Already have an account ?</h3>
+    </section>
+    <section>
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username2" name="username" required>
+        <label for="password">Password:</label>
+        <div class="password-input-container">
+          <input type="password" id="password2" name="password" required>
+        </div>
+        <div class="eye-button-container">
+          <button type="button" id="togglePasswordVisibilityLogin" >👁️</button>
+        </div>
+        <button type="submit">Login</button>
       </form>
     </section>
   </main>

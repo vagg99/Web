@@ -65,6 +65,22 @@ async function handleRegistration(req, res) {
       const body = await getRequestBody(req);
       const { username, tokens, points, email, password, isAdmin } = JSON.parse(body);
 
+
+      const {users, collection} = await getUsers();
+
+      for (user in users) {
+        if (users[user].username === username) {
+          res.writeHead(409, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Username already exists' }));
+          return;
+        }
+        if (users[user].email === email) {
+          res.writeHead(409, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Email already exists' }));
+          return;
+        }
+      }
+
       // Call the registerUser function to store the user data
       const message = await registerUser(username, tokens, points, email, password, isAdmin);
 

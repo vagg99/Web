@@ -39,6 +39,13 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
     });
 
     const data = await response.json();
+
+    if (response.status === 409){
+      console.log(data.error); 
+      showError(data.error);
+      return;
+    }
+
     console.log(data.message); // This will display the success message from the server
 
     // Clear the form
@@ -69,9 +76,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     });
 
     const data = await response.json();
-    if (!data.message){
-      console.log("Incorrect username or password."); 
-      showError("Incorrect username or password.");
+    if (response.status === 403){
+      console.log(data.error); 
+      showError(data.error);
       return;
     }
     console.log(data.message); // This will display the success message from the server

@@ -70,3 +70,60 @@ function populateProducts() {
     }
   }
 }
+
+
+// Example data - replace this with your actual data
+const players = [
+  { name: 'Player 1', score: 100 },
+  { name: 'Player 2', score: 90 },
+  { name: 'Player 3', score: 85 },
+  { name: 'Player 4', score: 80 },
+  { name: 'Player 5', score: 70 },
+  { name: 'Player 6', score: 60 },
+  { name: 'Player 7', score: 50 },
+  { name: 'Player 8', score: 40 },
+  { name: 'Player 9', score: 30 },
+  { name: 'Player 10', score: 20 },
+  { name: 'Player 11', score: 10 },
+  { name: 'Player 12', score: 5 }
+];
+
+const playersPerPage = 10;
+
+function displayPlayers(page) {
+  const leaderboardList = document.getElementById('leaderboard-list');
+  leaderboardList.innerHTML = '';
+
+  const startIndex = (page - 1) * playersPerPage;
+  const endIndex = startIndex + playersPerPage;
+  const playersToShow = players.slice(startIndex, endIndex);
+
+  playersToShow.forEach((player, index) => {
+      const listItem = document.createElement('li');
+      listItem.innerHTML = `<span>${startIndex + index + 1}. ${player.name}</span><span>${player.score} points</span>`;
+      leaderboardList.appendChild(listItem);
+  });
+}
+
+function displayPagination() {
+  const totalPages = Math.ceil(players.length / playersPerPage);
+  const paginationContainer = document.querySelector('.pagination');
+  paginationContainer.innerHTML = '';
+
+  for (let page = 1; page <= totalPages; page++) {
+      const pageLink = document.createElement('a');
+      pageLink.href = '#';
+      pageLink.textContent = page;
+
+      pageLink.addEventListener('click', () => {
+          displayPlayers(page);
+      });
+
+      paginationContainer.appendChild(pageLink);
+  }
+}
+
+// Initially display the first page of players
+displayPlayers(1);
+// Display pagination links
+displayPagination();

@@ -5,28 +5,13 @@
   box-sizing: border-box;
 }
 
-.file-container {
+.container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
-}
-
-.leaderboard-container {
-  max-width: 600px;
-  margin: 20px auto;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
 }
 
 label, select {

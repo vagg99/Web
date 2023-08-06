@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Website</title>
+  <title>e-Καταναλωτής</title>
+  <link rel="icon" href="images/cart_favicon.png" type="image/png">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+  <div class="loader"></div>
   <header>
+    <div class="header-left">
+      <a href="index.html">
+        <img src="images/shopping_cart_64.png" alt="Home Icon" class="home-icon">
+      </a>
+      <div class="header-text">
+        <h1><a href="index.html">Main</a></h1>
+      </div>
+    </div>
     <nav>
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="Registration/registration.html">Register</a></li>
-        <li><a href="Maps/maps.html">Maps</a></li>
-        <li><a href="#">Category 3</a></li>
+        <li><a href="#">Αρχική</a></li>
+        <li><a href="Registration/registration.html">Σύνδεση</a></li>
+        <li><a href="Maps/maps.html">Χάρτης</a></li>
         <li><a href="#">Αξιολόγηση</a></li>
         <li><a href="#">Υποβολή</a></li>
         <li id="profileBtn"><a href="#">Το προφίλ μου</a></li>
         <li id="adminDashboardBtn"><a href="admin/admin.html">Admin</a></li>
       </ul>
     </nav>
-    <h1 style="padding: 10px 0;">Καταναλωτ-e-ς 😂😊</h1>
   </header>
 
   <main>
-    <h1>My Website</h1> 
-    
-    <section>
-      <h2>About</h2>
-      <p>This is a simple and beautiful website created using HTML, CSS, and JavaScript.</p>
-    </section>
-
     <section>
       <h2>Search</h2>
       <form id="searchForm" action="dummy_page.html">
@@ -37,8 +38,8 @@
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2023 My Website. All rights reserved.</p>
+  <footer style="position: fixed; bottom: 0;">
+		@2023 My Website. All rights reserved. 
   </footer>
 
   <script src="script.js"></script>

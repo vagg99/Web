@@ -1,27 +1,29 @@
-/* CSS Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* probably global style */
+/* Background for the entire body */
 body {
   background: radial-gradient(circle, #00ff00, #0000ff);
 }
 
+/* Header styles */
 header {
   background-color: #333;
   color: #fff;
-  padding: 20px;
-  text-align: center;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-radius: 10px 10px 0 0;
 }
 
+/* Navigation styles */
 nav ul {
   list-style-type: none;
   display: flex;
-  justify-content: center;
   margin-top: 20px;
 }
 
@@ -37,17 +39,25 @@ nav ul li a {
   color: #fff;
   text-decoration: none;
   padding: 10px;
-  transition: color 0.3s;
+  transition: color 0.3s, background-color 0.3s, text-decoration 0.3s;
 }
 
 nav ul li a:hover {
   color: #ddd;
 }
 
+/* Apply styles to the active link */
+nav ul li a.active {
+  text-decoration: underline;
+  background-color: lightblue;
+}
+
+/* Main content container */
 main {
   margin: 20px;
 }
 
+/* Individual sections */
 section {
   margin-bottom: 40px;
   border-radius: 10px;
@@ -56,11 +66,12 @@ section {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Heading styles */
 h1, h2 {
   text-align: center;
 }
 
-/* Styles specific to the Maps page */
+/* Styles for the Maps page */
 body.maps-page {
   background-color: #f0f0f0; /* Custom background color for the maps page */
 }
@@ -75,31 +86,110 @@ nav.maps-page ul li a {
 
 /* Styles for the search form */
 #searchForm {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  background: rgba(255, 255, 255, 0.1); /* Glassy background */
 }
 
 #searchInput {
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 300px;
-  font-size: 16px;
+  border: none;
+  border-radius: 20px; /* Make it slightly circular */
+  width: 200px; /* Make the input narrower */
+  font-size: 14px; /* Smaller font size */
+  background: rgba(255, 255, 255, 0.5); /* Slightly transparent background */
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2); /* Shadow for a glassy effect */
+  color: #333;
+  outline: none; /* Remove default outline */
 }
 
-/* Adjust the order of elements for responsive layout */
-@media (max-width: 600px) {
-  .password-input-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+#searchInput::placeholder {
+  color: #555; /* Placeholder text color */
+}
 
-  .password-input-container input[type="password"] {
-    padding-right: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-  }
+#searchButton {
+  background: linear-gradient(to right, #00ff00, #0000ff);
+  color: #fff;
+  border: none;
+  border-radius: 20px; /* Make it slightly circular */
+  padding: 8px 15px; /* Smaller padding */
+  font-size: 14px; /* Smaller font size */
+  margin-left: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
 
-  .password-input-container button {
-    align-self: flex-end;
+#searchButton:hover {
+  background: linear-gradient(to right, #0000ff, #00ff00);
+}
+
+/* Loading spinner styles */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #333333;
+  transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader::after {
+  content: "";
+  width: 75px;
+  height: 75px;
+  border: 15px solid #dddddd;
+  border-top-color: #009578;
+  border-radius: 50%;
+  animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
   }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* Background image for the entire body */
+body {
+  background-image: url('images/e-katanalotis_background.png');
+  background-size: 100% auto; /* Width: 100% of the content area, Height: auto */
+  background-repeat: no-repeat;
+}
+
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.home-icon {
+  margin-right: 10px;
+}
+
+.header-text {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: inherit;
+  margin-left: 5px; /* Add some spacing between the image and text */
+  color: lightblue; /* Set the color to blue */
+  text-decoration: none; /* Remove underline from the link */
 }

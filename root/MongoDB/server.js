@@ -129,7 +129,7 @@ function hash(username,password) {
   Obj.update(password);
   return Obj.getHash("HEX");
 }
-
+// Χρήστης : 4) Σύστημα Tokens
 async function distributeTokens() {
   console.log(`Monthly Token Distribution ! Distributing tokens to ${users.length} users...`);
   // Χρειαζομαστε και το collection για να κανουμε save τις αλλαγες στη βαση
@@ -156,6 +156,21 @@ async function distributeTokens() {
     },
   }));
   await collection.bulkWrite(updateOperations);
+}
+
+// Διαχειριστής : 4) Απεικόνιση Leaderboard
+async function getLeaderboard() {
+  const {users, collection} = await getUsers();
+  let leaderboard = [];
+  for (let i = 0; i < users.length; i++) {
+    leaderboard.push({
+      username: users[i].username,
+      points : users[i].points["total"],
+      tokens: users[i].tokens
+    });
+  }
+  leaderboard.sort((a,b) => b.points - a.points);
+  return leaderboard;
 }
 
 async function getUsers() {

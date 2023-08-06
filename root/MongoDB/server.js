@@ -166,10 +166,7 @@ async function getLeaderboard() {
     leaderboard.push({
       username: users[i].username,
       points : users[i].points["total"],
-      tokens: {
-        total : users[i].tokens["total"],
-        monthly : users[i].tokens["monthly"]
-      }
+      tokens: users[i].tokens
     });
   }
   leaderboard.sort((a,b) => b.points - a.points);

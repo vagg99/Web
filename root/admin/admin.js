@@ -76,34 +76,17 @@ const m = ["Ιανουαρίου", "Φεβρουαρίου", "Μαρτίου", "
 const d = new Date();
 let month = m[d.getMonth()];
 
-// Example data - replace this with your actual data
-const players = [
-  { name: 'Player 1', points: 100, "tokens": {"total": 100, "monthly": 0}},
-  { name: 'Player 2', points: 90, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 3', points: 85, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 4', points: 80, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 5', points: 70, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 6', points: 60, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 7', points: 50, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 8', points: 40, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 9', points: 30, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 10', points: 20, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 11', points: 10, "tokens": {"total": 100, "monthly": 0} },
-  { name: 'Player 12', points: 5, "tokens": {"total": 100, "monthly": 0} }
-];
-
 const playersPerPage = 10;
 
-function fetchPlayersData() {
-  // Replace the URL with your actual backend endpoint to fetch player data
-  const url = 'https://your-backend-api.com/leaderboard';
-
-  return fetch(url)
-      .then(response => response.json())
-      .catch(error => {
-          console.error('Error fetching player data:', error);
-          return [];
-      });
+async function fetchPlayersData() {
+  try {
+    const response = await fetch("http://localhost:3000/leaderboard");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching player data:', error);
+    return [{username:"No Player",tokens:{total:1337,monthly:1337},points:1337}];
+  }
 }
 
 async function refreshLeaderboard() {
@@ -116,7 +99,7 @@ async function refreshLeaderboard() {
   }
 }
 
-function displayPlayers(page) {
+function displayPlayers(page, players) {
   const leaderboardList = document.getElementById('leaderboard-list');
   leaderboardList.innerHTML = '';
 
@@ -126,13 +109,13 @@ function displayPlayers(page) {
 
   playersToShow.forEach((player, index) => {
       const listItem = document.createElement('li');
-      listItem.innerHTML = `<span>${startIndex + index + 1}. ${player.name}</span><span></span><span>${player.tokens["monthly"]} tokens ${month}</span><span>${player.tokens["total"]} Συνολικά tokens</span><span>${player.points} Συνολικοί Πόντοι</span>`;
+      listItem.innerHTML = `<span>${startIndex + index + 1}. ${player.username}</span><span></span><span>${player.tokens["monthly"]} tokens ${month}</span><span>${player.tokens["total"]} Συνολικά tokens</span><span>${player.points} Συνολικοί Πόντοι</span>`;
       leaderboardList.appendChild(listItem);
   });
 }
 
-function displayPagination() {
-  const totalPages = Math.ceil(players.length / playersPerPage);
+function displayPagination(length) {
+  const totalPages = Math.ceil(length / playersPerPage);
   const paginationContainer = document.querySelector('.pagination');
   paginationContainer.innerHTML = '';
 
@@ -151,7 +134,5 @@ function displayPagination() {
 
 document.getElementById('refresh-button').addEventListener('click', refreshLeaderboard);
 
-// Initially display the first page of players
-displayPlayers(1);
-// Display pagination links
-displayPagination();
+// Initially load the leaderboard
+refreshLeaderboard();

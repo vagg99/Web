@@ -1,158 +1,240 @@
-/* Your main CSS styles go here */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import url("../style.css");
 
-/* Your CSS specific to the registration page goes here */
-
-/* Registration Form Styles */
-form {
-  max-width: 400px;
-  margin: 0 auto;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #555;
+:root {
+    --mainColor: #89216b;
+    --whiteColor: #ffffff;
+    --titleColor: #555555;
+    --labelColor: #333333;
 }
 
-input[type="text"],
-input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+html {
+    font-size: 75%;
+    scroll-behavior: smooth;
 }
 
-/* Set fixed width for both username and password fields */
-#username {
-  width: 100%;
+
+.wrapper {
+    position: relative;
+
+    width: 35rem;
+    height: 50rem;
+    top: 50%;
+    margin: auto;
+    
 }
 
-#password {
-  width: 100%;
+@media(min-width:540px){
+    .wrapper{
+        width: 40rem;
+    }
 }
 
-button {
-  background-color: #333;
-  color: #fff;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  transition: background-color 0.3s;
+.wrapper .form-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--whiteColor);
+    border-radius: .5rem;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
 }
 
-button:hover {
-  background-color: #555;
+.wrapper .form-container form h2 {
+    font-size: 3rem;
+    text-align: absol;
+    text-transform: capitalize;
+    color: var(--titleColor);
 }
 
-/* Password Requirements */
-#password-requirements {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #777;
+.wrapper .form-container form .form-group {
+    position: relative;
+    width: 32rem;
+    margin: 3rem 0;
 }
 
-#password-requirements ul {
-  list-style: square;
+.wrapper .form-container form .form-group i,
+.wrapper .form-container form .form-group label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.6rem;
+    text-transform: capitalize;
+    color: var(--labelColor);
+    padding: 0 .5rem;
+    pointer-events: none;
+    transition: all .5s ease;
 }
 
-/* Rounded Corners */
-input[type="text"],
-input[type="password"],
-button,
-#password-requirements {
-  border-radius: 6px;
+.wrapper .form-container form .form-group i {
+    left: .5rem;
 }
 
-/* Password Requirements Box */
-#password-requirements {
-  position: absolute;
-  top: 60px;
-  right: 20px;
-  width: 200px;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+.wrapper .form-container form .form-group label {
+    left: 2.5rem
 }
 
-#password-requirements ul {
-  margin-left: 20px;
+.wrapper .form-container form .form-group input {
+    width: 100%;
+    height: 4rem;
+    padding: 0 1rem;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+    border: .1rem solid var(--labelColor);
+    font-size: 1.6rem;
+    color: var(--labelColor);
+    background: transparent;
 }
 
-#password-requirements li {
-  list-style-type: none;
-  margin-bottom: 5px;
+form .form-group input:focus~label,
+form .form-group input:valid~label,
+form .form-group input:focus~i,
+form .form-group input:valid~i {
+    top: 0 !important;
+    font-size: 1.2rem !important;
+    background-color: var(--whiteColor);
 }
 
-#password-requirements li.completed {
-  color: #43a047;
+.completed {
+    color: green;
 }
 
-#password-requirements li.missing {
-  color: #f44336;
+.missing {
+    color: red;
 }
 
-/* Password Input Container */
-.password-input-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.wrapper .form-container form .forgot-pass {
+    margin: -1.5rem 0 1.5rem;
 }
 
-.password-input-container input[type="password"] {
-  flex: 1;
-  padding-right: 40px;
-  border-radius: 4px 0 0 4px;
+.wrapper .form-container form .forgot-pass a {
+    color: var(--labelColor);
+    text-decoration: none;
+    font-size: 1.4rem;
+    text-transform: capitalize;
+    transform: all .5s ease;
 }
 
-.password-input-container button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
+.wrapper .form-container form .forgot-pass a:hover {
+    color: var(--mainColor);
 }
 
-/* Eye Button Container */
-.eye-button-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 16px;
+.wrapper .form-container form .btn {
+    background: linear-gradient(to right, #da4453, var(--mainColor));
+    color: var(--whiteColor);
+    text-transform: capitalize;
+    width: 100%;
+    height: 4rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+    box-shadow: 0 .2rem 1rem rgba(0, 0, 0, 0.4);
 }
 
-.eye-button-container button {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 10px 16px;
-  transition: background-color 0.3s;
+.wrapper .form-container form .link {
+    text-align: center;
+    font-size: 1.4rem;
+    color: var(--labelColor);
+    margin: 2.5rem 0;
 }
 
-.eye-button-container button:hover {
-  background-color: #f5f5f5;
+.wrapper .form-container form .link a {
+    text-transform: capitalize;
+    color: var(--mainColor);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all .5s ease;
 }
 
-/* Adjust the order of elements for responsive layout */
-@media (max-width: 600px) {
-  .password-input-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.wrapper .form-container form .link a:hover {
+    color: #da4453;
+}
 
-  .password-input-container input[type="password"] {
-    padding-right: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-  }
+.wrapper .sign-up {
+    transform: rotate(7deg);
+}
 
-  .password-input-container button {
-    align-self: flex-end;
-  }
+.wrapper.animated-signin .form-container.sign-in {
+    animation: signin-flip 1s ease-in-out forwards;
+}
+
+@keyframes signin-flip {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-50rem) scale(1.1);
+    }
+
+    100% {
+        transform: translateX(0) rotate(7deg) scale(1);
+    }
+}
+
+.wrapper.animated-signin .form-container.sign-up {
+    animation: rotatecard .7s ease-in-out forwards;
+    animation-delay: .3s;
+}
+
+@keyframes rotatecard {
+    0% {
+        transform: rotate(7deg);
+    }
+
+    100% {
+        transform: rotate(0);
+        z-index: 1;
+    }
+}
+
+.wrapper.animated-signup .form-container.sign-up {
+    animation: signup-flip 1s ease-in-out forwards;
+}
+
+@keyframes signup-flip {
+    0% {
+        transform: translateX(0);
+        z-index: 1;
+    }
+
+    50% {
+        transform: translateX(50rem) scale(1.1);
+    }
+
+    100% {
+        transform: translateX(0) rotate(7deg) scale(1);
+    }
+}
+
+.wrapper.animated-signup .form-container.sign-in {
+    transform: rotate(7deg);
+    animation: rotatecard .7s ease-in-out forwards;
+    animation-delay: .3s;
+}
+
+@keyframes rotatecard {
+    0% {
+        transform: rotate(7deg);
+    }
+
+    100% {
+        transform: rotate(0);
+        z-index: 1;
+    }
 }

@@ -1,3 +1,4 @@
+
 document.getElementById('registrationForm').addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent form submission
   
@@ -120,12 +121,15 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   }
   
   
+  
   // Attach event listener to the password input for real-time validation
   document.getElementById('password').addEventListener('input', validatePassword);
   
   // Function to validate the password in real-time
   function validatePassword() {
     var password = document.getElementById('password').value;
+    var passwordWarning = document.getElementById('passwordWarning');
+    var passwordRequirementsContainer = document.querySelector('.password-requirements-container');
 
     // Password requirements
     var lengthRequirement = /^(?=.{8,})/;
@@ -138,6 +142,15 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
     var capitalLetterCompleted = capitalLetterRequirement.test(password);
     var numberCompleted = numberRequirement.test(password);
     var specialCharCompleted = specialCharRequirement.test(password);
+
+    // Show/hide the warning message and requirements container based on validation results
+    if (lengthCompleted && capitalLetterCompleted && numberCompleted && specialCharCompleted) {
+      passwordWarning.style.display = 'none';
+      passwordRequirementsContainer.style.display = 'none';
+    } else {
+        passwordWarning.style.display = 'block';
+        passwordRequirementsContainer.style.display = 'block';
+    }
 
     // Update the class of each requirement element
     updateRequirementClass('lengthRequirement', lengthCompleted);
@@ -152,20 +165,22 @@ function updateRequirementClass(requirementId, isCompleted) {
     requirementElement.className = isCompleted ? 'completed' : 'missing';
 }
 
+function setupFormSwapping() {
+  let wrapper = document.querySelector('.wrapper'),
+      signUpLink = document.querySelector('.link .signup-link'),
+      signInLink = document.querySelector('.link .signin-link');
 
-// Form swapping functionality
+  signUpLink.addEventListener('click', () => {
+      wrapper.classList.add('animated-signin');
+      wrapper.classList.remove('animated-signup');
+  });
 
-let wrapper = document.querySelector('.wrapper'),
-    signUpLink = document.querySelector('.link .signup-link'),
-    signInLink = document.querySelector('.link .signin-link');
+  signInLink.addEventListener('click', () => {
+      wrapper.classList.add('animated-signup');
+      wrapper.classList.remove('animated-signin');
+  });
+}
 
-signUpLink.addEventListener('click', () => {
-    wrapper.classList.add('animated-signin');
-    wrapper.classList.remove('animated-signup');
-});
-
-signInLink.addEventListener('click', () => {
-    wrapper.classList.add('animated-signup');
-    wrapper.classList.remove('animated-signin');
-});
+// Call the function to set up the form swapping functionality
+setupFormSwapping();
 

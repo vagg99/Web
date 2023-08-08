@@ -9,7 +9,7 @@
 }
 
 :root {
-    --mainColor: #89216b;
+    --mainColor: #47aeed;
     --whiteColor: #ffffff;
     --titleColor: #555555;
     --labelColor: #333333;
@@ -20,14 +20,14 @@ html {
     scroll-behavior: smooth;
 }
 
-
+/* position of the forms */
 .wrapper {
-    position: relative;
-
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 35rem;
     height: 50rem;
-    top: 50%;
-    margin: auto;
     
 }
 
@@ -53,9 +53,24 @@ html {
 
 .wrapper .form-container form h2 {
     font-size: 3rem;
-    text-align: absol;
-    text-transform: capitalize;
+    text-align: absolute;
     color: var(--titleColor);
+}
+
+/* Adjust the margin-top for the title "Εγγραφή" */
+.wrapper .form-container.sign-up .signUpTitle {
+    font-size: 3rem;
+    text-align: center;
+    color: var(--titleColor);
+    margin-top: .5rem; /* Adjusted margin-top value */
+}
+
+/* Adjust the margin-bottom for the question link */
+.wrapper .form-container.sign-up .link {
+    text-align: center;
+    font-size: 1.4rem;
+    color: var(--labelColor);
+    margin: 1rem 0; /* Adjusted margin value */
 }
 
 .wrapper .form-container form .form-group {
@@ -69,8 +84,7 @@ html {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 1.6rem;
-    text-transform: capitalize;
+    font-size: 1.5rem;
     color: var(--labelColor);
     padding: 0 .5rem;
     pointer-events: none;
@@ -122,8 +136,7 @@ form .form-group input:valid~i {
 .wrapper .form-container form .forgot-pass a {
     color: var(--labelColor);
     text-decoration: none;
-    font-size: 1.4rem;
-    text-transform: capitalize;
+    font-size: 1.5rem;
     transform: all .5s ease;
 }
 
@@ -132,7 +145,7 @@ form .form-group input:valid~i {
 }
 
 .wrapper .form-container form .btn {
-    background: linear-gradient(to right, #da4453, var(--mainColor));
+    background: linear-gradient(to right, #c7deff, var(--mainColor));
     color: var(--whiteColor);
     text-transform: capitalize;
     width: 100%;
@@ -162,7 +175,7 @@ form .form-group input:valid~i {
 }
 
 .wrapper .form-container form .link a:hover {
-    color: #da4453;
+    color: #da4355;
 }
 
 .wrapper .sign-up {
@@ -237,4 +250,101 @@ form .form-group input:valid~i {
         transform: rotate(0);
         z-index: 1;
     }
+}
+
+.password-warning {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    width: 100%;
+    background-color: #ffcccc;
+    border: 1px solid #ff5555;
+    border-radius: 5px;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.password-warning i {
+    color: #ff5555;
+    margin-right: 5px;
+}
+
+.password-requirements-container {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.password-requirements {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.requirement {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* style the toggle password button and 
+position it inside the password form */
+.form-group {
+    position: relative;
+    width: 32rem;
+    margin: 3rem 0;
+}
+
+.form-group .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: .4rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.5rem;
+    color: var(--labelColor);
+}
+
+/* Adjust the width of the password input field 
+to accommodate the space for the eye button: */
+.form-group input[type="password"] {
+    width: calc(100% - 3.5rem); /* Adjusted width value */
+}
+
+/* Navigation styles */
+nav ul {
+  list-style-type: none;
+  display: flex;
+  margin-top: 20px;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li:first-child {
+  margin-left: 0;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  transition: color 0.3s, background-color 0.3s, text-decoration 0.3s;
+}
+
+nav ul li a:hover {
+  color: #ddd;
+}
+
+/* Apply styles to the active link */
+nav ul li a.active {
+  text-decoration: underline;
+  background-color: lightblue;
 }

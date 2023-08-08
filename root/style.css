@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Background for the entire body */
@@ -11,7 +12,7 @@ body {
 
 /* Header styles */
 header {
-  background-color: #333;
+  background-color: #ebf4ff;
   color: #fff;
   padding: 10px 0;
   display: flex;
@@ -21,6 +22,8 @@ header {
 }
 
 /* Navigation styles */
+
+
 nav ul {
   list-style-type: none;
   display: flex;
@@ -36,7 +39,7 @@ nav ul li:first-child {
 }
 
 nav ul li a {
-  color: #fff;
+  color: #0e3dc0;
   text-decoration: none;
   padding: 10px;
   transition: color 0.3s, background-color 0.3s, text-decoration 0.3s;
@@ -57,14 +60,6 @@ main {
   margin: 20px;
 }
 
-/* Individual sections */
-section {
-  margin-bottom: 40px;
-  border-radius: 10px;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-}
 
 /* Heading styles */
 h1, h2 {

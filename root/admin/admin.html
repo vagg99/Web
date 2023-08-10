@@ -24,10 +24,16 @@
   </header>
 
   <main>
-    <h1>Admin Page</h1>
+    <h1>Σελίδα Διαχειριστή</h1>
     <div class="file-container">
-      <p>Upload file here</p>
+      <label for="fileInput">Ανεβάστε ένα αρχείο</label>
+      <div class="file-input-container">
+        <input type="file" id="fileInput" name="fileInput">
+      </div>
+      <button id="uploadButton">Upload</button>
+      <div id="message"></div>
     </div>
+
     <div class="leaderboard-container">
       <h2>Leaderboard</h2>
       <ul id="leaderboard-list">

@@ -4,6 +4,7 @@ const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTR
 const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 const multer = require('multer');// USED FOR UPLOADING FILES
+const path = require('path');
 
 const app = express();
 
@@ -20,10 +21,10 @@ const port = 3000;
 
 const mongoURI = "mongodb+srv://webproject7:HVHDmG6eK2nuq9rM@cluster0.03czzuj.mongodb.net/?retryWrites=true&w=majority";
 
-async function connectToDatabase() {
+async function connectToDatabase(collectionName = 'users') {
   const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
-  return client.db('website7').collection('users'); // Replace 'your_database_name' with the actual name of your database and collection
+  return client.db('website7').collection(collectionName);
 }
 
 async function getRequestBody(request) {
@@ -164,6 +165,41 @@ async function distributeTokens() {
   await collection.bulkWrite(updateOperations);
 }
 
+// Διαχειριστής : 1) Ανέβασμα αρχείου JSON
+async function handleFileUpload(req, res) {
+  const uploadedFile = req.file;
+
+  if (!uploadedFile) {
+      return res.status(400).send('No file uploaded.');
+  }
+
+  const fileExtension = path.extname(uploadedFile.originalname);
+  if (fileExtension !== '.json') {
+      return res.status(400).send('Only JSON files are allowed.');
+  }
+
+  try {
+    const jsonData = JSON.parse(uploadedFile.buffer.toString());
+
+    // uploading jsonData to MongoDB
+    const collection = await connectToDatabase("items");
+    const result = await collection.insertOne(jsonData);
+    if (result.insertedCount === 0) {
+      return res.status(400).send('No data found in JSON file.');
+    }
+
+    // Clear the buffer to release memory
+    uploadedFile.buffer = null;
+
+    res.send(`File uploaded and processed successfully. Inserted ${result.insertedCount} items.`);
+  } catch (error) {
+      console.error('Error parsing JSON:', error);
+      res.status(400).send('Invalid JSON data.');
+  }
+
+  res.send('File uploaded successfully.');
+}
+
 // Διαχειριστής : 4) Απεικόνιση Leaderboard
 async function getLeaderboard() {
   const {users, collection} = await getUsers();
@@ -199,22 +235,7 @@ app.get('/users', async (req, res) => {
 });
 
 // POST request for uploading files by admin
-app.post('/upload', upload.single('jsonFile'), (req, res) => {
-  const uploadedFile = req.file;
-
-  if (!uploadedFile) {
-      return res.status(400).send('No file uploaded.');
-  }
-
-  // Read the file content from the buffer
-  const fileContent = uploadedFile.buffer.toString('utf8');
-  console.log(fileContent);
-
-  // Clear the buffer to release memory
-  uploadedFile.buffer = null;
-
-  res.send('File uploaded successfully.');
-});
+app.post('/upload', upload.single('jsonFile'), handleFileUpload);
 
 // POST request for registration
 app.post('/register', handleRegistration);

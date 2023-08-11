@@ -20,11 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
             body: formData,
         });
 
+        const result = await response.text();
+
         if (response.ok) {
-          say(messageDiv, 'File uploaded successfully.');
+          say(messageDiv, result);
           fileInput.value = '';
         } else {
-          say(messageDiv, 'File upload failed.');
+          say(messageDiv, result);
         }
     } catch (error) {
         console.error('Error uploading file:', error);

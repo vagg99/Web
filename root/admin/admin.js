@@ -109,7 +109,12 @@ function displayPlayers(page, players) {
 
   playersToShow.forEach((player, index) => {
       const listItem = document.createElement('li');
-      listItem.innerHTML = `<span>${startIndex + index + 1}. ${player.username}</span><span></span><span>${player.tokens["monthly"]} tokens ${month}</span><span>${player.tokens["total"]} Συνολικά tokens</span><span>${player.points} Συνολικοί Πόντοι</span>`;
+      listItem.innerHTML = `
+        <span class="item">${startIndex + index + 1}.${player.username}</span>
+        <span class="item">${player.tokens["monthly"]}</span>
+        <span class="item">${player.tokens["total"]}</span>
+        <span class="item">${player.points}</span>
+      `;
       leaderboardList.appendChild(listItem);
   });
 }
@@ -132,7 +137,20 @@ function displayPagination(length) {
   }
 }
 
+function displayheader() {
+  const leaderboardHeader = document.getElementById('leaderboard-header');
+  leaderboardHeader.innerHTML += `
+    <span class="item">Χρήστης</span>
+    <span class="item">Tokens ${month}</span>
+    <span class="item">Συνολικά Tokens</span>
+    <span class="item">Συνολικοί Πόντοι</span>
+  `;
+}
+
 document.getElementById('refresh-button').addEventListener('click', refreshLeaderboard);
+
+// add leaderboard header
+displayheader();
 
 // Initially load the leaderboard
 refreshLeaderboard();

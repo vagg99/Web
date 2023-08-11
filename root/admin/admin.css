@@ -37,3 +37,11 @@ label, select {
 select {
   padding: 5px;
 }
+
+.item {
+  display: inline-block;
+  width: 20%;
+  padding: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+}

@@ -26,7 +26,11 @@
   <main>
     <h1>Admin Page</h1>
     <div class="file-container">
-      <p>Upload file here</p>
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="jsonFile" id="jsonFileInput">
+        <button type="button" id="uploadButton">Upload file</button>
+      </form>
+      <div id="uploadMessage" style="display: none;"></div>
     </div>
     <div class="leaderboard-container">
       <h2>Leaderboard</h2>

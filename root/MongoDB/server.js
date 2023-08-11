@@ -3,12 +3,18 @@ const { MongoClient } = require('mongodb'); // DATABASE
 const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
 const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
+const multer = require('multer');// USED FOR UPLOADING FILES
 
 const app = express();
 
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 
 app.use(cors());
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+app.use(express.static('public'));
 
 const port = 3000;
 
@@ -190,6 +196,24 @@ app.get('/users', async (req, res) => {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+// POST request for uploading files by admin
+app.post('/upload', upload.single('jsonFile'), (req, res) => {
+  const uploadedFile = req.file;
+
+  if (!uploadedFile) {
+      return res.status(400).send('No file uploaded.');
+  }
+
+  // Read the file content from the buffer
+  const fileContent = uploadedFile.buffer.toString('utf8');
+  console.log(fileContent);
+
+  // Clear the buffer to release memory
+  uploadedFile.buffer = null;
+
+  res.send('File uploaded successfully.');
 });
 
 // POST request for registration

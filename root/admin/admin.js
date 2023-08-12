@@ -83,7 +83,7 @@ function displayPlayers(page, players) {
   playersToShow.forEach((player, index) => {
       const listItem = document.createElement('li');
       listItem.innerHTML = `
-        <span class="item">${startIndex + index + 1}.${player.username}</span>
+        <span class="item">${player.username}</span>
         <span class="item">${player.tokens["monthly"]}</span>
         <span class="item">${player.tokens["total"]}</span>
         <span class="item">${player.points}</span>

@@ -45,3 +45,32 @@ select {
   margin-right: 10px;
   box-sizing: border-box;
 }
+
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 15px; /* Adjust padding to make it smaller */
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px; /* Adjust font size */
+  border-radius: 5px; /* Make it more squarish */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+  transform: scale(1.05);
+}
+
+/* Display buttons inline */
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Add some spacing between the buttons */
+.delete-button + .delete-button {
+  margin-left: 10px; /* Adjust as needed */
+}

@@ -33,6 +33,35 @@ document.addEventListener('DOMContentLoaded', () => {
         say(messageDiv, 'An error occurred.');
     }
   });
+
+  const deleteItemsButton = document.getElementById('deleteItemsButton');
+  const deleteStoresButton = document.getElementById('deleteStoresButton');
+
+  deleteItemsButton.addEventListener('click', async () => deleteAlldataInCollection('items'));
+  deleteStoresButton.addEventListener('click', async () => deleteAlldataInCollection('stores'));
+
+
+  async function deleteAlldataInCollection(collectionName){
+    const confirmDelete = confirm(`Σίγουρα θες να διαγράψεις όλα τα δεδομένα στην ΒΔ στο collection ονομα "${collectionName}" ?}`);
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`http://localhost:3000/delete-${collectionName}`, {
+            method: 'POST',
+        });
+
+        const result = await response.text();
+
+        if (response.ok) {
+          say(messageDiv, result);
+        } else {
+          say(messageDiv, result);
+        }
+      } catch (error) {
+        console.error('Error deleting data:', error);
+        say(messageDiv, 'An error occurred.');
+      }
+    }
+  }
 });
 
 function say(messageDiv, message){

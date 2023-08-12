@@ -200,6 +200,20 @@ async function handleFileUpload(req, res) {
   res.send('File uploaded successfully.');
 }
 
+async function handleDeletionitems(req, res) { await handleDeletion("items", req, res); }
+async function handleDeletionstores(req, res) { await handleDeletion("stores", req, res); }
+
+async function handleDeletion(collectionName, req, res) {
+  try {
+    const collection = await connectToDatabase(collectionName);
+    const result = await collection.deleteMany({});
+    res.status(200).json(`Deleted ${result.deletedCount} ${collectionName}.`);
+  } catch (error) {
+    console.error(`Error deleting ${collectionName}:`, error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 // Διαχειριστής : 4) Απεικόνιση Leaderboard
 async function getLeaderboard() {
   const {users, collection} = await getUsers();
@@ -253,6 +267,12 @@ app.get('/leaderboard', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// POST requst for deleting the items collection by admin
+app.post('/delete-items', handleDeletionitems);
+
+// POST request for deleting the stores collection by admin
+app.post('/delete-stores', handleDeletionstores);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

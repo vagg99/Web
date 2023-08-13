@@ -23,12 +23,14 @@ header {
 nav ul {
   list-style-type: none;
   display: flex;
-  margin-top: 20px;
-  
+  margin-top: 30px;
+  justify-content: center; /* Center the categories horizontally */
+  align-items: center; /* Center the categories vertically */
 }
 
 nav ul li {
   margin: 0 15px;
+  padding: 10px 0; /* Add some padding at the top and bottom */
 }
 
 nav ul li:first-child {
@@ -169,7 +171,8 @@ body {
 }
 
 .home-icon {
-  margin-right: 10px;
+  padding: 40%;
+  margin-right: 30px;
 }
 
 .header-text {
@@ -186,6 +189,9 @@ body {
   text-decoration: none; /* Remove underline from the link */
 }
 
+a:link, a:visited {
+  text-decoration: none;
+}
 footer {
   position: fixed;
   bottom: 0;

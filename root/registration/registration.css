@@ -14,6 +14,11 @@
     --titleColor: #555555;
     --labelColor: #333333;
 }
+nav ul li  {
+    font-size: 125%;
+    font-family: 'Poppins', sans-serif;
+
+}
 
 html {
     font-size: 75%;
@@ -320,36 +325,4 @@ position it inside the password form */
 to accommodate the space for the eye button: */
 .form-group input[type="password"] {
     width: calc(100% - 3.5rem); /* Adjusted width value */
-}
-
-/* Navigation styles */
-nav ul {
-  list-style-type: none;
-  display: flex;
-  margin-top: 20px;
-}
-
-nav ul li {
-  margin: 0 15px;
-}
-
-nav ul li:first-child {
-  margin-left: 0;
-}
-
-nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  padding: 10px;
-  transition: color 0.3s, background-color 0.3s, text-decoration 0.3s;
-}
-
-nav ul li a:hover {
-  color: #ddd;
-}
-
-/* Apply styles to the active link */
-nav ul li a.active {
-  text-decoration: underline;
-  background-color: lightblue;
 }

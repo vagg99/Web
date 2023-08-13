@@ -1,74 +1,76 @@
-// Sample data for categories, subcategories, and products
-const subcategoriesData = {
-  1: [
-    { id: 11, name: "Subcategory 1-1" },
-    { id: 12, name: "Subcategory 1-2" },
-    { id: 13, name: "Subcategory 1-3" }
-  ],
-  2: [
-    { id: 21, name: "Subcategory 2-1" },
-    { id: 22, name: "Subcategory 2-2" },
-    { id: 23, name: "Subcategory 2-3" }
-  ],
-  3: [
-    { id: 31, name: "Subcategory 3-1" },
-    { id: 32, name: "Subcategory 3-2" },
-    { id: 33, name: "Subcategory 3-3" }
-  ]
-};
+document.addEventListener('DOMContentLoaded', () => {
+  const fileInput = document.getElementById('jsonFileInput');
+  const uploadButton = document.getElementById('uploadButton');
+  const messageDiv = document.getElementById('uploadMessage');
 
-const productsData = {
-  11: [
-    { id: 111, name: "Product 1-1-1" },
-    { id: 112, name: "Product 1-1-2" },
-    { id: 113, name: "Product 1-1-3" }
-  ],
-  12: [
-    { id: 121, name: "Product 1-2-1" },
-    { id: 122, name: "Product 1-2-2" },
-    { id: 123, name: "Product 1-2-3" }
-  ],
-  // ... Add more products for other subcategories here ...
-};
+  uploadButton.addEventListener('click', async () => {
+    const file = fileInput.files[0];
 
-function populateSubcategories() {
-  const categorySelect = document.getElementById("category");
-  const subcategorySelect = document.getElementById("subcategory");
-  const selectedCategoryId = categorySelect.value;
+    if (!file) {
+      say(messageDiv, 'Please select a file.');
+      return;
+    }
 
-  // Clear existing options
-  subcategorySelect.innerHTML = '<option value="0">Choose a subcategory</option>';
+    const formData = new FormData();
+    formData.append('jsonFile', file);
 
-  // Populate subcategories based on the selected category
-  if (selectedCategoryId in subcategoriesData) {
-    const subcategories = subcategoriesData[selectedCategoryId];
-    for (const subcategory of subcategories) {
-      const option = document.createElement("option");
-      option.value = subcategory.id;
-      option.textContent = subcategory.name;
-      subcategorySelect.appendChild(option);
+    try {
+        const response = await fetch('http://localhost:3000/upload', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.text();
+
+        if (response.ok) {
+          say(messageDiv, result);
+          fileInput.value = '';
+        } else {
+          say(messageDiv, result);
+        }
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        say(messageDiv, 'An error occurred.');
+    }
+  });
+
+  const deleteItemsButton = document.getElementById('deleteItemsButton');
+  const deleteStoresButton = document.getElementById('deleteStoresButton');
+
+  deleteItemsButton.addEventListener('click', async () => deleteAlldataInCollection('items'));
+  deleteStoresButton.addEventListener('click', async () => deleteAlldataInCollection('stores'));
+
+
+  async function deleteAlldataInCollection(collectionName){
+    const confirmDelete = confirm(`Σίγουρα θες να διαγράψεις όλα τα δεδομένα στην ΒΔ στο collection ονομα "${collectionName}" ?}`);
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`http://localhost:3000/delete-${collectionName}`, {
+            method: 'POST',
+        });
+
+        const result = await response.text();
+
+        if (response.ok) {
+          say(messageDiv, result);
+        } else {
+          say(messageDiv, result);
+        }
+      } catch (error) {
+        console.error('Error deleting data:', error);
+        say(messageDiv, 'An error occurred.');
+      }
     }
   }
-}
+});
 
-function populateProducts() {
-  const subcategorySelect = document.getElementById("subcategory");
-  const productSelect = document.getElementById("product");
-  const selectedSubcategoryId = subcategorySelect.value;
-
-  // Clear existing options
-  productSelect.innerHTML = '<option value="0">Choose a product</option>';
-
-  // Populate products based on the selected subcategory
-  if (selectedSubcategoryId in productsData) {
-    const products = productsData[selectedSubcategoryId];
-    for (const product of products) {
-      const option = document.createElement("option");
-      option.value = product.id;
-      option.textContent = product.name;
-      productSelect.appendChild(option);
-    }
-  }
+function say(messageDiv, message){
+  messageDiv.innerText = message;
+  messageDiv.style.display = 'block';
+  setTimeout(() => {
+    messageDiv.innerText = '';
+    messageDiv.style.display = 'none';
+  }, 3000); // Clear admin message after 3 seconds
 }
 
 const m = ["Ιανουαρίου", "Φεβρουαρίου", "Μαρτίου", "Απριλίου", "Μαΐου", "Ιουνίου", "Ιουλίου", "Αυγούστου", "Σεπτεμβρίου", "Οκτωβρίου", "Νοεμβρίου", "Δεκεμβρίου"];
@@ -109,7 +111,12 @@ function displayPlayers(page, players) {
 
   playersToShow.forEach((player, index) => {
       const listItem = document.createElement('li');
-      listItem.innerHTML = `<span>${startIndex + index + 1}. ${player.username}</span><span></span><span>${player.tokens["monthly"]} tokens ${month}</span><span>${player.tokens["total"]} Συνολικά tokens</span><span>${player.points} Συνολικοί Πόντοι</span>`;
+      listItem.innerHTML = `
+        <span class="item">${player.username}</span>
+        <span class="item">${player.tokens["monthly"]}</span>
+        <span class="item">${player.tokens["total"]}</span>
+        <span class="item">${player.points}</span>
+      `;
       leaderboardList.appendChild(listItem);
   });
 }
@@ -132,7 +139,20 @@ function displayPagination(length) {
   }
 }
 
+function displayheader() {
+  const leaderboardHeader = document.getElementById('leaderboard-header');
+  leaderboardHeader.innerHTML += `
+    <span class="item">Χρήστης</span>
+    <span class="item">Tokens ${month}</span>
+    <span class="item">Συνολικά Tokens</span>
+    <span class="item">Συνολικοί Πόντοι</span>
+  `;
+}
+
 document.getElementById('refresh-button').addEventListener('click', refreshLeaderboard);
+
+// add leaderboard header
+displayheader();
 
 // Initially load the leaderboard
 refreshLeaderboard();

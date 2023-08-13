@@ -3,6 +3,8 @@ const { MongoClient } = require('mongodb'); // DATABASE
 const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
 const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
+const multer = require('multer');// USED FOR UPLOADING FILES
+const path = require('path');
 
 const app = express();
 
@@ -10,14 +12,19 @@ cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONT
 
 app.use(cors());
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+app.use(express.static('public'));
+
 const port = 3000;
 
 const mongoURI = "mongodb+srv://webproject7:HVHDmG6eK2nuq9rM@cluster0.03czzuj.mongodb.net/?retryWrites=true&w=majority";
 
-async function connectToDatabase() {
+async function connectToDatabase(collectionName = 'users') {
   const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
-  return client.db('website7').collection('users'); // Replace 'your_database_name' with the actual name of your database and collection
+  return client.db('website7').collection(collectionName);
 }
 
 async function getRequestBody(request) {
@@ -158,6 +165,55 @@ async function distributeTokens() {
   await collection.bulkWrite(updateOperations);
 }
 
+// Διαχειριστής : 1) Ανέβασμα αρχείου JSON
+async function handleFileUpload(req, res) {
+  const uploadedFile = req.file;
+
+  if (!uploadedFile) {
+      return res.status(400).send('No file uploaded.');
+  }
+
+  const fileExtension = path.extname(uploadedFile.originalname);
+  if (fileExtension !== '.json') {
+      return res.status(400).send('Only JSON files are allowed.');
+  }
+
+  try {
+    const jsonData = JSON.parse(uploadedFile.buffer.toString());
+
+    // uploading jsonData to MongoDB
+    const collection = await connectToDatabase("items");
+    const result = await collection.insertOne(jsonData);
+    if (result.insertedCount === 0) {
+      return res.status(400).send('No data found in JSON file.');
+    }
+
+    // Clear the buffer to release memory
+    uploadedFile.buffer = null;
+
+    res.send(`File uploaded and processed successfully. Inserted ${result.insertedCount} items.`);
+  } catch (error) {
+      console.error('Error parsing JSON:', error);
+      res.status(400).send('Invalid JSON data.');
+  }
+
+  res.send('File uploaded successfully.');
+}
+
+async function handleDeletionitems(req, res) { await handleDeletion("items", req, res); }
+async function handleDeletionstores(req, res) { await handleDeletion("stores", req, res); }
+
+async function handleDeletion(collectionName, req, res) {
+  try {
+    const collection = await connectToDatabase(collectionName);
+    const result = await collection.deleteMany({});
+    res.status(200).json(`Deleted ${result.deletedCount} ${collectionName}.`);
+  } catch (error) {
+    console.error(`Error deleting ${collectionName}:`, error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 // Διαχειριστής : 4) Απεικόνιση Leaderboard
 async function getLeaderboard() {
   const {users, collection} = await getUsers();
@@ -192,6 +248,9 @@ app.get('/users', async (req, res) => {
   }
 });
 
+// POST request for uploading files by admin
+app.post('/upload', upload.single('jsonFile'), handleFileUpload);
+
 // POST request for registration
 app.post('/register', handleRegistration);
 
@@ -208,6 +267,12 @@ app.get('/leaderboard', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// POST requst for deleting the items collection by admin
+app.post('/delete-items', handleDeletionitems);
+
+// POST request for deleting the stores collection by admin
+app.post('/delete-stores', handleDeletionstores);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

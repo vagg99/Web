@@ -22,4 +22,16 @@ window.addEventListener("DOMContentLoaded", () => {
       document.body.removeChild(loader);
     });
   });
+
+  // Handle the drop down menu
+  // HTML: inside the header | div class="hamburger-menu"
+  // CSS: @media (max-width: 768px)...
+  document.addEventListener("DOMContentLoaded", function() {
+    const hamburgerMenu = document.querySelector(".hamburger-menu");
+    const navLinks = document.querySelector("nav ul");
+  
+    hamburgerMenu.addEventListener("click", function() {
+      navLinks.classList.toggle("active");
+    });
+  });
   

@@ -1,33 +1,77 @@
-const fileInput = document.getElementById("fileInput");
-const uploadButton = document.getElementById("uploadButton");
-const messageDiv = document.getElementById("message");
+document.addEventListener('DOMContentLoaded', () => {
+  const fileInput = document.getElementById('jsonFileInput');
+  const uploadButton = document.getElementById('uploadButton');
+  const messageDiv = document.getElementById('uploadMessage');
 
-uploadButton.addEventListener("click", () => {
-    if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const formData = new FormData();
-        formData.append("file", file);
+  uploadButton.addEventListener('click', async () => {
+    const file = fileInput.files[0];
 
-        // You can send the formData to your server using fetch or another method
-        // Replace 'upload_url' with the actual URL to handle file uploads on your server.
-        // Example using fetch:
-        fetch("upload_url", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            messageDiv.textContent = data.message; // Display a message returned from the server
-        })
-        .catch(error => {
-            console.error("Error uploading file:", error);
-            messageDiv.textContent = "An error occurred while uploading the file.";
-        });
-    } else {
-        messageDiv.textContent = "Please select a file to upload.";
+    if (!file) {
+      say(messageDiv, 'Please select a file.');
+      return;
     }
+
+    const formData = new FormData();
+    formData.append('jsonFile', file);
+
+    try {
+        const response = await fetch('http://localhost:3000/upload', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.text();
+
+        if (response.ok) {
+          say(messageDiv, result);
+          fileInput.value = '';
+        } else {
+          say(messageDiv, result);
+        }
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        say(messageDiv, 'An error occurred.');
+    }
+  });
+
+  const deleteItemsButton = document.getElementById('deleteItemsButton');
+  const deleteStoresButton = document.getElementById('deleteStoresButton');
+
+  deleteItemsButton.addEventListener('click', async () => deleteAlldataInCollection('items'));
+  deleteStoresButton.addEventListener('click', async () => deleteAlldataInCollection('stores'));
+
+
+  async function deleteAlldataInCollection(collectionName){
+    const confirmDelete = confirm(`Σίγουρα θες να διαγράψεις όλα τα δεδομένα στην ΒΔ στο collection ονομα "${collectionName}" ?}`);
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`http://localhost:3000/delete-${collectionName}`, {
+            method: 'POST',
+        });
+
+        const result = await response.text();
+
+        if (response.ok) {
+          say(messageDiv, result);
+        } else {
+          say(messageDiv, result);
+        }
+      } catch (error) {
+        console.error('Error deleting data:', error);
+        say(messageDiv, 'An error occurred.');
+      }
+    }
+  }
 });
 
+function say(messageDiv, message){
+  messageDiv.innerText = message;
+  messageDiv.style.display = 'block';
+  setTimeout(() => {
+    messageDiv.innerText = '';
+    messageDiv.style.display = 'none';
+  }, 3000); // Clear admin message after 3 seconds
+}
 
 const m = ["Ιανουαρίου", "Φεβρουαρίου", "Μαρτίου", "Απριλίου", "Μαΐου", "Ιουνίου", "Ιουλίου", "Αυγούστου", "Σεπτεμβρίου", "Οκτωβρίου", "Νοεμβρίου", "Δεκεμβρίου"];
 
@@ -67,7 +111,12 @@ function displayPlayers(page, players) {
 
   playersToShow.forEach((player, index) => {
       const listItem = document.createElement('li');
-      listItem.innerHTML = `<span>${startIndex + index + 1}. ${player.username}</span><span></span><span>${player.tokens["monthly"]} tokens ${month}</span><span>${player.tokens["total"]} Συνολικά tokens</span><span>${player.points} Συνολικοί Πόντοι</span>`;
+      listItem.innerHTML = `
+        <span class="item">${player.username}</span>
+        <span class="item">${player.tokens["monthly"]}</span>
+        <span class="item">${player.tokens["total"]}</span>
+        <span class="item">${player.points}</span>
+      `;
       leaderboardList.appendChild(listItem);
   });
 }
@@ -90,7 +139,20 @@ function displayPagination(length) {
   }
 }
 
+function displayheader() {
+  const leaderboardHeader = document.getElementById('leaderboard-header');
+  leaderboardHeader.innerHTML += `
+    <span class="item">Χρήστης</span>
+    <span class="item">Tokens ${month}</span>
+    <span class="item">Συνολικά Tokens</span>
+    <span class="item">Συνολικοί Πόντοι</span>
+  `;
+}
+
 document.getElementById('refresh-button').addEventListener('click', refreshLeaderboard);
+
+// add leaderboard header
+displayheader();
 
 // Initially load the leaderboard
 refreshLeaderboard();

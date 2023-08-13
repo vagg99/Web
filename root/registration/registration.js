@@ -62,6 +62,7 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
 
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
   event.preventDefault(); // Prevent form submission
+
   var username = document.getElementById('username2').value;
   var password = document.getElementById('password2').value;
 
@@ -119,17 +120,7 @@ function showError(message) {
   }, 10000);
 }
 
-// Attach event listener to the eye button to toggle password visibility
-document.getElementById('togglePasswordVisibilityRegister').addEventListener('click', () => togglePasswordVisibility(true));
-document.getElementById('togglePasswordVisibilityLogin').addEventListener('click', () => togglePasswordVisibility(false));
 
-// Function to toggle password visibility
-// If register is true, then the password input is the one in the registration form
-// If register is false, then the password input is the one in the login form
-function togglePasswordVisibility(register) {
-  var p = register ? document.getElementById('password') : document.getElementById('password2');
-  p.type = p.type === 'password' ? 'text' : 'password';
-}
 
 // Attach event listener to the password input for real-time validation
 document.getElementById('password').addEventListener('input', validatePassword);
@@ -137,6 +128,8 @@ document.getElementById('password').addEventListener('input', validatePassword);
 // Function to validate the password in real-time
 function validatePassword() {
   var password = document.getElementById('password').value;
+  var passwordWarning = document.getElementById('passwordWarning');
+  var passwordRequirementsContainer = document.querySelector('.password-requirements-container');
 
   // Password requirements
   var lengthRequirement = /^(?=.{8,})/;
@@ -150,9 +143,58 @@ function validatePassword() {
   var numberCompleted = numberRequirement.test(password);
   var specialCharCompleted = specialCharRequirement.test(password);
 
-  // Update the message box with real-time results
-  document.getElementById('lengthRequirement').className = lengthCompleted ? 'completed' : 'missing';
-  document.getElementById('capitalLetterRequirement').className = capitalLetterCompleted ? 'completed' : 'missing';
-  document.getElementById('numberRequirement').className = numberCompleted ? 'completed' : 'missing';
-  document.getElementById('specialCharRequirement').className = specialCharCompleted ? 'completed' : 'missing';
+  // Show/hide the warning message and requirements container based on validation results
+  if (lengthCompleted && capitalLetterCompleted && numberCompleted && specialCharCompleted) {
+    passwordWarning.style.display = 'none';
+    passwordRequirementsContainer.style.display = 'none';
+  } else {
+      passwordWarning.style.display = 'block';
+      passwordRequirementsContainer.style.display = 'block';
+  }
+
+  // Update the class of each requirement element
+  updateRequirementClass('lengthRequirement', lengthCompleted);
+  updateRequirementClass('capitalLetterRequirement', capitalLetterCompleted);
+  updateRequirementClass('numberRequirement', numberCompleted);
+  updateRequirementClass('specialCharRequirement', specialCharCompleted);
 }
+
+document.getElementById('togglePassword').addEventListener('click', async function(event) {
+  event.preventDefault();
+  var field = document.getElementById('password');
+  field.type = field.type === 'password' ? 'text' : 'password';
+});
+document.getElementById('togglePassword2').addEventListener('click', async function(event) {
+  event.preventDefault();
+  var field = document.getElementById('password2');
+  field.type = field.type === 'password' ? 'text' : 'password';
+});
+
+// Function to update the class of a requirement element
+function updateRequirementClass(requirementId, isCompleted) {
+    var requirementElement = document.getElementById(requirementId);
+    requirementElement.className = isCompleted ? 'completed' : 'missing';
+}
+
+function setupFormSwapping() {
+  let wrapper = document.querySelector('.wrapper'),
+      signUpLink = document.querySelector('.link .signup-link'),
+      signInLink = document.querySelector('.link .signin-link');
+
+  signUpLink.addEventListener('click', () => {
+      wrapper.classList.add('animated-signin');
+      wrapper.classList.remove('animated-signup');
+  });
+
+  signInLink.addEventListener('click', () => {
+      wrapper.classList.add('animated-signup');
+      wrapper.classList.remove('animated-signin');
+  });
+}
+
+// Call the function to set up the form swapping functionality
+setupFormSwapping();
+
+
+//document.querySelector('.fas fa-eye').setAttribute('aria-hidden', 'false');
+

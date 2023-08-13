@@ -6,6 +6,7 @@
     <title>Admin</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="admin.css">
+    <link rel="icon" href="../images/cart_favicon.png" type="image/png">
 </head>
 <body>
   <header>
@@ -26,19 +27,23 @@
   <main>
     <h1>Σελίδα Διαχειριστή</h1>
     <div class="file-container">
-      <label for="fileInput">Ανεβάστε ένα αρχείο</label>
-      <div class="file-input-container">
-        <input type="file" id="fileInput" name="fileInput">
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="jsonFile" id="jsonFileInput">
+        <button type="button" id="uploadButton">Upload file</button>
+      </form>
+      <div class="button-container">
+        <button type="button" class="delete-button" id="deleteItemsButton">Διαγραφη ολων των Items</button>
+        <button type="button" class="delete-button" id="deleteStoresButton">Διαγραφη ολων των Stores</button>
       </div>
-      <button id="uploadButton">Upload</button>
-      <div id="message"></div>
+      <div id="uploadMessage" style="display: none;"></div>
     </div>
 
     <div class="leaderboard-container">
       <h2>Leaderboard</h2>
-      <ul id="leaderboard-list">
+      <h5 id="leaderboard-header"></h5>
+      <ol id="leaderboard-list">
         <!-- Player items will be dynamically added here -->
-      </ul>
+      </ol>
       <div class="pagination">
           <!-- Pagination links will be dynamically added here -->
       </div>

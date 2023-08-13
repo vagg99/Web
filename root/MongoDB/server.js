@@ -166,7 +166,11 @@ async function distributeTokens() {
 }
 
 // Διαχειριστής : 1) Ανέβασμα αρχείου JSON
-async function handleFileUpload(req, res) {
+
+async function handleFileUploaditems(req, res) { await handleFileUpload("items", req, res); }
+async function handleFileUploadstores(req, res) { await handleFileUpload("stores", req, res); }
+
+async function handleFileUpload(collectionName, req, res) {
   const uploadedFile = req.file;
 
   if (!uploadedFile) {
@@ -182,7 +186,7 @@ async function handleFileUpload(req, res) {
     const jsonData = JSON.parse(uploadedFile.buffer.toString());
 
     // uploading jsonData to MongoDB
-    const collection = await connectToDatabase("items");
+    const collection = await connectToDatabase(collectionName);
     const result = await collection.insertOne(jsonData);
     if (result.insertedCount === 0) {
       return res.status(400).send('No data found in JSON file.');
@@ -191,13 +195,11 @@ async function handleFileUpload(req, res) {
     // Clear the buffer to release memory
     uploadedFile.buffer = null;
 
-    res.send(`File uploaded and processed successfully. Inserted ${result.insertedCount} items.`);
+    res.send(`File uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
   } catch (error) {
       console.error('Error parsing JSON:', error);
       res.status(400).send('Invalid JSON data.');
   }
-
-  res.send('File uploaded successfully.');
 }
 
 async function handleDeletionitems(req, res) { await handleDeletion("items", req, res); }
@@ -248,9 +250,6 @@ app.get('/users', async (req, res) => {
   }
 });
 
-// POST request for uploading files by admin
-app.post('/upload', upload.single('jsonFile'), handleFileUpload);
-
 // POST request for registration
 app.post('/register', handleRegistration);
 
@@ -267,6 +266,12 @@ app.get('/leaderboard', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// POST request for uploading files to items collection by admin
+app.post('/upload-items', upload.single('jsonFile'), handleFileUploaditems);
+
+// POST request for uploading files to stores collection by admin
+app.post('/upload-stores', upload.single('jsonFile'), handleFileUploadstores);
 
 // POST requst for deleting the items collection by admin
 app.post('/delete-items', handleDeletionitems);

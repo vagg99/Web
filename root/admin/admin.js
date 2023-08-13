@@ -1,9 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('jsonFileInput');
-  const uploadButton = document.getElementById('uploadButton');
+  const uploadItemsButton = document.getElementById('uploadItemsButton');
+  const uploadStoresButton = document.getElementById('uploadStoresButton');
+  const deleteItemsButton = document.getElementById('deleteItemsButton');
+  const deleteStoresButton = document.getElementById('deleteStoresButton');
   const messageDiv = document.getElementById('uploadMessage');
 
-  uploadButton.addEventListener('click', async () => {
+  uploadItemsButton.addEventListener('click', async () => uploadDataToCollection('items'));
+  uploadStoresButton.addEventListener('click', async () => uploadDataToCollection('stores'));
+  deleteItemsButton.addEventListener('click', async () => deleteAlldataInCollection('items'));
+  deleteStoresButton.addEventListener('click', async () => deleteAlldataInCollection('stores'));
+
+  async function uploadDataToCollection(collectionName){
     const file = fileInput.files[0];
 
     if (!file) {
@@ -15,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('jsonFile', file);
 
     try {
-        const response = await fetch('http://localhost:3000/upload', {
+        const response = await fetch(`http://localhost:3000/upload-${collectionName}`, {
             method: 'POST',
             body: formData,
         });
@@ -32,14 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error uploading file:', error);
         say(messageDiv, 'An error occurred.');
     }
-  });
-
-  const deleteItemsButton = document.getElementById('deleteItemsButton');
-  const deleteStoresButton = document.getElementById('deleteStoresButton');
-
-  deleteItemsButton.addEventListener('click', async () => deleteAlldataInCollection('items'));
-  deleteStoresButton.addEventListener('click', async () => deleteAlldataInCollection('stores'));
-
+  }
 
   async function deleteAlldataInCollection(collectionName){
     const confirmDelete = confirm(`Σίγουρα θες να διαγράψεις όλα τα δεδομένα στην ΒΔ στο collection ονομα "${collectionName}" ?}`);

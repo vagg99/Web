@@ -42,7 +42,11 @@ async function displayAllStores(){
       .bindPopup(`<b>${name}</b>`)
       .openPopup();
   });
+  getUserLocation();
 }
 
 // Initially display all stores
 displayAllStores();
+
+// Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
+getUserLocation();

@@ -185,12 +185,20 @@ async function handleFileUpload(collectionName, req, res) {
   try {
     const jsonData = JSON.parse(uploadedFile.buffer.toString());
 
-    // uploading jsonData to MongoDB
+    // Transform jsonData into an array of insert operations
+    const insertOperations = jsonData.map(item => ({
+      insertOne: {
+        document: item
+      }
+    }));
+    
+    // Connect to MongoDB
     const collection = await connectToDatabase(collectionName);
-    const result = await collection.insertOne(jsonData);
-    if (result.insertedCount === 0) {
-      return res.status(400).send('No data found in JSON file.');
-    }
+    
+    // Perform bulkWrite to insert multiple documents at once
+    const result = await collection.bulkWrite(insertOperations);
+    
+    console.log(`${result.insertedCount} items inserted into ${collectionName}`);
 
     // Clear the buffer to release memory
     uploadedFile.buffer = null;

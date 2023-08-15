@@ -3,14 +3,14 @@
     {
       "id": "0",
       "name": "κάτι",
-      "category": "Αντισηπτικά",
-      "subcategory": "Αντισηπτικά"
+      "category": "ΒρεφικάΕίδη",
+      "subcategory": "ΒρεφικέςΤροφές"
     },
     {
       "id": "1",
       "name": "κάτι",
       "category": "ΒρεφικάΕίδη",
-      "subcategory": "Απορρυπαντικά"
+      "subcategory": "ΒρεφικέςΤροφές"
     },
     {
       "id": "2",
@@ -22,19 +22,19 @@
       "id": "3",
       "name": "κάτι",
       "category": "ΒρεφικάΕίδη",
-      "subcategory": "Γάλα"
+      "subcategory": "ΒρεφικέςΤροφές"
     },
     {
       "id": "4",
       "name": "κάτι",
       "category": "ΒρεφικάΕίδη",
-      "subcategory": "Γιαούρτια"
+      "subcategory": "ΒρεφικέςΤροφές"
     },
     {
       "id": "5",
       "name": "κάτι",
       "category": "ΒρεφικάΕίδη",
-      "subcategory": "Μωρομάντηλα"
+      "subcategory": "Πάνες"
     },
     {
       "id": "6",
@@ -46,79 +46,79 @@
       "id": "7",
       "name": "κάτι",
       "category": "ΒρεφικάΕίδη",
-      "subcategory": "ΠεριποίησηΣώματος"
+      "subcategory": "Πάνες"
     },
     {
       "id": "8",
       "name": "κάτι",
       "category": "ΒρεφικάΕίδη",
-      "subcategory": "ΣαμπουάνΑφρόλουτρα"
+      "subcategory": "Πάνες"
     },
     {
       "id": "9",
       "name": "κάτι",
-      "category": "ΓιαΚατοικίδια",
-      "subcategory": "PetShopΤροφήΓάτας"
+      "category": "ΒρεφικάΕίδη",
+      "subcategory": "Πάνες"
     },
     {
       "id": "10",
       "name": "κάτι",
       "category": "ΓιαΚατοικίδια",
-      "subcategory": "PetShopΤροφήΣκύλου"
+      "subcategory": "PetShopΤροφήΓάτας"
     },
     {
       "id": "11",
       "name": "κάτι",
-      "category": "Καθαριότητα",
-      "subcategory": "Απορρυπαντικά"
+      "category": "ΓιαΚατοικίδια",
+      "subcategory": "PetShopΤροφήΓάτας"
     },
     {
       "id": "12",
       "name": "κάτι",
-      "category": "Καθαριότητα",
-      "subcategory": "ΑποσμητικάΧώρου"
+      "category": "ΓιαΚατοικίδια",
+      "subcategory": "PetShopΤροφήΓάτας"
     },
     {
       "id": "13",
       "name": "κάτι",
-      "category": "Καθαριότητα",
-      "subcategory": "ΕίδηΓενικούΚαθαρισμού"
+      "category": "ΓιαΚατοικίδια",
+      "subcategory": "PetShopΤροφήΓάτας"
     },
     {
       "id": "14",
       "name": "κάτι",
-      "category": "Καθαριότητα",
-      "subcategory": "ΕίδηΚουζίναςΜπάνιου"
+      "category": "ΓιαΚατοικίδια",
+      "subcategory": "PetShopΤροφήΓάτας"
     },
     {
       "id": "15",
       "name": "κάτι",
-      "category": "Καθαριότητα",
-      "subcategory": "ΕντομοκτόναΕντομοαπωθητικά"
+      "category": "ΓιαΚατοικίδια",
+      "subcategory": "PetShopΤροφήΣκύλου"
     },
     {
       "id": "16",
       "name": "κάτι",
-      "category": "Καθαριότητα",
-      "subcategory": "Χαρτικά"
+      "category": "ΓιαΚατοικίδια",
+      "subcategory": "PetShopΤροφήΣκύλου"
     },
     {
       "id": "17",
       "name": "κάτι",
-      "category": "ΠοτάΑναψυκτικά",
-      "subcategory": "ΑναψυκτικάΕνεργειακάΠοτά"
+      "category": "ΓιαΚατοικίδια",
+      "subcategory": "PetShopΤροφήΣκύλου"
     },
     {
       "id": "18",
       "name": "κάτι",
-      "category": "ΠοτάΑναψυκτικά",
-      "subcategory": "ΕμφιαλωμέναΝερά"
+      "category": "ΓιαΚατοικίδια",
+      "subcategory": "PetShopΤροφήΣκύλου"
     },
     {
       "id": "19",
       "name": "κάτι",
-      "category": "ΠοτάΑναψυκτικά",
-      "subcategory": "Κρασιά"
+      "category": "ΓιαΚατοικίδια",
+      "subcategory": "PetShopΤροφήΣκύλου"
     },
     {
       "id": "20",
@@ -130,523 +130,115 @@
       "id": "21",
       "name": "κάτι",
       "category": "ΠοτάΑναψυκτικά",
-      "subcategory": "Ποτά"
+      "subcategory": "Μπύρες"
     },
     {
       "id": "22",
       "name": "κάτι",
       "category": "ΠοτάΑναψυκτικά",
-      "subcategory": "Χυμοί"
+      "subcategory": "Μπύρες"
     },
     {
       "id": "23",
       "name": "κάτι",
-      "category": "ΠροστασίαΥγείας",
-      "subcategory": "ΜάσκεςΠροσώπου"
+      "category": "ΠοτάΑναψυκτικά",
+      "subcategory": "Μπύρες"
     },
     {
       "id": "24",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΑντρικήΠεριποίηση"
+      "category": "ΠοτάΑναψυκτικά",
+      "subcategory": "Μπύρες"
     },
     {
       "id": "25",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "Αποσμητικά"
+      "category": "ΠοτάΑναψυκτικά",
+      "subcategory": "Ποτά"
     },
     {
       "id": "26",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "Βαμβάκια"
+      "category": "ΠοτάΑναψυκτικά",
+      "subcategory": "Ποτά"
     },
     {
       "id": "27",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΒαφέςΜαλλιών"
+      "category": "ΠοτάΑναψυκτικά",
+      "subcategory": "Ποτά"
     },
     {
       "id": "28",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "Επίδεσμοι"
+      "category": "ΠοτάΑναψυκτικά",
+      "subcategory": "Ποτά"
     },
     {
       "id": "29",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΚρέμαΗμέρας"
+      "category": "ΠοτάΑναψυκτικά",
+      "subcategory": "Ποτά"
     },
     {
       "id": "30",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΚρέμαΣώματος"
+      "category": "Τρόφιμα",
+      "subcategory": "Καφέδες"
     },
     {
       "id": "31",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΚρέμεςΕνυδάτωσης"
+      "category": "Τρόφιμα",
+      "subcategory": "Καφέδες"
     },
     {
       "id": "32",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΚρέμεςΜαλλιών"
+      "category": "Τρόφιμα",
+      "subcategory": "Καφέδες"
     },
     {
       "id": "33",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΚρεμοσάπουναΣαπούνι"
+      "category": "Τρόφιμα",
+      "subcategory": "Καφέδες"
     },
     {
       "id": "34",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΛοιπάΠροϊόντα"
+      "category": "Τρόφιμα",
+      "subcategory": "Καφέδες"
     },
     {
       "id": "35",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΞυριστικάΑποτριχωτικά"
+      "category": "Τρόφιμα",
+      "subcategory": "Όσπρια"
     },
     {
       "id": "36",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "Οδοντόβουρτσες"
+      "category": "Τρόφιμα",
+      "subcategory": "Όσπρια"
     },
     {
       "id": "37",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΠάνεςΕνηλίκων"
+      "category": "Τρόφιμα",
+      "subcategory": "Όσπρια"
     },
     {
       "id": "38",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΠεριποίησηΠροσώπου"
+      "category": "Τρόφιμα",
+      "subcategory": "Όσπρια"
     },
     {
       "id": "39",
       "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΠροϊόνταΜαλλιών"
-    },
-    {
-      "id": "40",
-      "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "Προφυλακτικά"
-    },
-    {
-      "id": "41",
-      "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΣαμπουάνΑφρόλουτρα"
-    },
-    {
-      "id": "42",
-      "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "Σερβιέτες"
-    },
-    {
-      "id": "43",
-      "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΣτοματικάΔιαλύματα"
-    },
-    {
-      "id": "44",
-      "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "ΣτοματικήΥγιεινή"
-    },
-    {
-      "id": "45",
-      "name": "κάτι",
-      "category": "ΠροσωπικήΦροντίδα",
-      "subcategory": "Υγρομάντηλα"
-    },
-    {
-        "id": "46",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΑλεύριΣιμιγδάλι"
-    },
-    {
-        "id": "47",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Αλλαντικά"
-    },
-    {
-        "id": "48",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Αυγά"
-    },
-    {
-        "id": "49",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΒούτυροΜαργαρίνη"
-    },
-    {
-        "id": "50",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Γάλα"
-    },
-    {
-        "id": "51",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Γιαούρτια"
-    },
-    {
-        "id": "52",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΓλυκαΑλλείματα"
-    },
-    {
-        "id": "53",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΓλυκάΚέικ"
-    },
-    {
-        "id": "54",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΓλυκάΣοκολάτες"
-    },
-    {
-        "id": "55",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Δημητριακά"
-    },
-    {
-        "id": "56",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΕίδηΖαχαροπλαστικής"
-    },
-    {
-        "id": "57",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΕιδικήΔιατροφή"
-    },
-    {
-        "id": "58",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Επιδόρπια"
-    },
-    {
-        "id": "59",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΈτοιμαΓεύματαΣαλάτες"
-    },
-    {
-        "id": "60",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΈτοιμαΓεύματαΣούπες"
-    },
-    {
-        "id": "61",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΖάχαρηΥποκατάσταταΖάχαρης"
-    },
-    {
-        "id": "62",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Ζυμαρικά"
-    },
-    {
-        "id": "63",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΚαραμέλεςΤσίχλες"
-    },
-    {
-        "id": "64",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΚατεψυγμέναΚρεατικά"
-    },
-    {
-        "id": "65",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΚατεψυγμέναΛαχανικά"
-    },
-    {
-        "id": "66",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΚατεψυγμέναΠατάτες"
-    },
-    {
-        "id": "67",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΚατεψυγμέναΠίτες"
-    },
-    {
-        "id": "68",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΚατεψυγμέναΠίτσες"
-    },
-    {
-        "id": "69",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΚατεψυγμέναΦύλλαΒάσεις"
-    },
-    {
-        "id": "70",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΚατεψυγμέναΨάρια"
-    },
-    {
-        "id": "71",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Καφέδες"
-    },
-    {
-        "id": "72",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Κονσέρβες"
-    },
-    {
-        "id": "73",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΚρέμεςΓάλακτος"
-    },
-    {
-        "id": "74",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Κύβοι"
-    },
-    {
-        "id": "75",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Λάδι"
-    },
-    {
-        "id": "76",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Μπαχαρικά"
-    },
-    {
-        "id": "77",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Ξύδι"
-    },
-    {
-        "id": "78",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Όσπρια"
-    },
-    {
-        "id": "79",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Παγωτά"
-    },
-    {
-        "id": "80",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΠελτέςΤομάτας"
-    },
-    {
-        "id": "81",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Πουρές"
-    },
-    {
-        "id": "82",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Ροφήματα"
-    },
-    {
-        "id": "83",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Ρύζι"
-    },
-    {
-        "id": "84",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΣάλτσεςDressings"
-    },
-    {
-        "id": "85",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΣνακςΑρτοσκευάσματα"
-    },
-    {
-        "id": "86",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΣνακςΓαριδάκια"
-    },
-    {
-        "id": "87",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΣνακςΚρουασάν"
-    },
-    {
-        "id": "88",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΣνακςΜπάρεςΡάβδοι"
-    },
-    {
-        "id": "89",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΣνακςΜπισκότα"
-    },
-    {
-        "id": "90",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΣνακςΠατατάκια"
-    },
-    {
-        "id": "91",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΣνακςΠοπΚορν"
-    },
-    {
-        "id": "92",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΤυποποιημέναΚρεατικά"
-    },
-    {
-        "id": "93",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "Τυριά"
-    },
-    {
-        "id": "94",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦούρνοςΠαξιμάδια"
-    },
-    {
-        "id": "95",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦούρνοςΤσουρέκια"
-    },
-    {
-        "id": "96",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦούρνοςΦρυγανιές"
-    },
-    {
-        "id": "97",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦούρνοςΨωμί"
-    },
-    {
-        "id": "98",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦρέσκαΑρνό"
-    },
-    {
-        "id": "99",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦρέσκαΑφρόψαρο"
-    },
-    {
-        "id": "100",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦρέσκαΚατσίκι"
-    },
-    {
-        "id": "101",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦρέσκαΚοτόπουλο"
-    },
-    {
-        "id": "102",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦρέσκαΛαχανικά"
-    },
-    {
-        "id": "103",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦρέσκαΜοσχάρι"
-    },
-    {
-        "id": "104",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦρέσκαΦρούτα"
-    },
-    {
-        "id": "105",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦρέσκαΧοιρινό"
-    },
-    {
-        "id": "106",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΦρέσκαΨάρι"
-    },
-    {
-        "id": "107",
-        "name": "κάτι",
-        "category": "Τρόφιμα",
-        "subcategory": "ΧυμόςΤομάτας"
+      "category": "Τρόφιμα",
+      "subcategory": "Όσπρια"
     }
   ]
 }

@@ -198,7 +198,7 @@ async function handleFileUpload(collectionName, req, res) {
     // Perform bulkWrite to insert multiple documents at once
     const result = await collection.bulkWrite(insertOperations);
     
-    console.log(`${result.insertedCount} items inserted into ${collectionName}`);
+    //console.log(`${result.insertedCount} items inserted into collection "${collectionName}"`);
 
     // Clear the buffer to release memory
     uploadedFile.buffer = null;
@@ -271,6 +271,18 @@ app.get('/leaderboard', async (req, res) => {
     res.status(200).json(leaderboard);
   } catch (error) {
     console.error('Error fetching leaderboard:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET request for fetching stores
+app.get('/stores', async (req, res) => {
+  try {
+    const collection = await connectToDatabase("stores");
+    const stores = await collection.find({}).toArray();
+    res.status(200).json(stores);
+  } catch (error) {
+    console.error('Error fetching stores:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

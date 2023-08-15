@@ -25,3 +25,24 @@ function getUserLocation() {
     console.error('Geolocation is not available in this browser.');
   }
 }
+
+async function getAllStores() {
+  const response = await fetch('http://localhost:3000/stores');
+  const stores = await response.json();
+  return stores;
+}
+
+async function displayAllStores(){
+  const stores = await getAllStores();
+  stores.forEach(store => {
+    const { id, lat, lon } = store;
+    const name = store.tags.name;
+    L.marker([lat, lon])
+      .addTo(map)
+      .bindPopup(`<b>${name}</b>`)
+      .openPopup();
+  });
+}
+
+// Initially display all stores
+displayAllStores();

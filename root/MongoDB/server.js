@@ -198,7 +198,7 @@ async function handleFileUpload(collectionName, req, res) {
     // Perform bulkWrite to insert multiple documents at once
     const result = await collection.bulkWrite(insertOperations);
     
-    console.log(`${result.insertedCount} items inserted into ${collectionName}`);
+    //console.log(`${result.insertedCount} items inserted into collection "${collectionName}"`);
 
     // Clear the buffer to release memory
     uploadedFile.buffer = null;

@@ -275,6 +275,18 @@ app.get('/leaderboard', async (req, res) => {
   }
 });
 
+// GET request for fetching stores
+app.get('/stores', async (req, res) => {
+  try {
+    const collection = await connectToDatabase("stores");
+    const stores = await collection.find({}).toArray();
+    res.status(200).json(stores);
+  } catch (error) {
+    console.error('Error fetching stores:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // POST request for uploading files to items collection by admin
 app.post('/upload-items', upload.single('jsonFile'), handleFileUploaditems);
 

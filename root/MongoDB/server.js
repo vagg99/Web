@@ -136,6 +136,51 @@ function hash(username,password) {
   Obj.update(password);
   return Obj.getHash("HEX");
 }
+
+// Χρήστης : 2) d) Εμφάνιση Προσφορών
+async function getDiscountedItemsFromDatabase(storeId) {
+  const {stock,collection} = await getStock();
+
+  // Αναζήτηση στο collection stocks για τα προϊόντα που είναι σε προσφορά
+  const aggregationPipeline = [
+    {
+      $match: {
+        store_id: storeId,
+        in_stock: true,
+        discount_price: { $gt: 0 }
+      }
+    },
+    {
+      $lookup: {
+        from: 'items', // Name of the collection
+        localField: 'item_id',
+        foreignField: 'id',
+        as: 'item'
+      }
+    },
+    {
+      $unwind: '$item'
+    },
+    {
+      $project: {
+        _id: false,
+        store_id: true,
+        'item.name': true,
+        in_stock: true,
+        discount_price: true,
+      }
+    }
+  ];
+
+  const cursor = collection.aggregate(aggregationPipeline);
+
+  // Convert the aggregation cursor to an array of documents
+  const discountedItems = await cursor.toArray();
+
+  return discountedItems;
+}
+
+
 // Χρήστης : 4) Σύστημα Tokens
 async function distributeTokens() {
   console.log(`Monthly Token Distribution ! Distributing tokens to ${users.length} users...`);
@@ -167,10 +212,8 @@ async function distributeTokens() {
 
 // Διαχειριστής : 1) Ανέβασμα αρχείου JSON
 
-async function handleFileUploaditems(req, res) { await handleFileUpload("items", req, res); }
-async function handleFileUploadstores(req, res) { await handleFileUpload("stores", req, res); }
-
-async function handleFileUpload(collectionName, req, res) {
+async function handleFileUpload( req, res) {
+  const collectionName = req.query.collection;
   const uploadedFile = req.file;
 
   if (!uploadedFile) {
@@ -210,11 +253,9 @@ async function handleFileUpload(collectionName, req, res) {
   }
 }
 
-async function handleDeletionitems(req, res) { await handleDeletion("items", req, res); }
-async function handleDeletionstores(req, res) { await handleDeletion("stores", req, res); }
-
-async function handleDeletion(collectionName, req, res) {
+async function handleDeletion(req, res) {
   try {
+    const collectionName = req.query.collection;
     const collection = await connectToDatabase(collectionName);
     const result = await collection.deleteMany({});
     res.status(200).json(`Deleted ${result.deletedCount} ${collectionName}.`);
@@ -241,10 +282,28 @@ async function getLeaderboard() {
   return leaderboard;
 }
 
+async function getStock() {
+  const collection = await connectToDatabase("stock");
+  const stock = await collection.find({}).toArray();
+  return {stock,collection};
+}
+
 async function getUsers() {
-  const collection = await connectToDatabase();
+  const collection = await connectToDatabase("users");
   const users = await collection.find({}).toArray();
   return {users,collection};
+}
+
+async function getItems() {
+  const collection = await connectToDatabase("items");
+  const items = await collection.find({}).toArray();
+  return {items,collection};
+}
+
+async function getStores(){
+  const collection = await connectToDatabase("stores");
+  const stores = await collection.find({}).toArray();
+  return {stores,collection};
 }
 
 // GET request for fetching users
@@ -287,17 +346,23 @@ app.get('/stores', async (req, res) => {
   }
 });
 
-// POST request for uploading files to items collection by admin
-app.post('/upload-items', upload.single('jsonFile'), handleFileUploaditems);
+// GET request for fetching all discounted items from 1 store
+app.get('/getDiscountedItems', async (req, res) => {
+  try {
+    const shopId = req.query.shopId;
+    const discountedItems = await getDiscountedItemsFromDatabase(shopId);
+    res.status(200).json(discountedItems);
+  } catch (error) {
+    console.error('Error fetching discounted items:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
-// POST request for uploading files to stores collection by admin
-app.post('/upload-stores', upload.single('jsonFile'), handleFileUploadstores);
+// POST request for uploading files to a collection by admin
+app.post('/upload', upload.single('jsonFile'), handleFileUpload);
 
-// POST requst for deleting the items collection by admin
-app.post('/delete-items', handleDeletionitems);
-
-// POST request for deleting the stores collection by admin
-app.post('/delete-stores', handleDeletionstores);
+// POST requst for deleting a collection by admin
+app.post('/delete', handleDeletion);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

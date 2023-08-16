@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('jsonFile', file);
 
     try {
-        const response = await fetch(`http://localhost:3000/upload-${collectionName}`, {
+        const response = await fetch(`http://localhost:3000/upload?collection=${collectionName}`, {
             method: 'POST',
             body: formData,
         });
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmDelete = confirm(`Σίγουρα θες να διαγράψεις όλα τα δεδομένα στην ΒΔ στο collection ονομα "${collectionName}" ?}`);
     if (confirmDelete) {
       try {
-        const response = await fetch(`http://localhost:3000/delete-${collectionName}`, {
+        const response = await fetch(`http://localhost:3000/delete?collection=${collectionName}`, {
             method: 'POST',
         });
 

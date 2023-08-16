@@ -44,11 +44,13 @@ async function displayAllStores(){
     const marker = L.marker([lat, lon] , { icon: ShopIcon })
       .addTo(map)
       .bindPopup(`<b>${name}</b>`)
+      .on('click', (e) => { onMarkerClick(marker,e,id) })
       .openPopup();
     markers.push(marker);
   });
+  
   // Current Location
-  getUserLocation();
+  //getUserLocation();
   // Patra
   map.setView(view, 15);
 }
@@ -67,6 +69,36 @@ function filterShops(query){
       marker.removeFrom(map);
     }
   });
+}
+
+// marker click functionality
+async function onMarkerClick(marker,e,id){
+  try {
+    const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
+    const data = await response.json();
+    if (data.length) {
+      let shopName = marker.getPopup().getContent()
+      const popupContent = createPopupContent(data,shopName);
+      marker.bindPopup(popupContent).openPopup();
+    }
+  } catch (error) {
+    console.error('Error fetching discounted items:', error);
+  }
+}
+
+function createPopupContent(data,shopName) {
+  // θελουμε κατι πιο δημιουργικο εδω
+  // Εγω βαζω αυτο το απλο και αλλαξτε το.
+
+
+  let output = shopName;
+  output += "<div>Αυτο το μαγαζί έχει αντικείμενα με προσφορά !</div>";
+
+  for (let i = 0 ; i < data.length ; i++){
+    output += `<div>${i+1}. ${data[i].item.name} - ${data[i].discount_price}€</div>`;
+  }
+
+  return output;
 }
 
 const CurrentLocationColor = "#40e0d0";

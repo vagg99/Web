@@ -29,6 +29,12 @@ function getUserLocation() {
   }
 }
 
+async function getAllDiscounts(){
+  const response = await fetch('http://localhost:3000/getDiscountedItems?shopId=all');
+  const discounts = await response.json();
+  return discounts;
+}
+
 async function getAllStores() {
   const response = await fetch('http://localhost:3000/stores');
   const stores = await response.json();
@@ -52,7 +58,32 @@ async function displayAllStores(){
   // Current Location
   //getUserLocation();
   // Patra
-  map.setView(view, 15);
+  map.setView(view, 12);
+}
+
+async function displayAllStoresWithDiscounts(){
+  const stores = await getAllStores();
+  const discounts = await getAllDiscounts();
+
+  const StoresWithDiscounts = {};
+
+  discounts.forEach(discount => {
+    StoresWithDiscounts[discount.store_id] = discount;
+  });
+
+  stores.forEach(store => {
+    const { id, lat, lon } = store;
+    const name = store.tags.name;
+    if (StoresWithDiscounts[id]) {
+      const marker = L.marker([lat, lon] , { icon: DiscountShopIcon })
+        .addTo(map)
+        .bindPopup(`<b>${name}</b>`)
+        .on('click', (e) => { onMarkerClick(marker,e,id) })
+        .openPopup();
+      markers.push(marker);
+    }
+  });
+  map.setView(view, 12);
 }
 
 // Search box functionality
@@ -76,9 +107,9 @@ async function onMarkerClick(marker,e,id){
   try {
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const data = await response.json();
-    if (data.length) {
-      let shopName = marker.getPopup().getContent()
-      const popupContent = createPopupContent(data,shopName);
+    const {discountedItems,shopName} = data;
+    if (discountedItems.length) {
+      const popupContent = createPopupContent(discountedItems,shopName);
       marker.bindPopup(popupContent).openPopup();
     }
   } catch (error) {
@@ -90,9 +121,9 @@ function createPopupContent(data,shopName) {
   // θελουμε κατι πιο δημιουργικο εδω
   // Εγω βαζω αυτο το απλο και αλλαξτε το.
 
-
-  let output = shopName;
-  output += "<div>Αυτο το μαγαζί έχει αντικείμενα με προσφορά !</div>";
+  // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
+  let output = `<div><b>${shopName}</b></div>`;
+  output += "<div>Βρέθηκε Προσφορά !</div>";
 
   for (let i = 0 ; i < data.length ; i++){
     output += `<div>${i+1}. ${data[i].item.name} - ${data[i].discount_price}€</div>`;
@@ -100,9 +131,6 @@ function createPopupContent(data,shopName) {
 
   return output;
 }
-
-const CurrentLocationColor = "#40e0d0";
-const ShopColor = "#ff0000";
 
 function markerHtmlStyles(color) { return `
   background-color: ${color};
@@ -116,25 +144,29 @@ function markerHtmlStyles(color) { return `
   transform: rotate(45deg);
   border: 1px solid #FFFFFF`;
 }
+function divIconSettings(color) {
+  return {
+    className: "shop-pin",
+    iconAnchor: [0, 24],
+    labelAnchor: [-6, 0],
+    popupAnchor: [0, -36],
+    html: `<span style="${markerHtmlStyles(color)}" />`
+  }
+}
 
-const CurrectLocationIcon = L.divIcon({
-  className: "current-location-pin",
-  iconAnchor: [0, 24],
-  labelAnchor: [-6, 0],
-  popupAnchor: [0, -36],
-  html: `<span style="${markerHtmlStyles(CurrentLocationColor)}" />`
-});
 
-const ShopIcon = L.divIcon({
-  className: "shop-pin",
-  iconAnchor: [0, 24],
-  labelAnchor: [-6, 0],
-  popupAnchor: [0, -36],
-  html: `<span style="${markerHtmlStyles(ShopColor)}" />`
-});
+const CurrentLocationColor = "#40e0d0";
+const ShopColor = "#5A5A5A";
+const DiscountShopColor = "#FF0000";
 
-// Initially display all stores
+const CurrectLocationIcon = L.divIcon(divIconSettings(CurrentLocationColor));
+const ShopIcon = L.divIcon(divIconSettings(ShopColor));
+const DiscountShopIcon = L.divIcon(divIconSettings(DiscountShopColor));
+
+
+// Initially display only the stores that have discounts
 displayAllStores();
+displayAllStoresWithDiscounts();
 
 // Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
 //getUserLocation();

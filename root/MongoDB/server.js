@@ -21,7 +21,7 @@ const port = 3000;
 
 const mongoURI = "mongodb+srv://webproject7:HVHDmG6eK2nuq9rM@cluster0.03czzuj.mongodb.net/?retryWrites=true&w=majority";
 
-async function connectToDatabase(collectionName = 'users') {
+async function connectToDatabase(collectionName) {
   const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
   return client.db('website7').collection(collectionName);
@@ -55,7 +55,7 @@ async function registerUser(username, tokens, points, email, password, isAdmin) 
 }
 
 async function loginUser(username, password) {
-  const {users, collection} = await getUsers();
+  const {users, collection} = await getCollection('users');
   let password_hashed = hash(username,password);
   for (user in users) {
     if (users[user].username === username && users[user].password_hashed === password_hashed) {
@@ -73,7 +73,7 @@ async function handleRegistration(req, res) {
       const { username, tokens, points, email, password, isAdmin } = JSON.parse(body);
 
 
-      const {users, collection} = await getUsers();
+      const {users, collection} = await getCollection('users');
 
       for (user in users) {
         if (users[user].username === username) {
@@ -139,14 +139,24 @@ function hash(username,password) {
 
 // Χρήστης : 2) d) Εμφάνιση Προσφορών
 async function getDiscountedItemsFromDatabase(storeId) {
-  const {stock,collection} = await getStock();
+
+  // Παρε το ονομα του μαγαζιου απο το collection των μαγαζιων
+  const {items : stores, collection : storecollection} = await getCollection('stores');
+  let shopName = null;
+  for (let store in stores){
+    if (stores[store].id == storeId) {
+      shopName = stores[store].tags.name;
+      break;
+    }
+  }
+  
+  const {stock,collection} = await getCollection('stock');
 
   // Αναζήτηση στο collection stocks για τα προϊόντα που είναι σε προσφορά
   const aggregationPipeline = [
     {
       $match: {
         store_id: storeId,
-        in_stock: true,
         discount_price: { $gt: 0 }
       }
     },
@@ -177,7 +187,7 @@ async function getDiscountedItemsFromDatabase(storeId) {
   // Convert the aggregation cursor to an array of documents
   const discountedItems = await cursor.toArray();
 
-  return discountedItems;
+  return {discountedItems,shopName};
 }
 
 
@@ -185,7 +195,7 @@ async function getDiscountedItemsFromDatabase(storeId) {
 async function distributeTokens() {
   console.log(`Monthly Token Distribution ! Distributing tokens to ${users.length} users...`);
   // Χρειαζομαστε και το collection για να κανουμε save τις αλλαγες στη βαση
-  const {users, collection} = await getUsers();
+  const {users, collection} = await getCollection('users');
   // Υπολογισμός νέων tokens για κάθε χρήστη και μηδενισμός πόντων
   let ApothematikoTokens = 0;
   let TotalPoints = 0;
@@ -267,7 +277,7 @@ async function handleDeletion(req, res) {
 
 // Διαχειριστής : 4) Απεικόνιση Leaderboard
 async function getLeaderboard() {
-  const {users, collection} = await getUsers();
+  const {users, collection} = await getCollection('users');
   let leaderboard = [];
   for (let i = 0; i < users.length; i++) {
     if (users[i].points && users[i].tokens) {
@@ -282,34 +292,16 @@ async function getLeaderboard() {
   return leaderboard;
 }
 
-async function getStock() {
-  const collection = await connectToDatabase("stock");
-  const stock = await collection.find({}).toArray();
-  return {stock,collection};
-}
-
-async function getUsers() {
-  const collection = await connectToDatabase("users");
-  const users = await collection.find({}).toArray();
-  return {users,collection};
-}
-
-async function getItems() {
-  const collection = await connectToDatabase("items");
+async function getCollection(collectionName) {
+  const collection = await connectToDatabase(collectionName);
   const items = await collection.find({}).toArray();
   return {items,collection};
-}
-
-async function getStores(){
-  const collection = await connectToDatabase("stores");
-  const stores = await collection.find({}).toArray();
-  return {stores,collection};
 }
 
 // GET request for fetching users
 app.get('/users', async (req, res) => {
   try {
-    const {users, collection} = await getUsers();
+    const {users, collection} = await getCollection('users');
     res.status(200).json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -350,8 +342,14 @@ app.get('/stores', async (req, res) => {
 app.get('/getDiscountedItems', async (req, res) => {
   try {
     const shopId = req.query.shopId;
-    const discountedItems = await getDiscountedItemsFromDatabase(shopId);
-    res.status(200).json(discountedItems);
+    if (shopId == "all") {
+      const collection = await connectToDatabase("stock");
+      const discountedItems = await collection.find({}).toArray();
+      res.status(200).json(discountedItems);
+    } else {
+      const {discountedItems,shopName} = await getDiscountedItemsFromDatabase(shopId);
+      res.status(200).json({ discountedItems , shopName : shopName });
+    }
   } catch (error) {
     console.error('Error fetching discounted items:', error);
     res.status(500).json({ error: 'Internal server error' });

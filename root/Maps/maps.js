@@ -4,6 +4,9 @@ var map = L.map('map')
 // Add the tile layer (OpenStreetMap as an example)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
+// Test View
+const view = [38.24511060644045, 21.7364112438391];
+
 // Function to get the user's location and update the map view
 function getUserLocation() {
   if ('geolocation' in navigator) {
@@ -32,23 +35,42 @@ async function getAllStores() {
   return stores;
 }
 
+let markers = []
 async function displayAllStores(){
   const stores = await getAllStores();
   stores.forEach(store => {
     const { id, lat, lon } = store;
     const name = store.tags.name;
-    L.marker([lat, lon])
+    const marker = L.marker([lat, lon] , { icon: ShopIcon })
       .addTo(map)
       .bindPopup(`<b>${name}</b>`)
       .openPopup();
+    markers.push(marker);
   });
   // Current Location
   getUserLocation();
   // Patra
-  //map.setView([38.24511060644045, 21.7364112438391], 15); // Set the provided coordinates and zoom level 15
+  map.setView(view, 15);
+}
+
+// Search box functionality
+const searchBox = document.getElementById('search-box');
+searchBox.addEventListener('input', () => { filterShops(searchBox.value.toLowerCase()); });
+
+function filterShops(query){
+  markers.forEach(marker => {
+    const shopName = marker.getPopup().getContent().toLowerCase();
+    
+    if (shopName.includes(query)) {
+      marker.addTo(map);
+    } else {
+      marker.removeFrom(map);
+    }
+  });
 }
 
 const CurrentLocationColor = "#40e0d0";
+const ShopColor = "#ff0000";
 
 function markerHtmlStyles(color) { return `
   background-color: ${color};
@@ -71,8 +93,16 @@ const CurrectLocationIcon = L.divIcon({
   html: `<span style="${markerHtmlStyles(CurrentLocationColor)}" />`
 });
 
+const ShopIcon = L.divIcon({
+  className: "shop-pin",
+  iconAnchor: [0, 24],
+  labelAnchor: [-6, 0],
+  popupAnchor: [0, -36],
+  html: `<span style="${markerHtmlStyles(ShopColor)}" />`
+});
+
 // Initially display all stores
 displayAllStores();
 
 // Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
-getUserLocation();
+//getUserLocation();

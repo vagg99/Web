@@ -119,14 +119,20 @@ async function onMarkerClick(marker,e,id){
 
 function createPopupContent(data,shopName) {
   // θελουμε κατι πιο δημιουργικο εδω
-  // Εγω βαζω αυτο το απλο και αλλαξτε το.
+  // Εγω βαζω αυτο το απλο και αλλαξτε το
 
+  console.log(data);
   // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
   let output = `<div><b>${shopName}</b></div>`;
   output += "<div>Βρέθηκε Προσφορά !</div>";
 
   for (let i = 0 ; i < data.length ; i++){
-    output += `<div>${i+1}. ${data[i].item.name} - ${data[i].discount_price}€</div>`;
+    let product = data[i].item.name;
+    let price = data[i].discount_price;
+    let date = data[i].date;
+    let likes = data[i].likes;
+    let apothema = data.in_stock?"ναι":"οχι";
+    output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes:${likes}</div>`;
   }
 
   return output;

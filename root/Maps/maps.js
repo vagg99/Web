@@ -1,8 +1,3 @@
-//Global variables to save loading time
-let stores;
-let discounts;
-let StoresWithDiscounts = {};
-
 // Initialize the map 
 var map = L.map('map')
 
@@ -11,6 +6,72 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
 // Test View
 const view = [38.24511060644045, 21.7364112438391];
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+  let stores = await getAllStores();
+  let discounts = await getAllDiscounts();
+
+
+  // Search box functionality
+  const searchBox = document.getElementById('search-box');
+  const searchType = document.getElementById('search-type');
+  const subcategorySelect = document.getElementById('subcategory');
+  searchBox.addEventListener('input', () => { filterShops(searchBox.value.toLowerCase()); });
+
+  searchType.addEventListener('change', function() {
+    if (searchType.value === 'category') {
+      filterShops('');
+      subcategorySelect.style.display = 'inline-block';
+    } else {
+      subcategorySelect.style.display = 'none';
+    }
+  });
+  subcategorySelect.addEventListener('change', function() {
+    filterShops('');
+  });
+
+  function filterShops(query){
+    displayAllStores(stores);
+    displayAllStoresWithDiscounts(stores,discounts);
+    switch (searchType.value) {
+      case 'shop':
+        markers.forEach(marker => {
+          const shopName = marker.getPopup().getContent().toLowerCase();
+          
+          if (shopName.includes(query)) {
+            marker.addTo(map);
+          } else {
+            marker.removeFrom(map);
+          }
+        });
+      break;
+      case 'category':
+        markers.forEach(marker => {
+          const shopName = marker.getPopup().getContent().toLowerCase();
+          const shopId = marker.storeId;
+          if ( shopName.includes(query) && StoresWithDiscounts[shopId] && StoresWithDiscounts[shopId].category === subcategorySelect.value  ) {
+            marker.addTo(map);
+          } else {
+            marker.removeFrom(map);
+          }
+        });
+      break;
+    }
+  }
+
+
+
+  // populate subcategory filter on page load
+  populateSubcategories(subcategorySelect);
+
+  // Initially display only the stores that have discounts
+  //displayAllStores(stores);
+  displayAllStoresWithDiscounts(stores,discounts);
+
+  // Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
+  //getUserLocation();
+});
 
 // Function to get the user's location and update the map view
 function getUserLocation() {
@@ -47,8 +108,8 @@ async function getAllStores() {
 }
 
 let markers = []
-async function displayAllStores(){
-  const stores = await getAllStores();
+async function displayAllStores(stores){
+  //stores = await getAllStores();
   stores.forEach(store => {
     const { id, lat, lon } = store;
     const name = store.tags.name;
@@ -66,7 +127,7 @@ async function displayAllStores(){
   map.setView(view, 12);
 }
 
-async function populateSubcategories() {
+async function populateSubcategories(subcategorySelect) {
   const response = await fetch('http://localhost:3000/getSubcategories');
   const subcategories = await response.json();
 
@@ -80,9 +141,10 @@ async function populateSubcategories() {
   });
 }
 
-async function displayAllStoresWithDiscounts(){
-  stores = await getAllStores();
-  discounts = await getAllDiscounts();
+let StoresWithDiscounts = {};
+async function displayAllStoresWithDiscounts(stores,discounts){
+  //stores = await getAllStores();
+  //discounts = await getAllDiscounts();
 
   discounts.forEach(discount => {
     StoresWithDiscounts[discount.store_id] = discount;
@@ -104,63 +166,13 @@ async function displayAllStoresWithDiscounts(){
   map.setView(view, 12);
 }
 
-// Search box functionality
-const searchBox = document.getElementById('search-box');
-const searchType = document.getElementById('search-type');
-const subcategorySelect = document.getElementById('subcategory');
-searchBox.addEventListener('input', () => { filterShops(searchBox.value.toLowerCase()); });
-
-function filterShops(query){
-  switch (searchType.value) {
-    case 'shop':
-      markers.forEach(marker => {
-        const shopName = marker.getPopup().getContent().toLowerCase();
-        
-        if (shopName.includes(query)) {
-          marker.addTo(map);
-        } else {
-          marker.removeFrom(map);
-        }
-      });
-    break;
-    case 'category':
-      console.log(subcategorySelect.value);
-      console.log(`StoresWithDiscounts : ${StoresWithDiscounts}`);
-      markers.forEach(marker => {
-        const shopName = marker.getPopup().getContent().toLowerCase();
-        const shopId = marker.storeId;
-        console.log(shopId);
-        console.log(`StoresWithDiscounts[shopId] :`);
-        console.log(StoresWithDiscounts[shopId]);
-        if (StoresWithDiscounts[shopId]) {
-          console.log(`StoresWithDiscounts[shopId].category : ${StoresWithDiscounts[shopId].category}`);
-          console.log(`subcategorySelect.value : ${subcategorySelect.value}`);
-        }
-        if ( shopName.includes(query) && StoresWithDiscounts[shopId] && StoresWithDiscounts[shopId].category === subcategorySelect.value  ) {
-          marker.addTo(map);
-        } else {
-          marker.removeFrom(map);
-        }
-      });
-    break;
-  }
-}
-searchType.addEventListener('change', function() {
-  if (searchType.value === 'category') {
-    subcategorySelect.style.display = 'inline-block';
-  } else {
-    subcategorySelect.style.display = 'none';
-  }
-});
 
 // marker click functionality
 async function onMarkerClick(marker,e,id){
   try {
-    console.log("CLICK")
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const data = await response.json();
     const {discountedItems,shopName} = data;
-    console.log(discountedItems);
     if (discountedItems.length) {
       const popupContent = createPopupContent(discountedItems,shopName);
       marker.bindPopup(popupContent).openPopup();
@@ -174,7 +186,6 @@ function createPopupContent(data,shopName) {
   // θελουμε κατι πιο δημιουργικο εδω
   // Εγω βαζω αυτο το απλο και αλλαξτε το
 
-  console.log(data);
   // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
   let output = `<div><b>${shopName}</b></div>`;
   output += "<div>Βρέθηκε Προσφορά !</div>";
@@ -221,14 +232,3 @@ const DiscountShopColor = "#FF0000";
 const CurrectLocationIcon = L.divIcon(divIconSettings(CurrentLocationColor));
 const ShopIcon = L.divIcon(divIconSettings(ShopColor));
 const DiscountShopIcon = L.divIcon(divIconSettings(DiscountShopColor));
-
-// populate subcategory filter on page load
-populateSubcategories();
-
-
-// Initially display only the stores that have discounts
-displayAllStores();
-displayAllStoresWithDiscounts();
-
-// Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
-//getUserLocation();

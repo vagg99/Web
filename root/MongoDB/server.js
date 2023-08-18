@@ -141,7 +141,6 @@ function hash(username,password) {
 
 // Χρήστης : 2) d) Εμφάνιση Προσφορών
 async function getDiscountedItemsFromDatabase(storeId) {
-  console.log(storeId)
   // Παρε το ονομα του μαγαζιου απο το collection των μαγαζιων
   const {stores, storecollection} = await getStores();
   let shopName = null;
@@ -192,7 +191,6 @@ async function getDiscountedItemsFromDatabase(storeId) {
   // Convert the aggregation cursor to an array of documents
   discountedItems = await cursor.toArray();
 
-  console.log(discountedItems);
 
   return {discountedItems,shopName};
 }

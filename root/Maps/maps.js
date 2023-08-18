@@ -15,10 +15,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Search box functionality
   const searchBox = document.getElementById('search-box');
+  const searchButton = document.getElementById('search-btn');
   const searchType = document.getElementById('search-type');
   const subcategorySelect = document.getElementById('subcategory');
-  searchBox.addEventListener('input', () => { filterShops(searchBox.value.toLowerCase()); });
-
+  //searchBox.addEventListener('input', () => { filterShops(searchBox.value.toLowerCase()); });
+  searchButton.addEventListener('click', () => {filterShops(searchBox.value.toLowerCase());});
+  searchBox.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      filterShops(searchBox.value.toLowerCase());
+    }
+  });
   searchType.addEventListener('change', function() {
     if (searchType.value === 'category') {
       filterShops('');
@@ -70,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   displayAllStoresWithDiscounts(stores,discounts);
 
   // Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
-  //getUserLocation();
+  getUserLocation();
 });
 
 // Function to get the user's location and update the map view
@@ -124,7 +130,7 @@ async function displayAllStores(stores){
   // Current Location
   //getUserLocation();
   // Patra
-  map.setView(view, 12);
+  // map.setView(view, 12);
 }
 
 async function populateSubcategories(subcategorySelect) {

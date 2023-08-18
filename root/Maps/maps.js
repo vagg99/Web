@@ -7,6 +7,78 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 // Test View
 const view = [38.24511060644045, 21.7364112438391];
 
+document.addEventListener('DOMContentLoaded', async () => {
+
+  let stores = await getAllStores();
+  let discounts = await getAllDiscounts();
+
+
+  // Search box functionality
+  const searchBox = document.getElementById('search-box');
+  const searchButton = document.getElementById('search-btn');
+  const searchType = document.getElementById('search-type');
+  const subcategorySelect = document.getElementById('subcategory');
+  //searchBox.addEventListener('input', () => { filterShops(searchBox.value.toLowerCase()); });
+  searchButton.addEventListener('click', () => {filterShops(searchBox.value.toLowerCase());});
+  searchBox.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      filterShops(searchBox.value.toLowerCase());
+    }
+  });
+  searchType.addEventListener('change', function() {
+    if (searchType.value === 'category') {
+      filterShops('');
+      subcategorySelect.style.display = 'inline-block';
+    } else {
+      subcategorySelect.style.display = 'none';
+    }
+  });
+  subcategorySelect.addEventListener('change', function() {
+    filterShops('');
+  });
+
+  function filterShops(query){
+    displayAllStores(stores);
+    displayAllStoresWithDiscounts(stores,discounts);
+    switch (searchType.value) {
+      case 'shop':
+        markers.forEach(marker => {
+          const shopName = marker.getPopup().getContent().toLowerCase();
+          
+          if (shopName.includes(query)) {
+            marker.addTo(map);
+          } else {
+            marker.removeFrom(map);
+          }
+        });
+      break;
+      case 'category':
+        markers.forEach(marker => {
+          const shopName = marker.getPopup().getContent().toLowerCase();
+          const shopId = marker.storeId;
+          if ( shopName.includes(query) && StoresWithDiscounts[shopId] && StoresWithDiscounts[shopId].category === subcategorySelect.value  ) {
+            marker.addTo(map);
+          } else {
+            marker.removeFrom(map);
+          }
+        });
+      break;
+    }
+  }
+
+
+
+  // populate subcategory filter on page load
+  populateSubcategories(subcategorySelect);
+
+  // Initially display only the stores that have discounts
+  //displayAllStores(stores);
+  displayAllStoresWithDiscounts(stores,discounts);
+
+  // Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
+  getUserLocation();
+});
+
 // Function to get the user's location and update the map view
 function getUserLocation() {
   if ('geolocation' in navigator) {
@@ -42,8 +114,8 @@ async function getAllStores() {
 }
 
 let markers = []
-async function displayAllStores(){
-  const stores = await getAllStores();
+async function displayAllStores(stores){
+  //stores = await getAllStores();
   stores.forEach(store => {
     const { id, lat, lon } = store;
     const name = store.tags.name;
@@ -58,14 +130,27 @@ async function displayAllStores(){
   // Current Location
   //getUserLocation();
   // Patra
-  map.setView(view, 12);
+  // map.setView(view, 12);
 }
 
-async function displayAllStoresWithDiscounts(){
-  const stores = await getAllStores();
-  const discounts = await getAllDiscounts();
+async function populateSubcategories(subcategorySelect) {
+  const response = await fetch('http://localhost:3000/getSubcategories');
+  const subcategories = await response.json();
 
-  const StoresWithDiscounts = {};
+  subcategorySelect.innerHTML = ''; // Clear existing options
+  
+  subcategories.forEach(subcategory => {
+    const option = document.createElement('option');
+    option.value = subcategory.id;
+    option.textContent = subcategory.name;
+    subcategorySelect.appendChild(option);
+  });
+}
+
+let StoresWithDiscounts = {};
+async function displayAllStoresWithDiscounts(stores,discounts){
+  //stores = await getAllStores();
+  //discounts = await getAllDiscounts();
 
   discounts.forEach(discount => {
     StoresWithDiscounts[discount.store_id] = discount;
@@ -80,27 +165,13 @@ async function displayAllStoresWithDiscounts(){
         .bindPopup(`<b>${name}</b>`)
         .on('click', (e) => { onMarkerClick(marker,e,id) })
         .openPopup();
+      marker.storeId = id;
       markers.push(marker);
     }
   });
   map.setView(view, 12);
 }
 
-// Search box functionality
-const searchBox = document.getElementById('search-box');
-searchBox.addEventListener('input', () => { filterShops(searchBox.value.toLowerCase()); });
-
-function filterShops(query){
-  markers.forEach(marker => {
-    const shopName = marker.getPopup().getContent().toLowerCase();
-    
-    if (shopName.includes(query)) {
-      marker.addTo(map);
-    } else {
-      marker.removeFrom(map);
-    }
-  });
-}
 
 // marker click functionality
 async function onMarkerClick(marker,e,id){
@@ -121,7 +192,6 @@ function createPopupContent(data,shopName) {
   // θελουμε κατι πιο δημιουργικο εδω
   // Εγω βαζω αυτο το απλο και αλλαξτε το
 
-  console.log(data);
   // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
   let output = `<div><b>${shopName}</b></div>`;
   output += "<div>Βρέθηκε Προσφορά !</div>";
@@ -168,11 +238,3 @@ const DiscountShopColor = "#FF0000";
 const CurrectLocationIcon = L.divIcon(divIconSettings(CurrentLocationColor));
 const ShopIcon = L.divIcon(divIconSettings(ShopColor));
 const DiscountShopIcon = L.divIcon(divIconSettings(DiscountShopColor));
-
-
-// Initially display only the stores that have discounts
-displayAllStores();
-displayAllStoresWithDiscounts();
-
-// Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
-//getUserLocation();

@@ -1,3 +1,8 @@
+//Global variables to save loading time
+let stores;
+let discounts;
+let StoresWithDiscounts = {};
+
 // Initialize the map 
 var map = L.map('map')
 
@@ -61,11 +66,23 @@ async function displayAllStores(){
   map.setView(view, 12);
 }
 
-async function displayAllStoresWithDiscounts(){
-  const stores = await getAllStores();
-  const discounts = await getAllDiscounts();
+async function populateSubcategories() {
+  const response = await fetch('http://localhost:3000/getSubcategories');
+  const subcategories = await response.json();
 
-  const StoresWithDiscounts = {};
+  subcategorySelect.innerHTML = ''; // Clear existing options
+  
+  subcategories.forEach(subcategory => {
+    const option = document.createElement('option');
+    option.value = subcategory.id;
+    option.textContent = subcategory.name;
+    subcategorySelect.appendChild(option);
+  });
+}
+
+async function displayAllStoresWithDiscounts(){
+  stores = await getAllStores();
+  discounts = await getAllDiscounts();
 
   discounts.forEach(discount => {
     StoresWithDiscounts[discount.store_id] = discount;
@@ -80,6 +97,7 @@ async function displayAllStoresWithDiscounts(){
         .bindPopup(`<b>${name}</b>`)
         .on('click', (e) => { onMarkerClick(marker,e,id) })
         .openPopup();
+      marker.storeId = id;
       markers.push(marker);
     }
   });
@@ -88,26 +106,61 @@ async function displayAllStoresWithDiscounts(){
 
 // Search box functionality
 const searchBox = document.getElementById('search-box');
+const searchType = document.getElementById('search-type');
+const subcategorySelect = document.getElementById('subcategory');
 searchBox.addEventListener('input', () => { filterShops(searchBox.value.toLowerCase()); });
 
 function filterShops(query){
-  markers.forEach(marker => {
-    const shopName = marker.getPopup().getContent().toLowerCase();
-    
-    if (shopName.includes(query)) {
-      marker.addTo(map);
-    } else {
-      marker.removeFrom(map);
-    }
-  });
+  switch (searchType.value) {
+    case 'shop':
+      markers.forEach(marker => {
+        const shopName = marker.getPopup().getContent().toLowerCase();
+        
+        if (shopName.includes(query)) {
+          marker.addTo(map);
+        } else {
+          marker.removeFrom(map);
+        }
+      });
+    break;
+    case 'category':
+      console.log(subcategorySelect.value);
+      console.log(`StoresWithDiscounts : ${StoresWithDiscounts}`);
+      markers.forEach(marker => {
+        const shopName = marker.getPopup().getContent().toLowerCase();
+        const shopId = marker.storeId;
+        console.log(shopId);
+        console.log(`StoresWithDiscounts[shopId] :`);
+        console.log(StoresWithDiscounts[shopId]);
+        if (StoresWithDiscounts[shopId]) {
+          console.log(`StoresWithDiscounts[shopId].category : ${StoresWithDiscounts[shopId].category}`);
+          console.log(`subcategorySelect.value : ${subcategorySelect.value}`);
+        }
+        if ( shopName.includes(query) && StoresWithDiscounts[shopId] && StoresWithDiscounts[shopId].category === subcategorySelect.value  ) {
+          marker.addTo(map);
+        } else {
+          marker.removeFrom(map);
+        }
+      });
+    break;
+  }
 }
+searchType.addEventListener('change', function() {
+  if (searchType.value === 'category') {
+    subcategorySelect.style.display = 'inline-block';
+  } else {
+    subcategorySelect.style.display = 'none';
+  }
+});
 
 // marker click functionality
 async function onMarkerClick(marker,e,id){
   try {
+    console.log("CLICK")
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const data = await response.json();
     const {discountedItems,shopName} = data;
+    console.log(discountedItems);
     if (discountedItems.length) {
       const popupContent = createPopupContent(discountedItems,shopName);
       marker.bindPopup(popupContent).openPopup();
@@ -168,6 +221,9 @@ const DiscountShopColor = "#FF0000";
 const CurrectLocationIcon = L.divIcon(divIconSettings(CurrentLocationColor));
 const ShopIcon = L.divIcon(divIconSettings(ShopColor));
 const DiscountShopIcon = L.divIcon(divIconSettings(DiscountShopColor));
+
+// populate subcategory filter on page load
+populateSubcategories();
 
 
 // Initially display only the stores that have discounts

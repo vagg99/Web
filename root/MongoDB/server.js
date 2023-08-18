@@ -8,6 +8,8 @@ const path = require('path');
 
 const app = express();
 
+app.use(express.json());
+
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 
 app.use(cors());
@@ -139,7 +141,7 @@ function hash(username,password) {
 
 // Χρήστης : 2) d) Εμφάνιση Προσφορών
 async function getDiscountedItemsFromDatabase(storeId) {
-
+  console.log(storeId)
   // Παρε το ονομα του μαγαζιου απο το collection των μαγαζιων
   const {stores, storecollection} = await getStores();
   let shopName = null;
@@ -158,7 +160,6 @@ async function getDiscountedItemsFromDatabase(storeId) {
     {
       $match: {
         store_id: storeId,
-        in_stock: true,
         discount_price: { $gt: 0 }
       }
     },
@@ -181,7 +182,7 @@ async function getDiscountedItemsFromDatabase(storeId) {
         in_stock: true,
         discount_price: true,
         date: true,
-        likes: true
+        likes: true,
       }
     }
   ];
@@ -226,46 +227,35 @@ async function distributeTokens() {
   await collection.bulkWrite(updateOperations);
 }
 
-// Διαχειριστής : 1) Ανέβασμα αρχείου JSON
+// Διαχειριστής : 1) Ανέβασμα JSON object
 
-async function handleFileUpload( req, res) {
+async function handleJSONUpload(req, res) {
   const collectionName = req.query.collection;
-  const uploadedFile = req.file;
-
-  if (!uploadedFile) {
-      return res.status(400).send('No file uploaded.');
-  }
-
-  const fileExtension = path.extname(uploadedFile.originalname);
-  if (fileExtension !== '.json') {
-      return res.status(400).send('Only JSON files are allowed.');
+  const jsonData = req.body; // This will be the parsed JSON data from the request body
+  
+  if (!jsonData) {
+    return res.status(400).send('No JSON data uploaded.');
   }
 
   try {
-    const jsonData = JSON.parse(uploadedFile.buffer.toString());
-
     // Transform jsonData into an array of insert operations
     const insertOperations = jsonData.map(item => ({
       insertOne: {
         document: item
       }
     }));
-    
+
     // Connect to MongoDB
     const collection = await connectToDatabase(collectionName);
-    
+
     // Perform bulkWrite to insert multiple documents at once
     const result = await collection.bulkWrite(insertOperations);
-    
-    //console.log(`${result.insertedCount} items inserted into collection "${collectionName}"`);
 
-    // Clear the buffer to release memory
-    uploadedFile.buffer = null;
-
-    res.send(`File uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
+    // Send a response indicating success
+    res.send(`JSON data uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
   } catch (error) {
-      console.error('Error parsing JSON:', error);
-      res.status(400).send('Invalid JSON data.');
+    console.error('Error processing JSON:', error);
+    res.status(400).send('Error processing JSON data.');
   }
 }
 
@@ -374,8 +364,20 @@ app.get('/getDiscountedItems', async (req, res) => {
   }
 });
 
+// GET request for fetching all subcategories from database
+app.get('/getSubcategories', async (req, res) => {
+  try {
+    const collection = await connectToDatabase("categories");
+    const subcategories = await collection.find({}).toArray();
+    res.status(200).json(subcategories);
+  } catch (error) {
+    console.error('Error fetching subcategories:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // POST request for uploading files to a collection by admin
-app.post('/upload', upload.single('jsonFile'), handleFileUpload);
+app.post('/upload', handleJSONUpload);
 
 // POST requst for deleting a collection by admin
 app.post('/delete', handleDeletion);

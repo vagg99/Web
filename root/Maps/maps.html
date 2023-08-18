@@ -22,7 +22,7 @@
         <li><a href="../index.html">Αρχική</a></li>
         <li><a href="../Registration/registration.html">Σύνδεση</a></li>
         <li><a href="#">Χάρτης</a></li>
-        <li><a href="#">Αξιολόγηση</a></li>
+        <li><a href="../Assessment/assessment.html">Αξιολόγηση</a></li>
         <li><a href="../Submission/submission.html">Υποβολή</a></li>
         <li><a href="Profile/profile.html">Προφίλ</a></li>
         <li id="adminDashboardBtn"><a href="../Admin/admin.html">Admin</a></li>
@@ -32,8 +32,14 @@
 
   <main>
     <section>
-      <input type="text" id="search-box" placeholder="Search for a shop" />
-    </section>
+      <input type="text" id="search-box" placeholder="Αναζητήστε Όνομα Μαγαζιού" />
+      <button id="search-btn">Αναζητηση</button>
+      <select id="search-type">
+        <option value="shop">Shop</option>
+        <option value="category">Category</option>
+      </select>
+      <select id="subcategory" style="display: none;">
+      </select>
     <section>
       <h2>Χάρτης</h2>
       <!-- Map container with a default view -->

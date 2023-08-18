@@ -8,6 +8,8 @@ const path = require('path');
 
 const app = express();
 
+app.use(express.json());
+
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 
 app.use(cors());
@@ -21,7 +23,7 @@ const port = 3000;
 
 const mongoURI = "mongodb+srv://webproject7:HVHDmG6eK2nuq9rM@cluster0.03czzuj.mongodb.net/?retryWrites=true&w=majority";
 
-async function connectToDatabase(collectionName = 'users') {
+async function connectToDatabase(collectionName) {
   const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
   return client.db('website7').collection(collectionName);
@@ -136,6 +138,65 @@ function hash(username,password) {
   Obj.update(password);
   return Obj.getHash("HEX");
 }
+
+// Χρήστης : 2) d) Εμφάνιση Προσφορών
+async function getDiscountedItemsFromDatabase(storeId) {
+  // Παρε το ονομα του μαγαζιου απο το collection των μαγαζιων
+  const {stores, storecollection} = await getStores();
+  let shopName = null;
+  for (let store in stores){
+    if (stores[store].id == storeId) {
+      shopName = stores[store].tags.name;
+      break;
+    }
+  }
+  
+  const {stock, collection} = await getStock();
+  
+  // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  // Αναζήτηση στο collection stocks για τα προϊόντα που είναι σε προσφορά
+  const aggregationPipeline = [
+    {
+      $match: {
+        store_id: storeId,
+        discount_price: { $gt: 0 }
+      }
+    },
+    {
+      $lookup: {
+        from: 'items', // Name of the collection
+        localField: 'item_id',
+        foreignField: 'id',
+        as: 'item'
+      }
+    },
+    {
+      $unwind: '$item'
+    },
+    {
+      $project: {
+        _id: false,
+        store_id: true,
+        'item.name': true,
+        in_stock: true,
+        discount_price: true,
+        date: true,
+        likes: true,
+        dislikes : true
+      }
+    }
+  ];
+
+  const cursor = collection.aggregate(aggregationPipeline);
+
+  // Convert the aggregation cursor to an array of documents
+  discountedItems = await cursor.toArray();
+
+
+  return {discountedItems,shopName};
+}
+
+
 // Χρήστης : 4) Σύστημα Tokens
 async function distributeTokens() {
   console.log(`Monthly Token Distribution ! Distributing tokens to ${users.length} users...`);
@@ -165,56 +226,41 @@ async function distributeTokens() {
   await collection.bulkWrite(updateOperations);
 }
 
-// Διαχειριστής : 1) Ανέβασμα αρχείου JSON
+// Διαχειριστής : 1) Ανέβασμα JSON object
 
-async function handleFileUploaditems(req, res) { await handleFileUpload("items", req, res); }
-async function handleFileUploadstores(req, res) { await handleFileUpload("stores", req, res); }
-
-async function handleFileUpload(collectionName, req, res) {
-  const uploadedFile = req.file;
-
-  if (!uploadedFile) {
-      return res.status(400).send('No file uploaded.');
-  }
-
-  const fileExtension = path.extname(uploadedFile.originalname);
-  if (fileExtension !== '.json') {
-      return res.status(400).send('Only JSON files are allowed.');
+async function handleJSONUpload(req, res) {
+  const collectionName = req.query.collection;
+  const jsonData = req.body; // This will be the parsed JSON data from the request body
+  
+  if (!jsonData) {
+    return res.status(400).send('No JSON data uploaded.');
   }
 
   try {
-    const jsonData = JSON.parse(uploadedFile.buffer.toString());
-
     // Transform jsonData into an array of insert operations
     const insertOperations = jsonData.map(item => ({
       insertOne: {
         document: item
       }
     }));
-    
+
     // Connect to MongoDB
     const collection = await connectToDatabase(collectionName);
-    
+
     // Perform bulkWrite to insert multiple documents at once
     const result = await collection.bulkWrite(insertOperations);
-    
-    //console.log(`${result.insertedCount} items inserted into collection "${collectionName}"`);
 
-    // Clear the buffer to release memory
-    uploadedFile.buffer = null;
-
-    res.send(`File uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
+    // Send a response indicating success
+    res.send(`JSON data uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
   } catch (error) {
-      console.error('Error parsing JSON:', error);
-      res.status(400).send('Invalid JSON data.');
+    console.error('Error processing JSON:', error);
+    res.status(400).send('Error processing JSON data.');
   }
 }
 
-async function handleDeletionitems(req, res) { await handleDeletion("items", req, res); }
-async function handleDeletionstores(req, res) { await handleDeletion("stores", req, res); }
-
-async function handleDeletion(collectionName, req, res) {
+async function handleDeletion(req, res) {
   try {
+    const collectionName = req.query.collection;
     const collection = await connectToDatabase(collectionName);
     const result = await collection.deleteMany({});
     res.status(200).json(`Deleted ${result.deletedCount} ${collectionName}.`);
@@ -242,9 +288,21 @@ async function getLeaderboard() {
 }
 
 async function getUsers() {
-  const collection = await connectToDatabase();
+  const collection = await connectToDatabase('users');
   const users = await collection.find({}).toArray();
   return {users,collection};
+}
+
+async function getStock() {
+  const collection = await connectToDatabase('stock');
+  const stock = await collection.find({}).toArray();
+  return {stock,collection};
+}
+
+async function getStores() {
+  const collection = await connectToDatabase('stores');
+  const stores = await collection.find({}).toArray();
+  return {stores,collection};
 }
 
 // GET request for fetching users
@@ -254,6 +312,24 @@ app.get('/users', async (req, res) => {
     res.status(200).json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET request for fetching items
+app.get('/items', async (req, res) => {
+  try {
+    let collection = await connectToDatabase("items");
+    let products = await collection.find({}).toArray();
+    let collection2 = await connectToDatabase("categories");
+    let categories = await collection2.find({}).toArray();
+    items = {
+      products: products,
+      categories: categories
+    }
+    res.status(200).json(items);
+  } catch (error) {
+    console.error('Error fetching items:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -287,17 +363,41 @@ app.get('/stores', async (req, res) => {
   }
 });
 
-// POST request for uploading files to items collection by admin
-app.post('/upload-items', upload.single('jsonFile'), handleFileUploaditems);
+// GET request for fetching all discounted items from 1 store
+app.get('/getDiscountedItems', async (req, res) => {
+  try {
+    const shopId = req.query.shopId;
+    if (shopId == "all") {
+      const collection = await connectToDatabase("stock");
+      const discountedItems = await collection.find({}).toArray();
+      res.status(200).json(discountedItems);
+    } else {
+      const {discountedItems,shopName} = await getDiscountedItemsFromDatabase(shopId);
+      res.status(200).json({ discountedItems , shopName : shopName });
+    }
+  } catch (error) {
+    console.error('Error fetching discounted items:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
-// POST request for uploading files to stores collection by admin
-app.post('/upload-stores', upload.single('jsonFile'), handleFileUploadstores);
+// GET request for fetching all subcategories from database
+app.get('/getSubcategories', async (req, res) => {
+  try {
+    const collection = await connectToDatabase("categories");
+    const subcategories = await collection.find({}).toArray();
+    res.status(200).json(subcategories);
+  } catch (error) {
+    console.error('Error fetching subcategories:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
-// POST requst for deleting the items collection by admin
-app.post('/delete-items', handleDeletionitems);
+// POST request for uploading files to a collection by admin
+app.post('/upload', handleJSONUpload);
 
-// POST request for deleting the stores collection by admin
-app.post('/delete-stores', handleDeletionstores);
+// POST requst for deleting a collection by admin
+app.post('/delete', handleDeletion);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -6,47 +6,69 @@ document.addEventListener('DOMContentLoaded', () => {
   const deleteStoresButton = document.getElementById('deleteStoresButton');
   const messageDiv = document.getElementById('uploadMessage');
 
-  uploadItemsButton.addEventListener('click', async () => uploadDataToCollection('items'));
-  uploadStoresButton.addEventListener('click', async () => uploadDataToCollection('stores'));
-  deleteItemsButton.addEventListener('click', async () => deleteAlldataInCollection('items'));
-  deleteStoresButton.addEventListener('click', async () => deleteAlldataInCollection('stores'));
-
-  async function uploadDataToCollection(collectionName){
+  uploadItemsButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
-
     if (!file) {
       say(messageDiv, 'Please select a file.');
       return;
     }
+    const fileReader = new FileReader();
+    fileReader.onload = async function(event) {
+        const jsonData = JSON.parse(event.target.result);
+        // Upload the modified data to the "items" collection
+        await uploadDataToCollection('items', jsonData.products);
+        await uploadDataToCollection('categories', jsonData.categories);
+    };
+    fileReader.readAsText(file);
+  });
+  uploadStoresButton.addEventListener('click', async () => {
+    const file = fileInput.files[0];
+    if (!file) {
+      say(messageDiv, 'Please select a file.');
+      return;
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = async function(event) {
+        const jsonData = JSON.parse(event.target.result);
+        await uploadDataToCollection('stores', jsonData);
+    };
+    fileReader.readAsText(file);
+  });
 
-    const formData = new FormData();
-    formData.append('jsonFile', file);
-
+  async function uploadDataToCollection(collectionName, jsonData) {
     try {
-        const response = await fetch(`http://localhost:3000/upload-${collectionName}`, {
-            method: 'POST',
-            body: formData,
-        });
+      const response = await fetch(`http://localhost:3000/upload?collection=${collectionName}`, {
+          method: 'POST',
+          body: JSON.stringify(jsonData),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      });
 
-        const result = await response.text();
+      const result = await response.text();
 
-        if (response.ok) {
+      if (response.ok) {
           say(messageDiv, result);
-          fileInput.value = '';
-        } else {
+      } else {
           say(messageDiv, result);
-        }
+      }
     } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error('Error uploading data:', error);
         say(messageDiv, 'An error occurred.');
     }
   }
+
+  deleteItemsButton.addEventListener('click', async () => {
+    deleteAlldataInCollection('items');
+    deleteAlldataInCollection('categories');
+  });
+  deleteStoresButton.addEventListener('click', async () => deleteAlldataInCollection('stores'));
 
   async function deleteAlldataInCollection(collectionName){
     const confirmDelete = confirm(`Σίγουρα θες να διαγράψεις όλα τα δεδομένα στην ΒΔ στο collection ονομα "${collectionName}" ?}`);
     if (confirmDelete) {
       try {
-        const response = await fetch(`http://localhost:3000/delete-${collectionName}`, {
+        const response = await fetch(`http://localhost:3000/delete?collection=${collectionName}`, {
             method: 'POST',
         });
 
@@ -66,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function say(messageDiv, message){
-  messageDiv.innerText = message;
+  messageDiv.innerText += message;
   messageDiv.style.display = 'block';
   setTimeout(() => {
     messageDiv.innerText = '';

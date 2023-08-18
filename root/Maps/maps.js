@@ -198,13 +198,28 @@ async function onMarkerClick(marker,e,id){
     const data = await response.json();
     const {discountedItems,shopName} = data;
 
+    let popupContent = `<div><b>${shopName}</b></div>`;
+
+    // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
+    // με το το μαγαζι που κλικαρε
+    const clickedLatLng = e.latlng;
+    const userLatLng = userLocationMarker.getLatLng();
+    const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
+
+    if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
+      // The clicked marker is less than 50 meters away from the user's location marker
+      popupContent += `<div id="submit-discount-button"><a href="../Submission/submission.html" >Υποβολή Προσφοράς</a></div>`;
+    }
+
+    // FUTURE ME REMOVE THIS LINE
+    popupContent += `<div id="submit-discount-button"><a href="../Submission/submission.html" >Υποβολή Προσφοράς</a></div>`;
+
     if (discountedItems.length) {
-      const clickedLatLng = e.latlng;
-      const userLatLng = userLocationMarker.getLatLng();
-      const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
-      const popupContent = createPopupContent(discountedItems,shopName,distance);
+      popupContent += createPopupContent(discountedItems,shopName,distance);
       marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
     }
+
+    marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
 
   } catch (error) {
     console.error('Error fetching discounted items:', error);
@@ -217,7 +232,6 @@ function createPopupContent(data,shopName,distance) {
 
   // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
   let output = `<div class="discount">`;
-  output += `<div><b>${shopName}</b></div>`;
   output += "<div>Βρέθηκε Προσφορά !</div>";
 
   for (let i = 0 ; i < data.length ; i++){
@@ -232,10 +246,10 @@ function createPopupContent(data,shopName,distance) {
 
   if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
     // The clicked marker is less than 50 meters away from the user's location marker
-   output+=`<div id="assessment-button"><a href="../Submission/submission.html" >Αξιολόγιση Μαγαζιού</a></div>`;
+   output+=`<div id="assessment-button"><a href="../assessment/assessment.html" >Αξιολόγιση Μαγαζιού</a></div>`;
   }
   // FUTURE ME REMOVE THIS LINE
-  output+=`<div id="assessment-button"><a href="../Submission/submission.html" >Αξιολόγιση Μαγαζιού</a></div>`;
+  output+=`<div id="assessment-button"><a href="../assessment/assessment.html" >Αξιολόγιση Μαγαζιού</a></div>`;
 
   output+="</div>";
   return output;

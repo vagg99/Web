@@ -402,3 +402,34 @@ function populateProducts() {
     }
   }
 }
+
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+// Function to filter products based on search input
+function filterProducts(query) {
+    const filteredProducts = items.products.filter(product => {
+        return product.name.toLowerCase().includes(query.toLowerCase());
+    });
+    return filteredProducts;
+}
+
+// Function to display search results
+function displayResults(results) {
+    searchResults.innerHTML = '';
+    results.forEach(product => {
+    const productDiv = document.createElement('div');
+        productDiv.innerHTML = `
+            <img src="${product.img}" alt="${product.name}" width="100">
+            <p>${product.name}</p>
+        `;
+        searchResults.appendChild(productDiv);
+    });
+}
+
+// Event listener for search input
+searchInput.addEventListener('input', () => {
+    const query = searchInput.value;
+    const filteredProducts = filterProducts(query);
+    displayResults(filteredProducts);
+});

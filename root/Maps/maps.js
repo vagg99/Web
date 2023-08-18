@@ -215,7 +215,7 @@ async function onMarkerClick(marker,e,id){
     popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html'">Υποβολή Προσφοράς</button>`;
 
     if (discountedItems.length) {
-      popupContent += createPopupContent(discountedItems,shopName,distance);
+      popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
       marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
     }
 
@@ -226,7 +226,7 @@ async function onMarkerClick(marker,e,id){
   }
 }
 
-function createPopupContent(data,shopName,distance) {
+function createPopupContent(data,shopName,distance,shopId) {
   // θελουμε κατι πιο δημιουργικο εδω
   // Εγω βαζω αυτο το απλο και αλλαξτε το
 
@@ -249,7 +249,7 @@ function createPopupContent(data,shopName,distance) {
    output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html'">Αξιολόγιση Μαγαζιού</button>`;
   } */
   // ΕΝΕΡΓΟΠΟΙΗΜΕΝΟ ΓΙΑ ΠΑΝΤΟΥ ΓΙΑ ΝΑ ΔΟΥΜΕ ΟΤΙ ΔΟΥΛΕΥΕΙ
-  output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html'">Αξιολόγιση Μαγαζιού</button>
+  output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Μαγαζιού</button>
   `;
 
   output+="</div>";

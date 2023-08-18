@@ -3,8 +3,6 @@ const { MongoClient } = require('mongodb'); // DATABASE
 const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
 const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
-const multer = require('multer');// USED FOR UPLOADING FILES
-const path = require('path');
 
 const app = express();
 
@@ -13,9 +11,6 @@ app.use(express.json());
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 
 app.use(cors());
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
 app.use(express.static('public'));
 

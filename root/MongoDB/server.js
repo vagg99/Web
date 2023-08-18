@@ -182,6 +182,7 @@ async function getDiscountedItemsFromDatabase(storeId) {
         discount_price: true,
         date: true,
         likes: true,
+        dislikes : true
       }
     }
   ];

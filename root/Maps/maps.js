@@ -7,6 +7,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 // Test View
 const view = [38.24511060644045, 21.7364112438391];
 
+let userLocationMarker = null;
+
 document.addEventListener('DOMContentLoaded', async () => {
 
   let stores = await getAllStores();
@@ -20,12 +22,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const subcategorySelect = document.getElementById('subcategory');
   //searchBox.addEventListener('input', () => { filterShops(searchBox.value.toLowerCase()); });
   searchButton.addEventListener('click', () => {filterShops(searchBox.value.toLowerCase());});
-  searchBox.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-      filterShops(searchBox.value.toLowerCase());
-    }
-  });
-  searchType.addEventListener('change', function() {
+  searchBox.addEventListener('keypress', (event) => { if (event.key === 'Enter') filterShops(searchBox.value.toLowerCase()) });
+
+  searchType.addEventListener('change', () => {
     if (searchType.value === 'category') {
       filterShops('');
       subcategorySelect.style.display = 'inline-block';
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       subcategorySelect.style.display = 'none';
     }
   });
-  subcategorySelect.addEventListener('change', function() {
+  subcategorySelect.addEventListener('change', () => {
     filterShops('');
   });
 
@@ -71,8 +70,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
 
+  // FUTURE ME REMOVE THIS LINE
+  displayAllStores(stores);
+
   // Initially display only the stores that have discounts
-  //displayAllStores(stores);
   displayAllStoresWithDiscounts(stores,discounts);
 
   // Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
@@ -87,10 +88,11 @@ function getUserLocation() {
       function(position) {
         const { latitude, longitude } = position.coords;
         map.setView([latitude, longitude], 15); // Set the view to user's location with zoom level 15
-        L.marker([latitude, longitude] , { icon: CurrectLocationIcon })
+        userLocationMarker = L.marker([latitude, longitude] , { icon: CurrectLocationIcon })
           .addTo(map)
           .bindPopup('You are here!') // Custom popup message for the user's location
           .openPopup();
+        map.setView(view, 12);
       },
       function(error) {
         console.error('Error getting user location:', error.message);
@@ -99,6 +101,27 @@ function getUserLocation() {
   } else {
     console.error('Geolocation is not available in this browser.');
   }
+}
+
+// Function to calculate the Haversine distance between two points
+function calculateHaversineDistance(point1, point2) {
+  const R = 6371000; // Earth's radius in meters
+  
+  const lat1 = point1.lat * (Math.PI / 180);
+  const lon1 = point1.lng * (Math.PI / 180);
+  const lat2 = point2.lat * (Math.PI / 180);
+  const lon2 = point2.lng * (Math.PI / 180);
+  
+  const dLat = lat2 - lat1;
+  const dLon = lon2 - lon1;
+  
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1) * Math.cos(lat2) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  
+  const distance = R * c;
+  return distance;
 }
 
 async function getAllDiscounts(){
@@ -126,11 +149,6 @@ async function displayAllStores(stores){
       .openPopup();
     markers.push(marker);
   });
-  
-  // Current Location
-  //getUserLocation();
-  // Patra
-  // map.setView(view, 12);
 }
 
 async function populateSubcategories(subcategorySelect) {
@@ -179,21 +197,27 @@ async function onMarkerClick(marker,e,id){
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const data = await response.json();
     const {discountedItems,shopName} = data;
+
     if (discountedItems.length) {
-      const popupContent = createPopupContent(discountedItems,shopName);
-      marker.bindPopup(popupContent).openPopup();
+      const clickedLatLng = e.latlng;
+      const userLatLng = userLocationMarker.getLatLng();
+      const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
+      const popupContent = createPopupContent(discountedItems,shopName,distance);
+      marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
     }
+
   } catch (error) {
     console.error('Error fetching discounted items:', error);
   }
 }
 
-function createPopupContent(data,shopName) {
+function createPopupContent(data,shopName,distance) {
   // θελουμε κατι πιο δημιουργικο εδω
   // Εγω βαζω αυτο το απλο και αλλαξτε το
 
   // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
-  let output = `<div><b>${shopName}</b></div>`;
+  let output = `<div class="discount">`;
+  output += `<div><b>${shopName}</b></div>`;
   output += "<div>Βρέθηκε Προσφορά !</div>";
 
   for (let i = 0 ; i < data.length ; i++){
@@ -201,10 +225,19 @@ function createPopupContent(data,shopName) {
     let price = data[i].discount_price;
     let date = data[i].date;
     let likes = data[i].likes;
+    let dislikes = data[i].dislikes;
     let apothema = data.in_stock?"ναι":"οχι";
-    output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes:${likes}</div>`;
+    output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}</div>`;
   }
 
+  if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
+    // The clicked marker is less than 50 meters away from the user's location marker
+   output+=`<div id="assessment-button"><a href="../Submission/submission.html" >Αξιολόγιση Μαγαζιού</a></div>`;
+  }
+  // FUTURE ME REMOVE THIS LINE
+  output+=`<div id="assessment-button"><a href="../Submission/submission.html" >Αξιολόγιση Μαγαζιού</a></div>`;
+
+  output+="</div>";
   return output;
 }
 

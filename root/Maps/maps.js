@@ -198,13 +198,28 @@ async function onMarkerClick(marker,e,id){
     const data = await response.json();
     const {discountedItems,shopName} = data;
 
+    let popupContent = `<div><b>${shopName}</b></div>`;
+
+    // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
+    // με το το μαγαζι που κλικαρε
+    const clickedLatLng = e.latlng;
+    const userLatLng = userLocationMarker.getLatLng();
+    const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
+    /*
+    if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
+      // The clicked marker is less than 50 meters away from the user's location marker
+      popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html'">Υποβολή Προσφοράς</button>`;
+    }
+    */
+    // ΕΝΕΡΓΟΠΟΙΗΜΕΝΟ ΓΙΑ ΠΑΝΤΟΥ ΓΙΑ ΝΑ ΔΟΥΜΕ ΟΤΙ ΔΟΥΛΕΥΕΙ
+    popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html'">Υποβολή Προσφοράς</button>`;
+
     if (discountedItems.length) {
-      const clickedLatLng = e.latlng;
-      const userLatLng = userLocationMarker.getLatLng();
-      const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
-      const popupContent = createPopupContent(discountedItems,shopName,distance);
+      popupContent += createPopupContent(discountedItems,shopName,distance);
       marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
     }
+
+    marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
 
   } catch (error) {
     console.error('Error fetching discounted items:', error);
@@ -217,7 +232,6 @@ function createPopupContent(data,shopName,distance) {
 
   // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
   let output = `<div class="discount">`;
-  output += `<div><b>${shopName}</b></div>`;
   output += "<div>Βρέθηκε Προσφορά !</div>";
 
   for (let i = 0 ; i < data.length ; i++){
@@ -229,13 +243,14 @@ function createPopupContent(data,shopName,distance) {
     let apothema = data.in_stock?"ναι":"οχι";
     output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}</div>`;
   }
-
+  /*
   if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
     // The clicked marker is less than 50 meters away from the user's location marker
-   output+=`<div id="assessment-button"><a href="../Submission/submission.html" >Αξιολόγιση Μαγαζιού</a></div>`;
-  }
-  // FUTURE ME REMOVE THIS LINE
-  output+=`<div id="assessment-button"><a href="../Submission/submission.html" >Αξιολόγιση Μαγαζιού</a></div>`;
+   output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html'">Αξιολόγιση Μαγαζιού</button>`;
+  } */
+  // ΕΝΕΡΓΟΠΟΙΗΜΕΝΟ ΓΙΑ ΠΑΝΤΟΥ ΓΙΑ ΝΑ ΔΟΥΜΕ ΟΤΙ ΔΟΥΛΕΥΕΙ
+  output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html'">Αξιολόγιση Μαγαζιού</button>
+  `;
 
   output+="</div>";
   return output;

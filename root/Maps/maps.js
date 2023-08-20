@@ -235,7 +235,14 @@ function createPopupContent(data,shopName,distance,shopId) {
     let likes = data[i].likes;
     let dislikes = data[i].dislikes;
     let apothema = data.in_stock?"ναι":"οχι";
-    output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}</div>`;
+    let achievements = data[i].achievements;
+    output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
+
+    if (achievements['5_a_i']) { output += ` - 5_a_i : <img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">`; }
+    if (achievements['5_a_ii']) { output += ` - 5_a_ii : <img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">`; }
+
+    output += "</div>";
+
   }
   
   //if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)

@@ -91,3 +91,9 @@ font-size: 14px;
     pointer-events: none;
     filter: brightness(0.7);
 }
+
+.icon {
+    width: 1em;  /* Adjust this value as needed */
+    height: 1em; /* Adjust this value as needed */
+    vertical-align: middle;
+  }

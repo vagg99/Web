@@ -148,7 +148,6 @@ async function getDiscountedItemsFromDatabase(storeId) {
   
   const {stock, collection} = await getStock();
   
-  // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   // Αναζήτηση στο collection stocks για τα προϊόντα που είναι σε προσφορά
   const aggregationPipeline = [
     {
@@ -192,6 +191,7 @@ async function getDiscountedItemsFromDatabase(storeId) {
         'item.img' : true,
         'user.username': true,
         'user.points.total': true,
+        achievements : true,
       }
     }
   ];

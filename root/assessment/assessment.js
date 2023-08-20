@@ -27,8 +27,11 @@ function addProduct(item, shopName, productList) {
     let dislikes = item.dislikes;
     let in_stock = item.in_stock;
     const product_image_link = item.item.img;
+    const achievements = item.achievements;
     const username = item.user.username;
     const totalPoints = item.user.points.total;
+
+    console.log(item)
 
     if (!userPoints[username]) { userPoints[username] = 0; }
 
@@ -44,6 +47,8 @@ function addProduct(item, shopName, productList) {
             <p class="price">Τιμή: ${price}€</p>
             <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
             <p>Η Προσφορά υποβλήθη απο το Χρήστη ${username} με ${totalPoints} συνολικούς Πόντους</p>
+            ${achievements['5_a_i'] ? `<p>Επίτευγμα 5_a_i : </p><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">` : ''}
+            ${achievements['5_a_ii'] ? `<p>Επίτευγμα 5_a_ii : </p><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">` : ''}
             <div class="buttons">
                 <p>Likes: </p><p class="likes">${likes}</p>
                 <p>Dislikes: </p><p class="dislikes">${dislikes}</p>

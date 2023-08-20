@@ -10,15 +10,23 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
 }
+
 input[type="text"] {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 300px;
 }
+
 select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-left: 10px;
+}
+
+.icon {
+  width: 1em;  /* Adjust this value as needed */
+  height: 1em; /* Adjust this value as needed */
+  vertical-align: middle;
 }

@@ -9,7 +9,8 @@
         "likes" : 2,
         "dislikes" : 2,
         "user_id" : {"$oid":"64ccdd565a5bb46dd07e5148"},
-        "category" : "8016e637b54241f8ad242ed1699bf2da"
+        "category" : "8016e637b54241f8ad242ed1699bf2da",
+        "achievements" : {"5_a_i" : true}
     },
     {
         "store_id" : "354449389",
@@ -21,7 +22,8 @@
         "likes" : 27,
         "dislikes" : 2,
         "user_id" : {"$oid":"64ccdd565a5bb46dd07e5148"},
-        "category" : "8016e637b54241f8ad242ed1699bf2da"
+        "category" : "8016e637b54241f8ad242ed1699bf2da",
+        "achievements" : {}
     },
     {
         "store_id" : "354449389",
@@ -33,6 +35,7 @@
         "likes" : 27,
         "dislikes" : 2,
         "user_id" : {"$oid":"64d145f1d9e812ab392b74fe"},
-        "category" : "8016e637b54241f8ad242ed1699bf2da"
+        "category" : "8016e637b54241f8ad242ed1699bf2da",
+        "achievements" : {}
     }
 ]

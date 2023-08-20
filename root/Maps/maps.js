@@ -203,10 +203,10 @@ async function onMarkerClick(marker,e,id){
     const userLatLng = userLocationMarker.getLatLng();
     const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
     
-    if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
+    //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
       // The clicked marker is less than 50 meters away from the user's location marker
       popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html'">Υποβολή Προσφοράς</button>`;
-    }
+    //}
     
     if (discountedItems.length) {
       popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
@@ -238,10 +238,10 @@ function createPopupContent(data,shopName,distance,shopId) {
     output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}</div>`;
   }
   
-  if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
+  //if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
     // The clicked marker is less than 50 meters away from the user's location marker
-   output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Μαγαζιού</button>`;
-  }
+   output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Προσφορών</button>`;
+  //}
 
   output+="</div>";
   return output;

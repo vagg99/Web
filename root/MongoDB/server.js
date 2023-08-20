@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient } = require('mongodb'); // DATABASE
+const { MongoClient, ObjectId } = require('mongodb'); // DATABASE
 const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
 const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
@@ -169,15 +169,29 @@ async function getDiscountedItemsFromDatabase(storeId) {
       $unwind: '$item'
     },
     {
+      $lookup: {
+        from: 'users', // Name of the users collection
+        localField: 'user_id',
+        foreignField: '_id',
+        as: 'user'
+      }
+    },
+    {
+      $unwind: '$user'
+    },
+    {
       $project: {
-        _id: false,
+        _id: true,
         store_id: true,
         'item.name': true,
         in_stock: true,
         discount_price: true,
         date: true,
         likes: true,
-        dislikes : true
+        dislikes : true,
+        'item.img' : true,
+        'user.username': true,
+        'user.points.total': true
       }
     }
   ];
@@ -191,6 +205,21 @@ async function getDiscountedItemsFromDatabase(storeId) {
   return {discountedItems,shopName};
 }
 
+
+// Χρήστης : 2) e) Like / Dislike / in Stock σε Προσφορές
+async function handleLikesDislikesUpdate(req, res){
+  try {
+    const data = req.body;
+    const discountId = req.query.discountId;
+    const collection = await connectToDatabase("stock");
+    const objectIdDiscountId = new ObjectId(discountId);
+    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: data });
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error updating stock:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 // Χρήστης : 4) Σύστημα Tokens
 async function distributeTokens() {
@@ -387,6 +416,9 @@ app.get('/getSubcategories', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// POST request for updating db with likes / dislikes and stock by users
+app.post('/assessment', handleLikesDislikesUpdate);
 
 // POST request for uploading files to a collection by admin
 app.post('/upload', handleJSONUpload);

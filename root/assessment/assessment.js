@@ -31,8 +31,6 @@ function addProduct(item, shopName, productList) {
     const username = item.user.username;
     const totalPoints = item.user.points.total;
 
-    console.log(item)
-
     if (!userPoints[username]) { userPoints[username] = 0; }
 
     const newProductItem = document.createElement("li");

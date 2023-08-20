@@ -67,6 +67,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
   var password = document.getElementById('password2').value;
 
   try {
+    console.log(username, password);
     // Send the login data to the server
     const response = await fetch('http://localhost:3000/login', {
       method: 'POST',
@@ -194,7 +195,4 @@ function setupFormSwapping() {
 
 // Call the function to set up the form swapping functionality
 setupFormSwapping();
-
-
-//document.querySelector('.fas fa-eye').setAttribute('aria-hidden', 'false');
 

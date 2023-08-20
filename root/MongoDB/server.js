@@ -3,16 +3,28 @@ const { MongoClient, ObjectId } = require('mongodb'); // DATABASE
 const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
 const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
+const session = require('express-session'); // USED FOR SESSIONS
+const cookieParser = require('cookie-parser'); // USED FOR SESSIONS
 
 const app = express();
 
 app.use(express.json());
 
-cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(cors());
 
 app.use(express.static('public'));
+
+app.use(session({
+  secret: 'nektarios', // Change this to a secure random string
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set secure to true in production with HTTPS
+}));
+
+cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 
 const port = 3000;
 
@@ -22,21 +34,6 @@ async function connectToDatabase(collectionName) {
   const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
   return client.db('website7').collection(collectionName);
-}
-
-async function getRequestBody(request) {
-  return new Promise((resolve, reject) => {
-    let body = '';
-    request.on('data', (chunk) => {
-      body += chunk.toString();
-    });
-    request.on('end', () => {
-      resolve(body);
-    });
-    request.on('error', (error) => {
-      reject(error);
-    });
-  });
 }
 
 async function registerUser(username, tokens, points, email, password, isAdmin) {
@@ -51,11 +48,17 @@ async function registerUser(username, tokens, points, email, password, isAdmin) 
   }
 }
 
-async function loginUser(username, password) {
+async function loginUser(username, password, req) {
   const {users, collection} = await getUsers();
   let password_hashed = hash(username,password);
   for (user in users) {
     if (users[user].username === username && users[user].password_hashed === password_hashed) {
+      if (users[user].isAdmin) {
+        req.session.user = {
+          username: users[user].username,
+          isAdmin: true
+        };
+      }
       return 'User logged in successfully!';
     }
   }
@@ -66,8 +69,7 @@ async function loginUser(username, password) {
 async function handleRegistration(req, res) {
   if (req.method === 'POST' && req.url === '/register') {
     try {
-      const body = await getRequestBody(req);
-      const { username, tokens, points, email, password, isAdmin } = JSON.parse(body);
+      const { username, tokens, points, email, password, isAdmin } = req.body;
 
 
       const {users, collection} = await getUsers();
@@ -103,11 +105,10 @@ async function handleRegistration(req, res) {
 async function handleLogin(req, res) {
   if (req.method === 'POST' && req.url === '/login') {
     try {
-      const body = await getRequestBody(req);
-      const { username, password } = JSON.parse(body);
+      const { username, password } = req.body;
 
       // Call the loginUser function to check if the user exists
-      const message = await loginUser(username, password);
+      const message = await loginUser(username, password, req);
       
       if (!message){
         res.writeHead(403, { 'Content-Type': 'application/json' });
@@ -126,6 +127,13 @@ async function handleLogin(req, res) {
     res.end(JSON.stringify({ error: 'Endpoint not found' }));
   }
 }
+
+const adminAuthMiddleware = (req, res, next) => {
+  if (req.session && req.session.isAdmin) {
+      return next();
+  }
+  res.status(401).send('Unauthorized');
+};
 
 // for encrypting passwords
 function hash(username,password) {
@@ -365,6 +373,10 @@ app.get('/users', async (req, res) => {
   }
 });
 
+app.get('/root/admin/admin.html', adminAuthMiddleware, (req, res) => {
+  res.sendFile(__dirname + '/admin.html');
+});
+
 // GET request for fetching items
 app.get('/items', async (req, res) => {
   try {
@@ -388,6 +400,11 @@ app.post('/register', handleRegistration);
 
 // POST request for login
 app.post('/login', handleLogin);
+
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/'); // Redirect to home or login page
+});
 
 // GET request for leaderboard
 app.get('/leaderboard', async (req, res) => {

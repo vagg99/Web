@@ -14,11 +14,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
+const userPoints = {}; 
 let choiceTimeouts = {}; // Object to store choice timeouts for each product
-const cooldownDuration = 3000; // 5 seconds in milliseconds
+const cooldownDuration = 2000; // 2 seconds in milliseconds
 
 function addProduct(item, shopName, productList) {
-    const DiscountId = item._id; // <- Το χρησιμοποιοώ ~Νεκτάριος
+    const DiscountId = item._id;
     const productName = item.item.name;
     const price = item.discount_price;
     const date = item.date;
@@ -28,6 +29,8 @@ function addProduct(item, shopName, productList) {
     const product_image_link = item.item.img;
     const username = item.user.username;
     const totalPoints = item.user.points.total;
+
+    if (!userPoints[username]) { userPoints[username] = 0; }
 
     const newProductItem = document.createElement("li");
     newProductItem.classList.add("product-item");
@@ -80,12 +83,12 @@ function addProduct(item, shopName, productList) {
     likeButton.addEventListener("click", (event) => {
         event.stopPropagation();
         if (likeButton.classList.contains("active")) {
-            likes = updateLikeCount(likeButton, likeCountElement, likes);
+            likes = updateLikeCount(likeButton, likeCountElement, likes, username);
         } else if (dislikeButton.classList.contains("active")) {
-            likes = updateLikeCount(likeButton, likeCountElement, likes);
-            dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes);
+            likes = updateLikeCount(likeButton, likeCountElement, likes, username);
+            dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes, username);
         } else {
-            likes = updateLikeCount(likeButton, likeCountElement, likes);
+            likes = updateLikeCount(likeButton, likeCountElement, likes, username);
             dislikeButton.classList.remove("active");
         }
         likeButton.classList.toggle("active");
@@ -97,12 +100,12 @@ function addProduct(item, shopName, productList) {
     dislikeButton.addEventListener("click", (event) => {
         event.stopPropagation();
         if (dislikeButton.classList.contains("active")) {
-            dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes);
+            dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes, username);
         } else if (likeButton.classList.contains("active")) {
-            dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes);
-            likes = updateLikeCount(likeButton, likeCountElement, likes);
+            dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes, username);
+            likes = updateLikeCount(likeButton, likeCountElement, likes, username);
         } else {
-            dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes);
+            dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes, username);
             likeButton.classList.remove("active");
         }
         dislikeButton.classList.toggle("active");
@@ -118,24 +121,32 @@ function addProduct(item, shopName, productList) {
     productList.appendChild(newProductItem);
 };
 
-function updateLikeCount(button, countElement, count) {
+function updateLikeCount(button, countElement, count, username) {
     if (button.classList.contains("active")) {
         count--;
+        userPoints[username] -= 5; // Remove 5 points for removing a like
     } else {
         count++;
+        userPoints[username] += 5; // Add 5 points for getting a like
     }
     countElement.textContent = count;
     return count;
 }
 
-function updateDislikeCount(button, countElement, count) {
+function updateDislikeCount(button, countElement, count, username) {
     if (button.classList.contains("active")) {
         count--;
+        userPoints[username] += 1; // Add 1 point for removing a dislike
     } else {
         count++;
+        userPoints[username] -= 1; // Remove 1 point for getting a dislike
     }
     countElement.textContent = count;
     return count;
+}
+
+function getDiscountOriginalPoster(productId) {
+
 }
 
 function updateChoiceTimeout(productId, data) {
@@ -145,10 +156,16 @@ function updateChoiceTimeout(productId, data) {
     }, cooldownDuration);
 }
 
-async function sendChoiceToBackend(productId, data) {
+async function sendChoiceToBackend(productId, likes_dislikes_in_stock) {
     // Send the choice for the specific product to the backend here
-    console.log(`Sending data to backend for product ${productId}: ${JSON.stringify(data)}`);
-
+    console.log(`Sending data to backend for product ${productId}: ${JSON.stringify(likes_dislikes_in_stock)}`);
+    console.log(`points : ${JSON.stringify(userPoints)}`);
+    const data = {
+        likes: likes_dislikes_in_stock.likes,
+        dislikes: likes_dislikes_in_stock.dislikes,
+        in_stock: likes_dislikes_in_stock.in_stock,
+        points: userPoints
+    };
     try {
         const response = await fetch(`http://localhost:3000/assessment?discountId=${productId}`, {
             method: 'POST',

@@ -191,7 +191,7 @@ async function getDiscountedItemsFromDatabase(storeId) {
         dislikes : true,
         'item.img' : true,
         'user.username': true,
-        'user.points.total': true
+        'user.points.total': true,
       }
     }
   ];
@@ -209,11 +209,12 @@ async function getDiscountedItemsFromDatabase(storeId) {
 // Χρήστης : 2) e) Like / Dislike / in Stock σε Προσφορές
 async function handleLikesDislikesUpdate(req, res){
   try {
-    const data = req.body;
+    const { likes , dislikes , in_stock , points } = req.body;
     const discountId = req.query.discountId;
     const collection = await connectToDatabase("stock");
     const objectIdDiscountId = new ObjectId(discountId);
-    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: data });
+    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: {likes : likes, dislikes : dislikes , in_stock : in_stock} });
+    await updateLikeDislikePoints(points);
     res.status(200).json(result);
   } catch (error) {
     console.error('Error updating stock:', error);
@@ -250,8 +251,32 @@ async function distributeTokens() {
   await collection.bulkWrite(updateOperations);
 }
 
-// Διαχειριστής : 1) Ανέβασμα JSON object
+// Χρήστης 5) β) i. και i.. Σκορ Αξιολόγισης με βάση τις αξιολογίσεις των χρηστών
+async function updateLikeDislikePoints(points){
+  try {
+    const {users, collection} = await getUsers();
+    const users_to_Receive_or_Lose_Points = Object.keys(points);
+    for (u in users_to_Receive_or_Lose_Points){
+      for (user in users) {
+        if (users[user].username === users_to_Receive_or_Lose_Points[u]) {
+          users[user].points["monthly"] += points[users_to_Receive_or_Lose_Points[u]];
+          break;
+        }
+      }
+    }
+    const updateOperations = users.map(user => ({
+      updateOne: {
+        filter: { _id: user._id },
+        update: { $set: { points: user.points } },
+      },
+    }));
+    await collection.bulkWrite(updateOperations);
+  } catch (error) {
+    console.error('Error updating points:', error);
+  }
+}
 
+// Διαχειριστής : 1) Ανέβασμα JSON object
 async function handleJSONUpload(req, res) {
   const collectionName = req.query.collection;
   const jsonData = req.body; // This will be the parsed JSON data from the request body

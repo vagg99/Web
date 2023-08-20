@@ -70,9 +70,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
 
-  // FUTURE ME REMOVE THIS LINE
-  displayAllStores(stores);
-
   // Initially display only the stores that have discounts
   displayAllStoresWithDiscounts(stores,discounts);
 
@@ -205,15 +202,12 @@ async function onMarkerClick(marker,e,id){
     const clickedLatLng = e.latlng;
     const userLatLng = userLocationMarker.getLatLng();
     const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
-    /*
+    
     if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
       // The clicked marker is less than 50 meters away from the user's location marker
       popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html'">Υποβολή Προσφοράς</button>`;
     }
-    */
-    // ΕΝΕΡΓΟΠΟΙΗΜΕΝΟ ΓΙΑ ΠΑΝΤΟΥ ΓΙΑ ΝΑ ΔΟΥΜΕ ΟΤΙ ΔΟΥΛΕΥΕΙ
-    popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html'">Υποβολή Προσφοράς</button>`;
-
+    
     if (discountedItems.length) {
       popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
       marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
@@ -243,14 +237,11 @@ function createPopupContent(data,shopName,distance,shopId) {
     let apothema = data.in_stock?"ναι":"οχι";
     output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}</div>`;
   }
-  /*
+  
   if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
     // The clicked marker is less than 50 meters away from the user's location marker
-   output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html'">Αξιολόγιση Μαγαζιού</button>`;
-  } */
-  // ΕΝΕΡΓΟΠΟΙΗΜΕΝΟ ΓΙΑ ΠΑΝΤΟΥ ΓΙΑ ΝΑ ΔΟΥΜΕ ΟΤΙ ΔΟΥΛΕΥΕΙ
-  output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Μαγαζιού</button>
-  `;
+   output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Μαγαζιού</button>`;
+  }
 
   output+="</div>";
   return output;

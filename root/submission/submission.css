@@ -5,13 +5,16 @@
   box-sizing: border-box;
 }
 
-.container {
+.container-select, .container-results {
   max-width: 400px;
   margin: 15px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
+}
+.container-results {
+  margin-bottom: 50px;
 }
 
 .search {
@@ -31,4 +34,8 @@ select {
   padding: 5px;
   display: block;
   margin: 3px 0 10px 10px;
+}
+
+input{
+  width: 185px;
 }

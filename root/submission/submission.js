@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Sample data for categories, subcategories, and products
 let items = {};
 
-
 function populateCategories() {
   const categorySelect = document.getElementById("category");
 
@@ -66,7 +65,7 @@ function populateProducts() {
 }
 
 const searchInput = document.getElementById('searchInput');
-const searchResults = document.getElementById('searchResults');
+const productResults = document.getElementById('productResults');
 
 // Function to filter products based on search input
 function filterProducts(query) {
@@ -78,14 +77,24 @@ function filterProducts(query) {
 
 // Function to display search results
 function displayResults(results) {
-    searchResults.innerHTML = '';
+    productResults.innerHTML = '';
     results.forEach(product => {
     const productDiv = document.createElement('div');
         productDiv.innerHTML = `
             <img src="${product.img}" alt="${product.name}" width="100">
             <p>${product.name}</p>
-        `;
-        searchResults.appendChild(productDiv);
+            <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
+            <button class="submit-button">Υποβολή</button>
+            `;
+            productDiv.querySelector('.submit-button').addEventListener('click', () => {
+                const priceInput = productDiv.querySelector('input[type="number"]');
+                const price = priceInput.value;
+                if (price !== '') {
+                    // Τροποποίηση για να περαστούν στη βάση δεδομένων
+                    console.log(`Submitted price for ${product.name}: ${price}`);
+                }
+            });
+            productResults.appendChild(productDiv);
     });
 }
 
@@ -95,6 +104,37 @@ searchInput.addEventListener('input', () => {
     const filteredProducts = filterProducts(query);
     displayResults(filteredProducts);
 });
+
+//Same functionality as above, but with the dropdown list
+const productDropdown = document.getElementById('product');
+
+productDropdown.addEventListener('change', () => {
+  const selectedProductId = productDropdown.value;
+  if (selectedProductId !== '0') {
+      const selectedProduct = items.products.find(product => product.id === selectedProductId);
+      displaySelectedProduct(selectedProduct);
+  }
+});
+
+function displaySelectedProduct(product) {
+  productResults.innerHTML = '';
+  const productDiv = document.createElement('div');
+  productDiv.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" width="100">
+      <p>${product.name}</p>
+      <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
+      <button class="submit-button">Υποβολή</button>
+      `;
+      productDiv.querySelector('.submit-button').addEventListener('click', () => {
+          const priceInput = productDiv.querySelector('input[type="number"]');
+          const price = priceInput.value;
+          if (price !== '') {
+              // Τροποποίηση για να περαστούν στη βάση δεδομένων
+              console.log(`Submitted price for ${product.name}: ${price}`);
+          }
+      });
+      productResults.appendChild(productDiv);
+}
 
 async function getAllItems() {
   const response = await fetch('http://localhost:3000/items');

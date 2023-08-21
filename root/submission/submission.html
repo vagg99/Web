@@ -32,39 +32,39 @@
 
   <main>
     <h1>Υποβολή προσφοράς</h1>
-    <div class="container">
-      <h2>Supermarket Products</h2>
-        <p>Επιλέξτε κατηγορία, υποκατηγορία και προϊόν</p>
-        <div class="dropdown">
-          <label for="category">Κατηγορία:</label>
-          <select id="category" onchange="populateSubcategories()">
-            <option value="0">Επιλέξτε κατηγορία</option>
-          </select>
-        </div>
-      
-        <div class="dropdown">
-          <label for="subcategory">Υποκατηγορία:</label>
-          <select id="subcategory" onchange="populateProducts()">
-            <option value="0">Επιλέξτε υποκατηγορία</option>
-          </select>
-        </div>
-      
-        <div class="dropdown">
-          <label for="product">Προϊόντα:</label>
-          <select id="product">
-            <option value="0">Επιλέξτε προϊόν</option>
-          </select>
-        </div>
+    <div class="container-select">
+      <h3>Επιλέξτε κατηγορία, υποκατηγορία και προϊόν</h3>
+      <div class="dropdown">
+        <label for="category">Κατηγορία:</label>
+        <select id="category" onchange="populateSubcategories()">
+          <option value="0">Επιλέξτε κατηγορία</option>
+        </select>
+      </div>
+    
+      <div class="dropdown">
+        <label for="subcategory">Υποκατηγορία:</label>
+        <select id="subcategory" onchange="populateProducts()">
+          <option value="0">Επιλέξτε υποκατηγορία</option>
+        </select>
+      </div>
+    
+      <div class="dropdownProd">
+        <label for="product">Προϊόντα:</label>
+        <select id="product">
+          <option value="0">Επιλέξτε προϊόν</option>
+        </select>
+      </div>
 
-        <div class="search">
-            <h2>Γρήγορη αναζήτηση προϊόντος</h2>
-            <form id="searchForm" action="dummy_page.html">
-              <input type="text" id="searchInput" name="search" placeholder="Search for something...">
-            </form>
-        </div>
+      <div class="search">
+          <h3>Γρήγορη αναζήτηση προϊόντος</h3>
+          <input type="text" id="searchInput" placeholder="Αναζήτηση προϊόντος...">
+      </div>
     </div>
 
-    <h2></h2>
+    <div class="container-results">
+      <h3>Αποτελέσματα Προϊόντων</h3>
+      <div id="productResults"></div>
+    </div>
   </main>
 
 

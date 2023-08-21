@@ -171,6 +171,17 @@ document.getElementById('togglePassword2').addEventListener('click', async funct
   field.type = field.type === 'password' ? 'text' : 'password';
 });
 
+document.getElementById('a').addEventListener('click', async function(event) {
+  event.preventDefault();
+  fetch('http://localhost:3000/get-session-data', {
+    method: 'GET',
+    credentials: 'include', // Important to include credentials to send cookies
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+});
+
 // Function to update the class of a requirement element
 function updateRequirementClass(requirementId, isCompleted) {
     var requirementElement = document.getElementById(requirementId);

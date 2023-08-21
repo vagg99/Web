@@ -8,21 +8,26 @@ const cookieParser = require('cookie-parser'); // USED FOR SESSIONS
 
 const app = express();
 
-app.use(express.json());
-
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-app.use(cors());
-
-app.use(express.static('public'));
-
 app.use(session({
   secret: 'nektarios', // Change this to a secure random string
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false } // Set secure to true in production with HTTPS
 }));
+
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+const corsOptions = {
+  origin: 'http://127.0.0.1:5500', // Replace with your frontend's URL
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
+app.use(express.static('public'));
 
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 
@@ -56,7 +61,8 @@ async function loginUser(username, password, req) {
       if (users[user].isAdmin) {
         req.session.user = {
           username: users[user].username,
-          isAdmin: true
+          isAdmin: true,
+          test : "test"
         };
       }
       return 'User logged in successfully!';
@@ -467,6 +473,16 @@ app.post('/upload', handleJSONUpload);
 
 // POST requst for deleting a collection by admin
 app.post('/delete', handleDeletion);
+
+app.get('/get-session-data', (req, res) => {
+  if (req.session.user) {
+      const customData = req.session.user.test || 'No custom data available.';
+      res.status(200).json({ customData });
+  } else {
+      res.status(401).json({ error: 'User is not authenticated.' });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -5,7 +5,7 @@ const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 const session = require('express-session'); // USED FOR SESSIONS
 const cookieParser = require('cookie-parser'); // USED FOR COOKIES
-const config = require('../config.json'); // hosting ips
+const config = require('../url.js'); // hosting ips
 
 const app = express();
 

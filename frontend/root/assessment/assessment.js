@@ -1,5 +1,3 @@
-const config = require('../../config.json');
-
 document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);
     const shopId = params.get('shopId');

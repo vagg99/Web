@@ -1,5 +1,3 @@
-const config = require('../../config.json');
-
 document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('jsonFileInput');
   const uploadItemsButton = document.getElementById('uploadItemsButton');

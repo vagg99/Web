@@ -1,4 +1,3 @@
-const config = require('../../config.json');
 module.exports = {
     getAllItems : async function () {
         const response = await fetch(`${config.backend.url}:${config.backend.port}/items`);

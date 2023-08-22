@@ -1,4 +1,4 @@
-const config = require('../config.json');
+const config = require('../../config.json');
 
 document.getElementById('registrationForm').addEventListener('submit', async function(event) {
   event.preventDefault(); // Prevent form submission

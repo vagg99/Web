@@ -1,4 +1,4 @@
-const config = require('../config.json');
+const config = require('../../config.json');
 const { getAllDiscounts , getAllStores } = require('../functions/Getters.js');
 
 

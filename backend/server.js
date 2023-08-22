@@ -145,7 +145,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
       {
         $match: {
           store_id: storeId,
-          discount : { $exists: true, $ne: {} }
+          on_discount : true
         }
       }
     );
@@ -192,8 +192,10 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
       {
         $lookup: {
           from: 'users', // Name of the users collection
-          localField: 'og',
-          foreignField: 'username',
+          let: { userId: { $toObjectId: '$user_id' } }, // Convert user_id to ObjectId
+          pipeline: [
+            { $match: { $expr: { $eq: ['$_id', '$$userId'] } } }
+          ],
           as: 'user'
         }
       },
@@ -210,6 +212,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
           'item.id' : true,
           in_stock: true,
           'item.img' : true,
+          user_id : true,
           user : true
         }
       }
@@ -268,6 +271,7 @@ async function distributeTokens() {
   let TotalPoints = 0;
   for (let i = 0; i < users.length; i++) {
     ApothematikoTokens += users[i].tokens["monthly"];
+    if (users[i].points["monthly"] < 0) { users[i].points["monthly"] = 0;}
     TotalPoints += users[i].points["monthly"];
   }
   for (let i = 0; i < users.length; i++) {
@@ -509,3 +513,88 @@ app.post('/delete', handleDeletion);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+
+
+
+
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+async function a(){
+  const fs = require('fs');
+  const data = fs.readFileSync('stock.json');
+  const stock = JSON.parse(data);
+  stock.forEach(item => {
+    if (typeof item.store_id === 'number') {
+      item.store_id = String(item.store_id);
+    }
+  });
+  let l = [0,0];
+  stock.forEach(item => {
+    if ('discount_price' in item.discount) {
+      item.user_id = item.discount.user_id;
+      delete item.discount.user_id;
+      item.on_discount = true;
+      l[0]=item;
+    } else {
+      item.on_discount = false;
+      item.discount = {};
+      item.user_id = {"$oid":"64ccdd73d7232dc40518db21"}
+      l[1]=item;
+    }
+  });
+  const insertOperations = stock.map(item => ({
+    insertOne: {
+      document: item
+    }
+  }));
+  const collection = await connectToDatabase('stock');
+  const result = await collection.bulkWrite(insertOperations);
+  console.log(result);
+  console.log(l);
+}
+async function b(){
+  const collection = await connectToDatabase('stock');
+  const result = await collection.deleteMany({});
+  console.log(`Deleted ${result.deletedCount} stock.`);
+}
+async function dostuff(){
+  await b()
+  await a()
+}
+async function domorestuff(){
+  await b()
+  const fs = require('fs');
+  const data = fs.readFileSync('stock.json');
+  const stock = JSON.parse(data);
+  let l = [0,0];
+  stock.forEach(item => {
+    if (item.on_discount) {
+      l[0]=item;
+    } else {
+      l[1]=item;
+    }
+  });
+  const insertOperations = stock.map(item => ({
+    insertOne: {
+      document: item
+    }
+  }));
+  const collection = await connectToDatabase('stock');
+  const result = await collection.bulkWrite(insertOperations);
+  console.log(result);
+  console.log(l);
+}
+//dostuff();
+//domorestuff();

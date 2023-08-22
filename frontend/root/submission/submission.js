@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
 
+  console.log(items.products);
+
 });
 
 // Sample data for categories, subcategories, and products
@@ -124,10 +126,8 @@ const productDropdown = document.getElementById('product');
 
 productDropdown.addEventListener('change', () => {
   const selectedProductId = productDropdown.value;
-  if (selectedProductId !== '0') {
-      const selectedProduct = items.products.find(product => product.item.id === selectedProductId);
-      displaySelectedProduct(selectedProduct);
-  }
+  const selectedProduct = items.products.find(product => product.item.id === selectedProductId);
+  displaySelectedProduct(selectedProduct);
 });
 
 function displaySelectedProduct(product) {

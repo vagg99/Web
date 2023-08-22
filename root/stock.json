@@ -7,7 +7,9 @@
         "date" : "2019-01-01",
         "likes" : 2,
         "dislikes" : 2,
-        "category" : "8016e637b54241f8ad242ed1699bf2da"
+        "user_id" : {"$oid":"64ccdd565a5bb46dd07e5148"},
+        "category" : "8016e637b54241f8ad242ed1699bf2da",
+        "achievements" : {}
     },
     {
         "store_id" : "354449389",

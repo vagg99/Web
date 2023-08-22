@@ -142,7 +142,7 @@ async function displayAllStores(stores){
     const marker = L.marker([lat, lon] , { icon: ShopIcon })
       .addTo(map)
       .bindPopup(`<b>${name}</b>`)
-      .on('click', (e) => { onMarkerClick(marker,e,id) })
+      .on('click', (e) => { onMarkerClick(marker,e,id,name) })
       .openPopup();
     markers.push(marker);
   });
@@ -178,7 +178,7 @@ async function displayAllStoresWithDiscounts(stores,discounts){
       const marker = L.marker([lat, lon] , { icon: DiscountShopIcon })
         .addTo(map)
         .bindPopup(`<b>${name}</b>`)
-        .on('click', (e) => { onMarkerClick(marker,e,id) })
+        .on('click', (e) => { onMarkerClick(marker,e,id,name) })
         .openPopup();
       marker.storeId = id;
       markers.push(marker);
@@ -189,31 +189,29 @@ async function displayAllStoresWithDiscounts(stores,discounts){
 
 
 // marker click functionality
-async function onMarkerClick(marker,e,id){
+async function onMarkerClick(marker,e,id,shopName){
+  let popupContent = `<div><b>${shopName}</b></div>`;
+  // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
+  // με το το μαγαζι που κλικαρε
+  const clickedLatLng = e.latlng;
+  const userLatLng = userLocationMarker.getLatLng();
+  const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
+  //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
+  // The clicked marker is less than 50 meters away from the user's location marker
+    popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html'">Υποβολή Προσφοράς</button>`;
+  //}
+
+  marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
+
   try {
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const data = await response.json();
     const {discountedItems,shopName} = data;
-
-    let popupContent = `<div><b>${shopName}</b></div>`;
-
-    // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
-    // με το το μαγαζι που κλικαρε
-    const clickedLatLng = e.latlng;
-    const userLatLng = userLocationMarker.getLatLng();
-    const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
-    
-    //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
-      // The clicked marker is less than 50 meters away from the user's location marker
-      popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html'">Υποβολή Προσφοράς</button>`;
-    //}
     
     if (discountedItems.length) {
       popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
       marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
     }
-
-    marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
 
   } catch (error) {
     console.error('Error fetching discounted items:', error);

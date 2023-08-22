@@ -1,3 +1,5 @@
+const { getAllItems } = require('../functions/Getters.js');
+
 document.addEventListener('DOMContentLoaded', async () => {
 
   items = await getAllItems();
@@ -63,10 +65,4 @@ function populateProducts() {
       }
     }
   }
-}
-
-async function getAllItems() {
-  const response = await fetch('http://localhost:3000/items');
-  const items = await response.json();
-  return items;
 }

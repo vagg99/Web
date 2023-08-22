@@ -1,3 +1,5 @@
+const config = require('../config.json');
+
 document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('jsonFileInput');
   const uploadItemsButton = document.getElementById('uploadItemsButton');
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function uploadDataToCollection(collectionName, jsonData) {
     try {
-      const response = await fetch(`http://localhost:3000/upload?collection=${collectionName}`, {
+      const response = await fetch(`${config.backend.url}:${config.backend.port}/upload?collection=${collectionName}`, {
           method: 'POST',
           body: JSON.stringify(jsonData),
           headers: {
@@ -68,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmDelete = confirm(`Σίγουρα θες να διαγράψεις όλα τα δεδομένα στην ΒΔ στο collection ονομα "${collectionName}" ?}`);
     if (confirmDelete) {
       try {
-        const response = await fetch(`http://localhost:3000/delete?collection=${collectionName}`, {
+        const response = await fetch(`${config.backend.url}:${config.backend.port}/delete?collection=${collectionName}`, {
             method: 'POST',
         });
 
@@ -105,7 +107,7 @@ const playersPerPage = 10;
 
 async function fetchPlayersData() {
   try {
-    const response = await fetch("http://localhost:3000/leaderboard");
+    const response = await fetch(`${config.backend.url}:${config.backend.port}/leaderboard`);
     const data = await response.json();
     return data;
   } catch (error) {

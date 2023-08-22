@@ -1,8 +1,10 @@
+const config = require('../config.json');
+
 document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);
     const shopId = params.get('shopId');
 
-    const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${shopId}`);
+    const response = await fetch(`${config.backend.url}:${config.backend.port}/getDiscountedItems?shopId=${shopId}`);
     const data = await response.json();
     const {discountedItems,shopName} = data;
 
@@ -148,10 +150,6 @@ function updateDislikeCount(button, countElement, count, username) {
     return count;
 }
 
-function getDiscountOriginalPoster(productId) {
-
-}
-
 function updateChoiceTimeout(productId, data) {
     clearTimeout(choiceTimeouts[productId]);
     choiceTimeouts[productId] = setTimeout(() => {
@@ -170,7 +168,7 @@ async function sendChoiceToBackend(productId, likes_dislikes_in_stock) {
         points: userPoints
     };
     try {
-        const response = await fetch(`http://localhost:3000/assessment?discountId=${productId}`, {
+        const response = await fetch(`${config.backend.url}:${config.backend.port}/assessment?discountId=${productId}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

@@ -4,14 +4,15 @@ const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTR
 const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 const session = require('express-session'); // USED FOR SESSIONS
-const cookieParser = require('cookie-parser'); // USED FOR SESSIONS
+const cookieParser = require('cookie-parser'); // USED FOR COOKIES
+const config = require('./config.json'); // hosting ips
 
 const app = express();
 
 app.use(session({
   secret: 'nektarios', // Change this to a secure random string
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false } // Set secure to true in production with HTTPS
 }));
 
@@ -21,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: 'http://127.0.0.1:5500', // Replace with your frontend's URL
+  origin: `${config.frontend.url}:${config.frontend.port}`, // Replace with your frontend's URL
   credentials: true,
 };
 
@@ -30,8 +31,6 @@ app.use(cors(corsOptions));
 app.use(express.static('public'));
 
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
-
-const port = 3000;
 
 const mongoURI = "mongodb+srv://webproject7:HVHDmG6eK2nuq9rM@cluster0.03czzuj.mongodb.net/?retryWrites=true&w=majority";
 
@@ -53,7 +52,7 @@ async function registerUser(username, tokens, points, email, password, isAdmin) 
   }
 }
 
-async function loginUser(username, password, req) {
+async function loginUser(username, password, req, res) {
   const {users, collection} = await getUsers();
   let password_hashed = hash(username,password);
   for (user in users) {
@@ -64,6 +63,12 @@ async function loginUser(username, password, req) {
           isAdmin: true,
           test : "test"
         };
+        console.log(req.session)
+        console.log(req.session.user)
+        req.session.isAuth = true;
+        console.log(req.sessionStore);
+        //res.cookie('myCookie', req.session.user, { maxAge: 3600000, httpOnly: true });
+        //req.cookies['myCookie'] = req.session.user;
       }
       return 'User logged in successfully!';
     }
@@ -114,7 +119,7 @@ async function handleLogin(req, res) {
       const { username, password } = req.body;
 
       // Call the loginUser function to check if the user exists
-      const message = await loginUser(username, password, req);
+      const message = await loginUser(username, password, req, res);
       
       if (!message){
         res.writeHead(403, { 'Content-Type': 'application/json' });
@@ -402,10 +407,17 @@ app.get('/items', async (req, res) => {
 });
 
 // POST request for registration
-app.post('/register', handleRegistration);
+app.route('/login')
+  .get((req, res) => {
+    // Handle GET request logic
+  })
+  .post(handleLogin);
+//app.post('/register', handleRegistration);
 
 // POST request for login
-app.post('/login', handleLogin);
+//app.post('/login', handleLogin);
+
+app.get('/login', (req, res) => {});
 
 app.get('/logout', (req, res) => {
   req.session.destroy();
@@ -475,15 +487,28 @@ app.post('/upload', handleJSONUpload);
 app.post('/delete', handleDeletion);
 
 app.get('/get-session-data', (req, res) => {
-  if (req.session.user) {
-      const customData = req.session.user.test || 'No custom data available.';
-      res.status(200).json({ customData });
-  } else {
-      res.status(401).json({ error: 'User is not authenticated.' });
+  console.log(req.session);
+  console.log(req.sessionID);
+  console.log(req.cookies);
+  console.log(req.sessionStore);
+  const sessionId = req.cookies['connect.sid'];
+
+  if (!sessionId) {
+    return res.status(401).json({ error: 'User is not authenticated.' });
   }
+
+  req.sessionStore.get(sessionId, (error, session) => {
+    console.log(session);
+    console.log(session.user);
+    if (error || !session || !session.user) {
+      return res.status(401).json({ error: 'User is not authenticated.' });
+    }
+
+    const customData = session.user.test || 'No custom data available.';
+    res.status(200).json({ customData });
+  });
 });
 
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(config.backend.port, () => {
+  console.log(`Server is running on ${config.backend.url}:${config.backend.port}`);
 });

@@ -134,6 +134,17 @@ function hash(username,password) {
   return Obj.getHash("HEX");
 }
 
+// get date
+function getDate() {
+  const currentDate = new Date();
+
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+ return `${year}-${month}-${day}`;
+}
+
 // Χρήστης : 2) d) Εμφάνιση Προσφορών
 async function getItemsInStockFromDatabase(storeId,on_discount=false) {
   const collection = await connectToDatabase('stock');
@@ -213,7 +224,8 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
           in_stock: true,
           'item.img' : true,
           user_id : true,
-          user : true
+          user : true,
+          'on_discount' : true
         }
       }
     );
@@ -224,6 +236,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
           _id: true,
           store_id: true,
           price : true,
+          discount : true,
           'store.tags.name': true,
           'item.name': true,
           'item.id' : true,
@@ -231,6 +244,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
           'item.subcategory' : true,
           in_stock: true,
           'item.img' : true,
+          'on_discount' : true
         }
       }
     );
@@ -257,6 +271,59 @@ async function handleLikesDislikesUpdate(req, res){
     res.status(200).json(result);
   } catch (error) {
     console.error('Error updating stock:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+// Χρήστης : 3) Υποβολή Προσφορών
+async function handleDiscountSubmission(req, res) {
+  try {
+    const { productId, newprice } = req.body;
+
+    console.log(productId);
+
+    const collection = await connectToDatabase("stock");
+    const product = await collection.findOne({ _id: new ObjectId(productId) });
+
+    console.log(product)
+
+    console.log(newprice)
+
+    if (!product) {
+      res.status(404).json({ error: 'Product not found' });
+      return;
+    }
+
+    if (newprice < 0) {
+      res.status(400).json({ error: 'Invalid price' });
+      return;
+    }
+
+    if (newprice >= product.price) {
+      res.status(400).json({ error: 'Discount price must be lower than the original price' });
+      return;
+    }
+
+    if (product.on_discount && ((newprice / product.discount.discount_price) < 0.8)) {
+      res.status(400).json({ error: 'Discount price must be at least 20% lower than the current discount price' });
+      return;
+    }
+    
+    let achievements = {};
+
+    const result = await collection.updateOne({ _id: new ObjectId(productId) }, { $set: {
+      on_discount : true,
+      discount: { 
+        discount_price: newprice,
+        date : getDate(),
+        likes : 0,
+        dislikes : 0,
+        achievements : achievements
+      } 
+    }});
+    res.status(200).json(result);
+  } catch (error){
+    console.error('Error submitting discount:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 }
@@ -504,6 +571,9 @@ app.get('/getUserInfo', async (req, res) => {
 // POST request for updating db with likes / dislikes and stock by users
 app.post('/assessment', handleLikesDislikesUpdate);
 
+// POST request for submitting new price on a product
+app.post('/submitDiscount', handleDiscountSubmission);
+
 // POST request for uploading files to a collection by admin
 app.post('/upload', handleJSONUpload);
 
@@ -598,3 +668,15 @@ async function domorestuff(){
 }
 //dostuff();
 //domorestuff();
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES

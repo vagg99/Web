@@ -107,7 +107,7 @@ function displayResults(results) {
                 const priceInput = productDiv.querySelector('input[type="number"]');
                 const price = priceInput.value;
                 if (price !== '') {
-                    //await submitDiscount(product, price);
+                  submitDiscount(product._id, price);
                 }
             });
             productResults.appendChild(productDiv);
@@ -139,11 +139,12 @@ function displaySelectedProduct(product) {
       <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
       <button class="submit-button">Υποβολή</button>
       `;
-      productDiv.querySelector('.submit-button').addEventListener('click', async () => {
+      productDiv.querySelector('.submit-button').addEventListener('click', () => {
           const priceInput = productDiv.querySelector('input[type="number"]');
           const price = priceInput.value;
+          console.log(price);
           if (price !== '') {
-              //await submitDiscount(product.id, price);
+            submitDiscount(product._id, price);
           }
       });
       productResults.appendChild(productDiv);
@@ -163,4 +164,22 @@ async function getItemsInStock(shopId) {
   const response = await fetch(`http://localhost:3000/getStock?shopId=${shopId}`);
   const discounts = await response.json();
   return discounts;
+}
+
+function submitDiscount(productId, newprice) {
+  console.log(JSON.stringify({ productId, newprice }))
+  fetch(`http://localhost:3000/submitDiscount`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ productId, newprice })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 }

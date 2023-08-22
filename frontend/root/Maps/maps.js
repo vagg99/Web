@@ -198,15 +198,16 @@ async function onMarkerClick(marker,e,id,shopName){
   const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
   //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
   // The clicked marker is less than 50 meters away from the user's location marker
-    popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html'">Υποβολή Προσφοράς</button>`;
+    popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
   //}
 
   marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
 
   try {
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
-    const data = await response.json();
-    const {discountedItems,shopName} = data;
+    const discountedItems = await response.json();
+
+    console.log(discountedItems);
     
     if (discountedItems.length) {
       popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);

@@ -135,25 +135,33 @@ function hash(username,password) {
 }
 
 // Χρήστης : 2) d) Εμφάνιση Προσφορών
-async function getDiscountedItemsFromDatabase(storeId) {
-  // Παρε το ονομα του μαγαζιου απο το collection των μαγαζιων
-  const {stores, storecollection} = await getStores();
-  let shopName = null;
-  for (let store in stores){
-    if (stores[store].id == storeId) {
-      shopName = stores[store].tags.name;
-      break;
-    }
-  }
-  
-  const {stock, collection} = await getStock();
+async function getItemsInStockFromDatabase(storeId,on_discount=false) {
+  const collection = await connectToDatabase('stock');
   
   // Αναζήτηση στο collection stocks για τα προϊόντα που είναι σε προσφορά
-  const aggregationPipeline = [
+  const aggregationPipeline = [];
+  if (on_discount) {
+    aggregationPipeline.push(
+      {
+        $match: {
+          store_id: storeId,
+          'discount' : { $exists: true, $ne: {} }
+        }
+      }
+    );
+  } else {
+    aggregationPipeline.push(
+      {
+        $match: {
+          store_id: storeId
+        }
+      }
+    );
+  }
+  aggregationPipeline.push(
     {
-      $match: {
-        store_id: storeId,
-        discount_price: { $gt: 0 }
+      $addFields: {
+        store_id_int: { $toInt: "$store_id" }
       }
     },
     {
@@ -169,40 +177,73 @@ async function getDiscountedItemsFromDatabase(storeId) {
     },
     {
       $lookup: {
-        from: 'users', // Name of the users collection
-        localField: 'user_id',
-        foreignField: '_id',
-        as: 'user'
+        from: 'stores', // Name of the collection
+        localField: 'store_id_int',
+        foreignField: 'id',
+        as: 'store'
       }
     },
     {
-      $unwind: '$user'
-    },
-    {
-      $project: {
-        _id: true,
-        store_id: true,
-        'item.name': true,
-        in_stock: true,
-        discount_price: true,
-        date: true,
-        likes: true,
-        dislikes : true,
-        'item.img' : true,
-        'user.username': true,
-        'user.points.total': true,
-        achievements : true,
-      }
+      $unwind: '$store'
     }
-  ];
+  );
+  if (on_discount) {
+    aggregationPipeline.push(
+      {
+        $lookup: {
+          from: 'users', // Name of the users collection
+          localField: 'discount.user_id',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      {
+        $unwind: '$user'
+      },
+      {
+        $project: {
+          _id: true,
+          store_id: true,
+          'store.tags.name': true,
+          'item.name': true,
+          'item.id' : true,
+          in_stock: true,
+          'discount.discount_price': true,
+          'discount.date': true,
+          'discount.likes': true,
+          'discount.dislikes' : true,
+          'item.img' : true,
+          'discount.user.username': true,
+          'discount.user.points.total': true,
+          'discount.achievements' : true,
+        }
+      }
+    );
+  } else {
+    aggregationPipeline.push(
+      {
+        $project: {
+          _id: true,
+          store_id: true,
+          price : true,
+          'store.tags.name': true,
+          'item.name': true,
+          'item.id' : true,
+          'item.category' : true,
+          'item.subcategory' : true,
+          in_stock: true,
+          'item.img' : true,
+        }
+      }
+    );
+  }
 
   const cursor = collection.aggregate(aggregationPipeline);
 
   // Convert the aggregation cursor to an array of documents
   discountedItems = await cursor.toArray();
 
-
-  return {discountedItems,shopName};
+  return discountedItems;
 }
 
 
@@ -366,17 +407,11 @@ app.get('/users', async (req, res) => {
 });
 
 // GET request for fetching items
-app.get('/items', async (req, res) => {
+app.get('/getItems', async (req, res) => {
   try {
     let collection = await connectToDatabase("items");
     let products = await collection.find({}).toArray();
-    let collection2 = await connectToDatabase("categories");
-    let categories = await collection2.find({}).toArray();
-    items = {
-      products: products,
-      categories: categories
-    }
-    res.status(200).json(items);
+    res.status(200).json(products);
   } catch (error) {
     console.error('Error fetching items:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -421,8 +456,8 @@ app.get('/getDiscountedItems', async (req, res) => {
       const discountedItems = await collection.find({}).toArray();
       res.status(200).json(discountedItems);
     } else {
-      const {discountedItems,shopName} = await getDiscountedItemsFromDatabase(shopId);
-      res.status(200).json({ discountedItems , shopName : shopName });
+      const discountedItems = await getItemsInStockFromDatabase(shopId, true);
+      res.status(200).json(discountedItems);
     }
   } catch (error) {
     console.error('Error fetching discounted items:', error);
@@ -430,12 +465,23 @@ app.get('/getDiscountedItems', async (req, res) => {
   }
 });
 
-// GET request for fetching all subcategories from database
+app.get('/getStock', async (req, res) => {
+  try {
+    const shopId = req.query.shopId;
+    const ItemsInStock = await getItemsInStockFromDatabase(shopId, false);
+    res.status(200).json(ItemsInStock);
+  } catch (error) {
+    console.error('Error fetching stock:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET request for fetching all categories from database
 app.get('/getSubcategories', async (req, res) => {
   try {
     const collection = await connectToDatabase("categories");
-    const subcategories = await collection.find({}).toArray();
-    res.status(200).json(subcategories);
+    const categories = await collection.find({}).toArray();
+    res.status(200).json(categories);
   } catch (error) {
     console.error('Error fetching subcategories:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -462,6 +508,51 @@ app.post('/assessment', handleLikesDislikesUpdate);
 // POST request for uploading files to a collection by admin
 app.post('/upload', handleJSONUpload);
 
+async function a(){
+  const fs = require('fs');
+  const data = fs.readFileSync('stock.json');
+  const stock = JSON.parse(data);
+  stock.forEach(item => {
+    if (typeof item.store_id === 'number') {
+      item.store_id = String(item.store_id);
+    }
+  });
+  stock.forEach(item => {
+    if ('discount_price' in item) {
+      item.discount = {
+        discount_price: item.discount_price,
+        date: item.date,
+        likes: item.likes,
+        dislikes: item.dislikes,
+        user_id: item.user_id,
+        achievements: item.achievements
+      };
+      delete item.discount_price;
+      delete item.date;
+      delete item.likes;
+      delete item.dislikes;
+      delete item.user_id;
+      delete item.achievements;
+    } else {
+      item.discount = {};
+    }
+  });
+  const insertOperations = stock.map(item => ({
+    insertOne: {
+      document: item
+    }
+  }));
+  const collection = await connectToDatabase('stock');
+  const result = await collection.bulkWrite(insertOperations);
+  console.log(result);
+}
+// do not uncomment a();
+async function b(){
+  const collection = await connectToDatabase('stock');
+  const result = await collection.deleteMany({});
+  console.log(`Deleted ${result.deletedCount} stock.`);
+}
+// do not uncomment b();
 // POST requst for deleting a collection by admin
 app.post('/delete', handleDeletion);
 

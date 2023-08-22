@@ -3,13 +3,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const shopId = params.get('shopId');
 
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${shopId}`);
-    const data = await response.json();
-    const {discountedItems,shopName} = data;
+    const discountedItems = await response.json();
 
     const productList = document.getElementById("productContainer");
 
     discountedItems.forEach(item => {
-        addProduct(item, shopName , productList);
+        addProduct(item, productList);
     });
 
 });
@@ -18,9 +17,10 @@ const userPoints = {};
 let choiceTimeouts = {}; // Object to store choice timeouts for each product
 const cooldownDuration = 2000; // 2 seconds in milliseconds
 
-function addProduct(item, shopName, productList) {
+function addProduct(item, productList) {
     const DiscountId = item._id;
     const productName = item.item.name;
+    const shopName = item.store.tags.name;
     const price = item.discount_price;
     const date = item.date;
     let likes = item.likes;

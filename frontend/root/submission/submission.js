@@ -1,8 +1,23 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
-  items = await getAllItems();
+  const params = new URLSearchParams(window.location.search);
+  const shopId = params.get('shopId');
+
+  const shopTitle = document.getElementById("shopTitle");
+  shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
+
+  items = { products : [{id:"1337",name:"no product"}], categories : [] };
+
+  items.categories = await getCategories();
 
   populateCategories();
+
+  items.products = await getItemsInStock(shopId);
+
+  console.log(items.products);
+
+  shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
+
 });
 
 // Sample data for categories, subcategories, and products
@@ -54,10 +69,10 @@ function populateProducts() {
   // Populate products based on the selected subcategory
   if (selectedSubcategoryUuid) {
     for (const product of items.products) {
-      if (product.subcategory == selectedSubcategoryUuid) {
+      if (product.item.subcategory == selectedSubcategoryUuid) {
         const option = document.createElement("option");
-        option.value = product.id;
-        option.textContent = product.name;
+        option.value = product.item.id;
+        option.textContent = product.item.name;
         productSelect.appendChild(option);
       }
     }
@@ -81,8 +96,8 @@ function displayResults(results) {
     results.forEach(product => {
     const productDiv = document.createElement('div');
         productDiv.innerHTML = `
-            <img src="${product.img}" alt="${product.name}" width="100">
-            <p>${product.name}</p>
+            <img src="${product.item.img}" alt="${product.item.name}" width="100">
+            <p>${product.item.name}</p>
             <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
             <button class="submit-button">Υποβολή</button>
             `;
@@ -91,7 +106,7 @@ function displayResults(results) {
                 const price = priceInput.value;
                 if (price !== '') {
                     // Τροποποίηση για να περαστούν στη βάση δεδομένων
-                    console.log(`Submitted price for ${product.name}: ${price}`);
+                    console.log(`Submitted price for ${product.item.name}: ${price}`);
                 }
             });
             productResults.appendChild(productDiv);
@@ -111,7 +126,7 @@ const productDropdown = document.getElementById('product');
 productDropdown.addEventListener('change', () => {
   const selectedProductId = productDropdown.value;
   if (selectedProductId !== '0') {
-      const selectedProduct = items.products.find(product => product.id === selectedProductId);
+      const selectedProduct = items.products.find(product => product.item.id === selectedProductId);
       displaySelectedProduct(selectedProduct);
   }
 });
@@ -119,25 +134,35 @@ productDropdown.addEventListener('change', () => {
 function displaySelectedProduct(product) {
   productResults.innerHTML = '';
   const productDiv = document.createElement('div');
+  console.log(product)
   productDiv.innerHTML = `
-      <img src="${product.img}" alt="${product.name}" width="100">
-      <p>${product.name}</p>
+      <img src="${product.item.img}" alt="${product.item.name}" width="100">
+      <p>${product.item.name}</p>
       <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
       <button class="submit-button">Υποβολή</button>
       `;
-      productDiv.querySelector('.submit-button').addEventListener('click', () => {
+      productDiv.querySelector('.submit-button').addEventListener('click', async () => {
           const priceInput = productDiv.querySelector('input[type="number"]');
           const price = priceInput.value;
           if (price !== '') {
-              // Τροποποίηση για να περαστούν στη βάση δεδομένων
-              console.log(`Submitted price for ${product.name}: ${price}`);
+              //await submitDiscount(product.id, price);
           }
       });
       productResults.appendChild(productDiv);
 }
 
 async function getAllItems() {
-  const response = await fetch('http://localhost:3000/items');
+  const response = await fetch('http://localhost:3000/getItems');
   const items = await response.json();
   return items;
+}
+async function getCategories() {
+  const response = await fetch('http://localhost:3000/getSubcategories');
+  const categories = await response.json();
+  return categories;
+}
+async function getItemsInStock(shopId) {
+  const response = await fetch(`http://localhost:3000/getStock?shopId=${shopId}`);
+  const discounts = await response.json();
+  return discounts;
 }

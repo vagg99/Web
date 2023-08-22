@@ -145,7 +145,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
       {
         $match: {
           store_id: storeId,
-          'discount' : { $exists: true, $ne: {} }
+          discount : { $exists: true, $ne: {} }
         }
       }
     );
@@ -192,8 +192,8 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
       {
         $lookup: {
           from: 'users', // Name of the users collection
-          localField: 'discount.user_id',
-          foreignField: '_id',
+          localField: 'og',
+          foreignField: 'username',
           as: 'user'
         }
       },
@@ -204,18 +204,13 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
         $project: {
           _id: true,
           store_id: true,
+          discount : true,
           'store.tags.name': true,
           'item.name': true,
           'item.id' : true,
           in_stock: true,
-          'discount.discount_price': true,
-          'discount.date': true,
-          'discount.likes': true,
-          'discount.dislikes' : true,
           'item.img' : true,
-          'discount.user.username': true,
-          'discount.user.points.total': true,
-          'discount.achievements' : true,
+          user : true
         }
       }
     );
@@ -508,51 +503,6 @@ app.post('/assessment', handleLikesDislikesUpdate);
 // POST request for uploading files to a collection by admin
 app.post('/upload', handleJSONUpload);
 
-async function a(){
-  const fs = require('fs');
-  const data = fs.readFileSync('stock.json');
-  const stock = JSON.parse(data);
-  stock.forEach(item => {
-    if (typeof item.store_id === 'number') {
-      item.store_id = String(item.store_id);
-    }
-  });
-  stock.forEach(item => {
-    if ('discount_price' in item) {
-      item.discount = {
-        discount_price: item.discount_price,
-        date: item.date,
-        likes: item.likes,
-        dislikes: item.dislikes,
-        user_id: item.user_id,
-        achievements: item.achievements
-      };
-      delete item.discount_price;
-      delete item.date;
-      delete item.likes;
-      delete item.dislikes;
-      delete item.user_id;
-      delete item.achievements;
-    } else {
-      item.discount = {};
-    }
-  });
-  const insertOperations = stock.map(item => ({
-    insertOne: {
-      document: item
-    }
-  }));
-  const collection = await connectToDatabase('stock');
-  const result = await collection.bulkWrite(insertOperations);
-  console.log(result);
-}
-// do not uncomment a();
-async function b(){
-  const collection = await connectToDatabase('stock');
-  const result = await collection.deleteMany({});
-  console.log(`Deleted ${result.deletedCount} stock.`);
-}
-// do not uncomment b();
 // POST requst for deleting a collection by admin
 app.post('/delete', handleDeletion);
 

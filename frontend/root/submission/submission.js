@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const shopId = params.get('shopId');
 
   const shopTitle = document.getElementById("shopTitle");
-  shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
+  //shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
 
   items = { products : [{id:"1337",name:"no product"}], categories : [] };
 
@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   populateCategories();
 
-  items.products = await getItemsInStock(shopId);
+  shopTitle.innerHTML = `Στο μαγαζί loading.....`;
 
-  console.log(items.products);
+  items.products = await getItemsInStock(shopId);
 
   shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
 
@@ -85,7 +85,7 @@ const productResults = document.getElementById('productResults');
 // Function to filter products based on search input
 function filterProducts(query) {
     const filteredProducts = items.products.filter(product => {
-        return product.name.toLowerCase().includes(query.toLowerCase());
+        return product.item.name.toLowerCase().includes(query.toLowerCase());
     });
     return filteredProducts;
 }
@@ -105,8 +105,7 @@ function displayResults(results) {
                 const priceInput = productDiv.querySelector('input[type="number"]');
                 const price = priceInput.value;
                 if (price !== '') {
-                    // Τροποποίηση για να περαστούν στη βάση δεδομένων
-                    console.log(`Submitted price for ${product.item.name}: ${price}`);
+                    //await submitDiscount(product, price);
                 }
             });
             productResults.appendChild(productDiv);
@@ -134,7 +133,6 @@ productDropdown.addEventListener('change', () => {
 function displaySelectedProduct(product) {
   productResults.innerHTML = '';
   const productDiv = document.createElement('div');
-  console.log(product)
   productDiv.innerHTML = `
       <img src="${product.item.img}" alt="${product.item.name}" width="100">
       <p>${product.item.name}</p>

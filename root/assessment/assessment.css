@@ -1,0 +1,99 @@
+.product-container {
+text-align: center;
+margin-bottom: 20px;
+}
+
+.product {
+margin: 20px;
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 5px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+width: 150px;
+height: 150px;
+object-fit: cover;
+border-radius: 5px;
+}
+
+.comment-list {
+list-style: none;
+padding: 0;
+margin: 10px 0;
+text-align: left;
+}
+
+.comment {
+background-color: #f5f5f5;
+padding: 5px 10px;
+margin: 5px 0;
+border-radius: 5px;
+font-size: 14px;
+}
+
+.product-item .product-details {
+    display: none;
+}
+
+.product-item.expanded .product-details {
+    display: block;
+}
+
+.product-item {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-item:hover {
+    background-color: #f2f2f2; /* Change to the desired color */
+}
+
+.product-container {
+    list-style: none;
+    padding: 0; /* Remove default padding as well */
+}
+
+.offer-text {
+    font-size: 20px; /* Adjust the size as needed */
+    font-weight: bold;
+    color: red;
+}
+
+/* buttons */
+
+.like-button, .dislike-button {
+    color : white;
+}
+
+.like-button {
+    background-color: green;
+}
+
+.dislike-button {
+    background-color: red;
+}
+
+/* Hover effect */
+.like-button:hover, .dislike-button:hover {
+    filter: brightness(1.2);
+}
+
+/* Inactive state */
+.like-button.inactive, .dislike-button.inactive {
+    background-color: grey;
+    filter: brightness(0.7);
+}
+
+.like-button.disabled, .dislike-button.disabled {
+    background-color: grey;
+    pointer-events: none;
+    filter: brightness(0.7);
+}
+
+.icon {
+    width: 1em;  /* Adjust this value as needed */
+    height: 1em; /* Adjust this value as needed */
+    vertical-align: middle;
+  }

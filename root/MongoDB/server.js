@@ -1,10 +1,8 @@
 const express = require('express');
-const { MongoClient } = require('mongodb'); // DATABASE
+const { MongoClient, ObjectId } = require('mongodb'); // DATABASE
 const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
 const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
-const multer = require('multer');// USED FOR UPLOADING FILES
-const path = require('path');
 
 const app = express();
 
@@ -13,9 +11,6 @@ app.use(express.json());
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 
 app.use(cors());
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
 app.use(express.static('public'));
 
@@ -153,7 +148,6 @@ async function getDiscountedItemsFromDatabase(storeId) {
   
   const {stock, collection} = await getStock();
   
-  // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   // Αναζήτηση στο collection stocks για τα προϊόντα που είναι σε προσφορά
   const aggregationPipeline = [
     {
@@ -174,15 +168,30 @@ async function getDiscountedItemsFromDatabase(storeId) {
       $unwind: '$item'
     },
     {
+      $lookup: {
+        from: 'users', // Name of the users collection
+        localField: 'user_id',
+        foreignField: '_id',
+        as: 'user'
+      }
+    },
+    {
+      $unwind: '$user'
+    },
+    {
       $project: {
-        _id: false,
+        _id: true,
         store_id: true,
         'item.name': true,
         in_stock: true,
         discount_price: true,
         date: true,
         likes: true,
-        dislikes : true
+        dislikes : true,
+        'item.img' : true,
+        'user.username': true,
+        'user.points.total': true,
+        achievements : true,
       }
     }
   ];
@@ -196,6 +205,22 @@ async function getDiscountedItemsFromDatabase(storeId) {
   return {discountedItems,shopName};
 }
 
+
+// Χρήστης : 2) e) Like / Dislike / in Stock σε Προσφορές
+async function handleLikesDislikesUpdate(req, res){
+  try {
+    const { likes , dislikes , in_stock , points } = req.body;
+    const discountId = req.query.discountId;
+    const collection = await connectToDatabase("stock");
+    const objectIdDiscountId = new ObjectId(discountId);
+    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: {likes : likes, dislikes : dislikes , in_stock : in_stock} });
+    await updateLikeDislikePoints(points);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error updating stock:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 // Χρήστης : 4) Σύστημα Tokens
 async function distributeTokens() {
@@ -226,8 +251,32 @@ async function distributeTokens() {
   await collection.bulkWrite(updateOperations);
 }
 
-// Διαχειριστής : 1) Ανέβασμα JSON object
+// Χρήστης 5) β) i. και i.. Σκορ Αξιολόγισης με βάση τις αξιολογίσεις των χρηστών
+async function updateLikeDislikePoints(points){
+  try {
+    const {users, collection} = await getUsers();
+    const users_to_Receive_or_Lose_Points = Object.keys(points);
+    for (u in users_to_Receive_or_Lose_Points){
+      for (user in users) {
+        if (users[user].username === users_to_Receive_or_Lose_Points[u]) {
+          users[user].points["monthly"] += points[users_to_Receive_or_Lose_Points[u]];
+          break;
+        }
+      }
+    }
+    const updateOperations = users.map(user => ({
+      updateOne: {
+        filter: { _id: user._id },
+        update: { $set: { points: user.points } },
+      },
+    }));
+    await collection.bulkWrite(updateOperations);
+  } catch (error) {
+    console.error('Error updating points:', error);
+  }
+}
 
+// Διαχειριστής : 1) Ανέβασμα JSON object
 async function handleJSONUpload(req, res) {
   const collectionName = req.query.collection;
   const jsonData = req.body; // This will be the parsed JSON data from the request body
@@ -392,6 +441,23 @@ app.get('/getSubcategories', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// GET request for fetching a user's information from the database
+app.get('/getUserInfo', async (req, res) => {
+  try {
+    const username = req.query.username;
+    const collection = await connectToDatabase("users");
+    const {subcategories} = await collection.find({}).toArray();
+    res.status(200).json(subcategories);
+  } catch (error) {
+    console.error('Error fetching subcategories:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+// POST request for updating db with likes / dislikes and stock by users
+app.post('/assessment', handleLikesDislikesUpdate);
 
 // POST request for uploading files to a collection by admin
 app.post('/upload', handleJSONUpload);

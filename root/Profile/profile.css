@@ -874,6 +874,7 @@
     border-radius: .375rem;
     background-color: #fff;
     background-clip: border-box;
+    margin-top: 40px; /* Add margin to lower the card */
   }
   
   .card>hr {
@@ -1587,6 +1588,8 @@
       transition: none;
     }
   }
+
+  
 
   .navbar-search-dark .focused .input-group {
     border-color: rgba(255, 255, 255, .9);

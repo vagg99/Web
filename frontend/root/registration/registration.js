@@ -90,6 +90,25 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     // Show the profile button
     const profileLink = document.getElementById('profileLink');
     profileLink.style.display = 'block';
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn.style.display = 'block';
+    // Show the admin button
+    const adminLink = document.getElementById('adminDashboardBtn');
+    fetch('http://localhost:3000/check-admin-auth', {
+      method: 'GET',
+      credentials: 'include', // Send cookies
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.isAdmin) {
+        adminLink.style.display = 'block';
+      } else {
+        adminLink.style.display = 'none';
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 
   } catch (error) {
     console.error('Error during login:', error);

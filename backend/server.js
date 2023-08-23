@@ -638,6 +638,24 @@ app.post('/register', handleRegistration);
 // POST request for login
 app.post('/login', handleLogin);
 
+app.post('/logout', (req, res) => {
+  console.log(req.session)
+  // Destroy the session
+  req.session.destroy((err) => {
+      if (err) {
+          console.error('Error destroying session:', err);
+          res.status(500).send('Logout failed');
+      } else {
+          // Clear the session cookie
+          res.clearCookie('sessionid');
+          res.clearCookie('connect.sid');
+          // Redirect or send a success message
+          res.sendStatus(200);
+          console.log(req.session)
+      }
+  });
+});
+
 app.get('/check-admin-auth', (req, res) => {
   if (req.session){
     if (req.session.user || req.sessionStore.sessions[req.cookies.sessionid]) {

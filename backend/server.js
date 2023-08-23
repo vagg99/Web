@@ -282,7 +282,7 @@ async function handleLikesDislikesUpdate(req, res){
     const discountId = req.query.discountId;
     const collection = await connectToDatabase("stock");
     const objectIdDiscountId = new ObjectId(discountId);
-    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: {likes : likes, dislikes : dislikes , in_stock : in_stock} });
+    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: {'discount.likes' : likes, 'discount.dislikes' : dislikes , in_stock : in_stock} });
     await updateLikeDislikePoints(points);
     res.status(200).json(result);
   } catch (error) {
@@ -327,7 +327,7 @@ async function handleDiscountSubmission(req, res) {
     
     let achievements = {};
 
-    let p = await calculatePoints(product);
+    let p = await calculatePoints(product,newprice);
 
     if (p == 50){
       achievements["5_a_i"] = true;
@@ -369,7 +369,7 @@ async function deleteOldDiscounts() {
   const bulkOperations = [];
 
   for (const discount of discountsToDelete) {
-    let p = calculatePoints(discount.user_id, discount)
+    let p = calculatePoints(discount,discount.discount.discount_price)
     if (p) {
       bulkOperations.push({
         updateOne: {
@@ -437,7 +437,7 @@ async function distributeTokens() {
 }
 
 // Χρήστης 5) α) i. και ii. και iii. και iv.
-async function calculatePoints(product){
+async function calculatePoints(product,newprice){
   let productID = product.item_id;
 
   const collection = await connectToDatabase('stock');
@@ -471,11 +471,12 @@ async function calculatePoints(product){
       mesh_timi_weekly+=ItemsInStockThisWeek[item].price;
     }
   }
-  
-  if ( twenty_percent_smaller(product.discount.discount_price,mesh_timi_today) ){
+  console.log(newprice)
+  console.log(mesh_timi_today,mesh_timi_weekly)
+  if ( twenty_percent_smaller(newprice,mesh_timi_today) ){
     return 50;
   }
-  if ( twenty_percent_smaller(product.discount.discount_price,mesh_timi_weekly) ){
+  if ( twenty_percent_smaller(newprice,mesh_timi_weekly) ){
     return 20;
   }
 

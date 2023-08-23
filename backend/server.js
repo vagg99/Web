@@ -314,7 +314,7 @@ async function handleDiscountSubmission(req, res) {
       return;
     }
 
-    if (product.on_discount && _5_a_i_rule(newprice,product.discount.discount_price)) {
+    if (product.on_discount && twenty_percent_smaller(newprice,product.discount.discount_price)) {
       res.status(400).json({ error: 'Discount price must be at least 20% lower than the current discount price' });
       return;
     }

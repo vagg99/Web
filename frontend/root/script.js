@@ -12,25 +12,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }, 1500); // Adjust the delay as needed
 
-
-  const profileLink = document.getElementById('profileLink');
-
-  try {
-    const response = await fetch('http://localhost:3000/check-user-auth', {
-      method: 'GET',
-      credentials: 'include', // Send cookies
-    });
-    const data = await response.json();
-
-    if (data.loggedIn) {
-      profileLink.style.display = 'block';
-    } else {
-      profileLink.style.display = 'none';
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-
 });
 
 window.addEventListener("load", () => {

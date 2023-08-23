@@ -65,8 +65,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-
-
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
 
@@ -220,37 +218,44 @@ async function onMarkerClick(marker,e,id){
   }
 }
 
-function createPopupContent(data,shopName,distance,shopId) {
-  // θελουμε κατι πιο δημιουργικο εδω
-  // Εγω βαζω αυτο το απλο και αλλαξτε το
-
-  // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
+function createPopupContent(data, shopName, distance, shopId) {
   let output = `<div class="discount">`;
-  output += "<div>Βρέθηκε Προσφορά !</div>";
+  output += "<div class='popup-title'>Βρέθηκε προσφορά!</div>";
 
-  for (let i = 0 ; i < data.length ; i++){
+  for (let i = 0; i < data.length; i++) {
     let product = data[i].item.name;
     let price = data[i].discount_price;
     let date = data[i].date;
     let likes = data[i].likes;
     let dislikes = data[i].dislikes;
-    let apothema = data.in_stock?"ναι":"οχι";
+    let apothema = data.in_stock ? "ναι" : "οχι";
     let achievements = data[i].achievements;
-    output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
 
-    if (achievements['5_a_i']) { output += ` - 5_a_i : <img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">`; }
-    if (achievements['5_a_ii']) { output += ` - 5_a_ii : <img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">`; }
+    // Centered container for each item's information
+    output += `<div class="popup-item-container">`;
+    output += `<div>${i + 1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
+
+    if (achievements["5_a_i"]) {
+      output += ` - 5_a_i : <img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">`;
+    }
+    if (achievements["5_a_ii"]) {
+      output += ` - 5_a_ii : <img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">`;
+    }
 
     output += "</div>";
+    output += `</div>`;
 
   }
   
   //if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
-    // The clicked marker is less than 50 meters away from the user's location marker
-   output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Προσφορών</button>`;
+  // The clicked marker is less than 50 meters away from the user's location marker
+  // Centered container for the button
+  output += `<div class="button-container">`;
+  output += `<button id="assessment-button" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Προσφορών</button>`;
+  output += `</div>`; 
   //}
 
-  output+="</div>";
+  output += "</div>";
   return output;
 }
 

@@ -442,20 +442,6 @@ app.get('/getSubcategories', async (req, res) => {
   }
 });
 
-// GET request for fetching a user's information from the database
-app.get('/getUserInfo', async (req, res) => {
-  try {
-    const username = req.query.username;
-    const collection = await connectToDatabase("users");
-    const {subcategories} = await collection.find({}).toArray();
-    res.status(200).json(subcategories);
-  } catch (error) {
-    console.error('Error fetching subcategories:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-
 // POST request for updating db with likes / dislikes and stock by users
 app.post('/assessment', handleLikesDislikesUpdate);
 

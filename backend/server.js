@@ -294,7 +294,8 @@ async function handleLikesDislikesUpdate(req, res){
 // Χρήστης : 3) Υποβολή Προσφορών
 async function handleDiscountSubmission(req, res) {
   try {
-    const { productId, newprice , userId } = req.body;
+    let { productId, newprice , userId } = req.body;
+    newprice = Number(newprice);
 
     const collection = await connectToDatabase("stock");
     const product = await collection.findOne({ _id: new ObjectId(productId) });
@@ -321,7 +322,7 @@ async function handleDiscountSubmission(req, res) {
     
     let achievements = {};
 
-    let p = getPointsforSubmission(userId,await calculatePoints(product));
+    let p = await calculatePoints(product);
 
     if (p == 50){
       achievements["5_a_i"] = true;
@@ -341,6 +342,8 @@ async function handleDiscountSubmission(req, res) {
       },
       user_id : userId
     }});
+
+    if (p) getPointsforSubmission(userId,p)
 
     res.status(200).json(result);
   } catch (error){
@@ -467,7 +470,7 @@ async function calculatePoints(product){
   if ( twenty_percent_smaller(product.discount.discount_price,mesh_timi_today) ){
     return 50;
   }
-  if (twenty_percent_smaller(product.discount.discount_price,mesh_timi_weekly) ){
+  if ( twenty_percent_smaller(product.discount.discount_price,mesh_timi_weekly) ){
     return 20;
   }
 

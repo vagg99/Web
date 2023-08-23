@@ -691,7 +691,7 @@ app.get('/getDiscountedItems', async (req, res) => {
     const shopId = req.query.shopId;
     if (shopId == "all") {
       const collection = await connectToDatabase("stock");
-      const discountedItems = await collection.find({}).toArray();
+      const discountedItems = await collection.find({"on_discount" : true}).toArray();
       res.status(200).json(discountedItems);
     } else {
       const discountedItems = await getItemsInStockFromDatabase(shopId, true);

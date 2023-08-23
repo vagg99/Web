@@ -471,8 +471,6 @@ async function calculatePoints(product,newprice){
       mesh_timi_weekly+=ItemsInStockThisWeek[item].price;
     }
   }
-  console.log(newprice)
-  console.log(mesh_timi_today,mesh_timi_weekly)
   if ( twenty_percent_smaller(newprice,mesh_timi_today) ){
     return 50;
   }

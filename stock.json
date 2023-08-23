@@ -1,60 +1,6312 @@
 [
     {
-        "store_id" : "360217468",
-        "item_id" : "1",
-        "in_stock" : true,
-        "price" : 3,
-        "on_discount" : true,
-        "discount": {
-            "discount_price" : 2,
-            "date" : "2019-01-01",
-            "likes" : 2,
-            "dislikes" : 2,
-            "achievements" : {"5_a_i" : true}
-        },
-        "user_id" : "64ccdd565a5bb46dd07e5148",
-        "category" : "8016e637b54241f8ad242ed1699bf2da"
+        "store_id": "354449389",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
     },
     {
-        "store_id" : "354449389",
-        "item_id" : "0",
-        "in_stock" : true,
-        "price" : 5,
-        "on_discount" : true,
-        "discount": {
-            "discount_price" : 3,
-            "date" : "2019-01-01",
-            "likes" : 27,
-            "dislikes" : 2,
-            "achievements" : {}
-        },
-        "user_id" : "64ccdd565a5bb46dd07e5148",
-        "category" : "8016e637b54241f8ad242ed1699bf2da"
+        "store_id": "360217468",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.89,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
     },
     {
-        "store_id" : "354449389",
-        "item_id" : "3",
-        "in_stock" : false,
-        "price" : 20,
-        "on_discount" : true,
-        "discount": {
-            "discount_price" : 10,
-            "date" : "2019-01-01",
-            "likes" : 27,
-            "dislikes" : 2,
-            "achievements" : {}
-        },
-        "user_id" : "64d145f1d9e812ab392b74fe",
-        "category" : "8016e637b54241f8ad242ed1699bf2da"
+        "store_id": "360226900",
+        "item_id": "1",
+        "in_stock": false,
+        "price": 3.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
     },
     {
-        "store_id" : "354449389",
-        "item_id" : "4",
-        "in_stock" : true,
-        "price" : 5,
-        "on_discount" : false,
+        "store_id": "364381224",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.67,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.02,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.92,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.89,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.15,
+            "date": "2023-08-23",
+            "likes": 28,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.07,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 4.68,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.37,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 10,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.32,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.78,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.14,
+            "date": "2023-08-23",
+            "likes": 18,
+            "dislikes": 4,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 4.76,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.32,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 3.92,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.47,
+            "date": "2023-08-23",
+            "likes": 22,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "2",
+        "in_stock": false,
+        "price": 3.15,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 4.28,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.12,
+            "date": "2023-08-23",
+            "likes": 15,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 3.65,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.25,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 5,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 4.94,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.79,
+            "date": "2023-08-23",
+            "likes": 19,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 3.58,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 4.72,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.15,
+            "date": "2023-08-23",
+            "likes": 14,
+            "dislikes": 6,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 3.78,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 3.21,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.04,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 4,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 3.82,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.99,
+            "date": "2023-08-23",
+            "likes": 12,
+            "dislikes": 4,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 4.56,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "3",
+        "in_stock": false,
+        "price": 2.99,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 4.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.02,
+            "date": "2023-08-23",
+            "likes": 15,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 3.67,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.48,
+            "date": "2023-08-23",
+            "likes": 18,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 4.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.85,
+            "date": "2023-08-23",
+            "likes": 21,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 3.45,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 4.28,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.15,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 5,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 3.61,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 3.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.25,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 4.22,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.15,
+            "date": "2023-08-23",
+            "likes": 14,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 4.89,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.45,
+            "date": "2023-08-23",
+            "likes": 18,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "4",
+        "in_stock": false,
+        "price": 3.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 4.58,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 22,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 3.78,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 5.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.95,
+            "date": "2023-08-23",
+            "likes": 27,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 3.21,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 4.87,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.15,
+            "date": "2023-08-23",
+            "likes": 12,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 3.34,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 3.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.75,
+            "date": "2023-08-23",
+            "likes": 19,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 3.99,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.85,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 4.78,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.55,
+            "date": "2023-08-23",
+            "likes": 13,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "5",
+        "in_stock": false,
+        "price": 3.15,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 4.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.15,
+            "date": "2023-08-23",
+            "likes": 17,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 3.72,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.59,
+            "date": "2023-08-23",
+            "likes": 15,
+            "dislikes": 4,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 4.62,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.78,
+            "date": "2023-08-23",
+            "likes": 25,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 3.67,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 4.99,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.35,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 3.45,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 3.79,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.62,
+            "date": "2023-08-23",
+            "likes": 14,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 4.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.09,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 4.92,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.62,
+            "date": "2023-08-23",
+            "likes": 15,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "6",
+        "in_stock": false,
+        "price": 3.29,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 4.45,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 14,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 3.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.98,
+            "date": "2023-08-23",
+            "likes": 20,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 3.81,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 4.62,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 3.98,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 3.64,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.54,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.59,
+            "date": "2023-08-23",
+            "likes": 13,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 5.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.85,
+            "date": "2023-08-23",
+            "likes": 18,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "7",
+        "in_stock": false,
+        "price": 3.45,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 5.02,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.75,
+            "date": "2023-08-23",
+            "likes": 21,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 4.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.95,
+            "date": "2023-08-23",
+            "likes": 17,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 5.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.15,
+            "date": "2023-08-23",
+            "likes": 25,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 4.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 4.88,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.45,
+            "date": "2023-08-23",
+            "likes": 14,
+            "dislikes": 4,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 4.22,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 4.56,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 4.99,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.75,
+            "date": "2023-08-23",
+            "likes": 14,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 5.28,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.95,
+            "date": "2023-08-23",
+            "likes": 19,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "8",
+        "in_stock": false,
+        "price": 3.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 5.45,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.95,
+            "date": "2023-08-23",
+            "likes": 20,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 4.78,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 16,
+            "dislikes": 4,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 5.65,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.45,
+            "date": "2023-08-23",
+            "likes": 28,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 4.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 5.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.75,
+            "date": "2023-08-23",
+            "likes": 12,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 4.65,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 4.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.15,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 5.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.95,
+            "date": "2023-08-23",
+            "likes": 12,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 5.62,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.25,
+            "date": "2023-08-23",
+            "likes": 17,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "9",
+        "in_stock": false,
+        "price": 4.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 5.88,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.35,
+            "date": "2023-08-23",
+            "likes": 23,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 5.12,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 6.02,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.78,
+            "date": "2023-08-23",
+            "likes": 30,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 5.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.15,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 4.95,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 5.02,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.65,
+            "date": "2023-08-23",
+            "likes": 14,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 5.65,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.25,
+            "date": "2023-08-23",
+            "likes": 15,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 6.05,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.65,
+            "date": "2023-08-23",
+            "likes": 20,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "10",
+        "in_stock": false,
+        "price": 4.95,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 6.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.75,
+            "date": "2023-08-23",
+            "likes": 25,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 5.45,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 6.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 5.15,
+            "date": "2023-08-23",
+            "likes": 28,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 5.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 5.85,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.35,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 5.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 5.45,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.95,
+            "date": "2023-08-23",
+            "likes": 13,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 1.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 1.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.85,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "11",
+        "in_stock": false,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 1.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.05,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.75,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 1.40,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.10,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 1.28,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.90,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 1.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.85,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.78,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "12",
+        "in_stock": false,
+        "price": 1.20,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 1.30,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 1.08,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 1.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.98,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 1.10,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.88,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 1.08,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.82,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.88,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "13",
+        "in_stock": false,
+        "price": 1.20,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 1.30,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 1.08,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 1.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.98,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 1.10,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.88,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 1.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 1.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.85,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "14",
+        "in_stock": false,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 1.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.05,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.75,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 1.40,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.10,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 1.28,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.90,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.08,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.82,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.88,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "15",
+        "in_stock": false,
+        "price": 1.20,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.30,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.08,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.98,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.10,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.88,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.85,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "16",
+        "in_stock": false,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.05,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.75,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.40,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.10,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.28,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.90,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 1.08,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.82,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.88,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "17",
+        "in_stock": false,
+        "price": 1.20,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 1.30,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 1.08,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 1.40,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.10,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 1.28,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.88,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.08,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.82,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.88,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "18",
+        "in_stock": false,
+        "price": 1.20,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.30,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.08,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.82,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.40,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.10,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.28,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.88,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 1.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 1.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.85,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "19",
+        "in_stock": false,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 1.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.05,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 1.40,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.10,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 1.28,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.90,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 1.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 1.12,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.85,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "20",
+        "in_stock": false,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 1.35,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.05,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.75,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 1.18,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.95,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 1.40,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.10,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 1.28,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.90,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.65,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.70,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "21",
+        "in_stock": false,
+        "price": 0.80,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.55,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.70,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 1.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.80,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.75,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.60,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.65,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.70,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "22",
+        "in_stock": false,
+        "price": 0.80,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.55,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 1.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.80,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.75,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.60,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.65,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.70,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "23",
+        "in_stock": false,
+        "price": 0.80,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.55,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.70,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 1.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.80,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.75,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.60,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.65,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.70,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "24",
+        "in_stock": false,
+        "price": 0.80,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.55,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.70,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 1.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.80,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.75,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.60,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.65,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.70,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "25",
+        "in_stock": false,
+        "price": 0.80,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.55,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.70,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 1.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.80,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.75,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 0.60,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 4.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 5.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "26",
+        "in_stock": false,
+        "price": 3.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 4.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 5.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 6.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 5.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 5.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.25,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 4.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 3.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 4.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 5.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "27",
+        "in_stock": false,
+        "price": 3.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 4.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 5.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.50,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 6.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 5.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 5.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.25,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 4.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 3.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 4.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 5.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "28",
+        "in_stock": false,
+        "price": 3.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 4.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 5.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 6.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 5.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 5.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.25,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 4.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 3.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 4.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 5.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "29",
+        "in_stock": false,
+        "price": 3.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 4.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 5.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 6.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 5.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 5.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.25,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 4.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 3.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 4.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 5.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "30",
+        "in_stock": false,
+        "price": 3.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 4.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.25,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 5.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.50,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 6.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 5.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 5.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 4.25,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 4.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 3.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 3.00,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "31",
+        "in_stock": false,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "32",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "32",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "32",
+        "in_stock": false,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "32",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "32",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "32",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "32",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "32",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "32",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "32",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "33",
+        "in_stock": false,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "34",
+        "in_stock": false,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "35",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "35",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "35",
+        "in_stock": false,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "35",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "35",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "35",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "35",
+        "in_stock": true,
+        "price": 2.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "35",
+        "in_stock": true,
+        "price": 2.25,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 2.00,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "35",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "35",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 1.99,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "36",
+        "in_stock": false,
+        "price": 1.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.80,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.60,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 1.90,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.70,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 1.80,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.65,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.55,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.99,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "37",
+        "in_stock": false,
+        "price": 1.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.80,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.60,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.90,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.70,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.80,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.65,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.55,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "38",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "38",
+        "in_stock": true,
+        "price": 1.99,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "38",
+        "in_stock": false,
+        "price": 1.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "38",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.80,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "38",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "38",
+        "in_stock": true,
+        "price": 1.90,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.70,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "38",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "38",
+        "in_stock": true,
+        "price": 1.80,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.65,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "38",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "38",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.55,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.99,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "39",
+        "in_stock": false,
+        "price": 1.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.80,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "598279836",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.90,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.70,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.80,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.65,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.55,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360217468",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.50,
+            "date": "2023-08-23",
+            "likes": 8,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "354449389",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 1.99,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.75,
+            "date": "2023-08-23",
+            "likes": 6,
+            "dislikes": 1,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "360226900",
+        "item_id": "40",
+        "in_stock": false,
+        "price": 1.85,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "364381224",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.80,
+            "date": "2023-08-23",
+            "likes": 9,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "364463568",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.60,
+            "date": "2023-08-23",
+            "likes": 11,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "598279836",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 1.90,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.70,
+            "date": "2023-08-23",
+            "likes": 10,
+            "dislikes": 0,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "633369803",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "980515550",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 1.80,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.65,
+            "date": "2023-08-23",
+            "likes": 5,
+            "dislikes": 3,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },    
+    {
+        "store_id": "1643373636",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": false,
+        "discount" : {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643713405",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": true, 
+        "discount" : {
+            "discount_price": 1.55,
+            "date": "2023-08-23",
+            "likes": 7,
+            "dislikes": 2,
+            "achievements": {}
+        },
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "1643373639",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.25,
+        "on_discount": false,
         "discount": {},
-        "user_id" : "64ccdd73d7232dc40518db21",
-        "category" : "8016e637b54241f8ad242ed1699bf2da"
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713403",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.70,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643713406",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.34,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643818244",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.70,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643818267",
+        "item_id": "1",
+        "in_stock": false,
+        "price": 3.79,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643818277",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.50,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643818281",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.49,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643825320",
+        "item_id": "1",
+        "in_stock": false,
+        "price": 3.99,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1643889596",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.49,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1657132006",
+        "item_id": "1",
+        "in_stock": false,
+        "price": 3.28,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd565a5bb46dd07e5148",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1657132008",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 3.75,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1657962066",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 4.25,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1695934267",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1763830009",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 5.00,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1763830474",
+        "item_id": "5",
+        "in_stock": false,
+        "price": 3.95,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1770994538",
+        "item_id": "1",
+        "in_stock": true,
+        "price": 2.80,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1771512424",
+        "item_id": "2",
+        "in_stock": true,
+        "price": 4.50,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1815896581",
+        "item_id": "3",
+        "in_stock": true,
+        "price": 3.20,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1971240515",
+        "item_id": "4",
+        "in_stock": true,
+        "price": 2.70,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1971240518",
+        "item_id": "5",
+        "in_stock": true,
+        "price": 4.80,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1971247760",
+        "item_id": "6",
+        "in_stock": false,
+        "price": 3.65,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1971249846",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 4.95,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1997401665",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 2.70,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "1997401682",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 5.20,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "3144355008",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 3.10,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "3354481184",
+        "item_id": "6",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "4101518891",
+        "item_id": "7",
+        "in_stock": true,
+        "price": 3.85,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "4356067891",
+        "item_id": "8",
+        "in_stock": true,
+        "price": 2.90,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "4356183595",
+        "item_id": "9",
+        "in_stock": true,
+        "price": 4.50,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "4357098895",
+        "item_id": "10",
+        "in_stock": true,
+        "price": 3.30,
+        "on_discount": false,
+        "discount": {},
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "8016e637b54241f8ad242ed1699bf2da"
+    },
+    {
+        "store_id": "4357217589",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 0.80,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "4357425491",
+        "item_id": "12",
+        "in_stock": false,
+        "price": 1.10,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "4357589496",
+        "item_id": "13",
+        "in_stock": true,
+        "price": 0.65,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "4358244594",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 1.20,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "4372108797",
+        "item_id": "15",
+        "in_stock": false,
+        "price": 1.05,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "4484528391",
+        "item_id": "11",
+        "in_stock": true,
+        "price": 0.50,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "4752810729",
+        "item_id": "12",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "4931300543",
+        "item_id": "13",
+        "in_stock": false,
+        "price": 1.30,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "4953268497",
+        "item_id": "14",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "4969309651",
+        "item_id": "15",
+        "in_stock": true,
+        "price": 1.10,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5005384516",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.20,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5005409493",
+        "item_id": "17",
+        "in_stock": false,
+        "price": 0.90,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5005409494",
+        "item_id": "18",
+        "in_stock": true,
+        "price": 1.10,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5005409495",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5005476710",
+        "item_id": "20",
+        "in_stock": false,
+        "price": 1.30,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5005476711",
+        "item_id": "16",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5132918123",
+        "item_id": "17",
+        "in_stock": true,
+        "price": 0.80,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5164678230",
+        "item_id": "18",
+        "in_stock": false,
+        "price": 1.25,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5164741179",
+        "item_id": "19",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5350727524",
+        "item_id": "20",
+        "in_stock": true,
+        "price": 1.15,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "662418cbd02e435280148dbb8892782a"
+    },
+    {
+        "store_id": "5396345464",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.85,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "5620198221",
+        "item_id": "22",
+        "in_stock": false,
+        "price": 1.00,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "5620208927",
+        "item_id": "23",
+        "in_stock": true,
+        "price": 0.70,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "5783486253",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 0.95,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "5909978406",
+        "item_id": "25",
+        "in_stock": false,
+        "price": 1.10,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "7673935764",
+        "item_id": "21",
+        "in_stock": true,
+        "price": 0.75,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "7673976786",
+        "item_id": "22",
+        "in_stock": true,
+        "price": 1.05,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "7673986831",
+        "item_id": "23",
+        "in_stock": false,
+        "price": 0.80,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "7674120315",
+        "item_id": "24",
+        "in_stock": true,
+        "price": 1.10,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "7677225097",
+        "item_id": "25",
+        "in_stock": true,
+        "price": 0.90,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "7914886761",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 4.75,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8214753473",
+        "item_id": "27",
+        "in_stock": false,
+        "price": 3.20,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8214854586",
+        "item_id": "28",
+        "in_stock": true,
+        "price": 5.80,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8214887295",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 3.90,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8214887306",
+        "item_id": "30",
+        "in_stock": false,
+        "price": 2.65,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8214910532",
+        "item_id": "26",
+        "in_stock": true,
+        "price": 4.20,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8215010716",
+        "item_id": "27",
+        "in_stock": true,
+        "price": 2.95,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8215157448",
+        "item_id": "28",
+        "in_stock": false,
+        "price": 5.50,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8753329904",
+        "item_id": "29",
+        "in_stock": true,
+        "price": 3.35,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8753329905",
+        "item_id": "30",
+        "in_stock": true,
+        "price": 2.80,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "a8ac6be68b53443bbd93b229e2f9cd34"
+    },
+    {
+        "store_id": "8777081651",
+        "item_id": "31",
+        "in_stock": true,
+        "price": 2.00,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "8777171555",
+        "item_id": "32",
+        "in_stock": false,
+        "price": 2.25,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "8805335004",
+        "item_id": "33",
+        "in_stock": true,
+        "price": 1.80,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "8805467220",
+        "item_id": "34",
+        "in_stock": true,
+        "price": 2.40,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "8806495733",
+        "item_id": "35",
+        "in_stock": false,
+        "price": 1.65,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "9651304117",
+        "item_id": "36",
+        "in_stock": true,
+        "price": 2.10,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "9785182275",
+        "item_id": "37",
+        "in_stock": true,
+        "price": 1.75,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "9785182280",
+        "item_id": "38",
+        "in_stock": false,
+        "price": 2.20,
+        "on_discount": false,
+        "user_id": "64d145f1d9e812ab392b74fe",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "9785335420",
+        "item_id": "39",
+        "in_stock": true,
+        "price": 1.95,
+        "on_discount": false,
+        "user_id": "64d28e08c9253fee25466db2",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
+    },
+    {
+        "store_id": "7914886761",
+        "item_id": "40",
+        "in_stock": true,
+        "price": 2.50,
+        "on_discount": false,
+        "user_id": "64ccdd73d7232dc40518db21",
+        "category": "ee0022e7b1b34eb2b834ea334cda52e7"
     }
 ]

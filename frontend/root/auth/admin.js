@@ -1,4 +1,3 @@
-// Assuming you're using the Fetch API for AJAX requests
 fetch('http://localhost:3000/check-admin-auth', {
   method: 'GET',
   credentials: 'include', // Send cookies

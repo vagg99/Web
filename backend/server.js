@@ -57,10 +57,10 @@ async function loginUser(username, password) {
   let password_hashed = hash(username,password);
   for (user in users) {
     if (users[user].username === username && users[user].password_hashed === password_hashed) {
-      return {message:'User logged in successfully!', isAdmin : users[user].isAdmin};
+      return {message:'User logged in successfully!', user : users[user]};
     }
   }
-  return {message:false,isAdmin:false};
+  return {message:false,user:false};
 }
 
 // Add a new route to handle the registration data
@@ -105,7 +105,8 @@ async function handleLogin(req, res) {
     try {
       const { username, password } = req.body;
       // Call the loginUser function to check if the user exists
-      const {message,isAdmin} = await loginUser(username, password);
+      const {message,user} = await loginUser(username, password);
+
       if (!message){
         res.writeHead(403, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Wrong username or password.' }));
@@ -113,8 +114,9 @@ async function handleLogin(req, res) {
       }
       req.session.user = {
         username: username,
-        isAdmin: isAdmin,
-        test : "test"
+        isAdmin: user.isAdmin,
+        points : user.points,
+        tokens : user.tokens
       };
       res.cookie('sessionid', req.sessionID);
 
@@ -644,6 +646,17 @@ app.get('/check-admin-auth', (req, res) => {
     }
   }
   res.json({ isAdmin: false });
+});
+
+app.get('/check-user-auth', (req, res) => {
+  if (req.session){
+    if (req.session.user || (req.sessionStore.sessions[req.cookies.sessionid] && req.sessionStore.sessions[req.cookies.sessionid].user )) {
+      // User is logged in
+      res.json({ loggedIn: true });
+      return;
+    }
+  }
+  res.json({ loggedIn: false });
 });
 
 // GET request for leaderboard

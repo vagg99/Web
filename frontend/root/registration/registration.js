@@ -5,10 +5,6 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
   var email = document.getElementById('email').value;
-  var StartingTokens = 100;
-  var tokens = { "total" : StartingTokens , "monthly" : StartingTokens};
-  var points = { "total" : 0 , "monthly" : 0};
-  var isAdmin = false;
 
   // Password validation regex
   var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -35,7 +31,7 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username, tokens, points, email, password, isAdmin })
+      body: JSON.stringify({ username, email, password })
     });
 
     const data = await response.json();
@@ -90,6 +86,11 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     // Show a success message to the user (you can keep your existing success message code)
     showSuccess(data.message);
+
+    // Show the profile button
+    const profileLink = document.getElementById('profileLink');
+    profileLink.style.display = 'block';
+
   } catch (error) {
     console.error('Error during login:', error);
     // Handle errors and show an error message to the user, if needed

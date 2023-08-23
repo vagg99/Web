@@ -40,12 +40,16 @@ async function connectToDatabase(collectionName) {
   return client.db('website7').collection(collectionName);
 }
 
-async function registerUser(username, tokens, points, email, password, isAdmin) {
-  const collection = await connectToDatabase();
+async function registerUser(username, email, password) {
+  const collection = await connectToDatabase('users');
   let password_hashed = hash(username,password);
+  var StartingTokens = 100;
+  var tokens = { "total" : StartingTokens , "monthly" : StartingTokens};
+  var points = { "total" : 0 , "monthly" : 0};
+  var isAdmin = false;
   const userData = { username, tokens, points, email, password_hashed, isAdmin };
   const result = await collection.insertOne(userData);
-  if (result.insertedCount === 1) {
+  if (result.insertedId) {
     return 'User registered successfully!';
   } else {
     throw new Error('Failed to register user.');
@@ -67,8 +71,7 @@ async function loginUser(username, password) {
 async function handleRegistration(req, res) {
   if (req.method === 'POST' && req.url === '/register') {
     try {
-      const { username, tokens, points, email, password, isAdmin } = req.body;
-
+      const { username, email, password } = req.body;
 
       const {users, collection} = await getUsers();
 
@@ -86,7 +89,7 @@ async function handleRegistration(req, res) {
       }
 
       // Call the registerUser function to store the user data
-      const message = await registerUser(username, tokens, points, email, password, isAdmin);
+      const message = await registerUser(username, email, password);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message }));

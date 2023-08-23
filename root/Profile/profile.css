@@ -1589,7 +1589,37 @@
     }
   }
 
+  /* Navigation bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+  }
   
+  /* Profile section */
+  .profile {
+    display: none; /* Initially hide profile section */
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+  }
+  
+  /* Media queries for responsiveness */
+  
+  /* Show profile under navigation bar when in window mode */
+  @media screen and (max-width: 1024px) {
+    .navbar {
+      flex-direction: column; /* Stack items vertically */
+      align-items: stretch; /* Stretch to full width */
+    }
+  
+    .profile {
+      display: block; /* Show the profile section */
+    }
+  }
 
   .navbar-search-dark .focused .input-group {
     border-color: rgba(255, 255, 255, .9);

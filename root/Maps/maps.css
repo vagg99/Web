@@ -88,3 +88,52 @@ select {
   align-items: center;
   margin-bottom: 10px;
 }
+
+/* search box */
+#search-box {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  width: 300px;
+  font-size: 16px;
+  background-color: #f5f5f5;
+}
+
+#search-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#search-btn:hover {
+  background-color: #0056b3;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px; /* Adjust as needed */
+}
+
+.home-icon {
+  margin-right: 10px;
+}
+
+.header-text {
+  margin-left: 10px;
+}
+
+/* Center the header text vertically */
+.header-text h1 {
+  line-height: 1.2;
+}
+
+/* Add space between search and map */
+.space {
+  margin-bottom: 20px; /* Adjust this value as needed */
+}

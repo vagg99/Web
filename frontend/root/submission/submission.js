@@ -142,7 +142,6 @@ function displaySelectedProduct(product) {
       productDiv.querySelector('.submit-button').addEventListener('click', () => {
           const priceInput = productDiv.querySelector('input[type="number"]');
           const price = priceInput.value;
-          console.log(price);
           if (price !== '') {
             submitDiscount(product._id, price);
           }
@@ -166,20 +165,29 @@ async function getItemsInStock(shopId) {
   return discounts;
 }
 
-function submitDiscount(productId, newprice) {
+async function submitDiscount(productId, newprice) {
   console.log(JSON.stringify({ productId, newprice }))
-  fetch(`http://localhost:3000/submitDiscount`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ productId, newprice })
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Success:', data);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
+
+  let userId = "64ccdd565a5bb46dd07e5148";
+
+  try {
+    const response = await fetch(`http://localhost:3000/submitDiscount`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ productId, newprice , userId })
+    });
+
+    const result = await response.text();
+
+    if (response.ok) {
+        console.log("success!",result);
+    } else {
+        console.log("rip",result);
+    }
+  } catch (error) {
+      console.error('Error uploading data:', error);
+      say(messageDiv, 'An error occurred.');
+  }
 }

@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
+cron.schedule("0 0 * * *", deleteOldDiscounts); // CHECK EVERYDAY FOR DISCOUNT THAT ARE A WEEK OLD AND DELETE THEM
 
 app.use(cors());
 
@@ -133,16 +134,31 @@ function hash(username,password) {
   Obj.update(password);
   return Obj.getHash("HEX");
 }
+// 5_a_i and 5_a_ii rules
+function twenty_percent_smaller(newprice,oldprice){
+  return ((newprice / oldprice) < 0.8);
+}
 
 // get date
-function getDate() {
+function getCurrentDate() {
   const currentDate = new Date();
 
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, '0');
   const day = String(currentDate.getDate()).padStart(2, '0');
 
- return `${year}-${month}-${day}`;
+  return `${year}-${month}-${day}`;
+}
+function getOneWeekAgoDate(){
+  const oneWeekAgo = new Date();
+
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+  const year = oneWeekAgo.getFullYear();
+  const month = String(oneWeekAgo.getMonth() + 1).padStart(2, '0');
+  const day = String(oneWeekAgo.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
 }
 
 // Χρήστης : 2) d) Εμφάνιση Προσφορών
@@ -278,16 +294,10 @@ async function handleLikesDislikesUpdate(req, res){
 // Χρήστης : 3) Υποβολή Προσφορών
 async function handleDiscountSubmission(req, res) {
   try {
-    const { productId, newprice } = req.body;
-
-    console.log(productId);
+    const { productId, newprice , userId } = req.body;
 
     const collection = await connectToDatabase("stock");
     const product = await collection.findOne({ _id: new ObjectId(productId) });
-
-    console.log(product)
-
-    console.log(newprice)
 
     if (!product) {
       res.status(404).json({ error: 'Product not found' });
@@ -304,7 +314,7 @@ async function handleDiscountSubmission(req, res) {
       return;
     }
 
-    if (product.on_discount && ((newprice / product.discount.discount_price) < 0.8)) {
+    if (product.on_discount && _5_a_i_rule(newprice,product.discount.discount_price)) {
       res.status(400).json({ error: 'Discount price must be at least 20% lower than the current discount price' });
       return;
     }
@@ -315,16 +325,66 @@ async function handleDiscountSubmission(req, res) {
       on_discount : true,
       discount: { 
         discount_price: newprice,
-        date : getDate(),
+        date : getCurrentDate(),
         likes : 0,
         dislikes : 0,
         achievements : achievements
-      } 
+      },
+      user_id : userId
     }});
+
+    getPointsforSubmission(userId,await calculatePoints(product));
+
     res.status(200).json(result);
   } catch (error){
     console.error('Error submitting discount:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+}
+// Διαγραφή προσφορών που είναι παλιότερες απο μία βδομάδα
+// (η συνάρτηση καλείται κάθε μέρα στα μεσάνυχτα οπότε μετα απο 1 βδομαδα
+// απο την υποβολη τους θα έχουν διαγραφεί.)
+async function deleteOldDiscounts() {
+  const collection = await connectToDatabase("stock");
+  
+  // Calculate the date that was a week ago from today
+  const oneWeekAgo = getOneWeekAgoDate();
+  const discountsToDelete = await collection.find({ "discount.date": { $lt: oneWeekAgo } }).toArray();
+
+  const bulkOperations = [];
+
+  for (const discount of discountsToDelete) {
+    if (calculatePoints(discount.user_id, discount)) {
+      bulkOperations.push({
+        updateOne: {
+          filter: { _id: discount._id },
+          update: {
+            $set: {
+              "discount.date": getCurrentDate()  // Update the discount date to current date
+            }
+          }
+        }
+      });
+    } else {
+      bulkOperations.push({
+        updateOne: {
+          filter: { _id: discount._id },
+          update: {
+            $set: {
+              "discount": {},          // Reset the discount field
+              "on_discount": false    // Set on_discount flag to false
+            }
+          }
+        }
+      });
+    }
+  }
+
+  if (bulkOperations.length > 0) {
+    const result = await collection.bulkWrite(bulkOperations);
+    console.log(`Processed ${result.modifiedCount + result.deletedCount} discounts.`);
+  } else {
+    console.log("No discounts to process.");
   }
 }
 
@@ -356,6 +416,70 @@ async function distributeTokens() {
     },
   }));
   await collection.bulkWrite(updateOperations);
+}
+
+// Χρήστης 5) α) i. και ii. και iii. και iv.
+async function calculatePoints(product){
+  let productID = product.item_id;
+
+  const collection = await connectToDatabase('stock');
+  
+  // Find all documents in the stock collection with the given product ID and in stock
+  const ItemsInStockToday = await collection.find({
+    'item_id': productID,
+    'in_stock': true,
+    "discount.date": { $lt: getCurrentDate() }
+  }).toArray();
+  const ItemsInStockThisWeek = await collection.find({
+    'item_id': productID,
+    'in_stock': true,
+    "discount.date": { $lt: getOneWeekAgoDate() }
+  }).toArray();
+
+  mesh_timi_today = 0
+  for (item in ItemsInStockToday){
+    if (item.on_discount){
+      mesh_timi_today+=ItemsInStockToday[item].discount.discount_price;
+    } else {
+      mesh_timi_today+=ItemsInStockToday[item].price;
+    }
+  }
+
+  mesh_timi_weekly = 0
+  for (item in ItemsInStockThisWeek){
+    if (item.on_discount){
+      mesh_timi_weekly+=ItemsInStockThisWeek[item].discount.discount_price;
+    } else {
+      mesh_timi_weekly+=ItemsInStockThisWeek[item].price;
+    }
+  }
+  
+  if ( twenty_percent_smaller(product.discount.discount_price,mesh_timi_today) ){
+    return 50;
+  }
+  if (twenty_percent_smaller(product.discount.discount_price,mesh_timi_weekly) ){
+    return 20;
+  }
+
+  return false;
+}
+async function getPointsforSubmission(userId,pointsToAdd){
+  const collection = await connectToDatabase("users");
+  try {
+    const result = await collection.updateOne(
+      { _id: ObjectId(userId) }, // Convert userId to ObjectId
+      { $inc: { "points.monthly" : pointsToAdd } } // Increment the points field by the specified value
+    );
+
+    if (result.matchedCount === 1) {
+      console.log(`Points updated successfully for user with _id: ${userId}`);
+    } else {
+      console.log(`User with _id: ${userId} not found.`);
+    }
+  } catch (error) {
+    console.error(`Error updating points for user with _id: ${userId}`);
+    console.error(error);
+  }
 }
 
 // Χρήστης 5) β) i. και i.. Σκορ Αξιολόγισης με βάση τις αξιολογίσεις των χρηστών

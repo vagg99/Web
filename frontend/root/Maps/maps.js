@@ -4,6 +4,23 @@ var map = L.map('map')
 // Add the tile layer (OpenStreetMap as an example)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
+let userLoggedIn = false;
+fetch('http://localhost:3000/check-user-auth', {
+  method: 'GET',
+  credentials: 'include', // Send cookies
+})
+.then(response => response.json())
+.then(data => {
+  if (data.loggedIn) {
+    userLoggedIn = true;
+  } else {
+    userLoggedIn = false;
+  }
+})
+.catch(error => {
+  console.error('Fetch error:', error);
+});
+
 // Test View
 const view = [38.24511060644045, 21.7364112438391];
 
@@ -198,7 +215,11 @@ async function onMarkerClick(marker,e,id,shopName){
   const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
   //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
   // The clicked marker is less than 50 meters away from the user's location marker
-    popupContent += `<button id="submit-discount-button" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
+    if (userLoggedIn) {
+      popupContent += `<button id="submit-discount-button" class="clickable-btn" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
+    } else {
+      popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
+    }
   //}
 
   marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
@@ -246,7 +267,11 @@ function createPopupContent(data,shopName,distance,shopId) {
   
   //if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
     // The clicked marker is less than 50 meters away from the user's location marker
-   output+=`<button id="assessment-button" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Προσφορών</button>`;
+    if (userLoggedIn) {
+      output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Προσφορών</button>`;
+    } else {
+      output += `<button id="assessment-button" class="clickable-btn logged-out" disabled>Αξιολόγιση Προσφορών</button>`;
+    }
   //}
 
   output+="</div>";

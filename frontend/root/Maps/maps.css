@@ -30,3 +30,8 @@ select {
   height: 1em; /* Adjust this value as needed */
   vertical-align: middle;
 }
+
+.clickable-btn.logged-out {
+  color: gray;
+  cursor: not-allowed;
+}

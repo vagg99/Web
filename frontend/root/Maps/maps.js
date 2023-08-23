@@ -229,12 +229,12 @@ function createPopupContent(data,shopName,distance,shopId) {
 
   for (let i = 0 ; i < data.length ; i++){
     let product = data[i].item.name;
-    let price = data[i].discount_price;
-    let date = data[i].date;
-    let likes = data[i].likes;
-    let dislikes = data[i].dislikes;
+    let price = data[i].discount.discount_price;
+    let date = data[i].discount.date;
+    let likes = data[i].discount.likes;
+    let dislikes = data[i].discount.dislikes;
     let apothema = data.in_stock?"ναι":"οχι";
-    let achievements = data[i].achievements;
+    let achievements = data[i].discount.achievements;
     output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
 
     if (achievements['5_a_i']) { output += ` - 5_a_i : <img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">`; }

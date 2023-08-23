@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const shopId = params.get('shopId');
 
   const shopTitle = document.getElementById("shopTitle");
-  shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
+  //shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
 
   items = { products : [{id:"1337",name:"no product"}], categories : [] };
 
@@ -12,11 +12,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   populateCategories();
 
+  shopTitle.innerHTML = `Στο μαγαζί loading.....`;
+
   items.products = await getItemsInStock(shopId);
 
-  console.log(items.products);
-
   shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
+
+  console.log(items.products);
 
 });
 
@@ -85,7 +87,7 @@ const productResults = document.getElementById('productResults');
 // Function to filter products based on search input
 function filterProducts(query) {
     const filteredProducts = items.products.filter(product => {
-        return product.name.toLowerCase().includes(query.toLowerCase());
+        return product.item.name.toLowerCase().includes(query.toLowerCase());
     });
     return filteredProducts;
 }
@@ -105,8 +107,7 @@ function displayResults(results) {
                 const priceInput = productDiv.querySelector('input[type="number"]');
                 const price = priceInput.value;
                 if (price !== '') {
-                    // Τροποποίηση για να περαστούν στη βάση δεδομένων
-                    console.log(`Submitted price for ${product.item.name}: ${price}`);
+                  submitDiscount(product._id, price);
                 }
             });
             productResults.appendChild(productDiv);
@@ -125,27 +126,24 @@ const productDropdown = document.getElementById('product');
 
 productDropdown.addEventListener('change', () => {
   const selectedProductId = productDropdown.value;
-  if (selectedProductId !== '0') {
-      const selectedProduct = items.products.find(product => product.item.id === selectedProductId);
-      displaySelectedProduct(selectedProduct);
-  }
+  const selectedProduct = items.products.find(product => product.item.id === selectedProductId);
+  displaySelectedProduct(selectedProduct);
 });
 
 function displaySelectedProduct(product) {
   productResults.innerHTML = '';
   const productDiv = document.createElement('div');
-  console.log(product)
   productDiv.innerHTML = `
       <img src="${product.item.img}" alt="${product.item.name}" width="100">
       <p>${product.item.name}</p>
       <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
       <button class="submit-button">Υποβολή</button>
       `;
-      productDiv.querySelector('.submit-button').addEventListener('click', async () => {
+      productDiv.querySelector('.submit-button').addEventListener('click', () => {
           const priceInput = productDiv.querySelector('input[type="number"]');
           const price = priceInput.value;
           if (price !== '') {
-              //await submitDiscount(product.id, price);
+            submitDiscount(product._id, price);
           }
       });
       productResults.appendChild(productDiv);
@@ -165,4 +163,31 @@ async function getItemsInStock(shopId) {
   const response = await fetch(`http://localhost:3000/getStock?shopId=${shopId}`);
   const discounts = await response.json();
   return discounts;
+}
+
+async function submitDiscount(productId, newprice) {
+  console.log(JSON.stringify({ productId, newprice }))
+
+  let userId = "64ccdd565a5bb46dd07e5148";
+
+  try {
+    const response = await fetch(`http://localhost:3000/submitDiscount`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ productId, newprice , userId })
+    });
+
+    const result = await response.text();
+
+    if (response.ok) {
+        console.log("success!",result);
+    } else {
+        console.log("rip",result);
+    }
+  } catch (error) {
+      console.error('Error uploading data:', error);
+      say(messageDiv, 'An error occurred.');
+  }
 }

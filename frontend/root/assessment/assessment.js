@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${shopId}`);
     const discountedItems = await response.json();
+    
+    console.log(discountedItems);
 
     const productList = document.getElementById("productContainer");
 
@@ -21,17 +23,15 @@ function addProduct(item, productList) {
     const DiscountId = item._id;
     const productName = item.item.name;
     const shopName = item.store.tags.name;
-    const price = item.discount_price;
-    const date = item.date;
-    let likes = item.likes;
-    let dislikes = item.dislikes;
+    const price = item.discount.discount_price;
+    const date = item.discount.date;
+    let likes = item.discount.likes;
+    let dislikes = item.discount.dislikes;
     let in_stock = item.in_stock;
     const product_image_link = item.item.img;
-    const achievements = item.achievements;
+    const achievements = item.discount.achievements;
     const username = item.user.username;
     const totalPoints = item.user.points.total;
-
-    console.log(item)
 
     if (!userPoints[username]) { userPoints[username] = 0; }
 

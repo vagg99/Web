@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
+cron.schedule("0 0 * * *", deleteOldDiscounts); // CHECK EVERYDAY FOR DISCOUNT THAT ARE A WEEK OLD AND DELETE THEM
 
 app.use(cors());
 
@@ -133,6 +134,32 @@ function hash(username,password) {
   Obj.update(password);
   return Obj.getHash("HEX");
 }
+// 5_a_i and 5_a_ii rules
+function twenty_percent_smaller(newprice,oldprice){
+  return ((newprice / oldprice) < 0.8);
+}
+
+// get date
+function getCurrentDate() {
+  const currentDate = new Date();
+
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+function getOneWeekAgoDate(){
+  const oneWeekAgo = new Date();
+
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+  const year = oneWeekAgo.getFullYear();
+  const month = String(oneWeekAgo.getMonth() + 1).padStart(2, '0');
+  const day = String(oneWeekAgo.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
 
 // Χρήστης : 2) d) Εμφάνιση Προσφορών
 async function getItemsInStockFromDatabase(storeId,on_discount=false) {
@@ -145,7 +172,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
       {
         $match: {
           store_id: storeId,
-          'discount' : { $exists: true, $ne: {} }
+          on_discount : true
         }
       }
     );
@@ -192,8 +219,10 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
       {
         $lookup: {
           from: 'users', // Name of the users collection
-          localField: 'discount.user_id',
-          foreignField: '_id',
+          let: { userId: { $toObjectId: '$user_id' } }, // Convert user_id to ObjectId
+          pipeline: [
+            { $match: { $expr: { $eq: ['$_id', '$$userId'] } } }
+          ],
           as: 'user'
         }
       },
@@ -204,18 +233,15 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
         $project: {
           _id: true,
           store_id: true,
+          discount : true,
           'store.tags.name': true,
           'item.name': true,
           'item.id' : true,
           in_stock: true,
-          'discount.discount_price': true,
-          'discount.date': true,
-          'discount.likes': true,
-          'discount.dislikes' : true,
           'item.img' : true,
-          'discount.user.username': true,
-          'discount.user.points.total': true,
-          'discount.achievements' : true,
+          user_id : true,
+          user : true,
+          'on_discount' : true
         }
       }
     );
@@ -226,6 +252,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
           _id: true,
           store_id: true,
           price : true,
+          discount : true,
           'store.tags.name': true,
           'item.name': true,
           'item.id' : true,
@@ -233,6 +260,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
           'item.subcategory' : true,
           in_stock: true,
           'item.img' : true,
+          'on_discount' : true
         }
       }
     );
@@ -254,12 +282,127 @@ async function handleLikesDislikesUpdate(req, res){
     const discountId = req.query.discountId;
     const collection = await connectToDatabase("stock");
     const objectIdDiscountId = new ObjectId(discountId);
-    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: {likes : likes, dislikes : dislikes , in_stock : in_stock} });
+    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: {'discount.likes' : likes, 'discount.dislikes' : dislikes , in_stock : in_stock} });
     await updateLikeDislikePoints(points);
     res.status(200).json(result);
   } catch (error) {
     console.error('Error updating stock:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+// Χρήστης : 3) Υποβολή Προσφορών
+async function handleDiscountSubmission(req, res) {
+  try {
+    let { productId, newprice , userId } = req.body;
+    newprice = Number(newprice);
+
+    const collection = await connectToDatabase("stock");
+    const product = await collection.findOne({ _id: new ObjectId(productId) });
+
+    if (!product) {
+      res.status(404).json({ error: 'Product not found' });
+      return;
+    }
+
+    if (newprice < 0) {
+      res.status(400).json({ error: 'Invalid price' });
+      return;
+    }
+
+    if (newprice >= product.price) {
+      res.status(400).json({ error: 'Discount price must be lower than the original price' });
+      return;
+    }
+
+    if (product.on_discount && newprice >= product.discount.discount_price) {
+      res.status(400).json({ error: 'Discount price must be lower than the current discount price' });
+      return;
+    }
+
+    if (product.on_discount && !twenty_percent_smaller(newprice,product.discount.discount_price)) {
+      res.status(400).json({ error: 'Discount price must be at least 20% lower than the current discount price' });
+      return;
+    }
+    
+    let achievements = {};
+
+    let p = await calculatePoints(product,newprice);
+
+    if (p == 50){
+      achievements["5_a_i"] = true;
+    }
+    if (p == 30){
+      achievements["5_a_ii"] = true;
+    }
+
+    const result = await collection.updateOne({ _id: new ObjectId(productId) }, { $set: {
+      on_discount : true,
+      discount: { 
+        discount_price: newprice,
+        date : getCurrentDate(),
+        likes : 0,
+        dislikes : 0,
+        achievements : achievements
+      },
+      user_id : userId
+    }});
+
+    if (p) getPointsforSubmission(userId,p)
+
+    res.status(200).json(result);
+  } catch (error){
+    console.error('Error submitting discount:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+// Διαγραφή προσφορών που είναι παλιότερες απο μία βδομάδα
+// (η συνάρτηση καλείται κάθε μέρα στα μεσάνυχτα οπότε μετα απο 1 βδομαδα
+// απο την υποβολη τους θα έχουν διαγραφεί.)
+async function deleteOldDiscounts() {
+  const collection = await connectToDatabase("stock");
+  
+  // Calculate the date that was a week ago from today
+  const oneWeekAgo = getOneWeekAgoDate();
+  const discountsToDelete = await collection.find({ "discount.date": { $lt: oneWeekAgo } }).toArray();
+
+  const bulkOperations = [];
+
+  for (const discount of discountsToDelete) {
+    let p = calculatePoints(discount,discount.discount.discount_price)
+    if (p) {
+      bulkOperations.push({
+        updateOne: {
+          filter: { _id: discount._id },
+          update: {
+            $set: {
+              "discount.date": getCurrentDate(),  // Update the discount date to current date
+              "discount.achievements.5_a_i" : p == 50 ? true : false,
+              "discount.achievements.5_a_ii" : p == 30 ? true : false
+            }
+          }
+        }
+      });
+    } else {
+      bulkOperations.push({
+        updateOne: {
+          filter: { _id: discount._id },
+          update: {
+            $set: {
+              "discount": {},          // Reset the discount field
+              "on_discount": false    // Set on_discount flag to false
+            }
+          }
+        }
+      });
+    }
+  }
+
+  if (bulkOperations.length > 0) {
+    const result = await collection.bulkWrite(bulkOperations);
+    console.log(`Processed ${result.modifiedCount + result.deletedCount} discounts.`);
+  } else {
+    console.log("No discounts to process.");
   }
 }
 
@@ -273,6 +416,7 @@ async function distributeTokens() {
   let TotalPoints = 0;
   for (let i = 0; i < users.length; i++) {
     ApothematikoTokens += users[i].tokens["monthly"];
+    if (users[i].points["monthly"] < 0) { users[i].points["monthly"] = 0;}
     TotalPoints += users[i].points["monthly"];
   }
   for (let i = 0; i < users.length; i++) {
@@ -290,6 +434,69 @@ async function distributeTokens() {
     },
   }));
   await collection.bulkWrite(updateOperations);
+}
+
+// Χρήστης 5) α) i. και ii. και iii. και iv.
+async function calculatePoints(product,newprice){
+  let productID = product.item_id;
+
+  const collection = await connectToDatabase('stock');
+  
+  // Find all documents in the stock collection with the given product ID and in stock
+  const ItemsInStockToday = await collection.find({
+    'item_id': productID,
+    'in_stock': true,
+    'discount.date': { $lt: getCurrentDate() }
+  }).toArray();
+  const ItemsInStockThisWeek = await collection.find({
+    'item_id': productID,
+    'in_stock': true,
+    'discount.date': { $lt: getOneWeekAgoDate() }
+  }).toArray();
+
+  mesh_timi_today = 0
+  for (item in ItemsInStockToday){
+    if (item.on_discount){
+      mesh_timi_today+=ItemsInStockToday[item].discount.discount_price;
+    } else {
+      mesh_timi_today+=ItemsInStockToday[item].price;
+    }
+  }
+
+  mesh_timi_weekly = 0
+  for (item in ItemsInStockThisWeek){
+    if (item.on_discount){
+      mesh_timi_weekly+=ItemsInStockThisWeek[item].discount.discount_price;
+    } else {
+      mesh_timi_weekly+=ItemsInStockThisWeek[item].price;
+    }
+  }
+  if ( twenty_percent_smaller(newprice,mesh_timi_today) ){
+    return 50;
+  }
+  if ( twenty_percent_smaller(newprice,mesh_timi_weekly) ){
+    return 20;
+  }
+
+  return false;
+}
+async function getPointsforSubmission(userId,pointsToAdd){
+  const collection = await connectToDatabase("users");
+  try {
+    const result = await collection.updateOne(
+      { _id: new ObjectId(userId) }, // Convert userId to ObjectId
+      { $inc: { "points.monthly" : pointsToAdd } } // Increment the points field by the specified value
+    );
+
+    if (result.matchedCount === 1) {
+      console.log(`Points updated successfully for user with _id: ${userId}`);
+    } else {
+      console.log(`User with _id: ${userId} not found.`);
+    }
+  } catch (error) {
+    console.error(`Error updating points for user with _id: ${userId}`);
+    console.error(error);
+  }
 }
 
 // Χρήστης 5) β) i. και i.. Σκορ Αξιολόγισης με βάση τις αξιολογίσεις των χρηστών
@@ -505,9 +712,36 @@ app.get('/getUserInfo', async (req, res) => {
 // POST request for updating db with likes / dislikes and stock by users
 app.post('/assessment', handleLikesDislikesUpdate);
 
+// POST request for submitting new price on a product
+app.post('/submitDiscount', handleDiscountSubmission);
+
 // POST request for uploading files to a collection by admin
 app.post('/upload', handleJSONUpload);
 
+// POST requst for deleting a collection by admin
+app.post('/delete', handleDeletion);
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
+
+
+
+
+
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
 async function a(){
   const fs = require('fs');
   const data = fs.readFileSync('stock.json');
@@ -517,24 +751,18 @@ async function a(){
       item.store_id = String(item.store_id);
     }
   });
+  let l = [0,0];
   stock.forEach(item => {
-    if ('discount_price' in item) {
-      item.discount = {
-        discount_price: item.discount_price,
-        date: item.date,
-        likes: item.likes,
-        dislikes: item.dislikes,
-        user_id: item.user_id,
-        achievements: item.achievements
-      };
-      delete item.discount_price;
-      delete item.date;
-      delete item.likes;
-      delete item.dislikes;
-      delete item.user_id;
-      delete item.achievements;
+    if ('discount_price' in item.discount) {
+      item.user_id = item.discount.user_id;
+      delete item.discount.user_id;
+      item.on_discount = true;
+      l[0]=item;
     } else {
+      item.on_discount = false;
       item.discount = {};
+      item.user_id = {"$oid":"64ccdd73d7232dc40518db21"}
+      l[1]=item;
     }
   });
   const insertOperations = stock.map(item => ({
@@ -545,17 +773,51 @@ async function a(){
   const collection = await connectToDatabase('stock');
   const result = await collection.bulkWrite(insertOperations);
   console.log(result);
+  console.log(l);
 }
-// do not uncomment a();
 async function b(){
   const collection = await connectToDatabase('stock');
   const result = await collection.deleteMany({});
   console.log(`Deleted ${result.deletedCount} stock.`);
 }
-// do not uncomment b();
-// POST requst for deleting a collection by admin
-app.post('/delete', handleDeletion);
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+async function dostuff(){
+  await b()
+  await a()
+}
+async function domorestuff(){
+  await b()
+  const fs = require('fs');
+  const data = fs.readFileSync('stock.json');
+  const stock = JSON.parse(data);
+  let l = [0,0];
+  stock.forEach(item => {
+    if (item.on_discount) {
+      l[0]=item;
+    } else {
+      l[1]=item;
+    }
+  });
+  const insertOperations = stock.map(item => ({
+    insertOne: {
+      document: item
+    }
+  }));
+  const collection = await connectToDatabase('stock');
+  const result = await collection.bulkWrite(insertOperations);
+  console.log(result);
+  console.log(l);
+}
+//dostuff();
+//domorestuff();
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
+// TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES

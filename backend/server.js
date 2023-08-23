@@ -321,6 +321,15 @@ async function handleDiscountSubmission(req, res) {
     
     let achievements = {};
 
+    let p = getPointsforSubmission(userId,await calculatePoints(product));
+
+    if (p == 50){
+      achievements["5_a_i"] = true;
+    }
+    if (p == 30){
+      achievements["5_a_ii"] = true;
+    }
+
     const result = await collection.updateOne({ _id: new ObjectId(productId) }, { $set: {
       on_discount : true,
       discount: { 
@@ -332,8 +341,6 @@ async function handleDiscountSubmission(req, res) {
       },
       user_id : userId
     }});
-
-    getPointsforSubmission(userId,await calculatePoints(product));
 
     res.status(200).json(result);
   } catch (error){
@@ -354,13 +361,16 @@ async function deleteOldDiscounts() {
   const bulkOperations = [];
 
   for (const discount of discountsToDelete) {
-    if (calculatePoints(discount.user_id, discount)) {
+    let p = calculatePoints(discount.user_id, discount)
+    if (p) {
       bulkOperations.push({
         updateOne: {
           filter: { _id: discount._id },
           update: {
             $set: {
-              "discount.date": getCurrentDate()  // Update the discount date to current date
+              "discount.date": getCurrentDate(),  // Update the discount date to current date
+              "discount.achievements.5_a_i" : p == 50 ? true : false,
+              "discount.achievements.5_a_ii" : p == 30 ? true : false
             }
           }
         }
@@ -467,7 +477,7 @@ async function getPointsforSubmission(userId,pointsToAdd){
   const collection = await connectToDatabase("users");
   try {
     const result = await collection.updateOne(
-      { _id: ObjectId(userId) }, // Convert userId to ObjectId
+      { _id: new ObjectId(userId) }, // Convert userId to ObjectId
       { $inc: { "points.monthly" : pointsToAdd } } // Increment the points field by the specified value
     );
 

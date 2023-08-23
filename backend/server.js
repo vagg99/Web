@@ -446,12 +446,12 @@ async function calculatePoints(product,newprice){
   const ItemsInStockToday = await collection.find({
     'item_id': productID,
     'in_stock': true,
-    "discount.date": { $lt: getCurrentDate() }
+    'discount.date': { $lt: getCurrentDate() }
   }).toArray();
   const ItemsInStockThisWeek = await collection.find({
     'item_id': productID,
     'in_stock': true,
-    "discount.date": { $lt: getOneWeekAgoDate() }
+    'discount.date': { $lt: getOneWeekAgoDate() }
   }).toArray();
 
   mesh_timi_today = 0

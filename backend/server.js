@@ -3,17 +3,32 @@ const { MongoClient, ObjectId } = require('mongodb'); // DATABASE
 const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
 const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
+const session = require('express-session'); // USED FOR SESSIONS
+const cookieParser = require('cookie-parser');// USED FOR COOKIES
 
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
+
+app.use(session({
+  secret: 'nektarios', // Change this to a secure random string
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set secure to true in production with HTTPS
+}));
+
+app.use(cors({
+  origin: 'http://localhost:5500',
+  credentials: true, // Allow credentials (cookies)
+}));
+
+app.use(express.static('public'));
+
 
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 cron.schedule("0 0 * * *", deleteOldDiscounts); // CHECK EVERYDAY FOR DISCOUNT THAT ARE A WEEK OLD AND DELETE THEM
 
-app.use(cors());
-
-app.use(express.static('public'));
 
 const port = 3000;
 
@@ -23,21 +38,6 @@ async function connectToDatabase(collectionName) {
   const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
   return client.db('website7').collection(collectionName);
-}
-
-async function getRequestBody(request) {
-  return new Promise((resolve, reject) => {
-    let body = '';
-    request.on('data', (chunk) => {
-      body += chunk.toString();
-    });
-    request.on('end', () => {
-      resolve(body);
-    });
-    request.on('error', (error) => {
-      reject(error);
-    });
-  });
 }
 
 async function registerUser(username, tokens, points, email, password, isAdmin) {
@@ -57,18 +57,17 @@ async function loginUser(username, password) {
   let password_hashed = hash(username,password);
   for (user in users) {
     if (users[user].username === username && users[user].password_hashed === password_hashed) {
-      return 'User logged in successfully!';
+      return {message:'User logged in successfully!', isAdmin : users[user].isAdmin};
     }
   }
-  return false;
+  return {message:false,isAdmin:false};
 }
 
 // Add a new route to handle the registration data
 async function handleRegistration(req, res) {
   if (req.method === 'POST' && req.url === '/register') {
     try {
-      const body = await getRequestBody(req);
-      const { username, tokens, points, email, password, isAdmin } = JSON.parse(body);
+      const { username, tokens, points, email, password, isAdmin } = req.body;
 
 
       const {users, collection} = await getUsers();
@@ -104,17 +103,20 @@ async function handleRegistration(req, res) {
 async function handleLogin(req, res) {
   if (req.method === 'POST' && req.url === '/login') {
     try {
-      const body = await getRequestBody(req);
-      const { username, password } = JSON.parse(body);
-
+      const { username, password } = req.body;
       // Call the loginUser function to check if the user exists
-      const message = await loginUser(username, password);
-      
+      const {message,isAdmin} = await loginUser(username, password);
       if (!message){
         res.writeHead(403, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Wrong username or password.' }));
         return;
       }
+      req.session.user = {
+        username: username,
+        isAdmin: isAdmin,
+        test : "test"
+      };
+      res.cookie('sessionid', req.sessionID);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message }));
@@ -630,6 +632,19 @@ app.post('/register', handleRegistration);
 
 // POST request for login
 app.post('/login', handleLogin);
+
+app.get('/check-admin-auth', (req, res) => {
+  if (req.session){
+    if (req.session.user || req.sessionStore.sessions[req.cookies.sessionid]) {
+      if (req.session.user.isAdmin || (req.sessionStore.sessions[req.cookies.sessionid].user && req.sessionStore.sessions[req.cookies.sessionid].user.isAdmin)){
+        // User is authenticated as admin
+        res.json({ isAdmin: true });
+        return;
+      }
+    }
+  }
+  res.json({ isAdmin: false });
+});
 
 // GET request for leaderboard
 app.get('/leaderboard', async (req, res) => {

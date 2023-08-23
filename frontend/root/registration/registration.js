@@ -73,6 +73,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials : 'include',
       body: JSON.stringify({ username, password })
     });
 
@@ -114,7 +115,7 @@ function showError(message) {
   errorBox.className = 'error-box';
   errorBox.textContent = message;
   document.body.appendChild(errorBox);
-
+  
   setTimeout(function() {
     errorBox.style.display = 'none';
   }, 10000);

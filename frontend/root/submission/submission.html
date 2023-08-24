@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="../auth/user.js"></script>
+    <title>Υποβολή</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="submission.css">
+    <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <a href="../index.html">
+        <img src="../images/ekatanalotisShoppingCart_32.png" alt="Home Icon" class="home-icon">
+      </a>
+      <div class="header-text">
+        <h1><a href="../index.html">e-Καταναλωτής</a></h1>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="../index.html">Αρχική</a></li>
+        <li><a href="../Registration/registration.html">Σύνδεση</a></li>
+        <li><a href="../Maps/maps.html">Χάρτης</a></li>
+<<<<<<< HEAD:root/submission/submission.html
+        
+        <li><a href="../Profile/profile.html">Προφίλ</a></li>
+        <li id="adminDashboardBtn"><a href="../admin/admin.html">Διαχειριστής</a></li>
+=======
+        <li id="profileLink" style="display: none;"><a href="../Profile/profile.html">Προφίλ</a></li>
+        <li id="adminDashboardBtn" style="display: none;"><a href="../admin/admin.html">Admin</a></li>
+        <li id="logoutBtn" style="display: none;"><a href="#">Log Out</a></li>
+>>>>>>> main:frontend/root/submission/submission.html
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Υποβολή προσφοράς</h1>
+    <h2 id="shopTitle">Στο μαγαζί loading...</h2>
+    <div class="container-select">
+      <h3>Επιλέξτε κατηγορία, υποκατηγορία και προϊόν</h3>
+      <div class="dropdown">
+        <label for="category">Κατηγορία:</label>
+        <select id="category" onchange="populateSubcategories()">
+          <option value="0">Επιλέξτε κατηγορία</option>
+        </select>
+      </div>
+    
+      <div class="dropdown">
+        <label for="subcategory">Υποκατηγορία:</label>
+        <select id="subcategory" onchange="populateProducts()">
+          <option value="0">Επιλέξτε υποκατηγορία</option>
+        </select>
+      </div>
+    
+      <div class="dropdownProd">
+        <label for="product">Προϊόντα:</label>
+        <select id="product">
+          <option value="0">Επιλέξτε προϊόν</option>
+        </select>
+      </div>
+
+      <div class="search">
+          <h3>Γρήγορη αναζήτηση προϊόντος</h3>
+          <input type="text" id="searchInput" placeholder="Αναζήτηση προϊόντος...">
+      </div>
+    </div>
+
+    <div class="container-results">
+      <h3>Αποτελέσματα Προϊόντων</h3>
+      <div id="productResults"></div>
+    </div>
+  </main>
+
+
+  <footer style="position: fixed; bottom: 0;">
+		&copy; 2023 My Website. All rights reserved. 
+  </footer>
+  <script src="../auth/auth.js"></script>
+  <script src="submission.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script defer src="../auth/user.js"></script>
+    <title>Προφίλ | e-Καταναλωτής</title>
+    <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" type="text/css" href="profile.css">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="../index.html">
+                <img src="../images/ekatanalotisShoppingCart_32.png" alt="Home Icon" class="home-icon">
+            </a>
+            <div class="header-text">
+                <h1><a href="../index.html">e-Καταναλωτής</a></h1>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Αρχική</a></li>
+                <li><a href="../Registration/registration.html">Σύνδεση</a></li>
+                <li><a href="../Maps/maps.html">Χάρτης</a></li>
+                <li><a href="#">Προφίλ</a></li>
+<<<<<<< HEAD:root/Profile/profile.html
+                <li id="adminDashboardBtn"><a href="../Admin/admin.html">Διαχειριστής</a></li>
+=======
+                <li id="adminDashboardBtn" style="display: none;"><a href="../admin/admin.html">Admin</a></li>
+                <li id="logoutBtn"><a href="#">Log Out</a></li>
+>>>>>>> main:frontend/root/Profile/profile.html
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header  pt-lg-8 d-flex align-items-center" style="min-height: 10px;  background-size: cover; background-position: center top;">
+        </div>
+        <!-- Page content -->
+        <div class="container-fluid mt--7">
+          <div class="row justify-content-center">
+            <!-- Profile container -->
+            <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+              <div class="card card-profile shadow">
+                <div class="row justify-content-center">
+                  <div class="col-lg-3 order-lg-2">
+                    <div class="card-profile-image">
+                      <a href="#">
+                        <img src="https://demos.creative-tim.com/argon-dashboard/assets-old/img/theme/team-4.jpg" class="rounded-circle">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- Info under the profile picture -->
+                <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></div>
+                <div class="card-body pt-0 pt-md-4">
+                  <div class="row">
+                    <div class="col">
+                      <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+
+<<<<<<< HEAD:root/Profile/profile.html
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <h3>
+                      Όνομα Επώνυμο
+                    </h3>
+                    <div class="h5 font-weight-300">
+                      <i class="ni location_pin mr-2"></i>Πάτρα, Ελλάδα
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Forms container -->
+            <div class="col-xl-8 order-xl-1">
+              <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h3 class="mb-0">Ο λογαριασμός μου</h3>
+                    </div>
+                    <div class="col-4 text-right">
+                      <a href="#!" class="btn btn-sm btn-primary">Επεξεργασία</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <form>
+                    <h6 class="heading-small text-muted mb-4">Πληροφορίες χρήστη</h6>
+                    <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-username">Username</label>
+                            <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="user">
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-email">Διεύθυνση ηλεκτρονικού ταχυδρομείου</label>
+                            <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="user@example.com">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-first-name">Όνομα</label>
+                            <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" value="Πληκτρολογήστε εδώ το όνομά σας...">
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-last-name">Επώνυμο</label>
+                            <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="Πληκτρολογήστε εδώ το επώνυμό σας...">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="my-4">
+                    <!-- Address -->
+                    <h6 class="heading-small text-muted mb-4">Στοιχεία επαφής</h6>
+                    <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-address">Διεύθυνση</label>
+                            <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="πχ: Πλατεία Αγίου Γεωργίου 10" type="text">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-city">Πόλη</label>
+                            <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" value="Πάτρα">
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-country">Χώρα</label>
+                            <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" value="Ελλάδα">
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-country">Ταχυδρομικός Κώδικας</label>
+                            <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Τ.Κ.">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <footer class="footer">
+        <div class="row align-items-center justify-content-xl-between">
+          <div class="col-xl-6 m-auto text-center">
+            <div class="copyright">
+                &copy; 2023 My Website. All rights reserved. 
+            </div>
+          </div>
+        </div>
+      </footer>
+=======
+    <footer style="position: fixed; bottom: 0;">
+        @2023 My Website. All rights reserved.
+    </footer>
+    <script src="../auth/auth.js"></script>
+>>>>>>> main:frontend/root/Profile/profile.html
+    <script src="profile.js"></script>
+</body>
+</html>

@@ -23,7 +23,7 @@ header {
 nav ul {
   list-style-type: none;
   display: flex;
-  margin-top: 30px;
+
   justify-content: center; /* Center the categories horizontally */
   align-items: center; /* Center the categories vertically */
 }
@@ -187,6 +187,13 @@ body {
   margin-left: 5px; /* Add some spacing between the image and text */
   color: lightblue; /* Set the color to blue */
   text-decoration: none; /* Remove underline from the link */
+}
+
+a {
+  text-decoration: none;
+  color: #1234bc;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
 }
 
 a:link, a:visited {

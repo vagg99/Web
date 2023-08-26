@@ -6,6 +6,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const deleteStoresButton = document.getElementById('deleteStoresButton');
   const messageDiv = document.getElementById('uploadMessage');
 
+  // Create a chart in the graphs-container
+  const graphsContainer = document.querySelector('.graphs-container');
+  const chartCanvas = document.createElement('canvas');
+  chartCanvas.id = 'myChart'; // Make sure this matches the canvas id in your HTML
+  graphsContainer.appendChild(chartCanvas);
+
+  // Create the chart using Chart.js
+  // εδώ θα έχει στατιστική απεικόνιση στο chart
+
+  var ctx = chartCanvas.getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Category 1', 'Category 2', 'Category 3'], // Customize your labels
+      datasets: [
+        {
+          label: 'Sales',
+          data: [10, 20, 30], // Customize your data
+          backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)'], // Customize your colors
+          borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'], // Customize your border colors
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
   uploadItemsButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
     if (!file) {
@@ -149,6 +183,13 @@ function displayPagination(length) {
   const paginationContainer = document.querySelector('.pagination');
   paginationContainer.innerHTML = '';
 
+  // previous arrow
+  const prevArrow = document.createElement('span');
+  prevArrow.id = 'prevPage';
+  prevArrow.className = 'arrow';
+  prevArrow.innerHTML = '&#9664;';
+  paginationContainer.appendChild(prevArrow);
+
   for (let page = 1; page <= totalPages; page++) {
       const pageLink = document.createElement('a');
       pageLink.href = '#';
@@ -160,22 +201,17 @@ function displayPagination(length) {
 
       paginationContainer.appendChild(pageLink);
   }
-}
 
-function displayheader() {
-  const leaderboardHeader = document.getElementById('leaderboard-header');
-  leaderboardHeader.innerHTML += `
-    <span class="item">Χρήστης</span>
-    <span class="item">Tokens ${month}</span>
-    <span class="item">Συνολικά Tokens</span>
-    <span class="item">Συνολικοί Πόντοι</span>
-  `;
+  //next arrow
+  const nextArrow = document.createElement('span');
+  nextArrow.id = 'nextPage';
+  nextArrow.className = 'arrow';
+  nextArrow.innerHTML = '&#9654;';
+  paginationContainer.appendChild(nextArrow);
+
 }
 
 document.getElementById('refresh-button').addEventListener('click', refreshLeaderboard);
-
-// add leaderboard header
-displayheader();
 
 // Initially load the leaderboard
 refreshLeaderboard();

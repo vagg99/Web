@@ -14,26 +14,15 @@
     --titleColor: #555555;
     --labelColor: #333333;
 }
-nav ul li  {
-    font-size: 125%;
-    font-family: 'Poppins', sans-serif;
-
-}
-
-html {
-    font-size: 75%;
-    scroll-behavior: smooth;
-}
 
 /* position of the forms */
 .wrapper {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 50%;   /* page centering */
+    left: 50%;  /* page centering */
+    transform: translate(-50%, -50%); /* page centering */
     width: 35rem;
     height: 50rem;
-    
 }
 
 @media(min-width:540px){
@@ -49,22 +38,23 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     background-color: var(--whiteColor);
     border-radius: .5rem;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
 }
 
+/* title font related "Σύνδεση" */
 .wrapper .form-container form h2 {
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: absolute;
     color: var(--titleColor);
 }
 
 /* Adjust the margin-top for the title "Εγγραφή" */
 .wrapper .form-container.sign-up .signUpTitle {
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: center;
     color: var(--titleColor);
     margin-top: .5rem; /* Adjusted margin-top value */
@@ -78,12 +68,14 @@ html {
     margin: 1rem 0; /* Adjusted margin value */
 }
 
+/* form sizes */
 .wrapper .form-container form .form-group {
     position: relative;
     width: 32rem;
     margin: 3rem 0;
 }
 
+/* in form characters */
 .wrapper .form-container form .form-group i,
 .wrapper .form-container form .form-group label {
     position: absolute;
@@ -96,6 +88,7 @@ html {
     transition: all .5s ease;
 }
 
+/* in form icons */
 .wrapper .form-container form .form-group i {
     left: .5rem;
 }
@@ -104,6 +97,7 @@ html {
     left: 2.5rem
 }
 
+/* form sizes */
 .wrapper .form-container form .form-group input {
     width: 100%;
     height: 4rem;
@@ -126,10 +120,11 @@ form .form-group input:valid~i {
     background-color: var(--whiteColor);
 }
 
+/* password requirment colors */
 .completed {
     color: green;
 }
-
+/* password requirment colors */
 .missing {
     color: red;
 }
@@ -149,6 +144,7 @@ form .form-group input:valid~i {
     color: var(--mainColor);
 }
 
+/* main bottom buttons */
 .wrapper .form-container form .btn {
     background: linear-gradient(to right, #c7deff, var(--mainColor));
     color: var(--whiteColor);
@@ -164,6 +160,7 @@ form .form-group input:valid~i {
     box-shadow: 0 .2rem 1rem rgba(0, 0, 0, 0.4);
 }
 
+/* under main buttons (redirection) */
 .wrapper .form-container form .link {
     text-align: center;
     font-size: 1.4rem;
@@ -179,6 +176,7 @@ form .form-group input:valid~i {
     transition: all .5s ease;
 }
 
+/* hover color change */
 .wrapper .form-container form .link a:hover {
     color: #da4355;
 }
@@ -326,3 +324,4 @@ to accommodate the space for the eye button: */
 .form-group input[type="password"] {
     width: calc(100% - 3.5rem); /* Adjusted width value */
 }
+

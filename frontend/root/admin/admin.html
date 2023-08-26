@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="admin.css">
     <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
-</head>
+    <!-- Add Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
 <body>
+
   <header>
     <div class="header-left">
       <a href="../index.html">
@@ -33,32 +36,49 @@
   </header>
 
   <main>
-    <h1>Σελίδα Διαχειριστή</h1>
+    <!-- Upload files -->
     <div class="file-container">
       <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="jsonFile" id="jsonFileInput">
+        <label for="jsonFileInput" class="choose-file-button">Επιλογή αρχείου</label>
       </form>
       <div class="button-container">
-        <button type="button" class="upload-button" id="uploadItemsButton">Ανεβασμα Αρχείου στο Collection Items</button>
-        <button type="button" class="upload-button" id="uploadStoresButton">Ανεβασμα Αρχείου στο Collection Stores</button>
+        <button type="button" class="upload-button" id="uploadItemsButton">Ανέβασμα αρχείου στο Collection Items</button>
       </div>
       <div class="button-container">
-        <button type="button" class="delete-button" id="deleteItemsButton">Διαγραφη ολων των Items</button>
-        <button type="button" class="delete-button" id="deleteStoresButton">Διαγραφη ολων των Stores</button>
+        <button type="button" class="upload-button" id="uploadStoresButton">Ανέβασμα αρχείου στο Collection Stores</button>
+      </div>
+      <div class="button-container">
+        <button type="button" class="delete-button" id="deleteItemsButton">Διαγραφή όλων των Items</button>
+      </div>
+      <div class="button-container">
+        <button type="button" class="delete-button" id="deleteStoresButton">Διαγραφή όλων των Stores</button>
       </div>
       <div id="uploadMessage" style="display: none;"></div>
     </div>
-
+    <!-- Graphs -->
+    <div class="graphs-container">
+      <!-- Graphs created using Chart.js will be added here -->
+      <canvas id="myChart"></canvas> <!-- Example of a chart canvas -->
+    </div>
+    <!-- Leaderboard -->
     <div class="leaderboard-container">
       <h2>Leaderboard</h2>
       <h5 id="leaderboard-header"></h5>
+      <h5 id="leaderboard-header">
+        <span class="item">Χρήστης</span>
+        <span class="item">Tokens Αυγούστου</span>
+        <span class="item">Συνολικά Tokens</span>
+        <span class="item">Συνολικοί Πόντοι</span>
+      </h5>
       <ol id="leaderboard-list">
         <!-- Player items will be dynamically added here -->
       </ol>
       <div class="pagination">
-          <!-- Pagination links will be dynamically added here -->
+        <span id="prevPage" class="arrow">&#9664;</span>
+        <span id="nextPage" class="arrow">&#9654;</span>
       </div>
-      <button id="refresh-button">Refresh Leaderboard</button>
+      <button id="refresh-button">Ανανέωση Leaderboard</button>
     </div>
   </main>
 

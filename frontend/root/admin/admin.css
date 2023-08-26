@@ -5,30 +5,208 @@
   box-sizing: border-box;
 }
 
+/* Container for file upload and leaderboard */
+main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* File upload container */
 .file-container {
   max-width: 400px;
-  margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #fff;
-}
-
-.leaderboard-container {
-  max-width: 600px;
-  margin: 20px auto;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 20px;
+  background-color: #bcc3dd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 300px; /* Set the desired height */
+  overflow-y: auto; /* Add vertical scroll if content overflows */
+  flex: 0 0 auto; /* Prevent growth and shrinking */
 }
 
-.pagination {
+/* Leaderboard container */
+.leaderboard-container {
+  max-width: 1000px; /* Widen the leaderboard container */
+  margin: 20px auto; /* Center the container and add some space around it */
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#leaderboard-header {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px; /* Smaller font size */
+  font-weight: bold;
+  color: #333; /* Darker text color */
+  margin-bottom: 10px;
 }
 
+#leaderboard-header .item {
+  flex: 1;
+  padding: 5px;
+  text-align: center;
+}
+
+#leaderboard-header .item:nth-child(2),
+#leaderboard-header .item:nth-child(3),
+#leaderboard-header .item:nth-child(4) {
+  flex: 1.5;
+}
+
+#leaderboard-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#leaderboard-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0; /* Less padding for a more compact look */
+  border-bottom: 1px solid #ddd;
+  font-size: 14px; /* Smaller font size */
+  color: #333; /* Darker text color */
+  transition: background-color 0.3s;
+}
+
+#leaderboard-list li:hover {
+  background-color: #f0f0f0;
+}
+
+#leaderboard-list li:last-child {
+  border-bottom: none;
+}
+
+.graphs-container,
+.leaderboard-container {
+  flex: 1; /* Equal distribution of available space */
+  height: 400px; /* Set the desired height */
+  overflow: hidden; /* Hide overflow content */
+}
+
+
+
+/* Adjust column title styles */
+.column-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #555;
+}
+
+/* Refresh button styling */
+#refresh-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+  display: block;
+  margin: 0 auto; /* Center the button */
+}
+
+
+#refresh-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+/* Pagination styles */
+.pagination {
+  margin-top: 15px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination a {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  color: #555;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination .arrow {
+  margin: 0 5px;
+  font-size: 18px;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+/* Button styling */
+.delete-button, .upload-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Style the Choose File button */
+.file-container input[type="file"] {
+  display: none; /* Hide the default input */
+}
+
+.choose-file-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.choose-file-button:hover {
+  background-color: #2980b9;
+}
+
+.upload-button {
+  background-color: blue;
+}
+
+.delete-button:hover, .upload-button:hover {
+  background-color: darkred;
+  transform: scale(1.05);
+}
+
+/* Display buttons inline with spacing */
+.button-container button {
+  width: 100%; /* Set buttons to take up full width */
+  height: 40px; /* Set a fixed height for all buttons */
+  margin-top: 10px;
+}
+
+.button-container button + button {
+  margin-left: 10px;
+}
+
+/* Additional styles for select elements */
 label, select {
   display: block;
   margin-bottom: 10px;
@@ -36,63 +214,4 @@ label, select {
 
 select {
   padding: 5px;
-}
-
-.item {
-  display: inline-block;
-  width: 20%;
-  padding: 10px;
-  margin-right: 10px;
-  box-sizing: border-box;
-}
-
-.delete-button {
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 8px 15px; /* Adjust padding to make it smaller */
-  cursor: pointer;
-  margin-top: 10px;
-  font-size: 14px; /* Adjust font size */
-  border-radius: 5px; /* Make it more squarish */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.delete-button:hover {
-  background-color: darkred;
-  transform: scale(1.05);
-}
-
-.upload-button {
-  background-color: blue;
-  color: white;
-  border: none;
-  padding: 8px 15px; /* Adjust padding to make it smaller */
-  cursor: pointer;
-  margin-top: 10px;
-  font-size: 14px; /* Adjust font size */
-  border-radius: 5px; /* Make it more squarish */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.upload-button:hover {
-  background-color: darkblue;
-  transform: scale(1.05);
-}
-
-/* Display buttons inline */
-.button-container {
-  display: flex;
-  align-items: center;
-}
-
-/* Add some spacing between the buttons */
-.delete-button + .delete-button {
-  margin-left: 10px; /* Adjust as needed */
-}
-/* Add some spacing between the buttons */
-.upload-button + .upload-button {
-  margin-left: 10px; /* Adjust as needed */
 }

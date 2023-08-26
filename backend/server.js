@@ -5,6 +5,8 @@ const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 const session = require('express-session'); // USED FOR SESSIONS
 const cookieParser = require('cookie-parser');// USED FOR COOKIES
+const NodeCache = require("node-cache"); // USED FOR CACHE AND FASTER RESPONSE TIMES
+const cache = new NodeCache();
 
 const app = express();
 
@@ -26,6 +28,9 @@ app.use(cors({
 app.use(express.static('public'));
 
 
+const StartingTokens = 100; // Tokens that every user starts with , and gets every month
+const TTLS = 3600; // Time to live for cache in seconds
+
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 cron.schedule("0 0 * * *", deleteOldDiscounts); // CHECK EVERYDAY FOR DISCOUNT THAT ARE A WEEK OLD AND DELETE THEM
 
@@ -37,10 +42,18 @@ const mongoURI = "mongodb+srv://webproject7:HVHDmG6eK2nuq9rM@cluster0.03czzuj.mo
 async function connectToDatabase(collectionName) {
   const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
-  return client.db('website7').collection(collectionName);
+  return client.db('website7').collection(collectionName)
+}
+async function getData(collectionName){
+  const cachedCollection = await cache.get(collectionName);
+  if (cachedCollection) { return cachedCollection; }
+  // else
+  const collection = await connectToDatabase(collectionName);
+  const data = await collection.find({}).toArray();
+  cache.set(collectionName, data, TTLS);
+  return data;
 }
 
-const StartingTokens = 100;
 async function registerUser(username, email, password) {
   const collection = await connectToDatabase('users');
   let password_hashed = hash(username,password);
@@ -52,6 +65,7 @@ async function registerUser(username, email, password) {
   let address = [""];
   const userData = { username, tokens, points, email, password_hashed, isAdmin , firstname , lastname , address };
   const result = await collection.insertOne(userData);
+  cache.del('users');
   if (result.insertedId) {
     return 'User registered successfully!';
   } else {
@@ -60,7 +74,7 @@ async function registerUser(username, email, password) {
 }
 
 async function loginUser(username, password) {
-  const {users, collection} = await getUsers();
+  const users = await getData('users');
   let password_hashed = hash(username,password);
   for (user in users) {
     if (users[user].username === username && users[user].password_hashed === password_hashed) {
@@ -76,7 +90,7 @@ async function handleRegistration(req, res) {
     try {
       const { username, email, password } = req.body;
 
-      const {users, collection} = await getUsers();
+      const users = await getData('users');
 
       for (user in users) {
         if (users[user].username === username) {
@@ -173,6 +187,10 @@ function getOneWeekAgoDate(){
 
 // Χρήστης : 2) d) Εμφάνιση Προσφορών
 async function getItemsInStockFromDatabase(storeId,on_discount=false) {
+  const cacheKey = on_discount ? `discounted_${storeId}` : `non_discounted_${storeId}`;
+  const cachedItems = cache.get(cacheKey);
+  if (cachedItems) return cachedItems;
+  //else
   const collection = await connectToDatabase('stock');
   
   // Αναζήτηση στο collection stocks για τα προϊόντα που είναι σε προσφορά
@@ -281,7 +299,9 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
   const cursor = collection.aggregate(aggregationPipeline);
 
   // Convert the aggregation cursor to an array of documents
-  discountedItems = await cursor.toArray();
+  const discountedItems = await cursor.toArray();
+
+  cache.set(cacheKey, discountedItems, TTLS);
 
   return discountedItems;
 }
@@ -296,6 +316,7 @@ async function handleLikesDislikesUpdate(req, res){
     const objectIdDiscountId = new ObjectId(discountId);
     const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: {'discount.likes' : likes, 'discount.dislikes' : dislikes , in_stock : in_stock} });
     await updateLikeDislikePoints(points);
+    cache.flushAll();
     res.status(200).json(result);
   } catch (error) {
     console.error('Error updating stock:', error);
@@ -361,7 +382,7 @@ async function handleDiscountSubmission(req, res) {
     }});
 
     if (p) getPointsforSubmission(userId,p)
-
+    cache.flushAll();
     res.status(200).json(result);
   } catch (error){
     console.error('Error submitting discount:', error);
@@ -413,6 +434,7 @@ async function deleteOldDiscounts() {
   if (bulkOperations.length > 0) {
     const result = await collection.bulkWrite(bulkOperations);
     console.log(`Processed ${result.modifiedCount + result.deletedCount} discounts.`);
+    cache.flushAll();
   } else {
     console.log("No discounts to process.");
   }
@@ -421,8 +443,8 @@ async function deleteOldDiscounts() {
 // Χρήστης : 4) Σύστημα Tokens
 async function distributeTokens() {
   console.log(`Monthly Token Distribution ! Distributing tokens to ${users.length} users...`);
-  // Χρειαζομαστε και το collection για να κανουμε save τις αλλαγες στη βαση
-  const {users, collection} = await getUsers();
+  const collection = await connectToDatabase('users');
+  const users = await collection.find({}).toArray();
   // Υπολογισμός νέων tokens για κάθε χρήστη και μηδενισμός πόντων
   let ApothematikoTokens = 0;
   let TotalPoints = 0;
@@ -447,6 +469,7 @@ async function distributeTokens() {
     },
   }));
   await collection.bulkWrite(updateOperations);
+  cache.del('users');
 }
 
 // Χρήστης 5) α) i. και ii. και iii. και iv.
@@ -503,6 +526,7 @@ async function getPointsforSubmission(userId,pointsToAdd){
 
     if (result.matchedCount === 1) {
       console.log(`Points updated successfully for user with _id: ${userId}`);
+      cache.del('users');
     } else {
       console.log(`User with _id: ${userId} not found.`);
     }
@@ -515,7 +539,9 @@ async function getPointsforSubmission(userId,pointsToAdd){
 // Χρήστης 5) β) i. και i.. Σκορ Αξιολόγισης με βάση τις αξιολογίσεις των χρηστών
 async function updateLikeDislikePoints(points){
   try {
-    const {users, collection} = await getUsers();
+    const collection = await connectToDatabase('users');
+    const users = await collection.find({}).toArray();
+
     const users_to_Receive_or_Lose_Points = Object.keys(points);
     for (u in users_to_Receive_or_Lose_Points){
       for (user in users) {
@@ -532,6 +558,7 @@ async function updateLikeDislikePoints(points){
       },
     }));
     await collection.bulkWrite(updateOperations);
+    cache.del('users');
   } catch (error) {
     console.error('Error updating points:', error);
   }
@@ -562,6 +589,10 @@ async function handleJSONUpload(req, res) {
 
     // Send a response indicating success
     res.send(`JSON data uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
+
+    cache.del(collectionName);
+    // reset cache
+    getData(collectionName);
   } catch (error) {
     console.error('Error processing JSON:', error);
     res.status(400).send('Error processing JSON data.');
@@ -574,6 +605,7 @@ async function handleDeletion(req, res) {
     const collection = await connectToDatabase(collectionName);
     const result = await collection.deleteMany({});
     res.status(200).json(`Deleted ${result.deletedCount} ${collectionName}.`);
+    cache.del(collectionName);
   } catch (error) {
     console.error(`Error deleting ${collectionName}:`, error);
     res.status(500).json({ error: 'Internal server error' });
@@ -582,7 +614,7 @@ async function handleDeletion(req, res) {
 
 // Διαχειριστής : 4) Απεικόνιση Leaderboard
 async function getLeaderboard() {
-  const {users, collection} = await getUsers();
+  const users = await getData('users');
   let leaderboard = [];
   for (let i = 0; i < users.length; i++) {
     if (users[i].points && users[i].tokens) {
@@ -602,28 +634,10 @@ async function getLeaderboard() {
   return leaderboard;
 }
 
-async function getUsers() {
-  const collection = await connectToDatabase('users');
-  const users = await collection.find({}).toArray();
-  return {users,collection};
-}
-
-async function getStock() {
-  const collection = await connectToDatabase('stock');
-  const stock = await collection.find({}).toArray();
-  return {stock,collection};
-}
-
-async function getStores() {
-  const collection = await connectToDatabase('stores');
-  const stores = await collection.find({}).toArray();
-  return {stores,collection};
-}
-
 // GET request for fetching users
 app.get('/users', async (req, res) => {
   try {
-    const {users, collection} = await getUsers();
+    const users = await getData('users');
     res.status(200).json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -634,8 +648,7 @@ app.get('/users', async (req, res) => {
 // GET request for fetching items
 app.get('/getItems', async (req, res) => {
   try {
-    let collection = await connectToDatabase("items");
-    let products = await collection.find({}).toArray();
+    const products = await getData('items');
     res.status(200).json(products);
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -703,8 +716,7 @@ app.get('/leaderboard', async (req, res) => {
 // GET request for fetching stores
 app.get('/stores', async (req, res) => {
   try {
-    const collection = await connectToDatabase("stores");
-    const stores = await collection.find({}).toArray();
+    const stores = await getData('stores');
     res.status(200).json(stores);
   } catch (error) {
     console.error('Error fetching stores:', error);
@@ -717,8 +729,12 @@ app.get('/getDiscountedItems', async (req, res) => {
   try {
     const shopId = req.query.shopId;
     if (shopId == "all") {
+      const cachedCollection = await cache.get("discounted_all");
+      if (cachedCollection) { return res.status(200).json(cachedCollection); }
+      // else
       const collection = await connectToDatabase("stock");
       const discountedItems = await collection.find({"on_discount" : true}).toArray();
+      cache.set("discounted_all", discountedItems, TTLS);
       res.status(200).json(discountedItems);
     } else {
       const discountedItems = await getItemsInStockFromDatabase(shopId, true);
@@ -744,8 +760,7 @@ app.get('/getStock', async (req, res) => {
 // GET request for fetching all categories from database
 app.get('/getSubcategories', async (req, res) => {
   try {
-    const collection = await connectToDatabase("categories");
-    const categories = await collection.find({}).toArray();
+    const categories = await getData("categories");
     res.status(200).json(categories);
   } catch (error) {
     console.error('Error fetching subcategories:', error);

@@ -43,11 +43,14 @@ async function connectToDatabase(collectionName) {
 async function registerUser(username, email, password) {
   const collection = await connectToDatabase('users');
   let password_hashed = hash(username,password);
-  var StartingTokens = 100;
-  var tokens = { "total" : StartingTokens , "monthly" : StartingTokens};
-  var points = { "total" : 0 , "monthly" : 0};
-  var isAdmin = false;
-  const userData = { username, tokens, points, email, password_hashed, isAdmin };
+  let StartingTokens = 100;
+  let tokens = { "total" : StartingTokens , "monthly" : StartingTokens};
+  let points = { "total" : 0 , "monthly" : 0};
+  let isAdmin = false;
+  let firstname = "";
+  let lastname = "";
+  let address = [""];
+  const userData = { username, tokens, points, email, password_hashed, isAdmin , firstname , lastname , address };
   const result = await collection.insertOne(userData);
   if (result.insertedId) {
     return 'User registered successfully!';
@@ -748,8 +751,13 @@ app.get('/getUserInfo', async (req, res) => {
   try {
     const username = req.query.username;
     const collection = await connectToDatabase("users");
-    const {subcategories} = await collection.find({}).toArray();
-    res.status(200).json(subcategories);
+    const users = await collection.find({ username : username }).toArray();
+    let user = users[0];
+    console.log(users)
+    console.log(user)
+    delete user.password_hashed;
+    delete user.isAdmin;
+    res.status(200).json(user);
   } catch (error) {
     console.error('Error fetching subcategories:', error);
     res.status(500).json({ error: 'Internal server error' });

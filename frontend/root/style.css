@@ -200,10 +200,13 @@ a:link, a:visited {
   text-decoration: none;
 }
 footer {
+  font-family: Open Sans, sans-serif;
+  font-size: .875rem;
   position: fixed;
   bottom: 0;
   width: 100%;
   text-align: center;
+  color: #525f7f;
   padding: 20px 0;
 }
 

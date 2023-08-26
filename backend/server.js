@@ -635,6 +635,21 @@ async function getLeaderboard() {
   return leaderboard;
 }
 
+// Διαχειριστής : 5) Ο Διαχειριστής έχει την δυνατότητα να διαγράψει μια προσφορά
+async function handleIndividualDiscountDeletion(req, res) {
+  try {
+    const discountId = req.query.discountId;
+    const collection = await connectToDatabase("stock");
+    const objectIdDiscountId = new ObjectId(discountId);
+    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: { "discount": {}, "on_discount": false } });
+    cache.flushAll();
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error deleting discount:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 // GET request for fetching users
 app.get('/users', async (req, res) => {
   try {
@@ -797,6 +812,9 @@ app.post('/upload', handleJSONUpload);
 
 // POST requst for deleting a collection by admin
 app.post('/delete', handleDeletion);
+
+// DELETE request for deleting a discount by admin
+app.delete('/deleteDiscount', handleIndividualDiscountDeletion);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

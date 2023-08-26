@@ -1,3 +1,252 @@
+<<<<<<< HEAD:root/style.css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: .4px;
+}
+
+/* Header styles */
+header {
+  background-color: #ebf4ff;
+  color: #fff;
+  padding: px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Navigation styles */
+
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  margin-top: 30px;
+  justify-content: center; /* Center the categories horizontally */
+  align-items: center; /* Center the categories vertically */
+}
+
+nav ul li {
+  margin: 0 15px;
+  padding: 10px 0; /* Add some padding at the top and bottom */
+}
+
+nav ul li:first-child {
+  margin-left: 0;
+}
+
+nav ul li a {
+  color: #0e3dc0;
+  text-decoration: none;
+  padding: 10px;
+  transition: color 0.3s, background-color 0.3s, text-decoration 0.3s;
+}
+
+nav ul li a:hover {
+  color: #ddd;
+}
+
+/* Apply styles to the active link */
+nav ul li a.active {
+  text-decoration: underline;
+  background-color: lightblue;
+}
+
+/* Main content container */
+main {
+  margin: 20px;
+}
+
+
+/* Heading styles */
+h1, h2 {
+  text-align: center;
+}
+
+/* Styles for the Maps page */
+body.maps-page {
+  background-color: #f0f0f0; /* Custom background color for the maps page */
+}
+
+header.maps-page {
+  background-color: #555; /* Custom header background color for the maps page */
+}
+
+nav.maps-page ul li a {
+  color: #fff; /* Custom link color for the maps page */
+}
+
+/* Styles for the search form */
+#searchForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  background: rgba(255, 255, 255, 0.1); /* Glassy background */
+}
+
+#searchInput {
+  padding: 10px;
+  border: none;
+  border-radius: 20px; /* Make it slightly circular */
+  width: 200px; /* Make the input narrower */
+  font-size: 14px; /* Smaller font size */
+  background: rgba(255, 255, 255, 0.5); /* Slightly transparent background */
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2); /* Shadow for a glassy effect */
+  color: #333;
+  outline: none; /* Remove default outline */
+}
+
+#searchInput::placeholder {
+  color: #555; /* Placeholder text color */
+}
+
+#searchButton {
+  background: linear-gradient(to right, #00ff00, #0000ff);
+  color: #fff;
+  border: none;
+  border-radius: 20px; /* Make it slightly circular */
+  padding: 8px 15px; /* Smaller padding */
+  font-size: 14px; /* Smaller font size */
+  margin-left: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#searchButton:hover {
+  background: linear-gradient(to right, #0000ff, #00ff00);
+}
+
+/* Loading spinner styles */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #333333;
+  transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader::after {
+  content: "";
+  width: 75px;
+  height: 75px;
+  border: 15px solid #dddddd;
+  border-top-color: #009578;
+  border-radius: 50%;
+  animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* Background image for the entire body */
+body {
+  background-image: url('images/e-katanalotis_background.png');
+  background-size: 100% auto; /* Width: 100% of the content area, Height: auto */
+  background-repeat: no-repeat;
+}
+
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.home-icon {
+  padding: 40%;
+  margin-right: 30px;
+}
+
+.header-text {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: inherit;
+  margin-left: 5px; /* Add some spacing between the image and text */
+  color: lightblue; /* Set the color to blue */
+  text-decoration: none; /* Remove underline from the link */
+}
+
+a:link, a:visited {
+  text-decoration: none;
+}
+footer {
+  font-family: Open Sans, sans-serif;
+  font-size: .875rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: #525f7f;
+  padding: 20px 0;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px; /* Adjust the value as needed */
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+
+  nav ul.active {
+    display: flex;
+  }
+
+  nav ul li {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: #0e3dc0;
+  margin: 3px 0;
+}
+
+/* Adjust the appearance of the active menu icon */
+.hamburger-menu.active .bar {
+  background-color: #fff;
+=======
 * {
   margin: 0;
   padding: 0;
@@ -242,4 +491,5 @@ footer {
 /* Adjust the appearance of the active menu icon */
 .hamburger-menu.active .bar {
   background-color: #fff;
+>>>>>>> main:frontend/root/style.css
 }

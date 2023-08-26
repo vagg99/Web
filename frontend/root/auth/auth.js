@@ -19,7 +19,6 @@ fetch('http://localhost:3000/check-user-auth', {
 });
 
 logoutBtn.addEventListener('click', async function() {
-  console.log("aaaa")
   try {
       const response = await fetch('http://localhost:3000/logout', {
           method: 'POST', // You can use POST for logout

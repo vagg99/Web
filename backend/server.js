@@ -283,8 +283,6 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
   // Convert the aggregation cursor to an array of documents
   discountedItems = await cursor.toArray();
 
-  console.log(discountedItems)
-
   return discountedItems;
 }
 
@@ -346,7 +344,7 @@ async function handleDiscountSubmission(req, res) {
     if (p == 50){
       achievements["5_a_i"] = true;
     }
-    if (p == 30){
+    if (p == 20){
       achievements["5_a_ii"] = true;
     }
 
@@ -392,7 +390,7 @@ async function deleteOldDiscounts() {
             $set: {
               "discount.date": getCurrentDate(),  // Update the discount date to current date
               "discount.achievements.5_a_i" : p == 50 ? true : false,
-              "discount.achievements.5_a_ii" : p == 30 ? true : false
+              "discount.achievements.5_a_ii" : p == 20 ? true : false
             }
           }
         }
@@ -429,7 +427,7 @@ async function distributeTokens() {
   let ApothematikoTokens = 0;
   let TotalPoints = 0;
   for (let i = 0; i < users.length; i++) {
-    ApothematikoTokens += users[i].tokens["monthly"];
+    ApothematikoTokens += users[i].tokens["monthly"]*80/100;
     if (users[i].points["monthly"] < 0) { users[i].points["monthly"] = 0;}
     TotalPoints += users[i].points["monthly"];
   }
@@ -589,7 +587,12 @@ async function getLeaderboard() {
     if (users[i].points && users[i].tokens) {
       leaderboard.push({
         username: users[i].username,
-        points : users[i].points["total"],
+        // Αν το τρεχον σκορ (μηνιαιο) του χρηστη ειναι αρνητικο , δειξε στο leaderboard
+        // μονο το συνολικο (παλιο) score
+        // Αν ειναι θετικο , δειξε στο leaderboard το αθροισμα του μηνιαιου και του συνολιου
+        points :
+          (users[i].points["monthly"] >= 0) ? users[i].points["total"] + users[i].points["monthly"] : users[i].points["total"]
+        ,
         tokens: users[i].tokens
       });
     }
@@ -800,47 +803,10 @@ app.listen(port, () => {
 // TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
 // TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
 // TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
-async function a(){
-  const fs = require('fs');
-  const data = fs.readFileSync('stock.json');
-  const stock = JSON.parse(data);
-  stock.forEach(item => {
-    if (typeof item.store_id === 'number') {
-      item.store_id = String(item.store_id);
-    }
-  });
-  let l = [0,0];
-  stock.forEach(item => {
-    if ('discount_price' in item.discount) {
-      item.user_id = item.discount.user_id;
-      delete item.discount.user_id;
-      item.on_discount = true;
-      l[0]=item;
-    } else {
-      item.on_discount = false;
-      item.discount = {};
-      item.user_id = {"$oid":"64ccdd73d7232dc40518db21"}
-      l[1]=item;
-    }
-  });
-  const insertOperations = stock.map(item => ({
-    insertOne: {
-      document: item
-    }
-  }));
-  const collection = await connectToDatabase('stock');
-  const result = await collection.bulkWrite(insertOperations);
-  console.log(result);
-  console.log(l);
-}
 async function b(){
   const collection = await connectToDatabase('stock');
   const result = await collection.deleteMany({});
   console.log(`Deleted ${result.deletedCount} stock.`);
-}
-async function dostuff(){
-  await b()
-  await a()
 }
 async function domorestuff(){
   await b()
@@ -865,7 +831,6 @@ async function domorestuff(){
   console.log(result);
   console.log(l);
 }
-//dostuff();
 //domorestuff();
 // TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES
 // TELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERESTELOMERES

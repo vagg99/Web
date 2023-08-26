@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const countryField = document.getElementById("input-country");
     const countrycodeField = document.getElementById("input-postal-code");
 
+    const monthlyPoints = document.getElementById("monthly-points");
+    const totalPoints = document.getElementById("total-points");
+    const monthlyTokens = document.getElementById("monthly-tokens");
+    const totalTokens = document.getElementById("total-tokens");
+
     if (userData) {
 
         // Populate the form fields using the userData object
@@ -43,6 +48,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (userData.address.city) cityField.value = userData.address.city;
         if (userData.address.country) countryField.value = userData.address.country;
         if (userData.address.countryCode) countrycodeField.value = userData.address.countryCode;
+
+        const discountsSubmitedList = document.getElementById("discounts-submited");
+        const userDiscounts = { liked: ["SUMMER2023", "FALLSALE", "HOLIDAY10"] }
+        discountsSubmitedList.innerHTML = userDiscounts.liked.map(discount => `<li>${discount}</li>`).join("");
+
+        const likedDislikedDiscountsList = document.getElementById("discounts-liked-disliked");
+        const userDiscounts2 = { liked: ["SUMMER2023", "FALLSALE", "HOLIDAY10"] }
+        likedDislikedDiscountsList.innerHTML = userDiscounts2.liked.map(discount => `<li>${discount}</li>`).join("");
+
+        monthlyPoints.value = userData.points.monthly;
+        totalPoints.value = userData.points.total;
+        monthlyTokens.value = userData.tokens.monthly;
+        totalTokens.value = userData.tokens.total;
 
     } else {
         console.error("User not found");

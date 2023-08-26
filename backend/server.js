@@ -786,12 +786,16 @@ app.get('/getSubcategories', async (req, res) => {
 app.get('/getUserInfo', async (req, res) => {
   try {
     if (req.session.user) {
+      const cachedUserInfo = await cache.get(req.session.user.username);
+      if (cachedUserInfo) { return res.status(200).json(cachedUserInfo); }
+      // else
       const username = req.session.user.username;
       const collection = await connectToDatabase("users");
       const users = await collection.find({ username : username }).toArray();
       let user = users[0];
       delete user.password_hashed;
       delete user.isAdmin;
+      cache.set(username, user, TTLS);
       res.status(200).json(user);
     } else {
       res.status(401).json({ error: 'Unauthorized' });

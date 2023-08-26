@@ -62,7 +62,7 @@ async function registerUser(username, email, password) {
   let isAdmin = false;
   let firstname = "";
   let lastname = "";
-  let address = [""];
+  let address = { "name" : "" , "city" : "" , "country" : "" , "countryCode" : ""};
   const userData = { username, tokens, points, email, password_hashed, isAdmin , firstname , lastname , address };
   const result = await collection.insertOne(userData);
   cache.del('users');
@@ -134,9 +134,7 @@ async function handleLogin(req, res) {
       }
       req.session.user = {
         username: username,
-        isAdmin: user.isAdmin,
-        points : user.points,
-        tokens : user.tokens
+        isAdmin: user.isAdmin
       };
       res.cookie('sessionid', req.sessionID);
 
@@ -787,13 +785,17 @@ app.get('/getSubcategories', async (req, res) => {
 // GET request for fetching a user's information from the database
 app.get('/getUserInfo', async (req, res) => {
   try {
-    const username = req.query.username;
-    const collection = await connectToDatabase("users");
-    const users = await collection.find({ username : username }).toArray();
-    let user = users[0];
-    delete user.password_hashed;
-    delete user.isAdmin;
-    res.status(200).json(user);
+    if (req.session.user) {
+      const username = req.session.user.username;
+      const collection = await connectToDatabase("users");
+      const users = await collection.find({ username : username }).toArray();
+      let user = users[0];
+      delete user.password_hashed;
+      delete user.isAdmin;
+      res.status(200).json(user);
+    } else {
+      res.status(401).json({ error: 'Unauthorized' });
+    }
   } catch (error) {
     console.error('Error fetching subcategories:', error);
     res.status(500).json({ error: 'Internal server error' });

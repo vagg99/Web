@@ -30,8 +30,8 @@ function addProduct(item, productList) {
     let in_stock = item.in_stock;
     const product_image_link = item.item.img;
     const achievements = item.discount.achievements;
-    const username = item.user.username;
-    const totalPoints = item.user.points.total;
+    const username = "1337"//item.user.username;
+    const totalPoints = "1337"//item.user.points.total;
 
     if (!userPoints[username]) { userPoints[username] = 0; }
 

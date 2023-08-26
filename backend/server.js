@@ -226,6 +226,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
   );
   if (on_discount) {
     aggregationPipeline.push(
+      /*
       {
         $lookup: {
           from: 'users', // Name of the users collection
@@ -239,6 +240,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
       {
         $unwind: '$user'
       },
+      */
       {
         $project: {
           _id: true,
@@ -280,6 +282,8 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
 
   // Convert the aggregation cursor to an array of documents
   discountedItems = await cursor.toArray();
+
+  console.log(discountedItems)
 
   return discountedItems;
 }
@@ -753,8 +757,6 @@ app.get('/getUserInfo', async (req, res) => {
     const collection = await connectToDatabase("users");
     const users = await collection.find({ username : username }).toArray();
     let user = users[0];
-    console.log(users)
-    console.log(user)
     delete user.password_hashed;
     delete user.isAdmin;
     res.status(200).json(user);

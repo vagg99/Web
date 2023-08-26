@@ -246,7 +246,7 @@ function createPopupContent(data,shopName,distance,shopId) {
 
   // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
   let output = `<div class="discount">`;
-  output += "<div>Βρέθηκε Προσφορά !</div>";
+  output += "<div class='popup-title'>Βρέθηκε προσφορά!</div>";
 
   for (let i = 0 ; i < data.length ; i++){
     let product = data[i].item.name;
@@ -256,22 +256,25 @@ function createPopupContent(data,shopName,distance,shopId) {
     let dislikes = data[i].discount.dislikes;
     let apothema = data.in_stock?"ναι":"οχι";
     let achievements = data[i].discount.achievements;
+    output += `<div class="popup-item-container">`;
     output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
 
     if (achievements['5_a_i']) { output += ` - 5_a_i : <img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">`; }
     if (achievements['5_a_ii']) { output += ` - 5_a_ii : <img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">`; }
 
     output += "</div>";
-
+    output += "</div>";
   }
   
   //if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
     // The clicked marker is less than 50 meters away from the user's location marker
+    output += `<div class="button-container">`;
     if (userLoggedIn) {
       output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Προσφορών</button>`;
     } else {
       output += `<button id="assessment-button" class="clickable-btn logged-out" disabled>Αξιολόγιση Προσφορών</button>`;
     }
+    output += `</div>`; 
   //}
 
   output+="</div>";

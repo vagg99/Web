@@ -137,3 +137,8 @@ select {
 .space {
   margin-bottom: 20px; /* Adjust this value as needed */
 }
+
+.clickable-btn.logged-out {
+  background-color: gray;
+  cursor: not-allowed;
+}

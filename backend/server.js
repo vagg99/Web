@@ -244,7 +244,6 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
   );
   if (on_discount) {
     aggregationPipeline.push(
-      /*
       {
         $lookup: {
           from: 'users', // Name of the users collection
@@ -256,9 +255,11 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
         }
       },
       {
-        $unwind: '$user'
+        $unwind: {
+          path: '$user',
+          preserveNullAndEmptyArrays: true // Preserve items even if user is not found
+        }
       },
-      */
       {
         $project: {
           _id: true,

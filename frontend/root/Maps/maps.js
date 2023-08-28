@@ -21,6 +21,23 @@ fetch('http://localhost:3000/check-user-auth', {
   console.error('Fetch error:', error);
 });
 
+let userIsAdmin = false;
+fetch('http://localhost:3000/check-admin-auth', {
+  method: 'GET',
+  credentials: 'include', // Send cookies
+})
+.then(response => response.json())
+.then(data => {
+  if (data.isAdmin) {
+    userIsAdmin = true;
+  } else {
+    userIsAdmin = false;
+  }
+})
+.catch(error => {
+  console.error('Error:', error);
+});
+
 // Test View
 const view = [38.24511060644045, 21.7364112438391];
 
@@ -213,17 +230,14 @@ async function onMarkerClick(marker,e,id,shopName){
   const clickedLatLng = e.latlng;
   const userLatLng = userLocationMarker.getLatLng();
   const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
-  //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate)
-  // The clicked marker is less than 50 meters away from the user's location marker
+  //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
     if (userLoggedIn) {
       popupContent += `<button id="submit-discount-button" class="clickable-btn" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
     } else {
       popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
     }
   //}
-
   marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
-
   try {
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const discountedItems = await response.json();
@@ -232,7 +246,33 @@ async function onMarkerClick(marker,e,id,shopName){
     
     if (discountedItems.length) {
       popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
-      marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
+      await marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
+    }
+
+    if (userIsAdmin) {
+      for (let i = 0 ; i < discountedItems.length ; i++) {
+        const deleteDiscountButton = document.querySelector(`#delete-discount-${discountedItems[i]._id}`);
+        deleteDiscountButton.addEventListener('click', async () => {
+          const discountContainer = document.querySelector(`#discount_${discountedItems[i]._id}`);
+          if (discountContainer) {
+            discountContainer.style.display = 'none';
+            console.log('sending delete request...')
+          }
+          try {
+            const response = await fetch(`http://localhost:3000/deleteDiscount?discountId=${encodeURIComponent(discountedItems[i]._id)}`, {
+              method: 'DELETE',
+              credentials: 'include', // Send cookies
+            });
+            if (response.ok) {
+              console.log(`Delete successful for discount ${discountedItems[i]._id}`)
+            } else {
+              console.error('Delete failed');
+            }
+          } catch (error) {
+            console.error('Error during delete:', error);
+          }
+        });
+      }
     }
 
   } catch (error) {
@@ -256,18 +296,23 @@ function createPopupContent(data,shopName,distance,shopId) {
     let dislikes = data[i].discount.dislikes;
     let apothema = data.in_stock?"ναι":"οχι";
     let achievements = data[i].discount.achievements;
-    output += `<div class="popup-item-container">`;
-    output += `<div>${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
+    output += `<div class="popup-item-container" id=discount_${data[i]._id}>`;
+    output += `${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
 
     if (achievements['5_a_i']) { output += ` - 5_a_i : <img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">`; }
     if (achievements['5_a_ii']) { output += ` - 5_a_ii : <img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">`; }
 
+    if (userIsAdmin){
+      output += `<button class="delete-discount-button" id="delete-discount-${data[i]._id}">
+                        Διαγραφή Προσφοράς
+                </button>`;
+    }
+
     output += "</div>";
-    output += "</div>";
+
   }
   
-  //if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate)
-    // The clicked marker is less than 50 meters away from the user's location marker
+  //if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
     output += `<div class="button-container">`;
     if (userLoggedIn) {
       output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Προσφορών</button>`;

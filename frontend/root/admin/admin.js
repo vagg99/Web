@@ -2,8 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('jsonFileInput');
   const uploadItemsButton = document.getElementById('uploadItemsButton');
   const uploadStoresButton = document.getElementById('uploadStoresButton');
+  const uploadStockButton = document.getElementById('uploadStockButton');
   const deleteItemsButton = document.getElementById('deleteItemsButton');
   const deleteStoresButton = document.getElementById('deleteStoresButton');
+  const deleteStockButton = document.getElementById('deleteStockButton');
   const messageDiv = document.getElementById('uploadMessage');
 
   // Create a chart in the graphs-container
@@ -68,6 +70,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     fileReader.readAsText(file);
   });
+  uploadStockButton.addEventListener('click', async () => {
+    const file = fileInput.files[0];
+    if (!file) {
+      say(messageDiv, 'Please select a file.');
+      return;
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = async function(event) {
+        const jsonData = JSON.parse(event.target.result);
+        await uploadDataToCollection('stock', jsonData);
+    };
+    fileReader.readAsText(file);
+  });
 
   async function uploadDataToCollection(collectionName, jsonData) {
     try {
@@ -97,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteAlldataInCollection('categories');
   });
   deleteStoresButton.addEventListener('click', async () => deleteAlldataInCollection('stores'));
+  deleteStockButton.addEventListener('click', async () => deleteAlldataInCollection('stock'));
 
   async function deleteAlldataInCollection(collectionName){
     const confirmDelete = confirm(`Σίγουρα θες να διαγράψεις όλα τα δεδομένα στην ΒΔ στο collection ονομα "${collectionName}" ?}`);

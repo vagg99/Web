@@ -142,3 +142,21 @@ select {
   background-color: gray;
   cursor: not-allowed;
 }
+
+/* Style for the button */
+.popup-item-container .delete-discount-button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* On hover effect */
+.popup-item-container .delete-discount-button:hover {
+  background-color: darkred;
+}

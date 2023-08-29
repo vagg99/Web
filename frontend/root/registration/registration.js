@@ -1,6 +1,10 @@
 document.getElementById('registrationForm').addEventListener('submit', async function(event) {
   event.preventDefault(); // Prevent form submission
 
+  // Show loading spinner
+  var spinner = this.querySelector('.spinner');
+  spinner.style.display = 'inline-block';
+
   // Get form input values
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
@@ -14,13 +18,10 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
 
   // Perform password validation
   if (!passwordRegex.test(password)) {
-    showError('Password must be at least 8 characters long, contain at least one capital letter, one number, and one special character.');
-    return;
-  }
-
-  // Perform email validation
-  if (!emailRegex.test(email)) {
-    showError("Please enter a valid email address.");
+    // clear the password field
+    spinner.style.display = 'none';
+    showPopup('Invalid password');  // error popup
+    document.getElementById('password').value = '';
     return;
   }
 
@@ -38,26 +39,39 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
 
     if (response.status === 409){
       console.log(data.error); 
-      showError(data.error);
+      showPopup(data.error);  // error popup
+      // Hide the spinner after registration error
+      spinner.style.display = 'none';
       return;
     }
 
     console.log(data.message); // This will display the success message from the server
-
+    
     // Clear the form
-    document.getElementById('registrationForm').reset();
+    this.reset();
 
-    // Show a success message to the user (you can keep your existing success message code)
-    showSuccess(data.message);
+    // Hide the spinner after successful sign up
+    setTimeout(() => {
+      spinner.style.display = 'none';
+      // Show a success message to the user
+      showPopup(data.message);  // success popup
+    }, 1337); // Delay of 1.337 seconds before showing success message
+
   } catch (error) {
     console.error('Error during registration:', error);
     // Handle errors and show an error message to the user, if needed
-    showError('An error occurred during registration. Please try again later.');
+    showPopup('An error occurred during registration. Please try again later.');  // error popup
+    // Hide the spinner after registration error
+    spinner.style.display = 'none';
   }
 });
 
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
   event.preventDefault(); // Prevent form submission
+
+  // Show loading spinner
+  var spinner = this.querySelector('.spinner');
+  spinner.style.display = 'inline-block';  // Show the spinner
 
   var username = document.getElementById('username2').value;
   var password = document.getElementById('password2').value;
@@ -76,16 +90,23 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const data = await response.json();
     if (response.status === 403){
       console.log(data.error); 
-      showError(data.error);
+      showPopup(data.error);  // error popup
+      setTimeout(() => {
+        spinner.style.display = 'none';}, 1337); 
       return;
     }
+
     console.log(data.message); // This will display the success message from the server
 
     // Clear the form
-    document.getElementById('loginForm').reset();
+    this.reset();
 
-    // Show a success message to the user (you can keep your existing success message code)
-    showSuccess(data.message);
+    // Hide the spinner after successful login
+    setTimeout(() => {
+      spinner.style.display = 'none';
+      // Show a success message to the user
+      showPopup(data.message); // success popup
+    }, 1337); // Delay of 1.337 seconds before showing success message
 
     // Show the profile button
     const profileLink = document.getElementById('profileLink');
@@ -113,35 +134,50 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
   } catch (error) {
     console.error('Error during login:', error);
     // Handle errors and show an error message to the user, if needed
-    showError(error.message);
+    showPopup(error.message);  // error popup
+    // Hide the spinner after login error
+    spinner.style.display = 'none';
   }
 });
 
-// Function to show success message
-function showSuccess(message) {
-  var successBox = document.createElement('div');
-  successBox.className = 'success-box';
-  successBox.textContent = message;
-  document.body.appendChild(successBox);
+// // Function to show success message
+// function showSuccess(message) {
+//   var successBox = document.createElement('div');
+//   successBox.className = 'success-box';
+//   successBox.textContent = message;
+//   document.body.appendChild(successBox);
 
-  setTimeout(function() {
-    successBox.style.display = 'none';
-  }, 5000);
-}
+//   setTimeout(function() {
+//     successBox.style.display = 'none';
+//   }, 5000);
+// }
 
-// Function to show error message
-function showError(message) {
-  var errorBox = document.createElement('div');
-  errorBox.className = 'error-box';
-  errorBox.textContent = message;
-  document.body.appendChild(errorBox);
+// // Function to show error message
+// function showError(message) {
+//   var errorBox = document.createElement('div');
+//   errorBox.className = 'error-box';
+//   errorBox.textContent = message;
+//   document.body.appendChild(errorBox);
   
-  setTimeout(function() {
-    errorBox.style.display = 'none';
-  }, 10000);
+//   setTimeout(function() {
+//     errorBox.style.display = 'none';
+//   }, 10000);
+// }
+
+
+// Popup function
+// -> call by: showPopup(error.message / data.message);
+
+function showPopup(message, duration = 3000) {
+  const popupContainer = document.getElementById('popupContainer');
+  const popupContent = document.getElementById('popupContent');
+  popupContent.textContent = message;
+  popupContainer.style.display = 'flex';
+
+  setTimeout(() => {
+    popupContainer.style.display = 'none';
+  }, duration);
 }
-
-
 
 // Attach event listener to the password input for real-time validation
 document.getElementById('password').addEventListener('input', validatePassword);
@@ -215,6 +251,3 @@ function setupFormSwapping() {
 
 // Call the function to set up the form swapping functionality
 setupFormSwapping();
-
-
-//document.querySelector('.fas fa-eye').setAttribute('aria-hidden', 'false');

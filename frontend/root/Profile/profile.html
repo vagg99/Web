@@ -19,13 +19,31 @@
         </div>
         <nav>
             <ul>
-                <li><a href="../index.html">Αρχική</a></li>
-                <li><a href="../Registration/registration.html">Σύνδεση</a></li>
-                <li><a href="../Maps/maps.html">Χάρτης</a></li>
-                <li id="profileLink" ><a href="#">Προφίλ</a></li>
-                <li id="adminDashboardBtn" style="display: none;"><a href="../admin/admin.html">Admin</a></li>
-                <li id="logoutBtn"><a href="#">Log Out</a></li>
+              <ul class="nav-menu">
+                <li class="nav-item">
+                  <a href="../index.html">Αρχική</a>
+                </li>
+                <li class="nav-item">
+                  <a href="../Registration/registration.html">Σύνδεση</a>
+                </li>
+                <li class="nav-item">
+                  <a href="../Maps/maps.html">Χάρτης</a>
+                </li>
+                <li class="nav-item" id="profileLink" >
+                  <a href="#">Προφίλ</a>
+                </li>
+                <li class="nav-item" id="adminDashboardBtn" style="display: none;">
+                  <a href="../admin/admin.html">Admin</a>
+                </li>
+                <li class="nav-item" id="logoutBtn">
+                  <a href="#">Log Out</a>
+                </li>
             </ul>
+            <div class="hamburger">
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>  
+            </div>
         </nav>
     </header>
 
@@ -43,7 +61,7 @@
                   <div class="col-lg-3 order-lg-2">
                     <div class="card-profile-image">
                       <a href="#">
-                        <img src="https://demos.creative-tim.com/argon-dashboard/assets-old/img/theme/team-4.jpg" class="rounded-circle">
+                        <img src="https://www.svgrepo.com/show/5125/avatar.svg" class="rounded-circle">
                       </a>
                     </div>
                   </div>
@@ -75,9 +93,9 @@
                     <div class="col-8">
                       <h3 class="mb-0">Ο λογαριασμός μου</h3>
                     </div>
-                    <div class="col-4 text-right">
-                      <a href="#!" class="btn btn-sm btn-primary">Επεξεργασία</a>
-                    </div>
+                    <div class="col-4 text-right" id="buttonContainer">
+                      <a href="#!" class="btn btn-sm btn-primary" id="editButton">Επεξεργασία</a>
+                    </div>                    
                   </div>
                 </div>
                 <div class="card-body">
@@ -88,7 +106,7 @@
                         <div class="col-lg-6">
                           <div class="form-group focused">
                             <label class="form-control-label" for="input-username">Username</label>
-                            <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="user">
+                            <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="user" readonly>
                           </div>
                         </div>
                         <div class="col-lg-6">

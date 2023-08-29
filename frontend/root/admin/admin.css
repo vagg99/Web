@@ -13,6 +13,7 @@ main {
 }
 
 /* File upload container */
+/* file is sticking to the left of the page */
 .file-container {
   max-width: 400px;
   padding: 20px;
@@ -20,7 +21,7 @@ main {
   border-radius: 5px;
   background-color: #bcc3dd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: 300px; /* Set the desired height */
+  height: 400px; /* Set the desired height */
   overflow-y: auto; /* Add vertical scroll if content overflows */
   flex: 0 0 auto; /* Prevent growth and shrinking */
 }
@@ -87,8 +88,6 @@ main {
   height: 400px; /* Set the desired height */
   overflow: hidden; /* Hide overflow content */
 }
-
-
 
 /* Adjust column title styles */
 .column-title {
@@ -215,3 +214,4 @@ label, select {
 select {
   padding: 5px;
 }
+

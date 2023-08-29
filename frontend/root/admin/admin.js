@@ -192,6 +192,8 @@ function displayPlayers(page, players) {
       `;
       leaderboardList.appendChild(listItem);
   });
+
+  
 }
 
 function displayPagination(length) {

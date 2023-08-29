@@ -4,6 +4,8 @@ window.addEventListener("load", async () => {
   // without adding "await" the data loads in the background
   LoadDataInTheBeginning();
 
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".nav-menu");
   const loader = document.querySelector(".loader");
   
   loader.classList.add("loader--hidden");
@@ -22,6 +24,11 @@ window.addEventListener("load", async () => {
       }
     }, 1500); // Adjust the delay as needed
   
+  });
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
   });
 
 });

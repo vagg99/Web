@@ -99,8 +99,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-
-
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
 
@@ -225,19 +223,24 @@ async function displayAllStoresWithDiscounts(stores,discounts){
 // marker click functionality
 async function onMarkerClick(marker,e,id,shopName){
   let popupContent = `<div><b>${shopName}</b></div>`;
-  // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
-  // με το το μαγαζι που κλικαρε
-  const clickedLatLng = e.latlng;
-  const userLatLng = userLocationMarker.getLatLng();
-  const distance = calculateHaversineDistance(userLatLng, clickedLatLng);
-  //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
-    if (userLoggedIn) {
-      popupContent += `<button id="submit-discount-button" class="clickable-btn" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
-    } else {
-      popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
-    }
-  //}
-  marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
+  let distance = null;
+  try {
+    // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
+    // με το το μαγαζι που κλικαρε
+    const clickedLatLng = e.latlng;
+    const userLatLng = userLocationMarker.getLatLng();
+    distance = calculateHaversineDistance(userLatLng, clickedLatLng);
+    //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
+      if (userLoggedIn) {
+        popupContent += `<button id="submit-discount-button" class="clickable-btn" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
+      } else {
+        popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
+      }
+    //}
+    marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
+  } catch (error) {
+    console.error('Error calculating distance:', error);
+  }
   try {
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const discountedItems = await response.json();
@@ -280,51 +283,55 @@ async function onMarkerClick(marker,e,id,shopName){
   }
 }
 
-function createPopupContent(data,shopName,distance,shopId) {
-  // θελουμε κατι πιο δημιουργικο εδω
-  // Εγω βαζω αυτο το απλο και αλλαξτε το
-
+function createPopupContent(data, shopName, distance, shopId) {
   // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
   let output = `<div class="discount">`;
-  output += "<div class='popup-title'>Βρέθηκε προσφορά!</div>";
+  output += "<div class='popup-title'>Λίστα προσφορών!</div>";
 
-  for (let i = 0 ; i < data.length ; i++){
+  output += `<div class="popup-item-scroll-list">`;
+
+  for (let i = 0; i < data.length; i++) {
     let product = data[i].item.name;
     let price = data[i].discount.discount_price;
     let date = data[i].discount.date;
     let likes = data[i].discount.likes;
     let dislikes = data[i].discount.dislikes;
-    let apothema = data.in_stock?"ναι":"οχι";
+    let apothema = data.in_stock ? "ναι" : "οχι";
     let achievements = data[i].discount.achievements;
     output += `<div class="popup-item-container" id=discount_${data[i]._id}>`;
-    output += `${i+1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
-
-    if (achievements['5_a_i']) { output += ` - 5_a_i : <img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">`; }
-    if (achievements['5_a_ii']) { output += ` - 5_a_ii : <img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">`; }
-
-    if (userIsAdmin){
+    output += `${i + 1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
+    if (achievements["5_a_i"]) {
+      output += ` - 5_a_i : <img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">`;
+    }
+    if (achievements["5_a_ii"]) {
+      output += ` - 5_a_ii : <img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">`;
+    }
+    if (userIsAdmin) {
       output += `<button class="delete-discount-button" id="delete-discount-${data[i]._id}">
-                        Διαγραφή Προσφοράς
-                </button>`;
+        Διαγραφή Προσφοράς
+      </button>`;
     }
-
     output += "</div>";
-
   }
-  
-  //if (distance <= 0.05) { // 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
-    output += `<div class="button-container">`;
-    if (userLoggedIn) {
-      output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(shopId)}'">Αξιολόγιση Προσφορών</button>`;
-    } else {
-      output += `<button id="assessment-button" class="clickable-btn logged-out" disabled>Αξιολόγιση Προσφορών</button>`;
-    }
-    output += `</div>`; 
-  //}
 
-  output+="</div>";
+  output += `</div>`; // Close popup-item-scroll-list div
+
+  output += `<div class="button-container">`;
+  if (userLoggedIn) {
+    output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(
+      shopId
+    )}'">Αξιολόγιση Προσφορών</button>`;
+  } else {
+    output += `<button id="assessment-button" class="clickable-btn logged-out" disabled>Αξιολόγιση Προσφορών</button>`;
+  }
+  output += `</div>`;
+
+  output += "</div>";
   return output;
 }
+
+// Marker icons
+// visuals here
 
 function markerHtmlStyles(color) { return `
   background-color: ${color};
@@ -336,8 +343,24 @@ function markerHtmlStyles(color) { return `
   position: relative;
   border-radius: 3rem 3rem 0;
   transform: rotate(45deg);
-  border: 1px solid #FFFFFF`;
+  border: 1px solid #FFFFFF;
+  animation: bounce 0.8s infinite alternate; /* Add the animation */
+`;
 }
+
+// Add a CSS animation for the bouncing effect
+const styleSheet = document.styleSheets[0];
+styleSheet.insertRule(`
+  @keyframes bounce {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-10px); /* Adjust the bounce height */
+    }
+  }
+`, styleSheet.cssRules.length);
+
 function divIconSettings(color) {
   return {
     className: "shop-pin",
@@ -347,7 +370,6 @@ function divIconSettings(color) {
     html: `<span style="${markerHtmlStyles(color)}" />`
   }
 }
-
 
 const CurrentLocationColor = "#40e0d0";
 const ShopColor = "#5A5A5A";

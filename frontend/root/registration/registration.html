@@ -64,7 +64,10 @@
                     <p>Password must be at least 8 characters long, contain at least one capital letter, one number, and one special character.</p>
                 </div>
                 
-                <button type="submit" class="btn">Εγγράψου</button>
+                <button type="submit" class="btn">
+                    <span class="spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span> 
+                    Εγγράψου
+                </button>
                 <div class="link">
                     <p>Έχεις ήδη λογαριασμό;<a href="#" class="signin-link"> Σύνδεση</a></p>
                 </div>
@@ -87,13 +90,21 @@
                 <div class="forgot-pass">
                     <a href="#">Ξέχασες τον κωδικό;</a>
                 </div>
-                <button type="submit" class="btn">Συνδέσου</button>
+                <button type="submit" class="btn">
+                    <span class="spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span> 
+                    Συνδέσου
+                </button>
                 <div class="link">
                     <p>Δεν έχεις λογαριασμό;<a href="#" class="signup-link"> Εγγραφή</a></p>
                 </div>
             </form>
         </div>
     </div>
+    <div id="popupContainer" class="popup-container">
+        <div id="popupContent" class="popup-content">
+          <!-- The success message will be displayed here -->
+        </div>
+      </div>
     <footer style="position: fixed; bottom: 0;">
 		@2023 My Website. All rights reserved. 
     </footer>

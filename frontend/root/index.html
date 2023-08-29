@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>e-Καταναλωτής</title>
   <link rel="icon" href="images/ekatanalotisShoppingCart_32.png" type="image/png">
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -17,14 +18,31 @@
       </div>
     </div>
     <nav>
-      <ul>
-        <li><a href="#">Αρχική</a></li>
-        <li><a href="Registration/registration.html">Σύνδεση</a></li>
-        <li><a href="Maps/maps.html">Χάρτης</a></li>
-        <li id="profileLink" style="display: none;"><a href="Profile/profile.html">Προφίλ</a></li>
-        <li id="adminDashboardBtn" style="display: none;"><a href="admin/admin.html">Admin</a></li>
-        <li id="logoutBtn" style="display: none;"><a href="#">Log Out</a></li>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#">Αρχική</a>
+        </li>
+        <li class="nav-item">
+          <a href="Registration/registration.html">Σύνδεση</a>
+        </li>
+        <li class="nav-item">
+          <a href="Maps/maps.html">Χάρτης</a>
+        </li>
+        <li class="nav-item" id="profileLink" style="display: none;">
+          <a href="Profile/profile.html">Προφίλ</a>
+        </li>
+        <li class="nav-item" id="adminDashboardBtn" style="display: none;">
+          <a href="admin/admin.html">Admin</a>
+        </li>
+        <li class="nav-item" id="logoutBtn" style="display: none;">
+          <a href="#">Log Out</a>
+        </li>
       </ul>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>  
+      </div>
     </nav> 
   </header>
 
@@ -37,8 +55,8 @@
     </section>
   </main>
 
-  <footer>
-    &copy; 2023 My Website. All rights reserved.
+  <footer style="position: fixed; bottom: 0;">
+    &copy; 2023 All rights reserved.
   </footer>
 
   <script src="script.js"></script>

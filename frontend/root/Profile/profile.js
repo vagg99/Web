@@ -17,22 +17,140 @@ document.addEventListener('DOMContentLoaded', async () => {
     const countryField2 = document.getElementById("input-country2");
 
     // Display username in the form
-    const usernameField = document.getElementById("input-username");
-    const emailField = document.getElementById("input-email");
-    const firstnameField = document.getElementById("input-first-name");
-    const lastnameField = document.getElementById("input-last-name");
-    const addressField = document.getElementById("input-address");
-    const cityField = document.getElementById("input-city");
-    const countryField = document.getElementById("input-country");
-    const countrycodeField = document.getElementById("input-postal-code");
+    const usernameField = document.getElementById("input-username");    //username
+    const emailField = document.getElementById("input-email");          //email
+    const firstnameField = document.getElementById("input-first-name"); //firstname
+    const lastnameField = document.getElementById("input-last-name");   //lastname
+    const addressField = document.getElementById("input-address");      //address
+    const cityField = document.getElementById("input-city");            //city
+    const countryField = document.getElementById("input-country");      //country
+    const countrycodeField = document.getElementById("input-postal-code");  //postal code
 
-    const monthlyPoints = document.getElementById("monthly-points");
-    const totalPoints = document.getElementById("total-points");
-    const monthlyTokens = document.getElementById("monthly-tokens");
-    const totalTokens = document.getElementById("total-tokens");
+    const monthlyPoints = document.getElementById("monthly-points");    //monthly points
+    const totalPoints = document.getElementById("total-points");        //total points
+    const monthlyTokens = document.getElementById("monthly-tokens");    //monthly tokens
+    const totalTokens = document.getElementById("total-tokens");        //total tokens
+
+    // Get the button container and input fields
+    const buttonContainer = document.getElementById("buttonContainer");
+    const editButton = document.getElementById("editButton");
+    const inputFields = document.querySelectorAll(".form-control-alternative");
+
+    // Set the input fields to read-only initially
+    inputFields.forEach(input => {
+        input.readOnly = true;
+    });
+
+    // Function to toggle the buttons
+    const toggleButtons = (editMode) => {
+        if (editMode) {
+            editButton.style.display = "none";
+            saveButton.style.display = "inline-block";
+            cancelButton.style.display = "inline-block";
+        } else {
+            editButton.style.display = "inline-block";
+            saveButton.style.display = "none";
+            cancelButton.style.display = "none";
+        }
+    }
+
+    // Create the save and cancel buttons
+    // after pressing the edit button
+
+    // Save
+    const saveButton = document.createElement("button");
+    saveButton.textContent = "Save changes";
+    saveButton.classList.add("btn", "btn-sm", "btn-success");
+    saveButton.style.display = "inline-block"; // Initially hidden
+
+    // save button visuals by default without mousover
+    saveButton.style.backgroundColor = "#2dce89";
+    saveButton.style.color = "#fff";
+
+    // Cancel
+    const cancelButton = document.createElement("button");
+    cancelButton.textContent = "Cancel";
+    cancelButton.classList.add("btn", "btn-sm", "btn-danger");
+    cancelButton.style.display = "inline-block"; // Initially hidden
+
+    // cancel button visuals
+
+    cancelButton.style.backgroundColor = "#f5365c";
+    cancelButton.style.color = "#fff";
+
+    // Add event listener to the edit button
+    editButton.addEventListener("click", () => {
+        inputFields.forEach(input => {
+            if (!["monthly-points", "total-points", "monthly-tokens", "total-tokens"].includes(input.id)) {
+                input.readOnly = !input.readOnly;
+            }
+        });
+        toggleButtons(true);
+    });
+
+    // Add event listener to the cancel button
+    cancelButton.addEventListener("click", () => {
+        inputFields.forEach(input => {
+            input.readOnly = true; // Set input fields back to read-only
+        });
+        editMode = false;
+        toggleButtons(false); // Toggle buttons to their original state
+        restoreOriginalFieldValues(userData); // Restore original field values
+    });
+
+    // Add event listener to the save button
+    saveButton.addEventListener("click", () => {
+        inputFields.forEach(input => {
+            input.readOnly = true; // Set input fields back to read-only
+        });
+        editMode = false;
+        toggleButtons(false); // Toggle buttons to their original state
+        updateUserDataWithFormValues(userData); // Update user data with form values
+        // Send the updated user data to the server
+        // ----------------------------------------
+        // ----------------------------------------
+    });
+
+    // Function to update user data with form values
+    function updateUserDataWithFormValues(userData) {
+        userData.username = usernameField.value;
+        userData.email = emailField.value;
+        userData.firstname = firstnameField.value;
+        userData.lastname = lastnameField.value;
+        userData.address.name = addressField.value;
+        userData.address.city = cityField.value;
+        userData.address.country = countryField.value;
+        userData.address.countryCode = countrycodeField.value;
+
+        // Update the UI with the new values
+        firstnameField2.textContent = userData.firstname;
+        lastnameField2.textContent = userData.lastname;
+        cityField2.textContent = userData.address.city;
+        countryField2.textContent = userData.address.country;
+    }
+
+
+    // Function to restore original field values
+    function restoreOriginalFieldValues(userData) {
+        usernameField.value = userData.username;
+        emailField.value = userData.email;
+        firstnameField.value = userData.firstname;
+        lastnameField.value = userData.lastname;
+        addressField.value = userData.address.name;
+        cityField.value = userData.address.city;
+        countryField.value = userData.address.country;
+        countrycodeField.value = userData.address.countryCode;
+    }
+
+    // Append buttons to the button container
+    buttonContainer.appendChild(editButton);    // Επεξεργασία
+    //
+    buttonContainer.appendChild(saveButton);    //
+    buttonContainer.appendChild(cancelButton);  //
+    // initially toggle save and cancel off
+    toggleButtons(false);
 
     if (userData) {
-
         // Populate the form fields using the userData object
         if (userData.firstname) firstnameField2.textContent = userData.firstname;
         if (userData.lastname) lastnameField2.textContent = userData.lastname;

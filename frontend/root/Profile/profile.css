@@ -36,29 +36,12 @@ hr {
   padding-left: 15px;
 }
 
-@media (min-width: 576px) {
-  .container {
-    max-width: 540px;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
-}
-
 @media (min-width: 992px) {
   .container {
     max-width: 960px;
   }
 }
 
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
-}
 
 .container-fluid {
   width: 100%;
@@ -110,23 +93,10 @@ hr {
   flex: 0 0 66.66667%;
 }
 
-@media (min-width: 768px) {
-
-  .col-md-10 {
-    max-width: 83.33333%;
-    flex: 0 0 83.33333%;
-  }
-
-  .col-md-12 {
-    max-width: 100%;
-    flex: 0 0 100%;
-  }
-}
-
 @media (min-width: 992px) {
 
   .col-lg-3 {
-    max-width: 25%;
+    max-width: 15%;
     flex: 0 0 25%;
   }
 
@@ -175,6 +145,7 @@ hr {
     order: 2;
   }
 }
+
 
 .form-control {
   font-size: 1rem;
@@ -1026,6 +997,7 @@ a.text-white:focus {
   will-change: transform;
 }
 
+/* bouncing button upon hover */
 .btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
@@ -1067,11 +1039,6 @@ a.text-white:focus {
   transition: all .15s ease;
   transform: translate(-50%, -30%);
   border-radius: .375rem;
-}
-
-/* bouncing avatar */
-.card-profile-image img:hover {
-  transform: translate(-50%, -33%);
 }
 
 .card-profile-stats {
@@ -1123,7 +1090,7 @@ a.text-white:focus {
   border-color: rgba(255, 255, 255, .9);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .navbar .dropdown-menu {
     margin: 0;
     pointer-events: none;

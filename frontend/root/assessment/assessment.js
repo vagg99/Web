@@ -13,11 +13,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         addProduct(item, productList);
     });
 
+    function handleLikeDislikeButtons() {
+        const likeButtons = document.querySelectorAll('.like');
+        const dislikeButtons = document.querySelectorAll('.dislike');
+
+        likeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (button.classList.contains('active')) {
+                    button.classList.remove('active');
+                } else {
+                    likeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                }
+            });
+        });
+
+        dislikeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (button.classList.contains('active')) {
+                    button.classList.remove('active');
+                } else {
+                    dislikeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                }
+            });
+        });
+    }
+
+    handleLikeDislikeButtons(); 
 });
 
 const userPoints = {}; 
 let choiceTimeouts = {}; // Object to store choice timeouts for each product
-const cooldownDuration = 2000; // 2 seconds in milliseconds
+const cooldownDuration = 8000; // 2 seconds in milliseconds
 
 function addProduct(item, productList) {
     const DiscountId = item._id;
@@ -31,33 +59,44 @@ function addProduct(item, productList) {
     const product_image_link = item.item.img;
     const achievements = item.discount.achievements;
     const username = item.user.username;
-    const totalPoints = item.user.points.total;
+    const totalPoints = (item.user.points["monthly"] >= 0) ? item.user.points["total"] + item.user.points["monthly"] : item.user.points["total"];
+    const stockClass = in_stock ? "in-stock" : "out-of-stock";
 
     if (!userPoints[username]) { userPoints[username] = 0; }
 
     const newProductItem = document.createElement("li");
-    newProductItem.classList.add("product-item");
+    newProductItem.classList.add("product-item", stockClass); // Add the stock class here
+
     newProductItem.innerHTML = `
-        <div class="product-header">
-            <p class="offer-text">${shopName} ΠΡΟΣΦΟΡΑ!</p>
-            <img src="${product_image_link}" alt="Product Image" class="product-image">
-            <h2>${productName}</h2>
+    <div class="product-header">
+        <img src="${product_image_link}" alt="Product Image" class="product-image">
+        <div class="product-details-container">
+            <div class="product-details">
+                <div class="info">
+                    <p class="price">Τιμή: ${price}€</p>
+                    <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
+                    <p>Η Προσφορά υποβλήθηκε απο το Χρήστη ${username} με ${totalPoints} συνολικούς Πόντους</p>
+                    ${achievements['5_a_i'] ? `<p>Επίτευγμα 5_a_i : </p><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">` : ''}
+                    ${achievements['5_a_ii'] ? `<p>Επίτευγμα 5_a_ii : </p><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">` : ''}
+                </div>
+            </div>
+            <button class="instock-button" data-product-id="${DiscountId}" >${in_stock ? 'In Stock' : 'Out of Stock'}</button>
         </div>
-        <div class="product-details">
-            <p class="price">Τιμή: ${price}€</p>
-            <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
-            <p>Η Προσφορά υποβλήθη απο το Χρήστη ${username} με ${totalPoints} συνολικούς Πόντους</p>
-            ${achievements['5_a_i'] ? `<p>Επίτευγμα 5_a_i : </p><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">` : ''}
-            ${achievements['5_a_ii'] ? `<p>Επίτευγμα 5_a_ii : </p><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">` : ''}
-            <div class="buttons">
-                <p>Likes: </p><p class="likes">${likes}</p>
-                <p>Dislikes: </p><p class="dislikes">${dislikes}</p>
-                <button class="like-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">Like</button>
-                <button class="dislike-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">Dislike</button>
-                <button class="instock-button" data-product-id="${DiscountId}" >In Stock</button>
+        <div class="likes-dislikes">
+            <div class="rating">
+            <!-- Thumbs up -->
+                <p>Likes: <span class="likes ">${likes}</span></p>
+                <p>Dislikes: <span class="dislikes">${dislikes}</span></p>
+                    <button class="like-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
+                    <i class="fas fa-thumbs-up fa-3x like" aria-hidden="true"></i>
+                    </button>
+                    <button class="dislike-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
+                    <i class="fas fa-thumbs-down fa-3x like" aria-hidden="true"></i>
+                    </button>
             </div>
         </div>
-    `;
+    </div>
+`;
 
     const likeButton = newProductItem.querySelector(".like-button");
     const dislikeButton = newProductItem.querySelector(".dislike-button");
@@ -73,15 +112,14 @@ function addProduct(item, productList) {
         const productId = event.currentTarget.dataset.productId;
         updateChoiceTimeout(productId, {likes : likes , dislikes : dislikes ,in_stock : in_stock});
         if (in_stock) {
-            likeButton.classList.remove("disabled");
-            dislikeButton.classList.remove("disabled");
-            likeButton.classList.remove("inactive");
-            dislikeButton.classList.remove("inactive");
+            // Swap from "Out of Stock" to "In Stock"
+            instockButton.textContent = "In Stock";
+            // Show the Like and Dislike buttons
+            likeButton.style.display = "inline-block";
+            dislikeButton.style.display = "inline-block";
         } else {
-            likeButton.classList.add("disabled");
-            dislikeButton.classList.add("disabled");
-            likeButton.classList.add("inactive");
-            dislikeButton.classList.add("inactive");
+            // Swap from "In Stock" to "Out of Stock"
+            instockButton.textContent = "Out of Stock";
         }
     });
 
@@ -122,6 +160,15 @@ function addProduct(item, productList) {
     newProductItem.addEventListener("click", () => {
         newProductItem.classList.toggle("expanded");
     });
+
+    if (!in_stock) {
+        newProductItem.classList.add("out-of-stock");
+        newProductItem.classList.remove("product-item"); // Remove product-item class for out-of-stock
+        newProductItem.classList.remove("expanded"); // Ensure expansion is disabled for out-of-stock
+
+        likeButton.classList.add("disabled");
+        dislikeButton.classList.add("disabled");
+    }
 
     productList.appendChild(newProductItem);
 };

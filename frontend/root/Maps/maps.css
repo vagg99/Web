@@ -25,18 +25,12 @@ select {
   margin-left: 10px;
 }
 
+/* Styling for icons */
 .icon {
-  width: 1em;  /* Adjust this value as needed */
-  height: 1em; /* Adjust this value as needed */
+  width: 16px;
+  height: 16px;
+  margin-left: 5px;
   vertical-align: middle;
-}
-
-/* styling for Leaflet popups */
-.leaflet-popup-content-wrapper {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  text-align: center; /* Center the contents horizontally */
 }
 
 .leaflet-popup-content {
@@ -88,6 +82,7 @@ select {
   align-items: center;
   margin-bottom: 10px;
 }
+
 
 /* search box */
 #search-box {
@@ -143,20 +138,133 @@ select {
   cursor: not-allowed;
 }
 
-/* Style for the button */
-.popup-item-container .delete-discount-button {
-  background-color: red;
-  color: white;
+/* On hover effect */
+.popup-item-container .delete-discount-button:hover {
+  background-color: rgb(182, 164, 164);
+}
+
+/* discount popup */
+/* Λίστα προσφορών! */
+.popup-title {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Style for the item container */
+.popup-item-container.discount-item {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  display: block;
+  align-items: flex-start;
+}
+
+.popup-item-container button {
   border: none;
-  border-radius: 50%;
-  padding: 5px 10px;
-  font-size: 12px;
+  background-color: transparent;
+  color: #007bff;
   cursor: pointer;
-  display: inline-flex;
+  font-size: 14px;
+  padding: 0;
+  margin-top: 5px;
+}
+
+.button-container {
+  margin-top: 15px;
+}
+
+/* Styling for icons */
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+/* Style for the assessment button */
+#assessment-button {
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+#assessment-button:hover {
+  background-color: #0056b3;
+}
+
+#assessment-button.logged-out {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* scrollable list */
+.popup-item-scroll-list {
+  max-height: 200px; /* Set the desired max height for the scrollable list */
+  overflow-y: auto;
+  margin-bottom: 10px; /* Add some bottom margin for spacing */
+  padding-right: 28px;
+}
+
+/* Style for product name */
+.product-name {
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Style for price */
+.price {
+}
+
+/* Style for stock status */
+.stock-status {
+  font-style: italic;
+}
+
+/* Style for date */
+.date {
+  color: blue;
+}
+
+/* Style for likes and dislikes */
+.likes {
+  color: green;
+}
+
+/* Style for likes and dislikes */
+.dislikes {
+  color: red;
+}
+
+/* Style for achievements */
+.achievement {
+  margin-top: 5px;
+}
+
+/* Style for delete button */
+.delete-discount-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Container for enumeration and product name */
+.enumeration-product-container {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-/* On hover effect */
-.popup-item-container .delete-discount-button:hover {
-  background-color: darkred;
+/* Container for likes, dislikes, and delete button */
+.likes-dislikes-delete-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

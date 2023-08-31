@@ -117,6 +117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         userData.email = emailField.value;
         userData.firstname = firstnameField.value;
         userData.lastname = lastnameField.value;
+        if (!userData.address) userData.address = {};
         userData.address.name = addressField.value;
         userData.address.city = cityField.value;
         userData.address.country = countryField.value;
@@ -131,15 +132,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     // Function to restore original field values
-    function restoreOriginalFieldValues(userData) {
-        usernameField.value = userData.username;
-        emailField.value = userData.email;
-        firstnameField.value = userData.firstname;
-        lastnameField.value = userData.lastname;
-        addressField.value = userData.address.name;
-        cityField.value = userData.address.city;
-        countryField.value = userData.address.country;
-        countrycodeField.value = userData.address.countryCode;
+    function restoreOriginalFieldValues(userData){
+
+        // Populate the form fields using the userData object
+        if (userData.firstname) firstnameField2.textContent = userData.firstname;
+        if (userData.lastname) lastnameField2.textContent = userData.lastname;
+        if (userData.address) {
+            if (userData.address.city) cityField2.textContent = userData.address.city;
+            if (userData.address.country) countryField2.textContent = userData.address.country;
+        }
+
+        // Populate the form fields with editable values
+        if (userData.username) usernameField.value = userData.username;
+        if (userData.email) emailField.value = userData.email;
+        if (userData.firstname) firstnameField.value = userData.firstname;
+        else firstnameField.placeholder = "Πληκτρολογήστε εδώ το όνομά σας...";
+        if (userData.lastname) lastnameField.value = userData.lastname;
+        else lastnameField.placeholder = "Πληκτρολογήστε εδώ το επίθετό σας...";
+        if (userData.address) {
+            if (userData.address.name) addressField.value = userData.address.name;
+            if (userData.address.city) cityField.value = userData.address.city;
+            if (userData.address.country) countryField.value = userData.address.country;
+            if (userData.address.countryCode) countrycodeField.value = userData.address.countryCode;
+        } else {
+            addressField.value = '';
+            cityField.value = '';
+            countryField.value = '';
+            countrycodeField.value = '';
+        }
     }
 
     // Append buttons to the button container
@@ -151,21 +171,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     toggleButtons(false);
 
     if (userData) {
-        // Populate the form fields using the userData object
-        if (userData.firstname) firstnameField2.textContent = userData.firstname;
-        if (userData.lastname) lastnameField2.textContent = userData.lastname;
-        if (userData.address.city) cityField2.textContent = userData.address.city;
-        if (userData.address.country) countryField2.textContent = userData.address.country;
 
-        // Populate the form fields with editable values
-        if (userData.username) usernameField.value = userData.username;
-        if (userData.email) emailField.value = userData.email;
-        if (userData.firstname) firstnameField.value = userData.firstname;
-        if (userData.lastname) lastnameField.value = userData.lastname;
-        if (userData.address.name) addressField.value = userData.address.name;
-        if (userData.address.city) cityField.value = userData.address.city;
-        if (userData.address.country) countryField.value = userData.address.country;
-        if (userData.address.countryCode) countrycodeField.value = userData.address.countryCode;
+        restoreOriginalFieldValues(userData);        
 
         const discountsSubmitedList = document.getElementById("discounts-submited");
         const userDiscounts = { liked: ["SUMMER2023", "FALLSALE", "HOLIDAY10"] }
@@ -175,11 +182,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         const userDiscounts2 = { liked: ["SUMMER2023", "FALLSALE", "HOLIDAY10"] }
         likedDislikedDiscountsList.innerHTML = userDiscounts2.liked.map(discount => `<li>${discount}</li>`).join("");
 
-        monthlyPoints.value = userData.points.monthly;
-        totalPoints.value = userData.points.total;
-        monthlyTokens.value = userData.tokens.monthly;
-        totalTokens.value = userData.tokens.total;
-
+        if (userData.points) {
+            monthlyPoints.value = userData.points.monthly;
+            totalPoints.value = userData.points.total;
+            monthlyTokens.value = userData.tokens.monthly;
+            totalTokens.value = userData.tokens.total;
+        } else {
+            monthlyPoints.value = 0;
+            totalPoints.value = 0;
+            monthlyTokens.value = 0;
+            totalTokens.value = 0;
+        }
     } else {
         console.error("User not found");
     }

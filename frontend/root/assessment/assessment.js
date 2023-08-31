@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 const userPoints = {}; 
 let choiceTimeouts = {}; // Object to store choice timeouts for each product
-const cooldownDuration = 2000; // 2 seconds in milliseconds
+const cooldownDuration = 8000; // 2 seconds in milliseconds
 
 function addProduct(item, productList) {
     const DiscountId = item._id;
@@ -59,12 +59,14 @@ function addProduct(item, productList) {
     const product_image_link = item.item.img;
     const achievements = item.discount.achievements;
     const username = item.user.username;
-    const totalPoints = item.user.points.total;
+    const totalPoints = (item.user.points["monthly"] >= 0) ? item.user.points["total"] + item.user.points["monthly"] : item.user.points["total"];
+    const stockClass = in_stock ? "in-stock" : "out-of-stock";
 
     if (!userPoints[username]) { userPoints[username] = 0; }
 
     const newProductItem = document.createElement("li");
-    newProductItem.classList.add("product-item");
+    newProductItem.classList.add("product-item", stockClass); // Add the stock class here
+
     newProductItem.innerHTML = `
     <div class="product-header">
         <img src="${product_image_link}" alt="Product Image" class="product-image">
@@ -83,7 +85,7 @@ function addProduct(item, productList) {
         <div class="likes-dislikes">
             <div class="rating">
             <!-- Thumbs up -->
-                <p>Likes: <span class="likes">${likes}</span></p>
+                <p>Likes: <span class="likes ">${likes}</span></p>
                 <p>Dislikes: <span class="dislikes">${dislikes}</span></p>
                     <button class="like-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
                     <i class="fas fa-thumbs-up fa-3x like" aria-hidden="true"></i>
@@ -110,15 +112,14 @@ function addProduct(item, productList) {
         const productId = event.currentTarget.dataset.productId;
         updateChoiceTimeout(productId, {likes : likes , dislikes : dislikes ,in_stock : in_stock});
         if (in_stock) {
-            likeButton.classList.remove("disabled");
-            dislikeButton.classList.remove("disabled");
-            likeButton.classList.remove("inactive");
-            dislikeButton.classList.remove("inactive");
+            // Swap from "Out of Stock" to "In Stock"
+            instockButton.textContent = "In Stock";
+            // Show the Like and Dislike buttons
+            likeButton.style.display = "inline-block";
+            dislikeButton.style.display = "inline-block";
         } else {
-            likeButton.classList.add("disabled");
-            dislikeButton.classList.add("disabled");
-            likeButton.classList.add("inactive");
-            dislikeButton.classList.add("inactive");
+            // Swap from "In Stock" to "Out of Stock"
+            instockButton.textContent = "Out of Stock";
         }
     });
 
@@ -159,6 +160,15 @@ function addProduct(item, productList) {
     newProductItem.addEventListener("click", () => {
         newProductItem.classList.toggle("expanded");
     });
+
+    if (!in_stock) {
+        newProductItem.classList.add("out-of-stock");
+        newProductItem.classList.remove("product-item"); // Remove product-item class for out-of-stock
+        newProductItem.classList.remove("expanded"); // Ensure expansion is disabled for out-of-stock
+
+        likeButton.classList.add("disabled");
+        dislikeButton.classList.add("disabled");
+    }
 
     productList.appendChild(newProductItem);
 };

@@ -73,7 +73,7 @@
     padding: 20px;
     background-color: #fff;
     border-radius: 5px;
-    text-align: center;
+    text-align: left;
 }
 
 /* Each product item levitates when hovered */
@@ -136,4 +136,13 @@
 
 .instock-button:hover {
     background-color: #1E8F9E;
+}
+
+/* Styles for out-of-stock product item */
+.out-of-stock {
+    opacity: 0.3; /* Grayed out appearance */
+    pointer-events: none; /* Disable interactions */
+    /* Additional styles specific to out-of-stock items */
+    border-color: #ddd; /* Adjust the border color if desired */
+    box-shadow: none; /* Remove shadow for out-of-stock */
 }

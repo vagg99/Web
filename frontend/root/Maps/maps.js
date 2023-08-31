@@ -99,6 +99,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  // Add a CSS animation for the bouncing effect
+  const styleSheet = document.styleSheets[0];
+  styleSheet.insertRule(`
+    @keyframes bounce {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-10px); /* Adjust the bounce height */
+      }
+    }
+  `, styleSheet.cssRules.length);
+
+
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
 
@@ -298,25 +312,35 @@ function createPopupContent(data, shopName, distance, shopId) {
     let dislikes = data[i].discount.dislikes;
     let apothema = data.in_stock ? "ναι" : "οχι";
     let achievements = data[i].discount.achievements;
-    output += `<div class="popup-item-container" id=discount_${data[i]._id}>`;
-    output += `${i + 1}. ${product} - ${price}€ - σε-αποθεμα:${apothema} - date:${date} - likes/dislikes:${likes}/${dislikes}`;
+    
+    output += `
+          <div class="popup-item-container discount-item" id="discount_${data[i]._id}">
+          <div class="discount-enumeration">${i + 1}</div>
+          <div class="product-name">${product}</div>
+          <div class="price">Τιμή ${price}€</div>
+          <div class="stock-status">Βρίσκεται σε απόθεμα: ${apothema}</div>
+          <div class="date">Καταχωρήθηκε: ${date}</div>
+          <div class="likes">Likes: ${likes}</div>
+          <div class="dislikes">Dislikes: ${dislikes}</div>`
+    ;
     if (achievements["5_a_i"]) {
-      output += ` - 5_a_i : <img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">`;
+      output += `<div class="achievement"><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon"></div>`;
     }
     if (achievements["5_a_ii"]) {
-      output += ` - 5_a_ii : <img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">`;
+      output += `<div class="achievement"><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon"></div>`;
     }
     if (userIsAdmin) {
       output += `<button class="delete-discount-button" id="delete-discount-${data[i]._id}">
-        Διαγραφή Προσφοράς
+        <img src="../images/trash_32.png" alt="Delete Offer">
       </button>`;
     }
     output += "</div>";
   }
+  
 
   output += `</div>`; // Close popup-item-scroll-list div
 
-  output += `<div class="button-container">`;
+  output += `<div class="button-container shop-container" data-shop-id="${encodeURIComponent(shopId)}">`;
   if (userLoggedIn) {
     output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(
       shopId
@@ -325,9 +349,9 @@ function createPopupContent(data, shopName, distance, shopId) {
     output += `<button id="assessment-button" class="clickable-btn logged-out" disabled>Αξιολόγιση Προσφορών</button>`;
   }
   output += `</div>`;
-
   output += "</div>";
   return output;
+  
 }
 
 // Marker icons
@@ -348,18 +372,7 @@ function markerHtmlStyles(color) { return `
 `;
 }
 
-// Add a CSS animation for the bouncing effect
-const styleSheet = document.styleSheets[0];
-styleSheet.insertRule(`
-  @keyframes bounce {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(-10px); /* Adjust the bounce height */
-    }
-  }
-`, styleSheet.cssRules.length);
+
 
 function divIconSettings(color) {
   return {

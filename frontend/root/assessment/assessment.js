@@ -13,6 +13,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         addProduct(item, productList);
     });
 
+    function handleLikeDislikeButtons() {
+        const likeButtons = document.querySelectorAll('.like');
+        const dislikeButtons = document.querySelectorAll('.dislike');
+
+        likeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (button.classList.contains('active')) {
+                    button.classList.remove('active');
+                } else {
+                    likeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                }
+            });
+        });
+
+        dislikeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (button.classList.contains('active')) {
+                    button.classList.remove('active');
+                } else {
+                    dislikeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                }
+            });
+        });
+    }
+
+    handleLikeDislikeButtons(); 
 });
 
 const userPoints = {}; 
@@ -38,26 +66,35 @@ function addProduct(item, productList) {
     const newProductItem = document.createElement("li");
     newProductItem.classList.add("product-item");
     newProductItem.innerHTML = `
-        <div class="product-header">
-            <p class="offer-text">${shopName} ΠΡΟΣΦΟΡΑ!</p>
-            <img src="${product_image_link}" alt="Product Image" class="product-image">
-            <h2>${productName}</h2>
+    <div class="product-header">
+        <img src="${product_image_link}" alt="Product Image" class="product-image">
+        <div class="product-details-container">
+            <div class="product-details">
+                <div class="info">
+                    <p class="price">Τιμή: ${price}€</p>
+                    <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
+                    <p>Η Προσφορά υποβλήθηκε απο το Χρήστη ${username} με ${totalPoints} συνολικούς Πόντους</p>
+                    ${achievements['5_a_i'] ? `<p>Επίτευγμα 5_a_i : </p><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">` : ''}
+                    ${achievements['5_a_ii'] ? `<p>Επίτευγμα 5_a_ii : </p><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">` : ''}
+                </div>
+            </div>
+            <button class="instock-button" data-product-id="${DiscountId}" >${in_stock ? 'In Stock' : 'Out of Stock'}</button>
         </div>
-        <div class="product-details">
-            <p class="price">Τιμή: ${price}€</p>
-            <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
-            <p>Η Προσφορά υποβλήθη απο το Χρήστη ${username} με ${totalPoints} συνολικούς Πόντους</p>
-            ${achievements['5_a_i'] ? `<p>Επίτευγμα 5_a_i : </p><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">` : ''}
-            ${achievements['5_a_ii'] ? `<p>Επίτευγμα 5_a_ii : </p><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">` : ''}
-            <div class="buttons">
-                <p>Likes: </p><p class="likes">${likes}</p>
-                <p>Dislikes: </p><p class="dislikes">${dislikes}</p>
-                <button class="like-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">Like</button>
-                <button class="dislike-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">Dislike</button>
-                <button class="instock-button" data-product-id="${DiscountId}" >In Stock</button>
+        <div class="likes-dislikes">
+            <div class="rating">
+            <!-- Thumbs up -->
+                <p>Likes: <span class="likes">${likes}</span></p>
+                <p>Dislikes: <span class="dislikes">${dislikes}</span></p>
+                    <button class="like-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
+                    <i class="fas fa-thumbs-up fa-3x like" aria-hidden="true"></i>
+                    </button>
+                    <button class="dislike-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
+                    <i class="fas fa-thumbs-down fa-3x like" aria-hidden="true"></i>
+                    </button>
             </div>
         </div>
-    `;
+    </div>
+`;
 
     const likeButton = newProductItem.querySelector(".like-button");
     const dislikeButton = newProductItem.querySelector(".dislike-button");

@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 const userPoints = {}; 
 let choiceTimeouts = {}; // Object to store choice timeouts for each product
-const cooldownDuration = 8000; // 2 seconds in milliseconds
+const cooldownDuration = 2000; // 2 seconds in milliseconds
 
 function addProduct(item, productList) {
     const DiscountId = item._id;
@@ -125,8 +125,10 @@ function addProduct(item, productList) {
 
     likeButton.addEventListener("click", (event) => {
         event.stopPropagation();
+        let action = "like";
         if (likeButton.classList.contains("active")) {
             likes = updateLikeCount(likeButton, likeCountElement, likes, username);
+            action = "unlike";
         } else if (dislikeButton.classList.contains("active")) {
             likes = updateLikeCount(likeButton, likeCountElement, likes, username);
             dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes, username);
@@ -137,13 +139,15 @@ function addProduct(item, productList) {
         likeButton.classList.toggle("active");
         dislikeButton.classList.remove("active");
         const productId = event.currentTarget.dataset.productId;
-        updateChoiceTimeout(productId, {likes : likes , dislikes : dislikes ,in_stock : in_stock});
+        updateChoiceTimeout(productId, {likes : likes , dislikes : dislikes ,in_stock : in_stock, action: action});
     });
     
     dislikeButton.addEventListener("click", (event) => {
         event.stopPropagation();
+        let action = "dislike";
         if (dislikeButton.classList.contains("active")) {
             dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes, username);
+            action = "undislike";
         } else if (likeButton.classList.contains("active")) {
             dislikes = updateDislikeCount(dislikeButton, dislikeCountElement, dislikes, username);
             likes = updateLikeCount(likeButton, likeCountElement, likes, username);
@@ -154,7 +158,7 @@ function addProduct(item, productList) {
         dislikeButton.classList.toggle("active");
         likeButton.classList.remove("active");
         const productId = event.currentTarget.dataset.productId;
-        updateChoiceTimeout(productId, {likes : likes , dislikes : dislikes , in_stock : in_stock});
+        updateChoiceTimeout(productId, {likes : likes , dislikes : dislikes , in_stock : in_stock , action: action});
     });
 
     newProductItem.addEventListener("click", () => {
@@ -197,10 +201,6 @@ function updateDislikeCount(button, countElement, count, username) {
     return count;
 }
 
-function getDiscountOriginalPoster(productId) {
-
-}
-
 function updateChoiceTimeout(productId, data) {
     clearTimeout(choiceTimeouts[productId]);
     choiceTimeouts[productId] = setTimeout(() => {
@@ -216,6 +216,7 @@ async function sendChoiceToBackend(productId, likes_dislikes_in_stock) {
         likes: likes_dislikes_in_stock.likes,
         dislikes: likes_dislikes_in_stock.dislikes,
         in_stock: likes_dislikes_in_stock.in_stock,
+        action : likes_dislikes_in_stock.action,
         points: userPoints
     };
     try {
@@ -224,7 +225,8 @@ async function sendChoiceToBackend(productId, likes_dislikes_in_stock) {
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            credentials: 'include'
         });
         const result = await response.text();
         console.log(`Sent to db : ${response.ok} , Result : ${result}`);

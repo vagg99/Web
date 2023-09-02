@@ -63,7 +63,8 @@ async function registerUser(username, email, password) {
   let firstname = "";
   let lastname = "";
   let address = { "name" : "" , "city" : "" , "country" : "" , "countryCode" : ""};
-  const userData = { username, tokens, points, email, password_hashed, isAdmin , firstname , lastname , address };
+  let likesDislikes = {likedDiscounts : [] , dislikedDiscounts : []};
+  const userData = { username, tokens, points, email, password_hashed, isAdmin , firstname , lastname , address , likesDislikes };
   const result = await collection.insertOne(userData);
   cache.del('users');
   if (result.insertedId) {
@@ -309,14 +310,33 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
 // Χρήστης : 2) e) Like / Dislike / in Stock σε Προσφορές
 async function handleLikesDislikesUpdate(req, res){
   try {
-    const { likes , dislikes , in_stock , points } = req.body;
-    const discountId = req.query.discountId;
-    const collection = await connectToDatabase("stock");
-    const objectIdDiscountId = new ObjectId(discountId);
-    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: {'discount.likes' : likes, 'discount.dislikes' : dislikes , in_stock : in_stock} });
-    await updateLikeDislikePoints(points);
-    cache.flushAll();
-    res.status(200).json(result);
+    if (req.session.user) {
+      const { likes , dislikes , in_stock , action , points } = req.body;
+      const discountId = req.query.discountId;
+      const username = req.session.user.username;
+
+      const stockCollection = await connectToDatabase("stock");
+      const userCollection = await connectToDatabase("users");
+      const user = await userCollection.findOne({ username });
+      const userId = user ? user._id.toString() : null;
+      if (!userId) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      // ADD LIKE OR DISLIKE TO DISCOUNT PRODUCT
+      const objectIdDiscountId = new ObjectId(discountId);
+      const result = await stockCollection.updateOne({ _id: objectIdDiscountId }, { $set: {'discount.likes' : likes, 'discount.dislikes' : dislikes , in_stock : in_stock, user_id : userId} });
+      // ALSO ADD LIKE OR DISLIKE (TO USER WHO CLICKED THE BUTTON) SO IT CAN BE SEEN ON PROFILE
+      let updateObject = {};
+      if (action === 'like') { updateObject = { $push: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'dislike') { updateObject = { $push: { 'likesDislikes.dislikedDiscounts': discountId } }; } else if (action === 'unlike') { updateObject = { $pull: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'undislike') { updateObject = { $pull: { 'likesDislikes.dislikedDiscounts': discountId } }; }
+      const result2 = await userCollection.updateOne({ username }, updateObject);
+      // ADD POINTS TO USER THAT POSTED THE DISCOUNT (NOT THE ONE THAT CLICKED THE BUTTON)
+      await updateLikeDislikePoints(points);
+      cache.flushAll();
+      res.status(200).json(result);
+    } else {
+      res.status(403).json({ error: 'Forbidden' });
+    }
   } catch (error) {
     console.error('Error updating stock:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -326,63 +346,74 @@ async function handleLikesDislikesUpdate(req, res){
 // Χρήστης : 3) Υποβολή Προσφορών
 async function handleDiscountSubmission(req, res) {
   try {
-    let { productId, newprice , userId } = req.body;
-    newprice = Number(newprice);
+    if (req.session.user) {
+      let { productId, newprice , userId } = req.body;
+      const users = getData('users');
+      for (user in users) {
+        if (users[user].username === username) {
+          userId = users[user]._id;
+          break;
+        }
+      }
+      newprice = Number(newprice);
 
-    const collection = await connectToDatabase("stock");
-    const product = await collection.findOne({ _id: new ObjectId(productId) });
+      const collection = await connectToDatabase("stock");
+      const product = await collection.findOne({ _id: new ObjectId(productId) });
 
-    if (!product) {
-      res.status(404).json({ error: 'Product not found' });
-      return;
+      if (!product) {
+        res.status(404).json({ error: 'Product not found' });
+        return;
+      }
+
+      if (newprice < 0) {
+        res.status(400).json({ error: 'Invalid price' });
+        return;
+      }
+
+      if (newprice >= product.price) {
+        res.status(400).json({ error: 'Discount price must be lower than the original price' });
+        return;
+      }
+
+      if (product.on_discount && newprice >= product.discount.discount_price) {
+        res.status(400).json({ error: 'Discount price must be lower than the current discount price' });
+        return;
+      }
+
+      if (product.on_discount && !twenty_percent_smaller(newprice,product.discount.discount_price)) {
+        res.status(400).json({ error: 'Discount price must be at least 20% lower than the current discount price' });
+        return;
+      }
+      
+      let achievements = {};
+
+      let p = await calculatePoints(product,newprice);
+
+      if (p == 50){
+        achievements["5_a_i"] = true;
+      }
+      if (p == 20){
+        achievements["5_a_ii"] = true;
+      }
+
+      const result = await collection.updateOne({ _id: new ObjectId(productId) }, { $set: {
+        on_discount : true,
+        discount: { 
+          discount_price: newprice,
+          date : getCurrentDate(),
+          likes : 0,
+          dislikes : 0,
+          achievements : achievements
+        },
+        user_id : userId
+      }});
+
+      if (p) getPointsforSubmission(userId,p)
+      cache.flushAll();
+      res.status(200).json(result);
+    } else {
+      res.status(403).json({ error: 'Forbidden' });
     }
-
-    if (newprice < 0) {
-      res.status(400).json({ error: 'Invalid price' });
-      return;
-    }
-
-    if (newprice >= product.price) {
-      res.status(400).json({ error: 'Discount price must be lower than the original price' });
-      return;
-    }
-
-    if (product.on_discount && newprice >= product.discount.discount_price) {
-      res.status(400).json({ error: 'Discount price must be lower than the current discount price' });
-      return;
-    }
-
-    if (product.on_discount && !twenty_percent_smaller(newprice,product.discount.discount_price)) {
-      res.status(400).json({ error: 'Discount price must be at least 20% lower than the current discount price' });
-      return;
-    }
-    
-    let achievements = {};
-
-    let p = await calculatePoints(product,newprice);
-
-    if (p == 50){
-      achievements["5_a_i"] = true;
-    }
-    if (p == 20){
-      achievements["5_a_ii"] = true;
-    }
-
-    const result = await collection.updateOne({ _id: new ObjectId(productId) }, { $set: {
-      on_discount : true,
-      discount: { 
-        discount_price: newprice,
-        date : getCurrentDate(),
-        likes : 0,
-        dislikes : 0,
-        achievements : achievements
-      },
-      user_id : userId
-    }});
-
-    if (p) getPointsforSubmission(userId,p)
-    cache.flushAll();
-    res.status(200).json(result);
   } catch (error){
     console.error('Error submitting discount:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -782,29 +813,150 @@ app.get('/getSubcategories', async (req, res) => {
   }
 });
 
-// GET request for fetching a user's information from the database
+// GET request for fetching all discounted items from 1 store
 app.get('/getUserInfo', async (req, res) => {
   try {
+    // IF USER IS LOGGED IN
     if (req.session.user) {
+      // CACHE FOR SPEED IMPROVEMENT
       const cachedUserInfo = await cache.get(req.session.user.username);
-      if (cachedUserInfo) { return res.status(200).json(cachedUserInfo); }
-      // else
+      if (cachedUserInfo) {
+        return res.status(200).json(cachedUserInfo);
+      }
+
       const username = req.session.user.username;
-      const collection = await connectToDatabase("users");
-      const users = await collection.find({ username : username }).toArray();
-      let user = users[0];
+      const userCollection = await connectToDatabase("users");
+      const stockCollection = await connectToDatabase("stock");
+      
+      // GET USER FROM LOG IN INFO
+      const users = await userCollection.find({ username: username }).toArray();
+      const user = users[0];
       delete user.password_hashed;
       delete user.isAdmin;
-      cache.set(username, user, TTLS);
-      res.status(200).json(user);
+      
+      // RETURN ALL THE DISCOUNTS THIS USER HAS POSTED
+      const userPostedItems = await stockCollection.aggregate([
+        {
+          $match: { user_id: user._id.toString() }
+        },
+        {
+          $lookup: {
+            from: "items",
+            localField: "item_id",
+            foreignField: "id",
+            as: "item"
+          }
+        },
+        {
+          $unwind: "$item"
+        },
+        {
+          $project: {
+            _id: 1,
+            user_id: 1,
+            item_id: 1,
+            price: 1,
+            discount: 1,
+            in_stock : 1,
+            img: "$item.img",
+            name: "$item.name"
+          }
+        }
+      ]).toArray();
+      
+
+      // Convert string IDs to ObjectIDs for liked and disliked products
+      const likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts.map(id => new ObjectId(id));
+      const dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts.map(id => new ObjectId(id));
+
+      // RETURN ALL THE DISCOUNTS THIS USER HAS LIKED OR DISLIKED
+      const userLikedItems = await stockCollection.aggregate([
+        {
+          $match: {
+            '_id': { $in: likedDiscountsObjectIDs }
+          }
+        },
+        {
+          $lookup: {
+            from: "items",
+            localField: "item_id",
+            foreignField: "id",
+            as: "item"
+          }
+        },
+        {
+          $unwind: "$item"
+        },
+        { $lookup: { from: "users", let: { user_id_str: "$user_id" }, pipeline: [ { $match: { $expr: { $eq: ["$_id", { $toObjectId: "$$user_id_str" }] } } }, { $project: { username: 1 } } ], as: "user" } },
+        {
+          $unwind: "$user"
+        },
+        {
+          $project: {
+            _id: 1,
+            user_id: 1,
+            item_id: 1,
+            price: 1,
+            discount: 1,
+            in_stock : 1,
+            img: "$item.img",
+            name: "$item.name",
+            username : "$user.username"
+          }
+        }
+      ]).toArray();
+      const userDislikedItems = await stockCollection.aggregate([
+        {
+          $match: {
+            '_id': { $in: dislikedDiscountsObjectIDs }
+          }
+        },
+        {
+          $lookup: {
+            from: "items",
+            localField: "item_id",
+            foreignField: "id",
+            as: "item"
+          }
+        },
+        {
+          $unwind: "$item"
+        },
+        { $lookup: { from: "users", let: { user_id_str: "$user_id" }, pipeline: [ { $match: { $expr: { $eq: ["$_id", { $toObjectId: "$$user_id_str" }] } } }, { $project: { username: 1 } } ], as: "user" } },
+        {
+          $project: {
+            _id: 1,
+            user_id: 1,
+            item_id: 1,
+            price: 1,
+            discount: 1,
+            in_stock : 1,
+            img: "$item.img",
+            name: "$item.name",
+            username : "$user.username"
+          }
+        }
+      ]).toArray();
+      
+      const userInfo = {
+        user,
+        userPostedItems,
+        userLikedItems,
+        userDislikedItems
+      };
+
+      cache.set(username, userInfo, TTLS);
+      res.status(200).json(userInfo);
     } else {
       res.status(401).json({ error: 'Unauthorized' });
     }
   } catch (error) {
-    console.error('Error fetching subcategories:', error);
+    console.error('Error fetching user info:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
 
 
 // POST request for updating db with likes / dislikes and stock by users

@@ -1129,3 +1129,12 @@ footer {
   width: 98%; /* (99-100)% would cause a horizontal scroll bar */
   top: 100%;
 }
+
+/* Add your preferred styling to this class */
+.li-styled {
+  background-color: #ffffff; /* Set the background color you want */
+  padding: 10px; /* Add padding for spacing */
+  margin-bottom: 5px; /* Add margin between items */
+  border-radius: 5px; /* Add rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}

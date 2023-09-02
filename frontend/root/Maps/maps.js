@@ -377,9 +377,8 @@ function markerHtmlStyles(color) { return `
   top: -1.5rem;
   position: relative;
   border-radius: 3rem 3rem 0;
-  transform: rotate(45deg);
+  transform: rotate(0deg);
   border: 1px solid #FFFFFF;
-
 `;
 }
 
@@ -388,7 +387,7 @@ function divIconSettings(color) {
     className: "shop-pin",
     iconAnchor: [0, 24],
     labelAnchor: [-6, 0],
-    popupAnchor: [0, -36],
+    popupAnchor: [0, -46],
     html: `<span style="${markerHtmlStyles(color)}" />`
   }
 }

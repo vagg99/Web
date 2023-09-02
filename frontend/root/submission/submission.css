@@ -39,3 +39,8 @@ select {
 input{
   width: 185px;
 }
+
+.sticky-footer {
+  position: sticky;
+  top: 100%;
+}

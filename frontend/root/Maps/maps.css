@@ -3,7 +3,7 @@
   width: 100%;
   height: 400px; /* Set the desired height for your map */
   border: 1px solid #ccc;
-  border-radius: 28px;
+  border-radius: 15px;
 }
 
 body {
@@ -33,56 +33,57 @@ select {
   vertical-align: middle;
 }
 
+/* Custom styles for Leaflet popup container */
 .leaflet-popup-content {
-  padding: 20px;
+  background-color: #ffffff;
+  color: #333333;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 300px; /* Set a maximum width for the popup */
+  padding: 15px; /* Add some padding to shift content to the right */
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-right: 10px; /* Adjust as needed */
 }
 
+/* Style for popup title */
 .leaflet-popup-content h2 {
-  margin: 0;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
+  color: #007bff;
 }
 
-.leaflet-popup-tip-container {
-  display: none; /* Hide the default tip */
-}
-
-/* Style for the buttons */
+/* Style for buttons inside the popup */
 .leaflet-popup-content .button-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
+  justify-content: space-between;
+  width: 100%; /* Ensure buttons span the width of the popup */
+  margin-top: auto; /* Push buttons to the bottom */
+  display: inline-block;
 }
 
+/* Style for each button */
 .leaflet-popup-content button {
+  display: inline;
   background-color: #007bff;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 10px; /* Adjust padding as needed */
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  margin-top: 10px;
   transition: background-color 0.3s ease-in-out;
+  width: 45%;
+  text-align: center; /* Center-align text */
 }
 
+/* Hover effect for buttons */
 .leaflet-popup-content button:hover {
   background-color: #0056b3;
 }
-
-/* Display προσφορές */
-.popup-item-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
 
 /* search box */
 #search-box {
@@ -182,6 +183,7 @@ select {
   height: 16px;
   margin-left: 5px;
   vertical-align: middle;
+
 }
 
 /* Style for the assessment button */
@@ -212,34 +214,42 @@ select {
   padding-right: 28px;
 }
 
-/* Style for product name */
-.product-name {
-  font-size: 14px;
-  text-align: center;
-  font-weight: bold;
-}
 
 /* Style for price */
-/*.price { */
-/*} */
+.price {
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 
 /* Style for stock status */
 .stock-status {
-  font-style: italic;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 /* Style for date */
 .date {
-  color: blue;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
+
 
 /* Style for likes and dislikes */
 .likes {
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   color: green;
 }
 
 /* Style for likes and dislikes */
 .dislikes {
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   color: red;
 }
 
@@ -262,9 +272,28 @@ select {
   align-items: center;
 }
 
+/* Style for enumeration */
+.enumeration {
+  font-size: 14px;
+  margin-right: 10px; /* Adjust the spacing between enumeration and title */
+}
+/* Style for product name */
+.product-name {
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+}
+
 /* Container for likes, dislikes, and delete button */
 .likes-dislikes-delete-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+.sticky-footer {
+  padding-top: 100px;
+  position: fixed;
+  top: 100%;
+}
+

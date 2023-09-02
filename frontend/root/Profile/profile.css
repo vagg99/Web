@@ -146,7 +146,6 @@ hr {
   }
 }
 
-
 .form-control {
   font-size: 1rem;
   line-height: 1.5;
@@ -1084,6 +1083,11 @@ a.text-white:focus {
   .profile {
     display: block; /* Show the profile section */
   }
+
+  .footer {
+    position: sticky;
+    top: 100%;
+  }
 }
 
 .navbar-search-dark .focused .input-group {
@@ -1118,4 +1122,10 @@ a.text-white:focus {
   letter-spacing: .04em;
   text-transform: uppercase;
 }
+}
+
+footer {
+  position: sticky;
+  width: 98%; /* (99-100)% would cause a horizontal scroll bar */
+  top: 100%;
 }

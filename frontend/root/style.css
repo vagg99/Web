@@ -167,13 +167,9 @@ body {
   background-image: url('images/e-katanalotis_background.png');
   background-size: 100% auto; /* Width: 100% of the content area, Height: auto */
   background-repeat: no-repeat;
+  background-color: #ebf4ff;  /* light blue color for scroll down default */
+  min-height: 100vh; /* Set a minimum height */
 }
-
-/* light blue color for scroll down default */
-body {
-  background-color: #ebf4ff;
-}
-
 
 .header-left {
   display: flex;
@@ -209,16 +205,8 @@ a {
 a:link, a:visited {
   text-decoration: none;
 }
-footer {
-  font-family: Open Sans, sans-serif;
-  font-size: .875rem;
-  margin: auto;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  color: #525f7f;
-  padding: 20px 0;
-}
+
+
 
 .hamburger{
   padding: 10px 15px; /* Add some padding around the bars */
@@ -328,4 +316,18 @@ footer {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+  font-family: Open Sans, sans-serif;
+  font-size: .875rem;
+  margin: auto;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: #525f7f;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  flex-shrink: 0;
 }

@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
         credentials: 'include'
     });
-    const userData = await userResponse.json();
-
-    console.log(userData);
+    const { user , userPostedItems, userLikedItems, userDislikedItems } = await userResponse.json();
+    const userData = user;
+    console.log(user , userPostedItems, userLikedItems, userDislikedItems);
 
     const firstnameField2 = document.getElementById("input-first-name2");
     const lastnameField2 = document.getElementById("input-last-name2");
@@ -172,15 +172,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (userData) {
 
-        restoreOriginalFieldValues(userData);        
+        restoreOriginalFieldValues(userData);      
 
         const discountsSubmitedList = document.getElementById("discounts-submited");
-        const userDiscounts = { liked: ["SUMMER2023", "FALLSALE", "HOLIDAY10"] }
-        discountsSubmitedList.innerHTML = userDiscounts.liked.map(discount => `<li>${discount}</li>`).join("");
+        discountsSubmitedList.innerHTML = userPostedItems.map(product => `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date}</li>`).join("");
 
         const likedDislikedDiscountsList = document.getElementById("discounts-liked-disliked");
-        const userDiscounts2 = { liked: ["SUMMER2023", "FALLSALE", "HOLIDAY10"] }
-        likedDislikedDiscountsList.innerHTML = userDiscounts2.liked.map(discount => `<li>${discount}</li>`).join("");
+        for (d in userLikedItems) {
+            userLikedItems[d].liked = true;
+            userLikedItems[d].disliked = false;
+        }
+        for (d in userDislikedItems) {
+            userDislikedItems[d].liked = false;
+            userDislikedItems[d].disliked = true;
+        }
+        const likedDislikedDiscounts = userLikedItems.concat(userDislikedItems);
+        likedDislikedDiscountsList.innerHTML = likedDislikedDiscounts.map(product => `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date} - προσφορά by ${product.username} - user has : ${product.liked ? "liked" : "disliked"} this</li>`).join("");
 
         if (userData.points) {
             monthlyPoints.value = userData.points.monthly;

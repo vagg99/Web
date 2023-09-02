@@ -97,20 +97,24 @@ function displayResults(results) {
     productResults.innerHTML = '';
     results.forEach(product => {
     const productDiv = document.createElement('div');
-        productDiv.innerHTML = `
+    productDiv.innerHTML = `
             <img src="${product.item.img}" alt="${product.item.name}" width="100">
             <p>${product.item.name}</p>
+            ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
+            <p>${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
+            <p>Στο Μαγαζί ${product.store.tags.name}</p>
+            <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
             <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
             <button class="submit-button">Υποβολή</button>
-            `;
-            productDiv.querySelector('.submit-button').addEventListener('click', () => {
-                const priceInput = productDiv.querySelector('input[type="number"]');
-                const price = priceInput.value;
-                if (price !== '') {
-                  submitDiscount(product._id, price);
-                }
-            });
-            productResults.appendChild(productDiv);
+    `;
+    productDiv.querySelector('.submit-button').addEventListener('click', () => {
+        const priceInput = productDiv.querySelector('input[type="number"]');
+        const price = priceInput.value;
+        if (price !== '') {
+          submitDiscount(product._id, price);
+        }
+    });
+    productResults.appendChild(productDiv);
     });
 }
 
@@ -134,19 +138,23 @@ function displaySelectedProduct(product) {
   productResults.innerHTML = '';
   const productDiv = document.createElement('div');
   productDiv.innerHTML = `
-      <img src="${product.item.img}" alt="${product.item.name}" width="100">
-      <p>${product.item.name}</p>
-      <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
-      <button class="submit-button">Υποβολή</button>
-      `;
-      productDiv.querySelector('.submit-button').addEventListener('click', () => {
-          const priceInput = productDiv.querySelector('input[type="number"]');
-          const price = priceInput.value;
-          if (price !== '') {
-            submitDiscount(product._id, price);
-          }
-      });
-      productResults.appendChild(productDiv);
+          <img src="${product.item.img}" alt="${product.item.name}" width="100">
+          <p>${product.item.name}</p>
+          ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
+          <p>${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
+          <p>Στο Μαγαζί ${product.store.tags.name}</p>
+          <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
+          <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
+          <button class="submit-button">Υποβολή</button>
+  `;
+  productDiv.querySelector('.submit-button').addEventListener('click', () => {
+      const priceInput = productDiv.querySelector('input[type="number"]');
+      const price = priceInput.value;
+      if (price !== '') {
+        submitDiscount(product._id, price);
+      }
+  });
+  productResults.appendChild(productDiv);
 }
 
 async function getAllItems() {
@@ -168,7 +176,7 @@ async function getItemsInStock(shopId) {
 async function submitDiscount(productId, newprice) {
   console.log(JSON.stringify({ productId, newprice }))
 
-  let userId = "64ccdd565a5bb46dd07e5148";
+  let userId = "64ccdd565a5bb46dd07e5148"; // default , toy vaggeli nomizo
 
   try {
     const response = await fetch(`http://localhost:3000/submitDiscount`, {
@@ -176,6 +184,7 @@ async function submitDiscount(productId, newprice) {
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({ productId, newprice , userId })
     });
 

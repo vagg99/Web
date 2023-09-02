@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="registration.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
     <title>Σύνδεση</title>
 </head>
@@ -21,14 +22,31 @@
         </div>
       </div>
     <nav>
-      <ul>
-        <li><a href="../index.html">Αρχική</a></li>
-        <li><a href="#">Σύνδεση</a></li>
-        <li><a href="../Maps/maps.html">Χάρτης</a></li>
-        <li id="profileLink" style="display: none;"><a href="../Profile/profile.html">Προφίλ</a></li>
-        <li id="adminDashboardBtn" style="display: none;"><a href="../admin/admin.html">Admin</a></li>
-        <li id="logoutBtn" style="display: none;"><a href="#">Log Out</a></li>
+      <ul class="nav-menu">
+        <li class="nav-item">
+            <a href="../index.html">Αρχική</a>
+        </li>
+        <li class="nav-item">
+            <a href="#">Σύνδεση</a>
+        </li>
+        <li class="nav-item">
+            <a href="../Maps/maps.html">Χάρτης</a>
+        </li>
+        <li class="nav-item" id="profileLink" style="display: none;">
+            <a href="../Profile/profile.html">Προφίλ</a>
+        </li>
+        <li class="nav-item" id="adminDashboardBtn" style="display: none;">
+            <a href="../admin/admin.html">Admin</a>
+        </li>
+        <li class="nav-item" id="logoutBtn" style="display: none;">
+            <a href="#">Log Out</a>
+        </li>
       </ul>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>  
+      </div>
     </nav>
   </header>
     <div class="wrapper">
@@ -105,8 +123,8 @@
           <!-- The success message will be displayed here -->
         </div>
       </div>
-    <footer style="position: fixed; bottom: 0;">
-		@2023 My Website. All rights reserved. 
+    <footer class="footer">
+		&copy; 2023 All rights reserved.
     </footer>
 
     <script src="https://kit.fontawesome.com/9e5ba2e3f5.js" crossorigin="anonymous"></script>

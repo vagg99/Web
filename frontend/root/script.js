@@ -2,7 +2,7 @@ window.addEventListener("load", async () => {
   
   // by adding "await" to the function, we make sure that the data is loaded before the page is rendered
   // without adding "await" the data loads in the background
-  LoadDataInTheBeginning();
+  await LoadDataInTheBeginning();
 
   const hamburger = document.querySelector(".hamburger");
   const navMenu = document.querySelector(".nav-menu");
@@ -36,6 +36,7 @@ window.addEventListener("load", async () => {
 async function LoadDataInTheBeginning() {
   await getAllStores();
   await getAllDiscounts();
+  await getAllUsers();
 
   async function getAllDiscounts(){
     const response = await fetch('http://localhost:3000/getDiscountedItems?shopId=all');
@@ -47,6 +48,12 @@ async function LoadDataInTheBeginning() {
     const response = await fetch('http://localhost:3000/stores');
     const stores = await response.json();
     return stores;
+  }
+
+  async function getAllUsers(){
+    const response = await fetch('http://localhost:3000/users');
+    const users = await response.json();
+    return users;
   }
 
 }

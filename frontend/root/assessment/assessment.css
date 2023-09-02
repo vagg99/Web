@@ -142,7 +142,11 @@
 .out-of-stock {
     opacity: 0.3; /* Grayed out appearance */
     pointer-events: none; /* Disable interactions */
-    /* Additional styles specific to out-of-stock items */
     border-color: #ddd; /* Adjust the border color if desired */
     box-shadow: none; /* Remove shadow for out-of-stock */
+}
+
+.sticky-footer {
+    position: sticky;
+    top: 100%;
 }

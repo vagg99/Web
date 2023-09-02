@@ -48,6 +48,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   let stores = await getAllStores();
   let discounts = await getAllDiscounts();
 
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".nav-menu");
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+  });
 
   // Search box functionality
   const searchBox = document.getElementById('search-box');
@@ -99,6 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  
   // Add a CSS animation for the bouncing effect
   const styleSheet = document.styleSheets[0];
   styleSheet.insertRule(`
@@ -236,25 +244,8 @@ async function displayAllStoresWithDiscounts(stores,discounts){
 
 // marker click functionality
 async function onMarkerClick(marker,e,id,shopName){
-  let popupContent = `<div><b>${shopName}</b></div>`;
+  let popupContent = `<div class="shop-name"><b>${shopName}</b></div>`;
   let distance = null;
-  try {
-    // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
-    // με το το μαγαζι που κλικαρε
-    const clickedLatLng = e.latlng;
-    const userLatLng = userLocationMarker.getLatLng();
-    distance = calculateHaversineDistance(userLatLng, clickedLatLng);
-    //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
-      if (userLoggedIn) {
-        popupContent += `<button id="submit-discount-button" class="clickable-btn" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
-      } else {
-        popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
-      }
-    //}
-    marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
-  } catch (error) {
-    console.error('Error calculating distance:', error);
-  }
   try {
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const discountedItems = await response.json();
@@ -291,9 +282,26 @@ async function onMarkerClick(marker,e,id,shopName){
         });
       }
     }
-
   } catch (error) {
     console.error('Error fetching discounted items:', error);
+  }
+  try {
+    // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
+    // με το το μαγαζι που κλικαρε
+    const clickedLatLng = e.latlng;
+    const userLatLng = userLocationMarker.getLatLng();
+    distance = calculateHaversineDistance(userLatLng, clickedLatLng);
+    // Υποβολή Προσφοράς
+    //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
+      if (userLoggedIn) {
+        popupContent += `<button id="submit-discount-button" class="button-container shop-container" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
+      } else {
+        popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
+      }
+    //}
+    marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
+  } catch (error) {
+    console.error('Error calculating distance:', error);
   }
 }
 
@@ -310,19 +318,22 @@ function createPopupContent(data, shopName, distance, shopId) {
     let date = data[i].discount.date;
     let likes = data[i].discount.likes;
     let dislikes = data[i].discount.dislikes;
-    let apothema = data.in_stock ? "ναι" : "οχι";
+    let apothema = data.in_stock ? "Ναι" : "Όχι";
     let achievements = data[i].discount.achievements;
     
     output += `
-          <div class="popup-item-container discount-item" id="discount_${data[i]._id}">
-          <div class="discount-enumeration">${i + 1}</div>
-          <div class="product-name">${product}</div>
-          <div class="price">Τιμή ${price}€</div>
-          <div class="stock-status">Βρίσκεται σε απόθεμα: ${apothema}</div>
-          <div class="date">Καταχωρήθηκε: ${date}</div>
-          <div class="likes">Likes: ${likes}</div>
-          <div class="dislikes">Dislikes: ${dislikes}</div>`
-    ;
+    <div class="popup-item-container discount-item" id="discount_${data[i]._id}">
+        <div class="discount-enumeration">${i + 1}</div>
+        <div class="product-name">${product}</div>
+        <div class="price">💰 Τιμή ${price}€</div>
+        <div class="stock-status">🏢 Βρίσκεται σε απόθεμα: ${apothema}</div>
+        <div class="date">📅 Καταχωρήθηκε: ${date}</div>
+        <div class="likes-dislikes-container">
+            <div class="likes">👍 ${likes}</div>
+            <div class="dislikes">👎 ${dislikes}</div>
+        </div>
+    `;
+
     if (achievements["5_a_i"]) {
       output += `<div class="achievement"><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon"></div>`;
     }
@@ -340,6 +351,7 @@ function createPopupContent(data, shopName, distance, shopId) {
 
   output += `</div>`; // Close popup-item-scroll-list div
 
+  // Αξιολόγηση Προσφορών
   output += `<div class="button-container shop-container" data-shop-id="${encodeURIComponent(shopId)}">`;
   if (userLoggedIn) {
     output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(
@@ -351,7 +363,6 @@ function createPopupContent(data, shopName, distance, shopId) {
   output += `</div>`;
   output += "</div>";
   return output;
-  
 }
 
 // Marker icons
@@ -366,20 +377,17 @@ function markerHtmlStyles(color) { return `
   top: -1.5rem;
   position: relative;
   border-radius: 3rem 3rem 0;
-  transform: rotate(45deg);
+  transform: rotate(0deg);
   border: 1px solid #FFFFFF;
-  animation: bounce 0.8s infinite alternate; /* Add the animation */
 `;
 }
-
-
 
 function divIconSettings(color) {
   return {
     className: "shop-pin",
     iconAnchor: [0, 24],
     labelAnchor: [-6, 0],
-    popupAnchor: [0, -36],
+    popupAnchor: [0, -46],
     html: `<span style="${markerHtmlStyles(color)}" />`
   }
 }
@@ -391,3 +399,5 @@ const DiscountShopColor = "#FF0000";
 const CurrectLocationIcon = L.divIcon(divIconSettings(CurrentLocationColor));
 const ShopIcon = L.divIcon(divIconSettings(ShopColor));
 const DiscountShopIcon = L.divIcon(divIconSettings(DiscountShopColor));
+
+

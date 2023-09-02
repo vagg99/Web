@@ -206,12 +206,7 @@ main {
 }
 
 /* Additional styles for select elements */
-label, select {
+input {
   display: block;
   margin-bottom: 10px;
 }
-
-select {
-  padding: 5px;
-}
-

@@ -62,11 +62,40 @@
       </div>
       <div id="uploadMessage" style="display: none;"></div>
     </div>
+
     <!-- Graphs -->
     <div class="graphs-container">
-      <!-- Graphs created using Chart.js will be added here -->
-      <canvas id="myChart"></canvas> <!-- Example of a chart canvas -->
+      <h2>Γράφημα 1</h2>
+      <div>
+        <label for="year">Επιλέξτε έτος:</label>
+        <input type="number" id="year" min="2000" max="2099">
     </div>
+    <div>
+        <label for="month">Επιλέξτε μήνα:</label>
+        <input type="number" id="month" min="1" max="12">
+    </div>
+    <div>
+        <button onclick="generateGraph()">Δημιουργία γραφήματος</button>
+    </div>
+    <canvas id="discountGraph"></canvas>
+    </div>
+
+    <div class="graphs-container">
+      <h2>Γράφημα 2</h2>
+      <div>
+        <label for="category">Κατηγορία:</label>
+        <select id="category"">
+          <option value="0">Επιλέξτε κατηγορία</option>
+        </select>
+      </div>
+      <div>
+        <label for="subcategory">Υποκατηγορία:</label>
+        <select id="subcategory">
+          <option value="0">Επιλέξτε υποκατηγορία</option>
+        </select>
+      </div>
+    </div>
+
     <!-- Leaderboard -->
     <div class="leaderboard-container">
       <h2>Leaderboard</h2>
@@ -93,5 +122,6 @@
   </footer>
   <script src="../auth/auth.js"></script>
   <script src="admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

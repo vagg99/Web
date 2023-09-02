@@ -7,40 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const deleteStoresButton = document.getElementById('deleteStoresButton');
   const deleteStockButton = document.getElementById('deleteStockButton');
   const messageDiv = document.getElementById('uploadMessage');
-
-  // Create a chart in the graphs-container
-  const graphsContainer = document.querySelector('.graphs-container');
-  const chartCanvas = document.createElement('canvas');
-  chartCanvas.id = 'myChart'; // Make sure this matches the canvas id in your HTML
-  graphsContainer.appendChild(chartCanvas);
-
-  // Create the chart using Chart.js
-  // εδώ θα έχει στατιστική απεικόνιση στο chart
-
-  var ctx = chartCanvas.getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Category 1', 'Category 2', 'Category 3'], // Customize your labels
-      datasets: [
-        {
-          label: 'Sales',
-          data: [10, 20, 30], // Customize your data
-          backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)'], // Customize your colors
-          borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'], // Customize your border colors
-          borderWidth: 1
-        }
-      ]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-
+  populateCategories();
 
   uploadItemsButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
@@ -233,3 +200,114 @@ document.getElementById('refresh-button').addEventListener('click', refreshLeade
 
 // Initially load the leaderboard
 refreshLeaderboard();
+
+
+//GRAPH 1
+async function generateGraph() {
+  const year = parseInt(document.getElementById('year').value);
+  const month = parseInt(document.getElementById('month').value);
+
+  // Clear the existing chart if it exists
+  const existingChart = Chart.getChart('discountGraph');
+  if (existingChart) {
+      existingChart.destroy();
+  }
+
+  const stock = [
+  {
+    "store_id": "354449389",
+    "item_id": "3",
+    "in_stock": true,
+    "price": 4.56,
+    "on_discount": true, 
+    "discount" : {
+        "discount_price": 3.25,
+        "date": "2023-08-23",
+        "likes": 9,
+        "dislikes": 2,
+        "achievements": {}
+    },
+    "user_id": "64ccdd565a5bb46dd07e5148",
+    "category": "8016e637b54241f8ad242ed1699bf2da"
+  },       
+  {
+    "store_id": "360217468",
+    "item_id": "4",
+    "in_stock": true,
+    "price": 4.22,
+    "on_discount": true, 
+    "discount" : {
+        "discount_price": 3.15,
+        "date": "2023-08-23",
+        "likes": 14,
+        "dislikes": 3,
+        "achievements": {}
+    },
+    "user_id": "64ccdd565a5bb46dd07e5148",
+    "category": "8016e637b54241f8ad242ed1699bf2da"
+  },    
+  {
+    "store_id": "354449389",
+    "item_id": "4",
+    "in_stock": true,
+    "price": 4.89,
+    "on_discount": true, 
+    "discount" : {
+        "discount_price": 3.45,
+        "date": "2023-08-23",
+        "likes": 18,
+        "dislikes": 1,
+        "achievements": {}
+    },
+    "user_id": "64ccdd565a5bb46dd07e5148",
+    "category": "8016e637b54241f8ad242ed1699bf2da"
+  }
+  ];
+
+  const filteredStock = stock.filter(item => {
+      const itemDate = new Date(item.discount.date);
+      return itemDate.getFullYear() === year && itemDate.getMonth() === (month - 1);
+  });
+
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const discountCounts = new Array(daysInMonth).fill(0);
+
+  filteredStock.forEach(item => {
+      const itemDate = new Date(item.discount.date);
+      const day = itemDate.getDate();
+      discountCounts[day - 1]++;
+  });
+
+  const ctx = document.getElementById('discountGraph').getContext('2d');
+  const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: Array.from({ length: daysInMonth }, (_, i) => i + 1),
+          datasets: [{
+              label: 'Discount Counts',
+              data: discountCounts,
+              backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
+              borderWidth: 1
+          }]
+      },
+      options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1,
+                    callback: function(value, index, values) {
+                        // Ensure that only integer values are displayed
+                        if (Number.isInteger(value)) {
+                            return value;
+                        }
+                    }
+                }
+            }
+        }
+    }
+  });
+}
+
+//GRAPH 2

@@ -838,7 +838,7 @@ app.get('/getUserInfo', async (req, res) => {
       // RETURN ALL THE DISCOUNTS THIS USER HAS POSTED
       const userPostedItems = await stockCollection.aggregate([
         {
-          $match: { user_id: user._id.toString() }
+          $match: { user_id: user._id.toString() , on_discount : true }
         },
         {
           $lookup: {
@@ -867,8 +867,12 @@ app.get('/getUserInfo', async (req, res) => {
       
 
       // Convert string IDs to ObjectIDs for liked and disliked products
-      const likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts.map(id => new ObjectId(id));
-      const dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts.map(id => new ObjectId(id));
+      let likedDiscountsObjectIDs = []
+      let dislikedDiscountsObjectIDs = [];
+      if (user.likesDislikes) {
+        likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts.map(id => new ObjectId(id));
+        dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts.map(id => new ObjectId(id));
+      }
 
       // RETURN ALL THE DISCOUNTS THIS USER HAS LIKED OR DISLIKED
       const userLikedItems = await stockCollection.aggregate([

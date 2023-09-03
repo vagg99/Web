@@ -108,6 +108,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
       showPopup(data.message); // success popup
     }, 1337); // Delay of 1.337 seconds before showing success message
 
+    // cache user info
+    fetch(`http://localhost:3000/getUserInfo`, { method: "GET", headers: { "Content-Type": "application/json", }, credentials: 'include' });
+
     // Show the profile button
     const profileLink = document.getElementById('profileLink');
     profileLink.style.display = 'block';

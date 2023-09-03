@@ -503,7 +503,7 @@ async function distributeTokens() {
   cache.del('users');
 }
 
-// Χρήστης 5) α) i. και ii. και iii. και iv.
+// Χρήστης : 5) α) i. και ii. και iii. και iv.
 async function calculatePoints(product,newprice){
   let productID = product.item_id;
 
@@ -567,7 +567,7 @@ async function getPointsforSubmission(userId,pointsToAdd){
   }
 }
 
-// Χρήστης 5) β) i. και i.. Σκορ Αξιολόγισης με βάση τις αξιολογίσεις των χρηστών
+// Χρήστης : 5) β) i. και i.. Σκορ Αξιολόγισης με βάση τις αξιολογίσεις των χρηστών
 async function updateLikeDislikePoints(points){
   try {
     const collection = await connectToDatabase('users');
@@ -592,6 +592,178 @@ async function updateLikeDislikePoints(points){
     cache.del('users');
   } catch (error) {
     console.error('Error updating points:', error);
+  }
+}
+
+// Χρήστης : 6) Προφίλ Χρήστη
+async function getUserInfo(req, res) {
+  try {
+    // IF USER IS LOGGED IN
+    if (req.session.user) {
+      // CACHE FOR SPEED IMPROVEMENT
+      const cachedUserInfo = await cache.get(req.session.user.username);
+      if (cachedUserInfo) {
+        return res.status(200).json(cachedUserInfo);
+      }
+
+      const username = req.session.user.username;
+      const userCollection = await connectToDatabase("users");
+      const stockCollection = await connectToDatabase("stock");
+      
+      // GET USER FROM LOG IN INFO
+      const users = await userCollection.find({ username: username }).toArray();
+      const user = users[0];
+      delete user.password_hashed;
+      delete user.isAdmin;
+      
+      // RETURN ALL THE DISCOUNTS THIS USER HAS POSTED
+      const userPostedItems = await stockCollection.aggregate([
+        {
+          $match: { user_id: user._id.toString() , on_discount : true }
+        },
+        {
+          $lookup: {
+            from: "items",
+            localField: "item_id",
+            foreignField: "id",
+            as: "item"
+          }
+        },
+        {
+          $unwind: "$item"
+        },
+        {
+          $project: {
+            _id: 1,
+            user_id: 1,
+            item_id: 1,
+            price: 1,
+            discount: 1,
+            in_stock : 1,
+            img: "$item.img",
+            name: "$item.name"
+          }
+        }
+      ]).toArray();
+      
+
+      // Convert string IDs to ObjectIDs for liked and disliked products
+      let likedDiscountsObjectIDs = []
+      let dislikedDiscountsObjectIDs = [];
+      if (user.likesDislikes) {
+        likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts.map(id => new ObjectId(id));
+        dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts.map(id => new ObjectId(id));
+      }
+
+      // RETURN ALL THE DISCOUNTS THIS USER HAS LIKED OR DISLIKED
+      const userLikedItems = await stockCollection.aggregate([
+        {
+          $match: {
+            '_id': { $in: likedDiscountsObjectIDs }
+          }
+        },
+        {
+          $lookup: {
+            from: "items",
+            localField: "item_id",
+            foreignField: "id",
+            as: "item"
+          }
+        },
+        {
+          $unwind: "$item"
+        },
+        { $lookup: { from: "users", let: { user_id_str: "$user_id" }, pipeline: [ { $match: { $expr: { $eq: ["$_id", { $toObjectId: "$$user_id_str" }] } } }, { $project: { username: 1 } } ], as: "user" } },
+        {
+          $unwind: "$user"
+        },
+        {
+          $project: {
+            _id: 1,
+            user_id: 1,
+            item_id: 1,
+            price: 1,
+            discount: 1,
+            in_stock : 1,
+            img: "$item.img",
+            name: "$item.name",
+            username : "$user.username"
+          }
+        }
+      ]).toArray();
+      const userDislikedItems = await stockCollection.aggregate([
+        {
+          $match: {
+            '_id': { $in: dislikedDiscountsObjectIDs }
+          }
+        },
+        {
+          $lookup: {
+            from: "items",
+            localField: "item_id",
+            foreignField: "id",
+            as: "item"
+          }
+        },
+        {
+          $unwind: "$item"
+        },
+        { $lookup: { from: "users", let: { user_id_str: "$user_id" }, pipeline: [ { $match: { $expr: { $eq: ["$_id", { $toObjectId: "$$user_id_str" }] } } }, { $project: { username: 1 } } ], as: "user" } },
+        {
+          $project: {
+            _id: 1,
+            user_id: 1,
+            item_id: 1,
+            price: 1,
+            discount: 1,
+            in_stock : 1,
+            img: "$item.img",
+            name: "$item.name",
+            username : "$user.username"
+          }
+        }
+      ]).toArray();
+      
+      const userInfo = {
+        user,
+        userPostedItems,
+        userLikedItems,
+        userDislikedItems
+      };
+
+      cache.set(username, userInfo, TTLS);
+      res.status(200).json(userInfo);
+    } else {
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+async function handleProfileUpdate(req, res) {
+  try {
+    if (req.session.user) {
+      const username = req.session.user.username;
+      const userCollection = await connectToDatabase("users");
+      const users = await userCollection.find({ username: username }).toArray();
+      const user = users[0];
+      const userId = user._id.toString();
+      let password_hashed = user.password_hashed;
+      let isAdmin = user.isAdmin;
+      const updateObject = req.body;
+      updateObject.password_hashed = password_hashed;
+      updateObject.isAdmin = isAdmin;
+      const result = await userCollection.updateOne({ _id: new ObjectId(userId) }, { $set: updateObject });
+      cache.del(username);
+      res.status(200).json(result);
+    } else {
+      res.status(403).json({ error: 'Forbidden' });
+    }
+  } catch (error) {
+    console.error('Error updating user info:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 
@@ -814,155 +986,11 @@ app.get('/getSubcategories', async (req, res) => {
   }
 });
 
-// GET request for fetching all discounted items from 1 store
-app.get('/getUserInfo', async (req, res) => {
-  try {
-    // IF USER IS LOGGED IN
-    if (req.session.user) {
-      // CACHE FOR SPEED IMPROVEMENT
-      const cachedUserInfo = await cache.get(req.session.user.username);
-      if (cachedUserInfo) {
-        return res.status(200).json(cachedUserInfo);
-      }
+// GET request for fetching user info for displaying in profile
+app.get('/getUserInfo', getUserInfo);
 
-      const username = req.session.user.username;
-      const userCollection = await connectToDatabase("users");
-      const stockCollection = await connectToDatabase("stock");
-      
-      // GET USER FROM LOG IN INFO
-      const users = await userCollection.find({ username: username }).toArray();
-      const user = users[0];
-      delete user.password_hashed;
-      delete user.isAdmin;
-      
-      // RETURN ALL THE DISCOUNTS THIS USER HAS POSTED
-      const userPostedItems = await stockCollection.aggregate([
-        {
-          $match: { user_id: user._id.toString() , on_discount : true }
-        },
-        {
-          $lookup: {
-            from: "items",
-            localField: "item_id",
-            foreignField: "id",
-            as: "item"
-          }
-        },
-        {
-          $unwind: "$item"
-        },
-        {
-          $project: {
-            _id: 1,
-            user_id: 1,
-            item_id: 1,
-            price: 1,
-            discount: 1,
-            in_stock : 1,
-            img: "$item.img",
-            name: "$item.name"
-          }
-        }
-      ]).toArray();
-      
-
-      // Convert string IDs to ObjectIDs for liked and disliked products
-      let likedDiscountsObjectIDs = []
-      let dislikedDiscountsObjectIDs = [];
-      if (user.likesDislikes) {
-        likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts.map(id => new ObjectId(id));
-        dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts.map(id => new ObjectId(id));
-      }
-
-      // RETURN ALL THE DISCOUNTS THIS USER HAS LIKED OR DISLIKED
-      const userLikedItems = await stockCollection.aggregate([
-        {
-          $match: {
-            '_id': { $in: likedDiscountsObjectIDs }
-          }
-        },
-        {
-          $lookup: {
-            from: "items",
-            localField: "item_id",
-            foreignField: "id",
-            as: "item"
-          }
-        },
-        {
-          $unwind: "$item"
-        },
-        { $lookup: { from: "users", let: { user_id_str: "$user_id" }, pipeline: [ { $match: { $expr: { $eq: ["$_id", { $toObjectId: "$$user_id_str" }] } } }, { $project: { username: 1 } } ], as: "user" } },
-        {
-          $unwind: "$user"
-        },
-        {
-          $project: {
-            _id: 1,
-            user_id: 1,
-            item_id: 1,
-            price: 1,
-            discount: 1,
-            in_stock : 1,
-            img: "$item.img",
-            name: "$item.name",
-            username : "$user.username"
-          }
-        }
-      ]).toArray();
-      const userDislikedItems = await stockCollection.aggregate([
-        {
-          $match: {
-            '_id': { $in: dislikedDiscountsObjectIDs }
-          }
-        },
-        {
-          $lookup: {
-            from: "items",
-            localField: "item_id",
-            foreignField: "id",
-            as: "item"
-          }
-        },
-        {
-          $unwind: "$item"
-        },
-        { $lookup: { from: "users", let: { user_id_str: "$user_id" }, pipeline: [ { $match: { $expr: { $eq: ["$_id", { $toObjectId: "$$user_id_str" }] } } }, { $project: { username: 1 } } ], as: "user" } },
-        {
-          $project: {
-            _id: 1,
-            user_id: 1,
-            item_id: 1,
-            price: 1,
-            discount: 1,
-            in_stock : 1,
-            img: "$item.img",
-            name: "$item.name",
-            username : "$user.username"
-          }
-        }
-      ]).toArray();
-      
-      const userInfo = {
-        user,
-        userPostedItems,
-        userLikedItems,
-        userDislikedItems
-      };
-
-      cache.set(username, userInfo, TTLS);
-      res.status(200).json(userInfo);
-    } else {
-      res.status(401).json({ error: 'Unauthorized' });
-    }
-  } catch (error) {
-    console.error('Error fetching user info:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-
-
+// POST request for updating user profile in profile
+app.post('/updateUserInfo', handleProfileUpdate);
 
 // POST request for updating db with likes / dislikes and stock by users
 app.post('/assessment', handleLikesDislikesUpdate);

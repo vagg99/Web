@@ -107,8 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         toggleButtons(false); // Toggle buttons to their original state
         updateUserDataWithFormValues(userData); // Update user data with form values
         // Send the updated user data to the server
-        // ----------------------------------------
-        // ----------------------------------------
+        updateUserInfo(userData);
     });
 
     // Function to update user data with form values
@@ -210,3 +209,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("User not found");
     }
 });
+
+// Function to send the updated user data to the server
+async function updateUserInfo(userData) {
+    const response = await fetch(`http://localhost:3000/updateUserInfo`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: 'include',
+        body: JSON.stringify(userData)
+    });
+    const data = await response.json();
+    console.log(data);
+}

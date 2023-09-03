@@ -54,6 +54,40 @@ async function getData(collectionName){
   return data;
 }
 
+// for encrypting passwords
+function hash(username,password) {
+  let Obj = new jsSHA("SHA-256", "TEXT", username); // uses the user's username as salt
+  Obj.update(password);
+  return Obj.getHash("HEX");
+}
+// 5_a_i and 5_a_ii rules
+function twenty_percent_smaller(newprice,oldprice){
+  return ((newprice / oldprice) < 0.8);
+}
+
+// get date
+function getCurrentDate() {
+  const currentDate = new Date();
+
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+function getOneWeekAgoDate(){
+  const oneWeekAgo = new Date();
+
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+  const year = oneWeekAgo.getFullYear();
+  const month = String(oneWeekAgo.getMonth() + 1).padStart(2, '0');
+  const day = String(oneWeekAgo.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+// Χρήστης : 1) Εγγραφή Χρήστη
 async function registerUser(username, email, password) {
   const collection = await connectToDatabase('users');
   let password_hashed = hash(username,password);
@@ -149,39 +183,6 @@ async function handleLogin(req, res) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Endpoint not found' }));
   }
-}
-
-// for encrypting passwords
-function hash(username,password) {
-  let Obj = new jsSHA("SHA-256", "TEXT", username); // uses the user's username as salt
-  Obj.update(password);
-  return Obj.getHash("HEX");
-}
-// 5_a_i and 5_a_ii rules
-function twenty_percent_smaller(newprice,oldprice){
-  return ((newprice / oldprice) < 0.8);
-}
-
-// get date
-function getCurrentDate() {
-  const currentDate = new Date();
-
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-  const day = String(currentDate.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-}
-function getOneWeekAgoDate(){
-  const oneWeekAgo = new Date();
-
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-  const year = oneWeekAgo.getFullYear();
-  const month = String(oneWeekAgo.getMonth() + 1).padStart(2, '0');
-  const day = String(oneWeekAgo.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
 }
 
 // Χρήστης : 2) d) Εμφάνιση Προσφορών
@@ -350,7 +351,7 @@ async function handleDiscountSubmission(req, res) {
       let { productId, newprice , userId } = req.body;
       const users = getData('users');
       for (user in users) {
-        if (users[user].username === username) {
+        if (users[user].username === req.session.user.username) {
           userId = users[user]._id;
           break;
         }

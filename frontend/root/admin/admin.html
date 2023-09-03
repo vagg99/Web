@@ -63,28 +63,29 @@
       <div id="uploadMessage" style="display: none;"></div>
     </div>
 
-    <!-- Graphs -->
+    <!-- Graph 1 Container -->
     <div class="graphs-container">
       <h2>Γράφημα 1</h2>
       <div>
         <label for="year">Επιλέξτε έτος:</label>
         <input type="number" id="year" min="2000" max="2099">
-    </div>
-    <div>
+      </div>
+      <div>
         <label for="month">Επιλέξτε μήνα:</label>
         <input type="number" id="month" min="1" max="12">
-    </div>
-    <div>
-        <button onclick="generateGraph()">Δημιουργία γραφήματος</button>
-    </div>
-    <canvas id="discountGraph"></canvas>
+      </div>
+      <div>
+        <button id="generate-graph-button">Δημιουργία γραφήματος</button>
+      </div>
+      <canvas id="discountGraph"></canvas>
     </div>
 
+    <!-- Graph 2 Container -->
     <div class="graphs-container">
       <h2>Γράφημα 2</h2>
       <div>
         <label for="category">Κατηγορία:</label>
-        <select id="category"">
+        <select id="category" onchange="populateSubcategories()">
           <option value="0">Επιλέξτε κατηγορία</option>
         </select>
       </div>
@@ -94,6 +95,10 @@
           <option value="0">Επιλέξτε υποκατηγορία</option>
         </select>
       </div>
+      <div>
+        <button id="generate-graph-button2">Δημιουργία γραφήματος</button>
+      </div>
+      <canvas id="discountGraph2"></canvas>
     </div>
 
     <!-- Leaderboard -->

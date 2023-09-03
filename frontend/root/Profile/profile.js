@@ -171,11 +171,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     toggleButtons(false);
 
     if (userData) {
-
+        // On First run populate the form fields with the user data
         restoreOriginalFieldValues(userData);      
 
+        // user's posted discounts
         const discountsSubmitedList = document.getElementById("discounts-submited");
-        discountsSubmitedList.innerHTML = userPostedItems.map(product => `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date}</li>`).join("");
+        discountsSubmitedList.innerHTML = userPostedItems.map(product => 
+            `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date}</li>`
+        ).join("");
 
         const likedDislikedDiscountsList = document.getElementById("discounts-liked-disliked");
         for (d in userLikedItems) {
@@ -186,8 +189,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             userDislikedItems[d].liked = false;
             userDislikedItems[d].disliked = true;
         }
+        // likes and dislikes that the user has made
         const likedDislikedDiscounts = userLikedItems.concat(userDislikedItems);
-        likedDislikedDiscountsList.innerHTML = likedDislikedDiscounts.map(product => `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date} - προσφορά by ${product.username} - user has : ${product.liked ? "liked" : "disliked"} this</li>`).join("");
+        likedDislikedDiscountsList.innerHTML = likedDislikedDiscounts.map(product => 
+            `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date} - προσφορά by ${product.username} - user has : ${product.liked ? "liked" : "disliked"} this</li>`
+        ).join("");
 
         if (userData.points) {
             monthlyPoints.value = userData.points.monthly;

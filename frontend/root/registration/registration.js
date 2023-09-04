@@ -134,7 +134,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     .catch(error => {
       console.error('Error:', error);
     });
-
+    // Redirect to the start page
+    window.location.href = 'http://localhost:5500/frontend/root/index.html';
   } catch (error) {
     console.error('Error during login:', error);
     // Handle errors and show an error message to the user, if needed

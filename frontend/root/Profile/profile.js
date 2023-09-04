@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Add event listener to the save button
-    saveButton.addEventListener("click", () => {
+    saveButton.addEventListener("click", async () => {
         inputFields.forEach(input => {
             input.readOnly = true; // Set input fields back to read-only
         });
@@ -107,7 +107,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         toggleButtons(false); // Toggle buttons to their original state
         updateUserDataWithFormValues(userData); // Update user data with form values
         // Send the updated user data to the server
-        updateUserInfo(userData);
+        await updateUserInfo(userData);
+        // refetch data so it doesn't load on page refresh
+        fetch(`http://localhost:3000/getUserInfo`, { method: "GET", headers: { "Content-Type": "application/json", }, credentials: 'include' });
     });
 
     // Function to update user data with form values

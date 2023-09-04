@@ -294,26 +294,38 @@ async function generateGraph2() {
     alert("CHART2 : Παρακαλώ επιλέξτε κατηγορία και υποκατηγορία");
     return;
   }
-  
+
   // Clear the existing chart if it exists
   if (Chart2) {
     Chart2.destroy();
   }
 
   const today = new Date(stock[0].discount.date);
-  const currentWeekStart = new Date(today);
-  currentWeekStart.setDate(currentWeekStart.getDate() - 6);
-
-  const averageDiscountPercentage = calculateAverageDiscountPercentage(category, subcategory, today);
-
   const ctx = document.getElementById('discountGraph2').getContext('2d');
+
+  const labels = [];
+  const data = [];
+
+  for (let i = 0; i < 7; i++) {
+    const currentDate = new Date(today);
+    currentDate.setDate(currentDate.getDate() - i);
+    const averageDiscountPercentage = calculateAverageDiscountPercentage(category, subcategory, currentDate);
+    
+    // Format date to 'day/month' and add it to labels
+    const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}`;
+    labels.unshift(formattedDate);
+    
+    // Add average discount percentage to data
+    data.unshift(averageDiscountPercentage);
+  }
+
   Chart2 = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      labels: labels,
       datasets: [{
         label: 'Average Discount Percentage',
-        data: averageDiscountPercentage,
+        data: data,
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1
@@ -321,28 +333,29 @@ async function generateGraph2() {
     },
     options: {
       scales: {
-          y: {
-              beginAtZero: true,
-              ticks: {
-                  stepSize: 1,
-                  callback: function(value, index, values) {
-                      // Ensure that only integer values are displayed
-                      if (Number.isInteger(value)) {
-                          return value;
-                      }
-                  }
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1,
+            callback: function (value, index, values) {
+              // Ensure that only integer values are displayed
+              if (Number.isInteger(value)) {
+                return value;
               }
+            }
           }
+        }
       }
     }
   });
 }
 
 function calculateAverageDiscountPercentage(category, subcategory, date) {
-  const currentWeekStart = date
+  const currentWeekStart = new Date(date);
   currentWeekStart.setHours(0, 0, 0, 0 - currentWeekStart.getDay() * 24 * 60 * 60 * 1000);
   const currentWeekEnd = new Date(currentWeekStart);
   currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+
   const relevantItems = stock.filter((item) => {
     return (
       (item.category === category) &&
@@ -351,16 +364,17 @@ function calculateAverageDiscountPercentage(category, subcategory, date) {
       new Date(item.discount.date) <= currentWeekEnd
     );
   });
-  console.log(relevantItems)
+
   const totalDiscountPercentage = relevantItems.reduce((sum, item) => {
     const previousPrice = item.price + item.discount.discount_price;
     const currentPrice = item.price;
     const discountPercentage = ((previousPrice - currentPrice) / previousPrice) * 100;
     return sum + discountPercentage;
   }, 0);
-  console.log(totalDiscountPercentage / relevantItems.length)
+
   return totalDiscountPercentage / relevantItems.length;
 }
+
 
 let items = {};
 

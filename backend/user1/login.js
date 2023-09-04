@@ -8,7 +8,6 @@ async function loginUser(username, password) {
     let password_hashed = hash(username,password);
     for (user in users) {
       if (users[user].username === username && users[user].password_hashed === password_hashed) {
-        console.log('User logged in successfully!')
         return {message:'User logged in successfully!', user : users[user]};
       }
     }

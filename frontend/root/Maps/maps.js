@@ -230,46 +230,6 @@ async function onMarkerClick(marker,e,id,shopName){
   let popupContent = `<div class="shop-name"><b>${shopName}</b></div>`;
   let distance = null;
   try {
-    const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
-    const discountedItems = await response.json();
-
-    console.log(discountedItems);
-    
-    if (discountedItems.length) {
-      popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
-      await marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
-    }
-
-    if (userIsAdmin) {
-      for (let i = 0 ; i < discountedItems.length ; i++) {
-        const deleteDiscountButton = document.querySelector(`#delete-discount-${discountedItems[i]._id}`);
-        deleteDiscountButton.addEventListener('click', async () => {
-          console.log("a");
-          const discountContainer = document.querySelector(`#discount_${discountedItems[i]._id}`);
-          if (discountContainer) {
-            discountContainer.style.display = 'none';
-            console.log('sending delete request...')
-          }
-          try {
-            const response = await fetch(`http://localhost:3000/deleteDiscount?discountId=${encodeURIComponent(discountedItems[i]._id)}`, {
-              method: 'DELETE',
-              credentials: 'include', // Send cookies
-            });
-            if (response.ok) {
-              console.log(`Delete successful for discount ${discountedItems[i]._id}`)
-            } else {
-              console.error('Delete failed');
-            }
-          } catch (error) {
-            console.error('Error during delete:', error);
-          }
-        });
-      }
-    }
-  } catch (error) {
-    console.error('Error fetching discounted items:', error);
-  }
-  try {
     // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
     // με το το μαγαζι που κλικαρε
     const clickedLatLng = e.latlng;
@@ -286,6 +246,47 @@ async function onMarkerClick(marker,e,id,shopName){
     marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
   } catch (error) {
     console.error('Error calculating distance:', error);
+  }
+  try {
+    const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
+    const discountedItems = await response.json();
+
+    console.log(discountedItems);
+    
+    if (discountedItems.length) {
+      popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
+      await marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
+    }
+
+    if (userIsAdmin) {
+      for (let i = 0 ; i < discountedItems.length ; i++) {
+        const deleteDiscountButton = document.querySelector(`#delete-discount-${discountedItems[i]._id}`);
+        deleteDiscountButton.addEventListener('click', async () => {
+          const discountContainer = document.querySelector(`#discount_${discountedItems[i]._id}`);
+          if (discountContainer) {
+            discountContainer.style.display = 'none';
+            console.log('sending delete request...')
+          }
+          try {
+            const response = await fetch(`http://localhost:3000/deleteDiscount?discountId=${encodeURIComponent(discountedItems[i]._id)}`, {
+              method: 'DELETE',
+              credentials: 'include', // Send cookies
+            });
+            const message = await response.json();
+            if (response.ok) {
+              console.log(`Delete successful for discount ${discountedItems[i]._id}`)
+              console.log(message)
+            } else {
+              console.error('Delete failed');
+            }
+          } catch (error) {
+            console.error('Error during delete:', error);
+          }
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching discounted items:', error);
   }
 }
 
@@ -364,7 +365,7 @@ function markerHtmlStyles(color) { return `
   top: -1.5rem;
   position: relative;
   border-radius: 3rem 3rem 0;
-  transform: rotate(0deg);
+  transform: rotate(45deg);
   border: 1px solid #FFFFFF;
 `;
 }

@@ -290,8 +290,8 @@ async function generateGraph2() {
   const category = document.getElementById('category').value;
   const subcategory = document.getElementById('subcategory').value;
 
-  if (category == "0" || subcategory == "0"){
-    alert("CHART2 : Παρακαλώ επιλέξτε κατηγορία και υποκατηγορία");
+  if (category == "0" ){
+    alert("CHART2 : Παρακαλώ επιλέξτε κατηγορία");
     return;
   }
 

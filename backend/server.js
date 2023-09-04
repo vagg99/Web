@@ -11,7 +11,7 @@ const cache = new NodeCache();
 const app = express();
 
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 app.use(session({
   secret: 'nektarios', // Change this to a secure random string
@@ -800,7 +800,7 @@ async function handleJSONUpload(req, res) {
     // Send a response indicating success
     res.send(`JSON data uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
 
-    cache.del(collectionName);
+    cache.flushAll();
     // reset cache
     getData(collectionName);
   } catch (error) {
@@ -815,7 +815,7 @@ async function handleDeletion(req, res) {
     const collection = await connectToDatabase(collectionName);
     const result = await collection.deleteMany({});
     res.status(200).json(`Deleted ${result.deletedCount} ${collectionName}.`);
-    cache.del(collectionName);
+    cache.flushAll();
   } catch (error) {
     console.error(`Error deleting ${collectionName}:`, error);
     res.status(500).json({ error: 'Internal server error' });

@@ -300,7 +300,11 @@ async function generateGraph2() {
     Chart2.destroy();
   }
 
-  const averageDiscountPercentage = calculateAverageDiscountPercentage(category, subcategory);
+  const today = new Date(stock[0].discount.date);
+  const currentWeekStart = new Date(today);
+  currentWeekStart.setDate(currentWeekStart.getDate() - 6);
+
+  const averageDiscountPercentage = calculateAverageDiscountPercentage(category, subcategory, today);
 
   const ctx = document.getElementById('discountGraph2').getContext('2d');
   Chart2 = new Chart(ctx, {
@@ -334,13 +338,11 @@ async function generateGraph2() {
   });
 }
 
-function calculateAverageDiscountPercentage(category, subcategory) {
-  const currentDate = new Date();
-  const currentWeekStart = new Date(currentDate);
-  currentWeekStart.setHours(0, 0, 0, 0 - currentDate.getDay() * 24 * 60 * 60 * 1000);
+function calculateAverageDiscountPercentage(category, subcategory, date) {
+  const currentWeekStart = date
+  currentWeekStart.setHours(0, 0, 0, 0 - currentWeekStart.getDay() * 24 * 60 * 60 * 1000);
   const currentWeekEnd = new Date(currentWeekStart);
   currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
-
   const relevantItems = stock.filter((item) => {
     return (
       (item.category === category) &&
@@ -349,13 +351,14 @@ function calculateAverageDiscountPercentage(category, subcategory) {
       new Date(item.discount.date) <= currentWeekEnd
     );
   });
-
+  console.log(relevantItems)
   const totalDiscountPercentage = relevantItems.reduce((sum, item) => {
     const previousPrice = item.price + item.discount.discount_price;
     const currentPrice = item.price;
     const discountPercentage = ((previousPrice - currentPrice) / previousPrice) * 100;
     return sum + discountPercentage;
   }, 0);
+  console.log(totalDiscountPercentage / relevantItems.length)
   return totalDiscountPercentage / relevantItems.length;
 }
 

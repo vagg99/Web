@@ -343,7 +343,7 @@ function calculateAverageDiscountPercentage(category, subcategory) {
 
   const relevantItems = stock.filter((item) => {
     return (
-      (category === "0" || item.category === category) &&
+      (item.category === category) &&
       (subcategory === "0" || item.subcategory === subcategory) &&
       new Date(item.discount.date) >= currentWeekStart &&
       new Date(item.discount.date) <= currentWeekEnd
@@ -356,7 +356,6 @@ function calculateAverageDiscountPercentage(category, subcategory) {
     const discountPercentage = ((previousPrice - currentPrice) / previousPrice) * 100;
     return sum + discountPercentage;
   }, 0);
-
   return totalDiscountPercentage / relevantItems.length;
 }
 

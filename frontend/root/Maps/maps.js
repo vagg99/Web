@@ -276,6 +276,7 @@ async function onMarkerClick(marker,e,id,shopName){
             if (response.ok) {
               console.log(`Delete successful for discount ${discountedItems[i]._id}`)
               console.log(message)
+              fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`); // Refresh the cache for the discounted items
             } else {
               console.error('Delete failed');
             }

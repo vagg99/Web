@@ -749,14 +749,20 @@ async function handleProfileUpdate(req, res) {
       const userCollection = await connectToDatabase("users");
       const users = await userCollection.find({ username: username }).toArray();
       const user = users[0];
-      const userId = user._id.toString();
+      const userId = user._id; // Use the original _id
       let password_hashed = user.password_hashed;
       let isAdmin = user.isAdmin;
       const updateObject = req.body;
+      delete updateObject._id; // Remove the _id field from the updateObject
       updateObject.password_hashed = password_hashed;
       updateObject.isAdmin = isAdmin;
-      const result = await userCollection.updateOne({ _id: new ObjectId(userId) }, { $set: updateObject });
+      const result = await userCollection.updateOne(
+        { _id: userId }, // Use the original _id here
+        { $set: updateObject }
+      );
+      req.session.user.username = updateObject.username;
       cache.del(username);
+      cache.del('users');
       res.status(200).json(result);
     } else {
       res.status(403).json({ error: 'Forbidden' });
@@ -766,6 +772,7 @@ async function handleProfileUpdate(req, res) {
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+
 
 // Διαχειριστής : 1) Ανέβασμα JSON object
 async function handleJSONUpload(req, res) {

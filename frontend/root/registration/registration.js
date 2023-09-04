@@ -104,17 +104,12 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     // Hide the spinner after successful login
     setTimeout(() => {
       spinner.style.display = 'none';
+      // Show a success message to the user
+      showPopup(data.message); // success popup
     }, 1337); // Delay of 1.337 seconds before showing success message
 
-    // Show a success message to the user
-    const popupContainer = document.getElementById('popupContainer');
-    const popupContent = document.getElementById('popupContent');
-    popupContent.textContent = data.message;
-    popupContainer.style.display = 'flex';
     // cache user info
-    await fetch(`http://localhost:3000/getUserInfo`, { method: "GET", headers: { "Content-Type": "application/json", }, credentials: 'include' });
-    // remove message
-    popupContainer.style.display = 'none';
+    fetch(`http://localhost:3000/getUserInfo`, { method: "GET", headers: { "Content-Type": "application/json", }, credentials: 'include' });
 
     // Show the profile button
     const profileLink = document.getElementById('profileLink');
@@ -176,7 +171,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 // Popup function
 // -> call by: showPopup(error.message / data.message);
 
-function showPopup(message, duration = 3000) {
+function showPopup(message, duration = 1000) {
   const popupContainer = document.getElementById('popupContainer');
   const popupContent = document.getElementById('popupContent');
   popupContent.textContent = message;

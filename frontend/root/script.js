@@ -36,7 +36,7 @@ window.addEventListener("load", async () => {
 async function LoadDataInTheBeginning() {
   await getAllStores();
   await getAllDiscounts();
-  await getAllUsers();
+  //await getAllUsers();
 
   async function getAllDiscounts(){
     const response = await fetch('http://localhost:3000/getDiscountedItems?shopId=all');

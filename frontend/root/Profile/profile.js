@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // Get references to the loader elements
+    const loaderContainer = document.getElementById('loader-container');
+    const loader = document.getElementById('loader');
+
     // Fetch the user's information from the server
     const userResponse = await fetch(`http://localhost:3000/getUserInfo`, {
         method: "GET",
@@ -10,6 +14,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const { user , userPostedItems, userLikedItems, userDislikedItems } = await userResponse.json();
     const userData = user;
     console.log(user , userPostedItems, userLikedItems, userDislikedItems);
+
+    // Hide the loader by fading it out
+    loaderContainer.style.opacity = 0;
+
+    // Set a timeout to remove the loader element from the DOM after the fade-out animation completes
+    setTimeout(() => {
+        loaderContainer.style.display = 'none';
+    }, 300); // Adjust the duration to match your CSS transition time
 
     const firstnameField2 = document.getElementById("input-first-name2");
     const lastnameField2 = document.getElementById("input-last-name2");

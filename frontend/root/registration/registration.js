@@ -97,6 +97,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
 
     console.log(data.message); // This will display the success message from the server
+    if (!data.message) return;
 
     // Clear the form
     this.reset();

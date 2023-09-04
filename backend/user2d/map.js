@@ -2,6 +2,7 @@
 
 const { connectToDatabase } = require('../utils/connectToDB.js');
 const cache = require('../utils/cache.js');
+const { TTLS } = require('../utils/constants.js');
 
 async function getItemsInStockFromDatabase(storeId,on_discount=false) {
     const cacheKey = on_discount ? `discounted_${storeId}` : `non_discounted_${storeId}`;

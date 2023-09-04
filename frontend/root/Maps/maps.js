@@ -106,21 +106,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  
-  // Add a CSS animation for the bouncing effect
-  const styleSheet = document.styleSheets[0];
-  styleSheet.insertRule(`
-    @keyframes bounce {
-      0% {
-        transform: translateY(0);
-      }
-      100% {
-        transform: translateY(-10px); /* Adjust the bounce height */
-      }
-    }
-  `, styleSheet.cssRules.length);
-
-
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
 
@@ -218,8 +203,6 @@ async function populateSubcategories(subcategorySelect) {
 
 let StoresWithDiscounts = {};
 async function displayAllStoresWithDiscounts(stores,discounts){
-  //stores = await getAllStores();
-  //discounts = await getAllDiscounts();
 
   discounts.forEach(discount => {
     StoresWithDiscounts[discount.store_id] = discount;
@@ -261,6 +244,7 @@ async function onMarkerClick(marker,e,id,shopName){
       for (let i = 0 ; i < discountedItems.length ; i++) {
         const deleteDiscountButton = document.querySelector(`#delete-discount-${discountedItems[i]._id}`);
         deleteDiscountButton.addEventListener('click', async () => {
+          console.log("a");
           const discountContainer = document.querySelector(`#discount_${discountedItems[i]._id}`);
           if (discountContainer) {
             discountContainer.style.display = 'none';
@@ -363,8 +347,8 @@ function createPopupContent(data, shopName, distance, shopId) {
   } else {
     output += `<button id="assessment-button" class="clickable-btn logged-out" disabled>Αξιολόγιση Προσφορών</button>`;
   }
-  output += `</div>`;
-  output += "</div>";
+  output += `</div>`; // close button-container div
+  output += "</div>"; // close discount div
   return output;
 }
 

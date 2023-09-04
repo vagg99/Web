@@ -141,7 +141,7 @@ select {
 
 /* On hover effect */
 .popup-item-container .delete-discount-button:hover {
-  background-color: rgb(182, 164, 164);
+  background-color: rgb(169, 169, 169);
 }
 
 /* discount popup */
@@ -168,6 +168,7 @@ select {
   background-color: transparent;
   color: #007bff;
   cursor: pointer;
+  pointer-events : auto !important;
   font-size: 14px;
   padding: 0;
   margin-top: 5px;

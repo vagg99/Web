@@ -13,39 +13,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         addProduct(item, productList);
     });
 
-    function handleLikeDislikeButtons() {
-        const likeButtons = document.querySelectorAll('.like');
-        const dislikeButtons = document.querySelectorAll('.dislike');
-
-        likeButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                if (button.classList.contains('active')) {
-                    button.classList.remove('active');
-                } else {
-                    likeButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                }
-            });
-        });
-
-        dislikeButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                if (button.classList.contains('active')) {
-                    button.classList.remove('active');
-                } else {
-                    dislikeButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                }
-            });
-        });
-    }
-
-    handleLikeDislikeButtons(); 
 });
 
 const userPoints = {}; 
 let choiceTimeouts = {}; // Object to store choice timeouts for each product
-const cooldownDuration = 2000; // 2 seconds in milliseconds
+const cooldownDuration = 4000; // 2 seconds in milliseconds
 
 function addProduct(item, productList) {
     const DiscountId = item._id;
@@ -68,35 +40,35 @@ function addProduct(item, productList) {
     newProductItem.classList.add("product-item", stockClass); // Add the stock class here
 
     newProductItem.innerHTML = `
-    <div class="product-header">
-        <img src="${product_image_link}" alt="Product Image" class="product-image">
-        <div class="product-details-container">
-            <div class="product-details">
-                <div class="info">
-                    <p class="price">Τιμή: ${price}€</p>
-                    <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
-                    <p>Η Προσφορά υποβλήθηκε απο το Χρήστη ${username} με ${totalPoints} συνολικούς Πόντους</p>
-                    ${achievements['5_a_i'] ? `<p>Επίτευγμα 5_a_i : </p><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">` : ''}
-                    ${achievements['5_a_ii'] ? `<p>Επίτευγμα 5_a_ii : </p><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">` : ''}
+        <div class="product-header">
+            <img src="${product_image_link}" alt="Product Image" class="product-image">
+            <div class="product-details-container">
+                <div class="product-details">
+                    <div class="info">
+                        <p class="price">Τιμή: ${price}€</p>
+                        <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
+                        <p>Η Προσφορά υποβλήθηκε απο το Χρήστη ${username} με ${totalPoints} συνολικούς Πόντους</p>
+                        ${achievements['5_a_i'] ? `<p>Επίτευγμα 5_a_i : </p><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">` : ''}
+                        ${achievements['5_a_ii'] ? `<p>Επίτευγμα 5_a_ii : </p><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">` : ''}
+                    </div>
+                </div>
+                <button class="instock-button" data-product-id="${DiscountId}" >${in_stock ? 'In Stock' : 'Out of Stock'}</button>
+            </div>
+            <div class="likes-dislikes">
+                <div class="rating">
+                <!-- Thumbs up -->
+                    <p>Likes: <span class="likes ">${likes}</span></p>
+                    <p>Dislikes: <span class="dislikes">${dislikes}</span></p>
+                        <button class="like-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
+                        <i class="fas fa-thumbs-up fa-3x like" aria-hidden="true"></i>
+                        </button>
+                        <button class="dislike-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
+                        <i class="fas fa-thumbs-down fa-3x like" aria-hidden="true"></i>
+                        </button>
                 </div>
             </div>
-            <button class="instock-button" data-product-id="${DiscountId}" >${in_stock ? 'In Stock' : 'Out of Stock'}</button>
         </div>
-        <div class="likes-dislikes">
-            <div class="rating">
-            <!-- Thumbs up -->
-                <p>Likes: <span class="likes ">${likes}</span></p>
-                <p>Dislikes: <span class="dislikes">${dislikes}</span></p>
-                    <button class="like-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
-                    <i class="fas fa-thumbs-up fa-3x like" aria-hidden="true"></i>
-                    </button>
-                    <button class="dislike-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
-                    <i class="fas fa-thumbs-down fa-3x like" aria-hidden="true"></i>
-                    </button>
-            </div>
-        </div>
-    </div>
-`;
+    `;
 
     const likeButton = newProductItem.querySelector(".like-button");
     const dislikeButton = newProductItem.querySelector(".dislike-button");
@@ -106,22 +78,28 @@ function addProduct(item, productList) {
     const dislikeCountElement = newProductItem.querySelector(".dislikes");
 
     instockButton.addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevent event from propagating to parent
+        event.stopPropagation();
         instockButton.classList.toggle("active");
         in_stock = !in_stock;
         const productId = event.currentTarget.dataset.productId;
-        updateChoiceTimeout(productId, {likes : likes , dislikes : dislikes ,in_stock : in_stock});
+        updateChoiceTimeout(productId, { likes: likes, dislikes: dislikes, in_stock: in_stock });
+    
         if (in_stock) {
             // Swap from "Out of Stock" to "In Stock"
             instockButton.textContent = "In Stock";
-            // Show the Like and Dislike buttons
             likeButton.style.display = "inline-block";
             dislikeButton.style.display = "inline-block";
+            instockButton.style.transform = "none";
+            newProductItem.classList.remove("out-of-stock");
+            newProductItem.classList.add("product-item");
+            likeButton.classList.remove("disabled");
+            dislikeButton.classList.remove("disabled");
         } else {
-            // Swap from "In Stock" to "Out of Stock"
-            instockButton.textContent = "Out of Stock";
+            // Mark as "Out of Stock" using the common function
+            markAsOutOfStock();
         }
     });
+    
 
     likeButton.addEventListener("click", (event) => {
         event.stopPropagation();
@@ -166,12 +144,18 @@ function addProduct(item, productList) {
     });
 
     if (!in_stock) {
-        newProductItem.classList.add("out-of-stock");
-        newProductItem.classList.remove("product-item"); // Remove product-item class for out-of-stock
-        newProductItem.classList.remove("expanded"); // Ensure expansion is disabled for out-of-stock
+        markAsOutOfStock();
+    }
 
+    // Function to update the UI when the product is marked as "Out of Stock"
+    function markAsOutOfStock() {
+        instockButton.textContent = "Out of Stock";
+        newProductItem.classList.add("out-of-stock");
+        newProductItem.classList.remove("product-item");
+        newProductItem.classList.remove("expanded");
         likeButton.classList.add("disabled");
         dislikeButton.classList.add("disabled");
+        instockButton.style.transform = "translate(+350%, -140%) scale(3)";
     }
 
     productList.appendChild(newProductItem);
@@ -216,7 +200,7 @@ async function sendChoiceToBackend(productId, likes_dislikes_in_stock) {
         likes: likes_dislikes_in_stock.likes,
         dislikes: likes_dislikes_in_stock.dislikes,
         in_stock: likes_dislikes_in_stock.in_stock,
-        action : likes_dislikes_in_stock.action,
+        action : likes_dislikes_in_stock.action ? likes_dislikes_in_stock.action : null,
         points: userPoints
     };
     try {

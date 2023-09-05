@@ -1,695 +1,44 @@
+/*
+// Description: Server for the backend of the project
+// Libraries used :
+// EXPRESS , MONGODB , NODE-CRON , JSSHA , CORS , EXPRESS-SESSION , COOKIE-PARSER , NODE-CACHE
+// 'express' , 'mongodb' , 'node-cron' , 'jssha' , 'cors' , 'express-session' , 'cookie-parser' , 'node-cache'
+*/
+
 const express = require('express');
-const { MongoClient, ObjectId } = require('mongodb'); // DATABASE
 const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
-const jsSHA = require("jssha");// ENCRYPT USER PASSWORDS
 const cors = require('cors');// USED FOR HTTPS CONNECTIONS
 const session = require('express-session'); // USED FOR SESSIONS
 const cookieParser = require('cookie-parser');// USED FOR COOKIES
-const NodeCache = require("node-cache"); // USED FOR CACHE AND FASTER RESPONSE TIMES
-const cache = new NodeCache();
+
+const { TTLS , port , secret , frontend } = require('./utils/constants.js'); // CONSTANTS FROM CONFIG FILE
 
 const app = express();
 
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 app.use(session({
-  secret: 'nektarios', // Change this to a secure random string
+  secret: secret, // Change this to a secure random string
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false } // Set secure to true in production with HTTPS
 }));
 
 app.use(cors({
-  origin: 'http://localhost:5500',
+  origin: frontend,
   credentials: true, // Allow credentials (cookies)
 }));
 
 app.use(express.static('public'));
 
-
-const StartingTokens = 100; // Tokens that every user starts with , and gets every month
-const TTLS = 3600; // Time to live for cache in seconds
-
+const distributeTokens = require('./user4/tokens.js'); // DISTRIBUTE TOKENS TO USERS
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
+const { deleteOldDiscounts } = require('./user3/submission.js'); // DELETE OLD DISCOUNTS
 cron.schedule("0 0 * * *", deleteOldDiscounts); // CHECK EVERYDAY FOR DISCOUNT THAT ARE A WEEK OLD AND DELETE THEM
 
 
-const port = 3000;
-
-const mongoURI = "mongodb+srv://webproject7:HVHDmG6eK2nuq9rM@cluster0.03czzuj.mongodb.net/?retryWrites=true&w=majority";
-
-async function connectToDatabase(collectionName) {
-  const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-  await client.connect();
-  return client.db('website7').collection(collectionName)
-}
-async function getData(collectionName){
-  const cachedCollection = await cache.get(collectionName);
-  if (cachedCollection) { return cachedCollection; }
-  // else
-  const collection = await connectToDatabase(collectionName);
-  const data = await collection.find({}).toArray();
-  cache.set(collectionName, data, TTLS);
-  return data;
-}
-
-async function registerUser(username, email, password) {
-  const collection = await connectToDatabase('users');
-  let password_hashed = hash(username,password);
-  let tokens = { "total" : StartingTokens , "monthly" : StartingTokens};
-  let points = { "total" : 0 , "monthly" : 0};
-  let isAdmin = false;
-  let firstname = "";
-  let lastname = "";
-  let address = { "name" : "" , "city" : "" , "country" : "" , "countryCode" : ""};
-  let likesDislikes = {likedDiscounts : [] , dislikedDiscounts : []};
-  const userData = { username, tokens, points, email, password_hashed, isAdmin , firstname , lastname , address , likesDislikes };
-  const result = await collection.insertOne(userData);
-  cache.del('users');
-  if (result.insertedId) {
-    return 'User registered successfully!';
-  } else {
-    throw new Error('Failed to register user.');
-  }
-}
-
-async function loginUser(username, password) {
-  const users = await getData('users');
-  let password_hashed = hash(username,password);
-  for (user in users) {
-    if (users[user].username === username && users[user].password_hashed === password_hashed) {
-      return {message:'User logged in successfully!', user : users[user]};
-    }
-  }
-  return {message:false,user:false};
-}
-
-// Add a new route to handle the registration data
-async function handleRegistration(req, res) {
-  if (req.method === 'POST' && req.url === '/register') {
-    try {
-      const { username, email, password } = req.body;
-
-      const users = await getData('users');
-
-      for (user in users) {
-        if (users[user].username === username) {
-          res.writeHead(409, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Username already exists' }));
-          return;
-        }
-        if (users[user].email === email) {
-          res.writeHead(409, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Email already exists' }));
-          return;
-        }
-      }
-
-      // Call the registerUser function to store the user data
-      const message = await registerUser(username, email, password);
-
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message }));
-    } catch (error) {
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: error.message }));
-    }
-  } else {
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Endpoint not found' }));
-  }
-}
-
-async function handleLogin(req, res) {
-  if (req.method === 'POST' && req.url === '/login') {
-    try {
-      const { username, password } = req.body;
-      // Call the loginUser function to check if the user exists
-      const {message,user} = await loginUser(username, password);
-
-      if (!message){
-        res.writeHead(403, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Wrong username or password.' }));
-        return;
-      }
-      req.session.user = {
-        username: username,
-        isAdmin: user.isAdmin
-      };
-      res.cookie('sessionid', req.sessionID);
-
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message }));
-    } catch (error) {
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: error.message }));
-    }
-  } else {
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Endpoint not found' }));
-  }
-}
-
-// for encrypting passwords
-function hash(username,password) {
-  let Obj = new jsSHA("SHA-256", "TEXT", username); // uses the user's username as salt
-  Obj.update(password);
-  return Obj.getHash("HEX");
-}
-// 5_a_i and 5_a_ii rules
-function twenty_percent_smaller(newprice,oldprice){
-  return ((newprice / oldprice) < 0.8);
-}
-
-// get date
-function getCurrentDate() {
-  const currentDate = new Date();
-
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-  const day = String(currentDate.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-}
-function getOneWeekAgoDate(){
-  const oneWeekAgo = new Date();
-
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-  const year = oneWeekAgo.getFullYear();
-  const month = String(oneWeekAgo.getMonth() + 1).padStart(2, '0');
-  const day = String(oneWeekAgo.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-}
-
-// Χρήστης : 2) d) Εμφάνιση Προσφορών
-async function getItemsInStockFromDatabase(storeId,on_discount=false) {
-  const cacheKey = on_discount ? `discounted_${storeId}` : `non_discounted_${storeId}`;
-  const cachedItems = cache.get(cacheKey);
-  if (cachedItems) return cachedItems;
-  //else
-  const collection = await connectToDatabase('stock');
-  
-  // Αναζήτηση στο collection stocks για τα προϊόντα που είναι σε προσφορά
-  const aggregationPipeline = [];
-  if (on_discount) {
-    aggregationPipeline.push(
-      {
-        $match: {
-          store_id: storeId,
-          on_discount : true
-        }
-      }
-    );
-  } else {
-    aggregationPipeline.push(
-      {
-        $match: {
-          store_id: storeId
-        }
-      }
-    );
-  }
-  aggregationPipeline.push(
-    {
-      $addFields: {
-        store_id_int: { $toInt: "$store_id" }
-      }
-    },
-    {
-      $lookup: {
-        from: 'items', // Name of the collection
-        localField: 'item_id',
-        foreignField: 'id',
-        as: 'item'
-      }
-    },
-    {
-      $unwind: '$item'
-    },
-    {
-      $lookup: {
-        from: 'stores', // Name of the collection
-        localField: 'store_id_int',
-        foreignField: 'id',
-        as: 'store'
-      }
-    },
-    {
-      $unwind: '$store'
-    }
-  );
-  if (on_discount) {
-    aggregationPipeline.push(
-      {
-        $lookup: {
-          from: 'users', // Name of the users collection
-          let: { userId: { $toObjectId: '$user_id' } }, // Convert user_id to ObjectId
-          pipeline: [
-            { $match: { $expr: { $eq: ['$_id', '$$userId'] } } }
-          ],
-          as: 'user'
-        }
-      },
-      {
-        $unwind: {
-          path: '$user',
-          preserveNullAndEmptyArrays: true // Preserve items even if user is not found
-        }
-      },
-      {
-        $project: {
-          _id: true,
-          store_id: true,
-          discount : true,
-          'store.tags.name': true,
-          'item.name': true,
-          'item.id' : true,
-          in_stock: true,
-          'item.img' : true,
-          user_id : true,
-          user : true,
-          'on_discount' : true
-        }
-      }
-    );
-  } else {
-    aggregationPipeline.push(
-      {
-        $project: {
-          _id: true,
-          store_id: true,
-          price : true,
-          discount : true,
-          'store.tags.name': true,
-          'item.name': true,
-          'item.id' : true,
-          'item.category' : true,
-          'item.subcategory' : true,
-          in_stock: true,
-          'item.img' : true,
-          'on_discount' : true
-        }
-      }
-    );
-  }
-
-  const cursor = collection.aggregate(aggregationPipeline);
-
-  // Convert the aggregation cursor to an array of documents
-  const discountedItems = await cursor.toArray();
-
-  cache.set(cacheKey, discountedItems, TTLS);
-
-  return discountedItems;
-}
-
-
-// Χρήστης : 2) e) Like / Dislike / in Stock σε Προσφορές
-async function handleLikesDislikesUpdate(req, res){
-  try {
-    if (req.session.user) {
-      const { likes , dislikes , in_stock , action , points } = req.body;
-      const discountId = req.query.discountId;
-      const username = req.session.user.username;
-
-      const stockCollection = await connectToDatabase("stock");
-      const userCollection = await connectToDatabase("users");
-      const user = await userCollection.findOne({ username });
-      const userId = user ? user._id.toString() : null;
-      if (!userId) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-
-      // ADD LIKE OR DISLIKE TO DISCOUNT PRODUCT
-      const objectIdDiscountId = new ObjectId(discountId);
-      const result = await stockCollection.updateOne({ _id: objectIdDiscountId }, { $set: {'discount.likes' : likes, 'discount.dislikes' : dislikes , in_stock : in_stock, user_id : userId} });
-      // ALSO ADD LIKE OR DISLIKE (TO USER WHO CLICKED THE BUTTON) SO IT CAN BE SEEN ON PROFILE
-      let updateObject = {};
-      if (action === 'like') { updateObject = { $push: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'dislike') { updateObject = { $push: { 'likesDislikes.dislikedDiscounts': discountId } }; } else if (action === 'unlike') { updateObject = { $pull: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'undislike') { updateObject = { $pull: { 'likesDislikes.dislikedDiscounts': discountId } }; }
-      const result2 = await userCollection.updateOne({ username }, updateObject);
-      // ADD POINTS TO USER THAT POSTED THE DISCOUNT (NOT THE ONE THAT CLICKED THE BUTTON)
-      await updateLikeDislikePoints(points);
-      cache.flushAll();
-      res.status(200).json(result);
-    } else {
-      res.status(403).json({ error: 'Forbidden' });
-    }
-  } catch (error) {
-    console.error('Error updating stock:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-}
-
-// Χρήστης : 3) Υποβολή Προσφορών
-async function handleDiscountSubmission(req, res) {
-  try {
-    if (req.session.user) {
-      let { productId, newprice , userId } = req.body;
-      const users = getData('users');
-      for (user in users) {
-        if (users[user].username === username) {
-          userId = users[user]._id;
-          break;
-        }
-      }
-      newprice = Number(newprice);
-
-      const collection = await connectToDatabase("stock");
-      const product = await collection.findOne({ _id: new ObjectId(productId) });
-
-      if (!product) {
-        res.status(404).json({ error: 'Product not found' });
-        return;
-      }
-
-      if (newprice < 0) {
-        res.status(400).json({ error: 'Invalid price' });
-        return;
-      }
-
-      if (newprice >= product.price) {
-        res.status(400).json({ error: 'Discount price must be lower than the original price' });
-        return;
-      }
-
-      if (product.on_discount && newprice >= product.discount.discount_price) {
-        res.status(400).json({ error: 'Discount price must be lower than the current discount price' });
-        return;
-      }
-
-      if (product.on_discount && !twenty_percent_smaller(newprice,product.discount.discount_price)) {
-        res.status(400).json({ error: 'Discount price must be at least 20% lower than the current discount price' });
-        return;
-      }
-      
-      let achievements = {};
-
-      let p = await calculatePoints(product,newprice);
-
-      if (p == 50){
-        achievements["5_a_i"] = true;
-      }
-      if (p == 20){
-        achievements["5_a_ii"] = true;
-      }
-
-      const result = await collection.updateOne({ _id: new ObjectId(productId) }, { $set: {
-        on_discount : true,
-        discount: { 
-          discount_price: newprice,
-          date : getCurrentDate(),
-          likes : 0,
-          dislikes : 0,
-          achievements : achievements
-        },
-        user_id : userId
-      }});
-
-      if (p) getPointsforSubmission(userId,p)
-      cache.flushAll();
-      res.status(200).json(result);
-    } else {
-      res.status(403).json({ error: 'Forbidden' });
-    }
-  } catch (error){
-    console.error('Error submitting discount:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-}
-// Διαγραφή προσφορών που είναι παλιότερες απο μία βδομάδα
-// (η συνάρτηση καλείται κάθε μέρα στα μεσάνυχτα οπότε μετα απο 1 βδομαδα
-// απο την υποβολη τους θα έχουν διαγραφεί.)
-async function deleteOldDiscounts() {
-  const collection = await connectToDatabase("stock");
-  
-  // Calculate the date that was a week ago from today
-  const oneWeekAgo = getOneWeekAgoDate();
-  const discountsToDelete = await collection.find({ "discount.date": { $lt: oneWeekAgo } }).toArray();
-
-  const bulkOperations = [];
-
-  for (const discount of discountsToDelete) {
-    let p = calculatePoints(discount,discount.discount.discount_price)
-    if (p) {
-      bulkOperations.push({
-        updateOne: {
-          filter: { _id: discount._id },
-          update: {
-            $set: {
-              "discount.date": getCurrentDate(),  // Update the discount date to current date
-              "discount.achievements.5_a_i" : p == 50 ? true : false,
-              "discount.achievements.5_a_ii" : p == 20 ? true : false
-            }
-          }
-        }
-      });
-    } else {
-      bulkOperations.push({
-        updateOne: {
-          filter: { _id: discount._id },
-          update: {
-            $set: {
-              "discount": {},          // Reset the discount field
-              "on_discount": false    // Set on_discount flag to false
-            }
-          }
-        }
-      });
-    }
-  }
-
-  if (bulkOperations.length > 0) {
-    const result = await collection.bulkWrite(bulkOperations);
-    console.log(`Processed ${result.modifiedCount + result.deletedCount} discounts.`);
-    cache.flushAll();
-  } else {
-    console.log("No discounts to process.");
-  }
-}
-
-// Χρήστης : 4) Σύστημα Tokens
-async function distributeTokens() {
-  console.log(`Monthly Token Distribution ! Distributing tokens to ${users.length} users...`);
-  const collection = await connectToDatabase('users');
-  const users = await collection.find({}).toArray();
-  // Υπολογισμός νέων tokens για κάθε χρήστη και μηδενισμός πόντων
-  let ApothematikoTokens = 0;
-  let TotalPoints = 0;
-  for (let i = 0; i < users.length; i++) {
-    // Αυξηση των μηνιαίων token κατα 100
-    ApothematikoTokens += (StartingTokens + users[i].tokens["monthly"])*80/100;
-    if (users[i].points["monthly"] < 0) { users[i].points["monthly"] = 0;}
-    TotalPoints += users[i].points["monthly"];
-  }
-  for (let i = 0; i < users.length; i++) {
-    if (TotalPoints) {
-      users[i].tokens["monthly"] = Math.round(ApothematikoTokens * users[i].points["monthly"] / TotalPoints);
-      users[i].points["monthly"] = 0;
-    }
-    users[i].tokens["total"] += await users[i].tokens["monthly"];
-  }
-  // UPDATING MONGODB
-  const updateOperations = users.map(user => ({
-    updateOne: {
-      filter: { _id: user._id },
-      update: { $set: { points: user.points , tokens: user.tokens } },
-    },
-  }));
-  await collection.bulkWrite(updateOperations);
-  cache.del('users');
-}
-
-// Χρήστης 5) α) i. και ii. και iii. και iv.
-async function calculatePoints(product,newprice){
-  let productID = product.item_id;
-
-  const collection = await connectToDatabase('stock');
-  
-  // Find all documents in the stock collection with the given product ID and in stock
-  const ItemsInStockToday = await collection.find({
-    'item_id': productID,
-    'in_stock': true,
-    'discount.date': { $lt: getCurrentDate() }
-  }).toArray();
-  const ItemsInStockThisWeek = await collection.find({
-    'item_id': productID,
-    'in_stock': true,
-    'discount.date': { $lt: getOneWeekAgoDate() }
-  }).toArray();
-
-  mesh_timi_today = 0
-  for (item in ItemsInStockToday){
-    if (item.on_discount){
-      mesh_timi_today+=ItemsInStockToday[item].discount.discount_price;
-    } else {
-      mesh_timi_today+=ItemsInStockToday[item].price;
-    }
-  }
-
-  mesh_timi_weekly = 0
-  for (item in ItemsInStockThisWeek){
-    if (item.on_discount){
-      mesh_timi_weekly+=ItemsInStockThisWeek[item].discount.discount_price;
-    } else {
-      mesh_timi_weekly+=ItemsInStockThisWeek[item].price;
-    }
-  }
-  if ( twenty_percent_smaller(newprice,mesh_timi_today) ){
-    return 50;
-  }
-  if ( twenty_percent_smaller(newprice,mesh_timi_weekly) ){
-    return 20;
-  }
-
-  return false;
-}
-async function getPointsforSubmission(userId,pointsToAdd){
-  const collection = await connectToDatabase("users");
-  try {
-    const result = await collection.updateOne(
-      { _id: new ObjectId(userId) }, // Convert userId to ObjectId
-      { $inc: { "points.monthly" : pointsToAdd } } // Increment the points field by the specified value
-    );
-
-    if (result.matchedCount === 1) {
-      console.log(`Points updated successfully for user with _id: ${userId}`);
-      cache.del('users');
-    } else {
-      console.log(`User with _id: ${userId} not found.`);
-    }
-  } catch (error) {
-    console.error(`Error updating points for user with _id: ${userId}`);
-    console.error(error);
-  }
-}
-
-// Χρήστης 5) β) i. και i.. Σκορ Αξιολόγισης με βάση τις αξιολογίσεις των χρηστών
-async function updateLikeDislikePoints(points){
-  try {
-    const collection = await connectToDatabase('users');
-    const users = await collection.find({}).toArray();
-
-    const users_to_Receive_or_Lose_Points = Object.keys(points);
-    for (u in users_to_Receive_or_Lose_Points){
-      for (user in users) {
-        if (users[user].username === users_to_Receive_or_Lose_Points[u]) {
-          users[user].points["monthly"] += points[users_to_Receive_or_Lose_Points[u]];
-          break;
-        }
-      }
-    }
-    const updateOperations = users.map(user => ({
-      updateOne: {
-        filter: { _id: user._id },
-        update: { $set: { points: user.points } },
-      },
-    }));
-    await collection.bulkWrite(updateOperations);
-    cache.del('users');
-  } catch (error) {
-    console.error('Error updating points:', error);
-  }
-}
-
-// Διαχειριστής : 1) Ανέβασμα JSON object
-async function handleJSONUpload(req, res) {
-  const collectionName = req.query.collection;
-  const jsonData = req.body; // This will be the parsed JSON data from the request body
-  
-  if (!jsonData) {
-    return res.status(400).send('No JSON data uploaded.');
-  }
-
-  try {
-    // Transform jsonData into an array of insert operations
-    const insertOperations = jsonData.map(item => ({
-      insertOne: {
-        document: item
-      }
-    }));
-
-    // Connect to MongoDB
-    const collection = await connectToDatabase(collectionName);
-
-    // Perform bulkWrite to insert multiple documents at once
-    const result = await collection.bulkWrite(insertOperations);
-
-    // Send a response indicating success
-    res.send(`JSON data uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
-
-    cache.del(collectionName);
-    // reset cache
-    getData(collectionName);
-  } catch (error) {
-    console.error('Error processing JSON:', error);
-    res.status(400).send('Error processing JSON data.');
-  }
-}
-
-async function handleDeletion(req, res) {
-  try {
-    const collectionName = req.query.collection;
-    const collection = await connectToDatabase(collectionName);
-    const result = await collection.deleteMany({});
-    res.status(200).json(`Deleted ${result.deletedCount} ${collectionName}.`);
-    cache.del(collectionName);
-  } catch (error) {
-    console.error(`Error deleting ${collectionName}:`, error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-}
-
-// Διαχειριστής : 4) Απεικόνιση Leaderboard
-async function getLeaderboard() {
-  const users = await getData('users');
-  let leaderboard = [];
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].points && users[i].tokens) {
-      leaderboard.push({
-        username: users[i].username,
-        // Αν το τρεχον σκορ (μηνιαιο) του χρηστη ειναι αρνητικο , δειξε στο leaderboard
-        // μονο το συνολικο (παλιο) score
-        // Αν ειναι θετικο , δειξε στο leaderboard το αθροισμα του μηνιαιου και του συνολιου
-        points :
-          (users[i].points["monthly"] >= 0) ? users[i].points["total"] + users[i].points["monthly"] : users[i].points["total"]
-        ,
-        tokens: users[i].tokens
-      });
-    }
-  }
-  leaderboard.sort((a,b) => b.points - a.points);
-  return leaderboard;
-}
-
-// Διαχειριστής : 5) Ο Διαχειριστής έχει την δυνατότητα να διαγράψει μια προσφορά
-async function handleIndividualDiscountDeletion(req, res) {
-  try {
-    const discountId = req.query.discountId;
-    const collection = await connectToDatabase("stock");
-    const objectIdDiscountId = new ObjectId(discountId);
-    const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: { "discount": {}, "on_discount": false } });
-    cache.flushAll();
-    res.status(200).json(result);
-  } catch (error) {
-    console.error('Error deleting discount:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-}
-
-// GET request for fetching users
-app.get('/users', async (req, res) => {
-  try {
-    const users = await getData('users');
-    res.status(200).json(users);
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
+const { connectToDatabase , getData } = require('./utils/connectToDB.js'); // DATABASE
 // GET request for fetching items
 app.get('/getItems', async (req, res) => {
   try {
@@ -701,8 +50,12 @@ app.get('/getItems', async (req, res) => {
   }
 });
 
+const handleRegistration = require('./user1/register.js'); // REGISTRATION
+
 // POST request for registration
 app.post('/register', handleRegistration);
+
+const handleLogin = require('./user1/login.js'); // LOGIN
 
 // POST request for login
 app.post('/login', handleLogin);
@@ -747,6 +100,8 @@ app.get('/check-user-auth', (req, res) => {
   res.json({ loggedIn: false });
 });
 
+const getLeaderboard = require('./admin4/leaderboard.js'); // LEADERBOARD
+
 // GET request for leaderboard
 app.get('/leaderboard', async (req, res) => {
   try {
@@ -769,6 +124,8 @@ app.get('/stores', async (req, res) => {
   }
 });
 
+const cache = require('./utils/cache.js');
+const getItemsInStockFromDatabase = require('./user2d/map.js');
 // GET request for fetching all discounted items from 1 store
 app.get('/getDiscountedItems', async (req, res) => {
   try {
@@ -813,163 +170,33 @@ app.get('/getSubcategories', async (req, res) => {
   }
 });
 
-// GET request for fetching all discounted items from 1 store
-app.get('/getUserInfo', async (req, res) => {
-  try {
-    // IF USER IS LOGGED IN
-    if (req.session.user) {
-      // CACHE FOR SPEED IMPROVEMENT
-      const cachedUserInfo = await cache.get(req.session.user.username);
-      if (cachedUserInfo) {
-        return res.status(200).json(cachedUserInfo);
-      }
+const { getUserInfo , handleProfileUpdate } = require('./user6/profile.js'); // PROFILE
 
-      const username = req.session.user.username;
-      const userCollection = await connectToDatabase("users");
-      const stockCollection = await connectToDatabase("stock");
-      
-      // GET USER FROM LOG IN INFO
-      const users = await userCollection.find({ username: username }).toArray();
-      const user = users[0];
-      delete user.password_hashed;
-      delete user.isAdmin;
-      
-      // RETURN ALL THE DISCOUNTS THIS USER HAS POSTED
-      const userPostedItems = await stockCollection.aggregate([
-        {
-          $match: { user_id: user._id.toString() }
-        },
-        {
-          $lookup: {
-            from: "items",
-            localField: "item_id",
-            foreignField: "id",
-            as: "item"
-          }
-        },
-        {
-          $unwind: "$item"
-        },
-        {
-          $project: {
-            _id: 1,
-            user_id: 1,
-            item_id: 1,
-            price: 1,
-            discount: 1,
-            in_stock : 1,
-            img: "$item.img",
-            name: "$item.name"
-          }
-        }
-      ]).toArray();
-      
+// GET request for fetching user info for displaying in profile
+app.get('/getUserInfo', getUserInfo);
 
-      // Convert string IDs to ObjectIDs for liked and disliked products
-      const likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts.map(id => new ObjectId(id));
-      const dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts.map(id => new ObjectId(id));
+// POST request for updating user profile in profile
+app.post('/updateUserInfo', handleProfileUpdate);
 
-      // RETURN ALL THE DISCOUNTS THIS USER HAS LIKED OR DISLIKED
-      const userLikedItems = await stockCollection.aggregate([
-        {
-          $match: {
-            '_id': { $in: likedDiscountsObjectIDs }
-          }
-        },
-        {
-          $lookup: {
-            from: "items",
-            localField: "item_id",
-            foreignField: "id",
-            as: "item"
-          }
-        },
-        {
-          $unwind: "$item"
-        },
-        { $lookup: { from: "users", let: { user_id_str: "$user_id" }, pipeline: [ { $match: { $expr: { $eq: ["$_id", { $toObjectId: "$$user_id_str" }] } } }, { $project: { username: 1 } } ], as: "user" } },
-        {
-          $unwind: "$user"
-        },
-        {
-          $project: {
-            _id: 1,
-            user_id: 1,
-            item_id: 1,
-            price: 1,
-            discount: 1,
-            in_stock : 1,
-            img: "$item.img",
-            name: "$item.name",
-            username : "$user.username"
-          }
-        }
-      ]).toArray();
-      const userDislikedItems = await stockCollection.aggregate([
-        {
-          $match: {
-            '_id': { $in: dislikedDiscountsObjectIDs }
-          }
-        },
-        {
-          $lookup: {
-            from: "items",
-            localField: "item_id",
-            foreignField: "id",
-            as: "item"
-          }
-        },
-        {
-          $unwind: "$item"
-        },
-        { $lookup: { from: "users", let: { user_id_str: "$user_id" }, pipeline: [ { $match: { $expr: { $eq: ["$_id", { $toObjectId: "$$user_id_str" }] } } }, { $project: { username: 1 } } ], as: "user" } },
-        {
-          $project: {
-            _id: 1,
-            user_id: 1,
-            item_id: 1,
-            price: 1,
-            discount: 1,
-            in_stock : 1,
-            img: "$item.img",
-            name: "$item.name",
-            username : "$user.username"
-          }
-        }
-      ]).toArray();
-      
-      const userInfo = {
-        user,
-        userPostedItems,
-        userLikedItems,
-        userDislikedItems
-      };
-
-      cache.set(username, userInfo, TTLS);
-      res.status(200).json(userInfo);
-    } else {
-      res.status(401).json({ error: 'Unauthorized' });
-    }
-  } catch (error) {
-    console.error('Error fetching user info:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-
-
+const handleLikesDislikesUpdate = require('./user2e/assessment.js'); // ASSESSMENT
 
 // POST request for updating db with likes / dislikes and stock by users
 app.post('/assessment', handleLikesDislikesUpdate);
 
+const { handleDiscountSubmission } = require('./user3/submission.js'); // SUBMISSION
+
 // POST request for submitting new price on a product
 app.post('/submitDiscount', handleDiscountSubmission);
+
+const { handleJSONUpload , handleDeletion } = require('./admin1/uploadJSON.js'); // UPLOAD JSON
 
 // POST request for uploading files to a collection by admin
 app.post('/upload', handleJSONUpload);
 
 // POST requst for deleting a collection by admin
 app.post('/delete', handleDeletion);
+
+const handleIndividualDiscountDeletion = require('./admin5/deleteDiscount.js'); // DELETE DISCOUNT
 
 // DELETE request for deleting a discount by admin
 app.delete('/deleteDiscount', handleIndividualDiscountDeletion);

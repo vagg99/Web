@@ -210,3 +210,7 @@ input {
   display: block;
   margin-bottom: 10px;
 }
+
+#discountGraph2 {
+  width: 100%; /* Ensures the chart scales within the container */
+}

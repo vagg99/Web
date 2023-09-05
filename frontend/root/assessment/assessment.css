@@ -132,6 +132,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
+    pointer-events: auto !important;
 }
 
 .instock-button:hover {

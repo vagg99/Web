@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // Get references to the loader elements
+    const loaderContainer = document.getElementById('loader-container');
+    const loader = document.getElementById('loader');
+
     // Fetch the user's information from the server
     const userResponse = await fetch(`http://localhost:3000/getUserInfo`, {
         method: "GET",
@@ -10,6 +14,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const { user , userPostedItems, userLikedItems, userDislikedItems } = await userResponse.json();
     const userData = user;
     console.log(user , userPostedItems, userLikedItems, userDislikedItems);
+
+    // Hide the loader by fading it out
+    loaderContainer.style.opacity = 0;
+
+    // Set a timeout to remove the loader element from the DOM after the fade-out animation completes
+    setTimeout(() => {
+        loaderContainer.style.display = 'none';
+    }, 300); // Adjust the duration to match your CSS transition time
 
     const firstnameField2 = document.getElementById("input-first-name2");
     const lastnameField2 = document.getElementById("input-last-name2");
@@ -99,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Add event listener to the save button
-    saveButton.addEventListener("click", () => {
+    saveButton.addEventListener("click", async () => {
         inputFields.forEach(input => {
             input.readOnly = true; // Set input fields back to read-only
         });
@@ -107,8 +119,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         toggleButtons(false); // Toggle buttons to their original state
         updateUserDataWithFormValues(userData); // Update user data with form values
         // Send the updated user data to the server
-        // ----------------------------------------
-        // ----------------------------------------
+        await updateUserInfo(userData);
+        // refetch data so it doesn't load on page refresh
+        fetch(`http://localhost:3000/getUserInfo`, { method: "GET", headers: { "Content-Type": "application/json", }, credentials: 'include' });
     });
 
     // Function to update user data with form values
@@ -171,11 +184,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     toggleButtons(false);
 
     if (userData) {
-
+        // On First run populate the form fields with the user data
         restoreOriginalFieldValues(userData);      
 
+        // user's posted discounts
         const discountsSubmitedList = document.getElementById("discounts-submited");
-        discountsSubmitedList.innerHTML = userPostedItems.map(product => `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date}</li>`).join("");
+        discountsSubmitedList.innerHTML = userPostedItems.map(product => 
+            `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date}</li>`
+        ).join("");
 
         const likedDislikedDiscountsList = document.getElementById("discounts-liked-disliked");
         for (d in userLikedItems) {
@@ -186,8 +202,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             userDislikedItems[d].liked = false;
             userDislikedItems[d].disliked = true;
         }
+        // likes and dislikes that the user has made
         const likedDislikedDiscounts = userLikedItems.concat(userDislikedItems);
-        likedDislikedDiscountsList.innerHTML = likedDislikedDiscounts.map(product => `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date} - προσφορά by ${product.username} - user has : ${product.liked ? "liked" : "disliked"} this</li>`).join("");
+        likedDislikedDiscountsList.innerHTML = likedDislikedDiscounts.map(product => 
+            `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date} - προσφορά by ${product.username} - user has : ${product.liked ? "liked" : "disliked"} this</li>`
+        ).join("");
 
         if (userData.points) {
             monthlyPoints.value = userData.points.monthly;
@@ -204,3 +223,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("User not found");
     }
 });
+
+// Function to send the updated user data to the server
+async function updateUserInfo(userData) {
+    const response = await fetch(`http://localhost:3000/updateUserInfo`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: 'include',
+        body: JSON.stringify(userData)
+    });
+    const data = await response.json();
+    console.log(data);
+}

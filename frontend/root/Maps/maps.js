@@ -106,21 +106,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  
-  // Add a CSS animation for the bouncing effect
-  const styleSheet = document.styleSheets[0];
-  styleSheet.insertRule(`
-    @keyframes bounce {
-      0% {
-        transform: translateY(0);
-      }
-      100% {
-        transform: translateY(-10px); /* Adjust the bounce height */
-      }
-    }
-  `, styleSheet.cssRules.length);
-
-
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
 
@@ -218,8 +203,6 @@ async function populateSubcategories(subcategorySelect) {
 
 let StoresWithDiscounts = {};
 async function displayAllStoresWithDiscounts(stores,discounts){
-  //stores = await getAllStores();
-  //discounts = await getAllDiscounts();
 
   discounts.forEach(discount => {
     StoresWithDiscounts[discount.store_id] = discount;
@@ -247,6 +230,24 @@ async function onMarkerClick(marker,e,id,shopName){
   let popupContent = `<div class="shop-name"><b>${shopName}</b></div>`;
   let distance = null;
   try {
+    // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
+    // με το το μαγαζι που κλικαρε
+    const clickedLatLng = e.latlng;
+    const userLatLng = userLocationMarker.getLatLng();
+    distance = calculateHaversineDistance(userLatLng, clickedLatLng);
+    // Υποβολή Προσφοράς
+    //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
+      if (userLoggedIn) {
+        popupContent += `<button id="submit-discount-button" class="button-container shop-container" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
+      } else {
+        popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
+      }
+    //}
+    marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
+  } catch (error) {
+    console.error('Error calculating distance:', error);
+  }
+  try {
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const discountedItems = await response.json();
 
@@ -271,8 +272,10 @@ async function onMarkerClick(marker,e,id,shopName){
               method: 'DELETE',
               credentials: 'include', // Send cookies
             });
+            const message = await response.json();
             if (response.ok) {
               console.log(`Delete successful for discount ${discountedItems[i]._id}`)
+              console.log(message)
             } else {
               console.error('Delete failed');
             }
@@ -285,30 +288,15 @@ async function onMarkerClick(marker,e,id,shopName){
   } catch (error) {
     console.error('Error fetching discounted items:', error);
   }
-  try {
-    // Υπολογισμος Απόστασης χρηστη (απο τοτε που ανοιξε την ιστοσελίδα αρα cached location)
-    // με το το μαγαζι που κλικαρε
-    const clickedLatLng = e.latlng;
-    const userLatLng = userLocationMarker.getLatLng();
-    distance = calculateHaversineDistance(userLatLng, clickedLatLng);
-    // Υποβολή Προσφοράς
-    //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
-      if (userLoggedIn) {
-        popupContent += `<button id="submit-discount-button" class="button-container shop-container" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
-      } else {
-        popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
-      }
-    //}
-    marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
-  } catch (error) {
-    console.error('Error calculating distance:', error);
-  }
 }
 
 function createPopupContent(data, shopName, distance, shopId) {
   // Εδω θα πρεπει να φτιαξουμε το html που θα εμφανιζεται στο popup
   let output = `<div class="discount">`;
-  output += "<div class='popup-title'>Λίστα προσφορών!</div>";
+  // Βρέθηκαν 2 Προσφορές / Βρέθηκε 1 Προσφορά
+  output += `<div class='popup-title'>
+    Βρέθηκ${data.length>1?"αν":"ε"} ${data.length} Προσφορ${data.length>1?"ές":"ά"} !
+  </div>`;
 
   output += `<div class="popup-item-scroll-list">`;
 
@@ -318,7 +306,7 @@ function createPopupContent(data, shopName, distance, shopId) {
     let date = data[i].discount.date;
     let likes = data[i].discount.likes;
     let dislikes = data[i].discount.dislikes;
-    let apothema = data.in_stock ? "Ναι" : "Όχι";
+    let apothema = data[i].in_stock ? "Ναι" : "Όχι";
     let achievements = data[i].discount.achievements;
     
     output += `
@@ -360,8 +348,8 @@ function createPopupContent(data, shopName, distance, shopId) {
   } else {
     output += `<button id="assessment-button" class="clickable-btn logged-out" disabled>Αξιολόγιση Προσφορών</button>`;
   }
-  output += `</div>`;
-  output += "</div>";
+  output += `</div>`; // close button-container div
+  output += "</div>"; // close discount div
   return output;
 }
 
@@ -377,7 +365,7 @@ function markerHtmlStyles(color) { return `
   top: -1.5rem;
   position: relative;
   border-radius: 3rem 3rem 0;
-  transform: rotate(0deg);
+  transform: rotate(45deg);
   border: 1px solid #FFFFFF;
 `;
 }

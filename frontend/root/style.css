@@ -142,7 +142,7 @@ nav.maps-page ul li a {
   opacity: 0;
   visibility: hidden;
 }
-
+/*
 .loader::after {
   content: "";
   width: 75px;
@@ -161,7 +161,7 @@ nav.maps-page ul li a {
     transform: rotate(1turn);
   }
 }
-
+*/
 /* Background image for the entire body */
 body {
   background-image: url('images/e-katanalotis_background.png');

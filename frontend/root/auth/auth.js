@@ -1,5 +1,6 @@
 const profileLink = document.getElementById('profileLink');
 const logoutBtn = document.getElementById('logoutBtn');
+const loginLink = document.getElementById('loginLink');
 fetch('http://localhost:3000/check-user-auth', {
   method: 'GET',
   credentials: 'include', // Send cookies
@@ -9,9 +10,11 @@ fetch('http://localhost:3000/check-user-auth', {
   if (data.loggedIn) {
     profileLink.style.display = 'block';
     logoutBtn.style.display = 'block';
+    loginLink.style.display = 'none';
   } else {
     profileLink.style.display = 'none';
     logoutBtn.style.display = 'none';
+    loginLink.style.display = 'block';
   }
 })
 .catch(error => {
@@ -31,6 +34,7 @@ logoutBtn.addEventListener('click', async function() {
           profileLink.style.display = 'none';
           logoutBtn.style.display = 'none';
           adminLink.style.display = 'none';
+          loginLink.style.display = 'block';
       } else {
           console.error('Logout failed');
       }

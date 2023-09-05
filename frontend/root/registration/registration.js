@@ -97,6 +97,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
 
     console.log(data.message); // This will display the success message from the server
+    if (!data.message) return;
 
     // Clear the form
     this.reset();
@@ -107,6 +108,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
       // Show a success message to the user
       showPopup(data.message); // success popup
     }, 1337); // Delay of 1.337 seconds before showing success message
+
+    // cache user info
+    fetch(`http://localhost:3000/getUserInfo`, { method: "GET", headers: { "Content-Type": "application/json", }, credentials: 'include' });
 
     // Show the profile button
     const profileLink = document.getElementById('profileLink');
@@ -130,7 +134,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     .catch(error => {
       console.error('Error:', error);
     });
-
+    // Redirect to the start page
+    window.location.href = 'http://localhost:5500/frontend/root/index.html';
   } catch (error) {
     console.error('Error during login:', error);
     // Handle errors and show an error message to the user, if needed
@@ -168,7 +173,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 // Popup function
 // -> call by: showPopup(error.message / data.message);
 
-function showPopup(message, duration = 3000) {
+function showPopup(message, duration = 1000) {
   const popupContainer = document.getElementById('popupContainer');
   const popupContent = document.getElementById('popupContent');
   popupContent.textContent = message;

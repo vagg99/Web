@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <script defer src="../auth/user.js"></script>
-    <title>Προφίλ | e-Καταναλωτής</title>
-    <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
-    <link rel="stylesheet" type="text/css" href="../style.css">
-    <link rel="stylesheet" type="text/css" href="profile.css">
-</head>
-<body>
+  <head>
+      <script defer src="../auth/user.js"></script>
+      <title>Προφίλ | e-Καταναλωτής</title>
+      <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
+      <link rel="stylesheet" type="text/css" href="../style.css">
+      <link rel="stylesheet" type="text/css" href="profile.css">
+  </head>
+  <body>
+    <div id="loader-container" class="loader-container">
+      <div id="loader" class="loader">
+        <img src="../images/loader.gif" alt="Loading...">
+      </div>
+    </div>
     <header>
         <div class="header-left">
             <a href="../index.html">
@@ -23,7 +28,7 @@
                 <li class="nav-item">
                   <a href="../index.html">Αρχική</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="loginLink" style="display: none;">
                   <a href="../Registration/registration.html">Σύνδεση</a>
                 </li>
                 <li class="nav-item">
@@ -233,5 +238,5 @@
       </footer>
     <script src="profile.js"></script>
     <script src="../auth/auth.js"></script>
-</body>
+  </body>
 </html>

@@ -1,4 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+
+  // Upload data to the database
+
   const fileInput = document.getElementById('jsonFileInput');
   const uploadItemsButton = document.getElementById('uploadItemsButton');
   const uploadStoresButton = document.getElementById('uploadStoresButton');
@@ -7,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const deleteStoresButton = document.getElementById('deleteStoresButton');
   const deleteStockButton = document.getElementById('deleteStockButton');
   const messageDiv = document.getElementById('uploadMessage');
-  populateCategories();
 
   uploadItemsButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
@@ -102,6 +104,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+
+  // LEADERBOARD
+
+  document.getElementById('refresh-button').addEventListener('click', refreshLeaderboard);
+  // Initially load the leaderboard
+  refreshLeaderboard();
+
+  // CHARTS
+  // chart 1 button
+  document.getElementById('generate-graph-button').addEventListener('click', generateGraph);
+
+  // chart 2 button
+  document.getElementById('generate-graph-button2').addEventListener('click', generateGraph2);
+
+  // Populate categories
+  items.categories = await getCategories();
+  populateCategories();
+
+  stock = await getAllDiscounts();
+
+  console.log(stock)
+
 });
 
 function say(messageDiv, message){
@@ -196,73 +220,23 @@ function displayPagination(length) {
 
 }
 
-document.getElementById('refresh-button').addEventListener('click', refreshLeaderboard);
-
-// Initially load the leaderboard
-refreshLeaderboard();
-
+let stock = {};
 
 //GRAPH 1
+let Chart1 = null;
 async function generateGraph() {
   const year = parseInt(document.getElementById('year').value);
   const month = parseInt(document.getElementById('month').value);
 
-  // Clear the existing chart if it exists
-  const existingChart = Chart.getChart('discountGraph');
-  if (existingChart) {
-      existingChart.destroy();
+  if (!year || !month){
+    alert("CHART1 : Παρακαλώ επιλέξτε έτος και μήνα");
+    return;
   }
 
-  const stock = [
-  {
-    "store_id": "354449389",
-    "item_id": "3",
-    "in_stock": true,
-    "price": 4.56,
-    "on_discount": true, 
-    "discount" : {
-        "discount_price": 3.25,
-        "date": "2023-08-23",
-        "likes": 9,
-        "dislikes": 2,
-        "achievements": {}
-    },
-    "user_id": "64ccdd565a5bb46dd07e5148",
-    "category": "8016e637b54241f8ad242ed1699bf2da"
-  },       
-  {
-    "store_id": "360217468",
-    "item_id": "4",
-    "in_stock": true,
-    "price": 4.22,
-    "on_discount": true, 
-    "discount" : {
-        "discount_price": 3.15,
-        "date": "2023-08-23",
-        "likes": 14,
-        "dislikes": 3,
-        "achievements": {}
-    },
-    "user_id": "64ccdd565a5bb46dd07e5148",
-    "category": "8016e637b54241f8ad242ed1699bf2da"
-  },    
-  {
-    "store_id": "354449389",
-    "item_id": "4",
-    "in_stock": true,
-    "price": 4.89,
-    "on_discount": true, 
-    "discount" : {
-        "discount_price": 3.45,
-        "date": "2023-08-23",
-        "likes": 18,
-        "dislikes": 1,
-        "achievements": {}
-    },
-    "user_id": "64ccdd565a5bb46dd07e5148",
-    "category": "8016e637b54241f8ad242ed1699bf2da"
+  // Clear the existing chart if it exists
+  if (Chart1) {
+    Chart1.destroy();
   }
-  ];
 
   const filteredStock = stock.filter(item => {
       const itemDate = new Date(item.discount.date);
@@ -279,7 +253,7 @@ async function generateGraph() {
   });
 
   const ctx = document.getElementById('discountGraph').getContext('2d');
-  const myChart = new Chart(ctx, {
+  Chart1 = new Chart(ctx, {
       type: 'bar',
       data: {
           labels: Array.from({ length: daysInMonth }, (_, i) => i + 1),
@@ -306,8 +280,145 @@ async function generateGraph() {
                 }
             }
         }
-    }
+      }
   });
 }
 
 //GRAPH 2
+let Chart2 = null;
+async function generateGraph2() {
+  const category = document.getElementById('category').value;
+  const subcategory = document.getElementById('subcategory').value;
+
+  if (category == "0" ){
+    alert("CHART2 : Παρακαλώ επιλέξτε κατηγορία");
+    return;
+  }
+
+  // Clear the existing chart if it exists
+  if (Chart2) {
+    Chart2.destroy();
+  }
+
+  const today = new Date(stock[0].discount.date);
+  const ctx = document.getElementById('discountGraph2').getContext('2d');
+
+  const labels = [];
+  const data = [];
+
+  for (let i = 0; i < 7; i++) {
+    const currentDate = new Date(today);
+    currentDate.setDate(currentDate.getDate() - i);
+    const averageDiscountPercentage = calculateAverageDiscountPercentage(category, subcategory, currentDate);
+    
+    // Format date to 'day/month' and add it to labels
+    const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}`;
+    labels.unshift(formattedDate);
+    
+    // Add average discount percentage to data
+    data.unshift(averageDiscountPercentage);
+  }
+
+  Chart2 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Average Discount Percentage',
+        data: data,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1,
+            callback: function (value, index, values) {
+              // Ensure that only integer values are displayed
+              if (Number.isInteger(value)) {
+                return value;
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function calculateAverageDiscountPercentage(category, subcategory, date) {
+  const currentWeekStart = new Date(date);
+  currentWeekStart.setHours(0, 0, 0, 0 - currentWeekStart.getDay() * 24 * 60 * 60 * 1000);
+  const currentWeekEnd = new Date(currentWeekStart);
+  currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+
+  const relevantItems = stock.filter((item) => {
+    return (
+      (item.category === category) &&
+      (subcategory === "0" || item.subcategory === subcategory) &&
+      new Date(item.discount.date) >= currentWeekStart &&
+      new Date(item.discount.date) <= currentWeekEnd
+    );
+  });
+
+  const totalDiscountPercentage = relevantItems.reduce((sum, item) => {
+    const previousPrice = item.price + item.discount.discount_price;
+    const currentPrice = item.price;
+    const discountPercentage = ((previousPrice - currentPrice) / previousPrice) * 100;
+    return sum + discountPercentage;
+  }, 0);
+
+  return totalDiscountPercentage / relevantItems.length;
+}
+
+
+let items = {};
+
+function populateCategories() {
+  const categorySelect = document.getElementById("category");
+
+  // Clear existing options
+  categorySelect.innerHTML = '<option value="0">Επιλέξτε κατηγορία</option>';
+    
+  // Populate categories
+  for (const category of items.categories) {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    categorySelect.appendChild(option);
+  }
+}
+
+function populateSubcategories() {
+  const categorySelect = document.getElementById("category");
+  const subcategorySelect = document.getElementById("subcategory");
+  const selectedCategoryId = categorySelect.value;
+
+  // Clear existing options
+  subcategorySelect.innerHTML = '<option value="0">Επιλέξτε υποκατηγορία</option>';
+
+  // Populate subcategories based on the selected category
+  if (selectedCategoryId) {
+    const selectedCategory = items.categories.find(category => category.id === selectedCategoryId);
+    for (const subcategory of selectedCategory.subcategories) {
+      const option = document.createElement("option");
+      option.value = subcategory.uuid;
+      option.textContent = subcategory.name;
+      subcategorySelect.appendChild(option);
+    }
+  }
+}
+async function getCategories() {
+  const response = await fetch('http://localhost:3000/getSubcategories');
+  const categories = await response.json();
+  return categories;
+}
+async function getAllDiscounts(){
+  const response = await fetch('http://localhost:3000/getDiscountedItems?shopId=all');
+  const discounts = await response.json();
+  return discounts;
+}

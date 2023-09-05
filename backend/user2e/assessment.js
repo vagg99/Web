@@ -2,7 +2,7 @@
 
 const { connectToDatabase } = require('../utils/connectToDB.js');
 const { ObjectId } = require('mongodb');
-const updateLikeDislikePoints = require('../user5b/addPoints.js');
+const { updateLikeDislikePoints } = require('../user5b/addPoints.js');
 const cache = require('../utils/cache.js');
 
 async function handleLikesDislikesUpdate(req, res){
@@ -28,7 +28,7 @@ async function handleLikesDislikesUpdate(req, res){
         let updateObject = {};
         if (action === 'like') { updateObject = { $push: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'dislike') { updateObject = { $push: { 'likesDislikes.dislikedDiscounts': discountId } }; } else if (action === 'unlike') { updateObject = { $pull: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'undislike') { updateObject = { $pull: { 'likesDislikes.dislikedDiscounts': discountId } }; }
         let result2 = null;
-        if (Object.keys(updateObject).length) {
+        if (Object.keys(updateObject).length && user.likesDislikes) {
           result2 = await userCollection.updateOne({ username: username }, updateObject);
         }
   

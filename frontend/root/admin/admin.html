@@ -8,125 +8,154 @@
     <title>Admin</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
     <!-- Add Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
+</head>
 <body>
+    <header>
+        <div class="header-left">
+            <a href="../index.html">
+                <img src="../images/ekatanalotisShoppingCart_32.png" alt="Home Icon" class="home-icon">
+            </a>
+            <div class="header-text">
+                <h1><a href="../index.html">e-Καταναλωτής</a></h1>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                  <a href="../index.html">Αρχική</a>
+                </li>
+                <li class="nav-item" id="loginLink" style="display: none;">
+                  <a href="../Registration/registration.html">Σύνδεση</a>
+                </li>
+                <li class="nav-item">
+                  <a href="../Maps/maps.html">Χάρτης</a>
+                </li>
+                <li class="nav-item" id="profileLink">
+                  <a href="../Profile/profile.html">Προφίλ</a>
+                </li>
+                <li class="nav-item" id="adminDashboardBtn">
+                  <a href="../admin/admin.html">Admin</a>
+                </li>
+                <li class="nav-item" id="logoutBtn"><a href="#">Log Out</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>  
+            </div>
+        </nav>
+    </header>
 
-  <header>
-    <div class="header-left">
-      <a href="../index.html">
-        <img src="../images/ekatanalotisShoppingCart_32.png" alt="Home Icon" class="home-icon">
-      </a>
-      <div class="header-text">
-        <h1><a href="../index.html">e-Καταναλωτής</a></h1>
+    <main>
+        <!-- Upload files -->
+        <div class="file-container">
+          <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="jsonFileInput" class="choose-file-button">
+              <i class="fas fa-file-upload"></i> Επιλογή αρχείου
+          </label>
+          <input type="file" name="jsonFile" id="jsonFileInput">
+          </form>
       </div>
+  
+      <div class="button-container">
+        <button type="button" class="upload-button orange" id="uploadItemsButton">
+            <i class="fas fa-upload"></i> Ανέβασμα αρχείου στο Collection Items
+        </button>
+        <button type="button" class="delete-button orange" id="deleteItemsButton">
+            <i class="fas fa-trash"></i> Διαγραφή όλων των Items
+        </button>
     </div>
-    <nav>
-      <ul>
-        <li><a href="../index.html">Αρχική</a></li>
-        <li id="loginLink" style="display: none;"><a href="../Registration/registration.html">Σύνδεση</a></li>
-        <li><a href="../Maps/maps.html">Χάρτης</a></li>
-        <li id="profileLink" ><a href="../Profile/profile.html">Προφίλ</a></li>
-        <li id="adminDashboardBtn" ><a href="../admin/admin.html">Admin</a></li>
-        <li id="logoutBtn"><a href="#">Log Out</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <!-- Upload files -->
-    <div class="file-container">
-      <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="jsonFile" id="jsonFileInput">
-        <label for="jsonFileInput" class="choose-file-button">Επιλογή αρχείου</label>
-      </form>
-      <div class="button-container">
-        <button type="button" class="upload-button" id="uploadItemsButton">Ανέβασμα αρχείου στο Collection Items</button>
-      </div>
-      <div class="button-container">
-        <button type="button" class="upload-button" id="uploadStoresButton">Ανέβασμα αρχείου στο Collection Stores</button>
-      </div>
-      <div class="button-container">
-        <button type="button" class="upload-button" id="uploadStockButton">Ανέβασμα αρχείου στο Collection Stock</button>
-      </div>
-      <div class="button-container">
-        <button type="button" class="delete-button" id="deleteItemsButton">Διαγραφή όλων των Items</button>
-      </div>
-      <div class="button-container">
-        <button type="button" class="delete-button" id="deleteStoresButton">Διαγραφή όλων των Stores</button>
-      </div>
-      <div class="button-container">
-        <button type="button" class="delete-button" id="deleteStockButton">Διαγραφή όλων των Stock Prices</button>
-      </div>
-      <div id="uploadMessage" style="display: none;"></div>
+    
+    <div class="button-container">
+        <button type="button" class="upload-button blue" id="uploadStoresButton">
+            <i class="fas fa-upload"></i> Ανέβασμα αρχείου στο Collection Stores
+        </button>
+        <button type="button" class="delete-button blue" id="deleteStoresButton">
+            <i class="fas fa-trash"></i> Διαγραφή όλων των Stores
+        </button>
     </div>
-
-    <!-- Graph 1 Container -->
-    <div class="graphs-container">
-      <h2>Γράφημα 1</h2>
-      <div>
-        <label for="year">Επιλέξτε έτος:</label>
-        <input type="number" id="year" min="2000" max="2099">
-      </div>
-      <div>
-        <label for="month">Επιλέξτε μήνα:</label>
-        <input type="number" id="month" min="1" max="12">
-      </div>
-      <div>
-        <button id="generate-graph-button">Δημιουργία γραφήματος</button>
-      </div>
-      <canvas id="discountGraph"></canvas>
+    
+    <div class="button-container">
+        <button type="button" class="upload-button green" id="uploadStockButton">
+            <i class="fas fa-upload"></i> Ανέβασμα αρχείου στο Collection Stock
+        </button>
+        <button type="button" class="delete-button green" id="deleteStockButton">
+            <i class="fas fa-trash"></i> Διαγραφή όλων των Stock Prices
+        </button>
     </div>
+    
+    <div id="uploadMessage" style="display: none;"></div>
 
-    <!-- Graph 2 Container -->
-    <div class="graphs-container">
-      <h2>Γράφημα 2</h2>
-      <div>
-        <label for="category">Κατηγορία:</label>
-        <select id="category" onchange="populateSubcategories()">
-          <option value="0">Επιλέξτε κατηγορία</option>
-        </select>
-      </div>
-      <div>
-        <label for="subcategory">Υποκατηγορία:</label>
-        <select id="subcategory">
-          <option value="0">Επιλέξτε υποκατηγορία</option>
-        </select>
-      </div>
-      <div>
-        <button id="generate-graph-button2">Δημιουργία γραφήματος</button>
-      </div>
-      <canvas id="discountGraph2"></canvas>
-    </div>
 
-    <!-- Leaderboard -->
-    <div class="leaderboard-container">
-      <h2>Leaderboard</h2>
-      <h5 id="leaderboard-header"></h5>
-      <h5 id="leaderboard-header">
-        <span class="item">Χρήστης</span>
-        <span class="item">Tokens Αυγούστου</span>
-        <span class="item">Συνολικά Tokens</span>
-        <span class="item">Συνολικοί Πόντοι</span>
-      </h5>
-      <ol id="leaderboard-list">
-        <!-- Player items will be dynamically added here -->
-      </ol>
-      <div class="pagination">
-        <span id="prevPage" class="arrow">&#9664;</span>
-        <span id="nextPage" class="arrow">&#9654;</span>
-      </div>
-      <button id="refresh-button">Ανανέωση Leaderboard</button>
-    </div>
-  </main>
+        <!-- Graph 1 Container -->
+        <div class="graphs-container">
+            <h2>Γράφημα 1</h2>
+            <div>
+                <label for="year">Επιλέξτε έτος:</label>
+                <input type="number" id="year" min="2000" max="2099">
+            </div>
+            <div>
+                <label for="month">Επιλέξτε μήνα:</label>
+                <input type="number" id="month" min="1" max="12">
+            </div>
+            <div>
+                <button id="generate-graph-button">Δημιουργία γραφήματος</button>
+            </div>
+            <canvas id="discountGraph"></canvas>
+        </div>
 
-  <footer style="position: fixed; bottom: 0;">
-		&copy; 2023 All rights reserved.
-  </footer>
-  <script src="../auth/auth.js"></script>
-  <script src="admin.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Graph 2 Container -->
+        <div class="graphs-container">
+            <h2>Γράφημα 2</h2>
+            <div>
+                <label for="category">Κατηγορία:</label>
+                <select id="category" onchange="populateSubcategories()">
+                    <option value="0">Επιλέξτε κατηγορία</option>
+                </select>
+            </div>
+            <div>
+                <label for="subcategory">Υποκατηγορία:</label>
+                <select id="subcategory">
+                    <option value="0">Επιλέξτε υποκατηγορία</option>
+                </select>
+            </div>
+            <div>
+                <button id="generate-graph-button2">Δημιουργία γραφήματος</button>
+            </div>
+            <canvas id="discountGraph2"></canvas>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="leaderboard-container">
+            <h2>Leaderboard</h2>
+            <h5 id="leaderboard-header"></h5>
+            <h5 id="leaderboard-header">
+                <span class="item">Χρήστης</span>
+                <span class="item-month-tokens">Τωρινά Tokens</span>
+                <span class="item-tokens=">Συνολικά Tokens</span>
+                <span class="item-points">Συνολικοί Πόντοι</span>
+            </h5>
+            <ol id="leaderboard-list">
+                <!-- Player items will be dynamically added here -->
+            </ol>
+            <div class="pagination">
+                <span id="prevPage" class="arrow">&#9664;</span>
+                <span id="nextPage" class="arrow">&#9654;</span>
+            </div>
+            <button id="refresh-button">Ανανέωση Leaderboard</button>
+        </div>
+    </main>
+
+    <footer class="sticky-footer">
+      &copy; 2023 All rights reserved.
+    </footer>
+    <script src="../auth/auth.js"></script>
+    <script src="admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

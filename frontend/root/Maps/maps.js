@@ -340,7 +340,7 @@ function createPopupContent(data, shopName, distance, shopId) {
   output += `</div>`; // Close popup-item-scroll-list div
 
   // Αξιολόγηση Προσφορών
-  output += `<div class="button-container shop-container" data-shop-id="${encodeURIComponent(shopId)}">`;
+  output += `<div class="button-container shop-container assessment-button" data-shop-id="${encodeURIComponent(shopId)}">`;
   if (userLoggedIn) {
     output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(
       shopId

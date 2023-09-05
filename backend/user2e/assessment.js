@@ -28,7 +28,7 @@ async function handleLikesDislikesUpdate(req, res){
         let updateObject = {};
         if (action === 'like') { updateObject = { $push: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'dislike') { updateObject = { $push: { 'likesDislikes.dislikedDiscounts': discountId } }; } else if (action === 'unlike') { updateObject = { $pull: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'undislike') { updateObject = { $pull: { 'likesDislikes.dislikedDiscounts': discountId } }; }
         let result2 = null;
-        if (Object.keys(updateObject).length && user.likesDislikes) {
+        if (Object.keys(updateObject).length && user.likesDislikes && Object.keys(user.likesDislikes).length) {
           result2 = await userCollection.updateOne({ username: username }, updateObject);
         }
   

@@ -60,7 +60,7 @@ async function getUserInfo(req, res) {
         // Convert string IDs to ObjectIDs for liked and disliked products
         let likedDiscountsObjectIDs = []
         let dislikedDiscountsObjectIDs = [];
-        if (user.likesDislikes) {
+        if (user.likesDislikes && Object.keys(user.likesDislikes).length) {
           likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts;//.map(id => new ObjectId(id)); // uncomment if i fuck it up again
           dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts;//.map(id => new ObjectId(id)); // and restore it as object
         }

@@ -1,3 +1,5 @@
+var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
 document.addEventListener('DOMContentLoaded', async () => {
     // Get references to the loader elements
     const loaderContainer = document.getElementById('loader-container');
@@ -33,6 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const emailField = document.getElementById("input-email");          //email
     const firstnameField = document.getElementById("input-first-name"); //firstname
     const lastnameField = document.getElementById("input-last-name");   //lastname
+    const passwordField1 = document.getElementById("input-password");   //password
+    const passwordField2 = document.getElementById("input-password2");  //password confirmation
     const addressField = document.getElementById("input-address");      //address
     const cityField = document.getElementById("input-city");            //city
     const countryField = document.getElementById("input-country");      //country
@@ -53,8 +57,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         input.readOnly = true;
     });
 
-    // Function to toggle the buttons
-    const toggleButtons = (editMode) => {
+    // Function to toggle the "Επεξεργασία" , "Αποθήκευση", "Ακύρωση" buttons
+    function toggleButtons(editMode) {
         if (editMode) {
             editButton.style.display = "none";
             saveButton.style.display = "inline-block";
@@ -105,17 +109,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         inputFields.forEach(input => {
             input.readOnly = true; // Set input fields back to read-only
         });
-        editMode = false;
         toggleButtons(false); // Toggle buttons to their original state
         restoreOriginalFieldValues(userData); // Restore original field values
     });
 
     // Add event listener to the save button
     saveButton.addEventListener("click", async () => {
+        if (passwordField1.value || passwordField2.value) {
+            if (passwordField1.value != passwordField2.value) {
+                alert("Passwords don't match");
+                return;
+            }
+            if (!passwordRegex.test(passwordField1.value)) {
+                alert("Password must be at least 8 characters long, contain at least 1 uppercase letter, 1 number and 1 special character");
+                return;
+            }
+            userData.newpassword = passwordField1.value;
+            passwordField1.value = "";
+            passwordField2.value = "";
+        }
         inputFields.forEach(input => {
             input.readOnly = true; // Set input fields back to read-only
         });
-        editMode = false;
         toggleButtons(false); // Toggle buttons to their original state
         updateUserDataWithFormValues(userData); // Update user data with form values
         // Send the updated user data to the server
@@ -150,6 +165,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Populate the form fields using the userData object
         if (userData.firstname) firstnameField2.textContent = userData.firstname;
         if (userData.lastname) lastnameField2.textContent = userData.lastname;
+        passwordField1.value = "";
+        passwordField2.value = "";
         if (userData.address) {
             if (userData.address.city) cityField2.textContent = userData.address.city;
             if (userData.address.country) countryField2.textContent = userData.address.country;

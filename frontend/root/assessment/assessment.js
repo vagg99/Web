@@ -177,12 +177,12 @@ function displayProduct(item, productList, user) {
     // Function to update the UI when the product is marked as "Out of Stock"
     function markAsOutOfStock() {
         instockButton.textContent = "Out of Stock";
+        instockButton.classList.add("out-of-stock-button");
         newProductItem.classList.add("out-of-stock");
         newProductItem.classList.remove("product-item");
         newProductItem.classList.remove("expanded");
         likeButton.classList.add("disabled");
         dislikeButton.classList.add("disabled");
-        instockButton.style.transform = "translate(+350%, -140%) scale(3)";
     }
 
     productList.appendChild(newProductItem);

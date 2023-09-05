@@ -126,7 +126,7 @@ function getUserLocation() {
         map.setView([latitude, longitude], 15); // Set the view to user's location with zoom level 15
         userLocationMarker = L.marker([latitude, longitude] , { icon: CurrectLocationIcon })
           .addTo(map)
-          .bindPopup('You are here!') // Custom popup message for the user's location
+          .bindPopup('Βρίσκεσαι εδώ!') // Custom popup message for the user's location
           .openPopup();
         map.setView(view, 12);
       },
@@ -295,7 +295,7 @@ function createPopupContent(data, shopName, distance, shopId) {
   let output = `<div class="discount">`;
   // Βρέθηκαν 2 Προσφορές / Βρέθηκε 1 Προσφορά
   output += `<div class='popup-title'>
-    Βρέθηκ${data.length>1?"αν":"ε"} ${data.length} Προσφορ${data.length>1?"ές":"ά"} !
+    Βρέθηκ${data.length>1?"αν":"ε"} ${data.length} Προσφορ${data.length>1?"ές":"ά"}!
   </div>`;
 
   output += `<div class="popup-item-scroll-list">`;

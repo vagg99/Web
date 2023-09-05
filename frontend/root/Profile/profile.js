@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Save
     const saveButton = document.createElement("button");
-    saveButton.textContent = "Save changes";
+    saveButton.textContent = "Αποθήκευση";
     saveButton.classList.add("btn", "btn-sm", "btn-success");
     saveButton.style.display = "inline-block"; // Initially hidden
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Cancel
     const cancelButton = document.createElement("button");
-    cancelButton.textContent = "Cancel";
+    cancelButton.textContent = "Ακύρωση";
     cancelButton.classList.add("btn", "btn-sm", "btn-danger");
     cancelButton.style.display = "inline-block"; // Initially hidden
 

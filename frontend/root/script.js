@@ -48,5 +48,14 @@ async function LoadDataInTheBeginning() {
     const stores = await response.json();
     return stores;
   }
-
 }
+
+$(document).ready(function(){
+  $('.slider').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000, // Adjust the speed as needed
+    dots: true, // Show navigation dots
+  });
+});

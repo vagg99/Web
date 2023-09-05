@@ -2,7 +2,7 @@
 
 const { connectToDatabase } = require('../utils/connectToDB.js');
 const { ObjectId } = require('mongodb');
-const updateLikeDislikePoints = require('../user5b/addPoints.js');
+const { updateLikeDislikePoints } = require('../user5b/addPoints.js');
 const cache = require('../utils/cache.js');
 
 async function handleLikesDislikesUpdate(req, res){

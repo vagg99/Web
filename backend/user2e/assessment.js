@@ -46,4 +46,4 @@ async function handleLikesDislikesUpdate(req, res){
     }
 }
 
-module.exports = handleLikesDislikesUpdate;
+module.exports = { handleLikesDislikesUpdate };

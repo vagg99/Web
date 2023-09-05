@@ -30,4 +30,4 @@ async function updateLikeDislikePoints(points){
     }
 }
 
-module.exports = updateLikeDislikePoints;
+module.exports = { updateLikeDislikePoints };

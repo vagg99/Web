@@ -35,4 +35,4 @@ async function distributeTokens() {
     cache.del('users');
 }
 
-module.exports = distributeTokens;
+module.exports = { distributeTokens };

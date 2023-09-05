@@ -170,6 +170,7 @@ async function handleProfileUpdate(req, res) {
           updateObject.password_hashed = password_hashed;
         }
         updateObject.isAdmin = isAdmin;
+        delete updateObject.newpassword;
         const result = await userCollection.updateOne(
           { _id: userId }, // Use the original _id here
           { $set: updateObject }

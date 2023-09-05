@@ -125,4 +125,4 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
     return discountedItems;
 }
 
-module.exports = getItemsInStockFromDatabase;
+module.exports = { getItemsInStockFromDatabase };

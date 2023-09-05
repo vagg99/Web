@@ -44,4 +44,4 @@ async function handleLogin(req, res) {
   }
 }
 
-module.exports = handleLogin;
+module.exports = { handleLogin };

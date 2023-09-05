@@ -59,4 +59,4 @@ async function handleRegistration(req, res) {
     }
 }
 
-module.exports = handleRegistration;
+module.exports = { handleRegistration };

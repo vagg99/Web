@@ -6,56 +6,49 @@
 */
 
 const express = require('express');
-const cron = require("node-cron"); // EVERY MONTH UPDATE SERVER TOKENS AND DISTRIBUTE THEM TO USERS
-const cors = require('cors');// USED FOR HTTPS CONNECTIONS
-const session = require('express-session'); // USED FOR SESSIONS
-const cookieParser = require('cookie-parser');// USED FOR COOKIES
+const cron = require('node-cron');
+const cors = require('cors');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
-const { TTLS , port , secret , frontend } = require('./utils/constants.js'); // CONSTANTS FROM CONFIG FILE
+const cache = require('./utils/cache.js');
+const { TTLS , port , secret , frontend } = require('./utils/constants.js');
+const { distributeTokens } = require('./user4/tokens.js');
+const { deleteOldDiscounts } = require('./user3/submission.js');
+const { connectToDatabase , getData } = require('./utils/connectToDB.js');
+const { handleRegistration } = require('./user1/register.js');
+const { handleLogin } = require('./user1/login.js');
+const { getLeaderboard } = require('./admin4/leaderboard.js');
+const { getItemsInStockFromDatabase } = require('./user2d/map.js');
+const { getUserInfo , handleProfileUpdate } = require('./user6/profile.js');
+const { handleLikesDislikesUpdate } = require('./user2e/assessment.js');
+const { handleDiscountSubmission } = require('./user3/submission.js');
+const { handleJSONUpload , handleDeletion } = require('./admin1/uploadJSON.js');
+const { handleIndividualDiscountDeletion } = require('./admin5/deleteDiscount.js');
 
 const app = express();
 
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
-
 app.use(session({
-  secret: secret, // Change this to a secure random string
+  secret: secret,
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false } // Set secure to true in production with HTTPS
 }));
-
 app.use(cors({
   origin: frontend,
   credentials: true, // Allow credentials (cookies)
 }));
-
 app.use(express.static('public'));
 
-const distributeTokens = require('./user4/tokens.js'); // DISTRIBUTE TOKENS TO USERS
+
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
-const { deleteOldDiscounts } = require('./user3/submission.js'); // DELETE OLD DISCOUNTS
 cron.schedule("0 0 * * *", deleteOldDiscounts); // CHECK EVERYDAY FOR DISCOUNT THAT ARE A WEEK OLD AND DELETE THEM
 
 
-const { connectToDatabase , getData } = require('./utils/connectToDB.js'); // DATABASE
-// GET request for fetching items
-app.get('/getItems', async (req, res) => {
-  try {
-    const products = await getData('items');
-    res.status(200).json(products);
-  } catch (error) {
-    console.error('Error fetching items:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-const handleRegistration = require('./user1/register.js'); // REGISTRATION
-
 // POST request for registration
 app.post('/register', handleRegistration);
-
-const handleLogin = require('./user1/login.js'); // LOGIN
 
 // POST request for login
 app.post('/login', handleLogin);
@@ -100,8 +93,6 @@ app.get('/check-user-auth', (req, res) => {
   res.json({ loggedIn: false });
 });
 
-const getLeaderboard = require('./admin4/leaderboard.js'); // LEADERBOARD
-
 // GET request for leaderboard
 app.get('/leaderboard', async (req, res) => {
   try {
@@ -124,8 +115,6 @@ app.get('/stores', async (req, res) => {
   }
 });
 
-const cache = require('./utils/cache.js');
-const getItemsInStockFromDatabase = require('./user2d/map.js');
 // GET request for fetching all discounted items from 1 store
 app.get('/getDiscountedItems', async (req, res) => {
   try {
@@ -148,6 +137,7 @@ app.get('/getDiscountedItems', async (req, res) => {
   }
 });
 
+// GET request for fetching all items that are availiable in 1 store
 app.get('/getStock', async (req, res) => {
   try {
     const shopId = req.query.shopId;
@@ -170,33 +160,23 @@ app.get('/getSubcategories', async (req, res) => {
   }
 });
 
-const { getUserInfo , handleProfileUpdate } = require('./user6/profile.js'); // PROFILE
-
 // GET request for fetching user info for displaying in profile
 app.get('/getUserInfo', getUserInfo);
 
 // POST request for updating user profile in profile
 app.post('/updateUserInfo', handleProfileUpdate);
 
-const handleLikesDislikesUpdate = require('./user2e/assessment.js'); // ASSESSMENT
-
 // POST request for updating db with likes / dislikes and stock by users
 app.post('/assessment', handleLikesDislikesUpdate);
 
-const { handleDiscountSubmission } = require('./user3/submission.js'); // SUBMISSION
-
 // POST request for submitting new price on a product
 app.post('/submitDiscount', handleDiscountSubmission);
-
-const { handleJSONUpload , handleDeletion } = require('./admin1/uploadJSON.js'); // UPLOAD JSON
 
 // POST request for uploading files to a collection by admin
 app.post('/upload', handleJSONUpload);
 
 // POST requst for deleting a collection by admin
 app.post('/delete', handleDeletion);
-
-const handleIndividualDiscountDeletion = require('./admin5/deleteDiscount.js'); // DELETE DISCOUNT
 
 // DELETE request for deleting a discount by admin
 app.delete('/deleteDiscount', handleIndividualDiscountDeletion);

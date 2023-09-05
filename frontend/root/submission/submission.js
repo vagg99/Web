@@ -157,11 +157,6 @@ function displaySelectedProduct(product) {
   productResults.appendChild(productDiv);
 }
 
-async function getAllItems() {
-  const response = await fetch('http://localhost:3000/getItems');
-  const items = await response.json();
-  return items;
-}
 async function getCategories() {
   const response = await fetch('http://localhost:3000/getSubcategories');
   const categories = await response.json();

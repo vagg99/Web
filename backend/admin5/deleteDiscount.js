@@ -22,4 +22,4 @@ async function handleIndividualDiscountDeletion(req, res) {
   }
 }
 
-module.exports = handleIndividualDiscountDeletion;
+module.exports = { handleIndividualDiscountDeletion };

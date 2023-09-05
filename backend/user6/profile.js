@@ -4,6 +4,7 @@ const { connectToDatabase } = require('../utils/connectToDB.js');
 const { ObjectId } = require('mongodb');
 const cache = require('../utils/cache.js');
 const { TTLS } = require('../utils/constants.js');
+const hash = require('../utils/hash.js');
 
 async function getUserInfo(req, res) {
     try {
@@ -163,8 +164,13 @@ async function handleProfileUpdate(req, res) {
         let isAdmin = user.isAdmin;
         const updateObject = req.body;
         delete updateObject._id; // Remove the _id field from the updateObject
-        updateObject.password_hashed = password_hashed;
+        if (updateObject.newpassword) {
+          updateObject.password_hashed = hash(updateObject.username, updateObject.newpassword);
+        } else {
+          updateObject.password_hashed = password_hashed;
+        }
         updateObject.isAdmin = isAdmin;
+        delete updateObject.newpassword;
         const result = await userCollection.updateOne(
           { _id: userId }, // Use the original _id here
           { $set: updateObject }

@@ -120,11 +120,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const scaleControl = document.getElementById('ellipseScale');
-  if (userIsAdmin) {
-    scaleControl.addEventListener('input', updateEllipse);
-  } else {
-    scaleControl.style.display = 'none';
-  }
+  const scaleToggle = document.getElementById('scaleToggle');
+  scaleToggle.addEventListener('change', handleCheckboxChange);
 
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
@@ -210,7 +207,19 @@ function updateEllipse() {
     dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
   }).addTo(map);
 }
+function handleCheckboxChange() {
+  const scaleControl = document.getElementById('ellipseScale');
+  const scaleToggle = document.getElementById('scaleToggle');
 
+  if (scaleToggle.checked) {
+    // Checkbox is checked (ticked), perform your action here
+    scaleControl.classList.remove('hidden'); // Show the scale control
+    scaleControl.addEventListener('input', updateEllipse);
+  } else {
+    // Checkbox is unchecked, perform your action here
+    scaleControl.classList.add('hidden'); // Hide the scale control
+  }
+}
 
 // Function to calculate the Haversine distance between two points
 function calculateHaversineDistance(point1, point2) {

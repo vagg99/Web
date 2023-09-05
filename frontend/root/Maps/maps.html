@@ -60,12 +60,19 @@
     <section>
       <div class="space"></div>
       <!-- Scale control -->
-      <input type="range" id="ellipseScale" class="scale-control toggle-switch-scale" min="0.0005" max="0.9" step="0.0001" value="0.0005" />
+      <input type="range" id="ellipseScale" class="scale-control toggle-switch-scale hidden" min="0.0005" max="0.9" step="0.0001" value="0.0005" />
     </section>
     <section>
       <div class="space"></div>
       <!-- Map container -->
       <div id="map" style="height: 800px;"></div>
+    </section>
+    <section>
+      <!-- toggle switch for users to gain access to scale control-->
+      <label class="toggle-switch">
+        <input type="checkbox" id="scaleToggle">
+        <span class="slider"></span>
+      </label>
     </section>
   </main>
 

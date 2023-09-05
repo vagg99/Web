@@ -5,8 +5,16 @@ var map = L.map('map')
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
 // Distance needed to be considered "near" a shop
-const distanceThreshold = 0.7; // 0.0005 represents 50 meters in degrees (approximate)
+let distanceThreshold = 0.0005; // 0.0005 represents 50 meters in degrees (approximate)
 
+// User's location :
+let userLatitude = null;
+let userLongitude = null;
+
+// Ellipse and diameters for the user's location
+let ellipse = null;
+let diameter1 = null;
+let diameter2 = null;
 
 // Check if the user is logged in
 let userLoggedIn = false;
@@ -111,6 +119,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  document.getElementById('ellipseScale').addEventListener('input', updateEllipse);
+
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
 
@@ -128,8 +138,10 @@ function getUserLocation() {
     navigator.geolocation.getCurrentPosition(
       function(position) {
         const { latitude, longitude } = position.coords;
+        userLatitude = latitude;
+        userLongitude = longitude;
         map.setView([latitude, longitude], 15); // Set the view to user's location with zoom level 15
-        drawEllipse(latitude, longitude, distanceThreshold, distanceThreshold, CurrentLocationColor);
+        updateEllipse();
         userLocationMarker = L.marker([latitude, longitude] , { icon: CurrectLocationIcon })
           .addTo(map)
           .bindPopup('Βρίσκεσαι εδώ!') // Custom popup message for the user's location
@@ -144,37 +156,52 @@ function getUserLocation() {
     console.error('Geolocation is not available in this browser.');
   }
 }
-function drawEllipse(latitude, longitude, semiMajorAxisMeters, semiMinorAxisMeters, color) {
+function updateEllipse() {
+  distanceThreshold = parseFloat(document.getElementById('ellipseScale').value);
+
   const rotationDegrees = 0;
   const numberOfSegments = 360;
+  const semiMajorAxisMeters = distanceThreshold;
+  const semiMinorAxisMeters = distanceThreshold;
+
+  if (ellipse) {
+    map.removeLayer(ellipse);
+  }
+  if (diameter1) {
+    map.removeLayer(diameter1);
+  }
+  if (diameter2) {
+    map.removeLayer(diameter2);
+  }
+
 
   const latlngs = [];
 
   for (let i = 0; i <= 360; i += 360 / numberOfSegments) {
     const angleRadians = (i + rotationDegrees) * (Math.PI / 180);
-    const x = latitude + (semiMajorAxisMeters * Math.cos(angleRadians));
-    const y = longitude + (semiMinorAxisMeters * Math.sin(angleRadians));
+    const x = userLatitude + (semiMajorAxisMeters * Math.cos(angleRadians));
+    const y = userLongitude + (semiMinorAxisMeters * Math.sin(angleRadians));
     latlngs.push([x, y]);
   }
 
-  L.polyline(latlngs, { color: color }).addTo(map);
+  ellipse = L.polyline(latlngs, { color: CurrentLocationColor }).addTo(map);
 
   // Calculate coordinates for the endpoints of the diameters
   const latLngs = [
-    [latitude, longitude - semiMinorAxisMeters], // Adjust the longitude difference to control the length of the diameters
-    [latitude, longitude + semiMinorAxisMeters],
-    [latitude - semiMajorAxisMeters, longitude], // Adjust the latitude difference to control the length of the diameters
-    [latitude + semiMajorAxisMeters, longitude],
+    [userLatitude, userLongitude - semiMinorAxisMeters], // Adjust the longitude difference to control the length of the diameters
+    [userLatitude, userLongitude + semiMinorAxisMeters],
+    [userLatitude - semiMajorAxisMeters, userLongitude], // Adjust the latitude difference to control the length of the diameters
+    [userLatitude + semiMajorAxisMeters, userLongitude],
   ];
 
   // Create polyline segments for the diameters with dashed lines
-  const diameter1 = L.polyline(latLngs.slice(0, 2), {
-    color: color, // Color of the first diameter
+  diameter1 = L.polyline(latLngs.slice(0, 2), {
+    color: CurrentLocationColor, // Color of the first diameter
     dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
   }).addTo(map);
 
-  const diameter2 = L.polyline(latLngs.slice(2), {
-    color: color, // Color of the second diameter
+  diameter2 = L.polyline(latLngs.slice(2), {
+    color: CurrentLocationColor, // Color of the second diameter
     dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
   }).addTo(map);
 }

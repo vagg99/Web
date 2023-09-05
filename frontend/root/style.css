@@ -33,7 +33,47 @@ header {
   color: #FF6666; /* Change text color on hover */
 }
 
+/* search container */
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0; /* Remove margin at the bottom */
+  justify-content: center; /* Center items horizontally */
+  text-align: center; /* Center text within the container */
+}
 
+/* Style for the search image */
+.search-image {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style for the search text container */
+.search-text {
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Style for the search title */
+.search-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0e3dc0; /* Adjust the color as needed */
+  margin: 0; /* Remove margin to center vertically */
+}
+
+/* Style for the search subtitle */
+.search-subtitle {
+  font-size: 18px;
+  color: #6886ff; /* Adjust the color as needed */
+  margin: 0; /* Remove margin to center vertically */
+}
 
 /* Navigation styles */
 nav ul {
@@ -317,6 +357,54 @@ a:link, a:visited {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* Slick Slider styles */
+.slider-container {
+  margin: 20px auto; /* Adjust the margin as needed */
+  max-width: 800px; /* Adjust the maximum width of the slider container */
+}
+
+.slider {
+  display: block;
+}
+
+.slider img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Adjust the styling of the dots (pagination) */
+.slick-dots {
+  position: absolute;
+  bottom: 10px;
+  list-style: none;
+  text-align: center;
+  width: 100%;
+  padding: 0;
+}
+
+.slick-dots li {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 0;
+}
+
+.slick-dots li button {
+  font-size: 0; /* Hide the dot's content */
+  width: 10px; /* Adjust the dot's width */
+  height: 10px; /* Adjust the dot's height */
+  background: #999; /* Dot color */
+  border: none;
+  border-radius: 50%; /* Make it a circle */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Add a smooth transition */
+}
+
+/* Style for the active dot */
+.slick-dots li.slick-active button {
+  background: #0e3dc0; /* Active dot color */
+}
+
 
 footer {
   font-family: Open Sans, sans-serif;

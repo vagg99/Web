@@ -1,9 +1,19 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);
-    const shopId = params.get('shopId');
 
+    const shopId = params.get('shopId');
+    // fetch products for this shop
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${shopId}`);
     const discountedItems = await response.json();
+
+    // fetch user info by cookie session
+    const response2 = await fetch(`http://localhost:3000/getUserInfo`,{
+        method: 'GET',
+        credentials: 'include',
+        headers: { "Content-Type": "application/json", }
+    });
+
+    const { user } = await response2.json();
 
     let shopName = "this shop has no items";
     if (discountedItems) shopName = discountedItems[0].store.tags.name;
@@ -16,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const productList = document.getElementById("productContainer");
 
     discountedItems.forEach(item => {
-        addProduct(item, productList);
+        displayProduct(item, productList, user);
     });
 
 });
@@ -25,7 +35,7 @@ const userPoints = {};
 let choiceTimeouts = {}; // Object to store choice timeouts for each product
 const cooldownDuration = 4000; // 2 seconds in milliseconds
 
-function addProduct(item, productList) {
+function displayProduct(item, productList, user) {
     const DiscountId = item._id;
     const productName = item.item.name;
     const shopName = item.store.tags.name;
@@ -149,6 +159,16 @@ function addProduct(item, productList) {
     newProductItem.addEventListener("click", () => {
         newProductItem.classList.toggle("expanded");
     });
+
+    // if user has liked or disliked this product, mark the button as active
+    if (user) {
+        if (user.likesDislikes.likedDiscounts.includes(DiscountId)) {
+            likeButton.classList.add("active");
+        } else if (user.likesDislikes.dislikedDiscounts.includes(DiscountId)) {
+            dislikeButton.classList.add("active");
+        }
+    }
+
 
     if (!in_stock) {
         markAsOutOfStock();

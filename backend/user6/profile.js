@@ -60,8 +60,8 @@ async function getUserInfo(req, res) {
         let likedDiscountsObjectIDs = []
         let dislikedDiscountsObjectIDs = [];
         if (user.likesDislikes) {
-          likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts.map(id => new ObjectId(id));
-          dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts.map(id => new ObjectId(id));
+          likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts;//.map(id => new ObjectId(id)); // uncomment if i fuck it up again
+          dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts;//.map(id => new ObjectId(id)); // and restore it as object
         }
   
         // RETURN ALL THE DISCOUNTS THIS USER HAS LIKED OR DISLIKED

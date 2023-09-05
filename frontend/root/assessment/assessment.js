@@ -4,7 +4,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${shopId}`);
     const discountedItems = await response.json();
-    
+
+    let shopName = "this shop has no items";
+    if (discountedItems) shopName = discountedItems[0].store.tags.name;
+    const pageTitle = document.getElementById("page-title");
+    pageTitle.innerHTML = shopName;
+
+
     console.log(discountedItems);
 
     const productList = document.getElementById("productContainer");
@@ -45,6 +51,7 @@ function addProduct(item, productList) {
             <div class="product-details-container">
                 <div class="product-details">
                     <div class="info">
+                        <h3 class="product-name">${productName}</h3>
                         <p class="price">Τιμή: ${price}€</p>
                         <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
                         <p>Η Προσφορά υποβλήθηκε απο το Χρήστη ${username} με ${totalPoints} συνολικούς Πόντους</p>

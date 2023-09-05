@@ -204,6 +204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         // likes and dislikes that the user has made
         const likedDislikedDiscounts = userLikedItems.concat(userDislikedItems);
+        console.log(likedDislikedDiscounts)
         likedDislikedDiscountsList.innerHTML = likedDislikedDiscounts.map(product => 
             `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date} - προσφορά by ${product.username} - user has : ${product.liked ? "liked" : "disliked"} this</li>`
         ).join("");

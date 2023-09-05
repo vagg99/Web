@@ -26,8 +26,14 @@ async function handleLikesDislikesUpdate(req, res){
         
         // ALSO ADD LIKE OR DISLIKE (TO USER WHO CLICKED THE BUTTON) SO IT CAN BE SEEN ON PROFILE
         let updateObject = {};
+        console.log(action)
         if (action === 'like') { updateObject = { $push: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'dislike') { updateObject = { $push: { 'likesDislikes.dislikedDiscounts': discountId } }; } else if (action === 'unlike') { updateObject = { $pull: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'undislike') { updateObject = { $pull: { 'likesDislikes.dislikedDiscounts': discountId } }; }
-        if (updateObject.length) await userCollection.updateOne({ username: username }, updateObject);
+        let result2 = null;
+        if (updateObject) {
+          console.log("a");
+          result2 = await userCollection.updateOne({ username: username }, updateObject);
+          console.log(result2)
+        }
   
         // ADD POINTS TO USER THAT POSTED THE DISCOUNT (NOT THE ONE THAT CLICKED THE BUTTON)
         await updateLikeDislikePoints(points);

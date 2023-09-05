@@ -31,6 +31,16 @@ window.addEventListener("load", async () => {
     navMenu.classList.toggle("active");
   });
 
+  $(document).ready(function(){
+    $('.slider').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 2000, // Adjust the speed as needed
+      dots: true, // Show navigation dots
+    });
+  });
+
 });
 
 async function LoadDataInTheBeginning() {
@@ -50,12 +60,3 @@ async function LoadDataInTheBeginning() {
   }
 }
 
-$(document).ready(function(){
-  $('.slider').slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000, // Adjust the speed as needed
-    dots: true, // Show navigation dots
-  });
-});

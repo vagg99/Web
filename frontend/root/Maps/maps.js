@@ -182,22 +182,17 @@ function drawEllipse(latitude, longitude, semiMajorAxisMeters, semiMinorAxisMete
 
 // Function to calculate the Haversine distance between two points
 function calculateHaversineDistance(point1, point2) {
-  const R = 6371000; // Earth's radius in meters
-  
-  const lat1 = point1.lat * (Math.PI / 180);
-  const lon1 = point1.lng * (Math.PI / 180);
-  const lat2 = point2.lat * (Math.PI / 180);
-  const lon2 = point2.lng * (Math.PI / 180);
-  
+  const lat1 = point1.lat;
+  const lon1 = point1.lng;
+  const lat2 = point2.lat;
+  const lon2 = point2.lng;
+
   const dLat = lat2 - lat1;
   const dLon = lon2 - lon1;
-  
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1) * Math.cos(lat2) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  
-  const distance = R * c;
+
+  // Use the Pythagorean theorem to calculate the distance in degrees
+  const distance = Math.sqrt(dLat * dLat + dLon * dLon);
+
   return distance;
 }
 
@@ -277,13 +272,11 @@ async function onMarkerClick(marker,e,id,shopName){
     const userLatLng = userLocationMarker.getLatLng();
     distance = calculateHaversineDistance(userLatLng, clickedLatLng);
     // Υποβολή Προσφοράς
-    //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
-      if (userLoggedIn) {
-        popupContent += `<button id="submit-discount-button" class="button-container shop-container" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
-      } else {
-        popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
-      }
-    //}
+    if (distance <= distanceThreshold && userLoggedIn) {
+      popupContent += `<button id="submit-discount-button" class="button-container shop-container" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
+    } else {
+      popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
+    }
     marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
   } catch (error) {
     console.error('Error calculating distance:', error);
@@ -291,10 +284,9 @@ async function onMarkerClick(marker,e,id,shopName){
   try {
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const discountedItems = await response.json();
-
-    console.log(discountedItems);
     
     if (discountedItems.length) {
+      console.log(discountedItems);
       popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
       await marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
     }
@@ -382,7 +374,7 @@ function createPopupContent(data, shopName, distance, shopId) {
 
   // Αξιολόγηση Προσφορών
   output += `<div class="button-container shop-container assessment-button" data-shop-id="${encodeURIComponent(shopId)}">`;
-  if (userLoggedIn) {
+  if (distance <= distanceThreshold && userLoggedIn) {
     output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(
       shopId
     )}'">Αξιολόγιση Προσφορών</button>`;

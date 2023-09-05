@@ -4,6 +4,11 @@ var map = L.map('map')
 // Add the tile layer (OpenStreetMap as an example)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
+// Distance needed to be considered "near" a shop
+const distanceThreshold = 0.7; // 0.0005 represents 50 meters in degrees (approximate)
+
+
+// Check if the user is logged in
 let userLoggedIn = false;
 fetch('http://localhost:3000/check-user-auth', {
   method: 'GET',
@@ -124,6 +129,7 @@ function getUserLocation() {
       function(position) {
         const { latitude, longitude } = position.coords;
         map.setView([latitude, longitude], 15); // Set the view to user's location with zoom level 15
+        drawEllipse(latitude, longitude, distanceThreshold, distanceThreshold, CurrentLocationColor);
         userLocationMarker = L.marker([latitude, longitude] , { icon: CurrectLocationIcon })
           .addTo(map)
           .bindPopup('Βρίσκεσαι εδώ!') // Custom popup message for the user's location
@@ -138,6 +144,41 @@ function getUserLocation() {
     console.error('Geolocation is not available in this browser.');
   }
 }
+function drawEllipse(latitude, longitude, semiMajorAxisMeters, semiMinorAxisMeters, color) {
+  const rotationDegrees = 0;
+  const numberOfSegments = 360;
+
+  const latlngs = [];
+
+  for (let i = 0; i <= 360; i += 360 / numberOfSegments) {
+    const angleRadians = (i + rotationDegrees) * (Math.PI / 180);
+    const x = latitude + (semiMajorAxisMeters * Math.cos(angleRadians));
+    const y = longitude + (semiMinorAxisMeters * Math.sin(angleRadians));
+    latlngs.push([x, y]);
+  }
+
+  L.polyline(latlngs, { color: color }).addTo(map);
+
+  // Calculate coordinates for the endpoints of the diameters
+  const latLngs = [
+    [latitude, longitude - semiMinorAxisMeters], // Adjust the longitude difference to control the length of the diameters
+    [latitude, longitude + semiMinorAxisMeters],
+    [latitude - semiMajorAxisMeters, longitude], // Adjust the latitude difference to control the length of the diameters
+    [latitude + semiMajorAxisMeters, longitude],
+  ];
+
+  // Create polyline segments for the diameters with dashed lines
+  const diameter1 = L.polyline(latLngs.slice(0, 2), {
+    color: color, // Color of the first diameter
+    dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
+  }).addTo(map);
+
+  const diameter2 = L.polyline(latLngs.slice(2), {
+    color: color, // Color of the second diameter
+    dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
+  }).addTo(map);
+}
+
 
 // Function to calculate the Haversine distance between two points
 function calculateHaversineDistance(point1, point2) {

@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
+
+  // hamburger menu
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".nav-menu");
+  const loader = document.querySelector(".loader");
+
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+  });
   // Upload data to the database
 
   const fileInput = document.getElementById('jsonFileInput');
@@ -176,10 +187,10 @@ function displayPlayers(page, players) {
   playersToShow.forEach((player, index) => {
       const listItem = document.createElement('li');
       listItem.innerHTML = `
-        <span class="item">${player.username}</span>
-        <span class="item">${player.tokens["monthly"]}</span>
-        <span class="item">${player.tokens["total"]}</span>
-        <span class="item">${player.points}</span>
+        <span class="item-user">${player.username}</span>
+        <span class="item-month-tokens">${player.tokens["monthly"]}</span>
+        <span class="item-tokens">${player.tokens["total"]}</span>
+        <span class="item-points">${player.points}</span>
       `;
       leaderboardList.appendChild(listItem);
   });

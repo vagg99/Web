@@ -39,15 +39,13 @@ header {
   align-items: center;
   margin-bottom: 0; /* Remove margin at the bottom */
   justify-content: center; /* Center items horizontally */
-  text-align: center; /* Center text within the container */
+  text-align: left; /* Center text within the container */
 }
 
 /* Style for the search image */
 .search-image {
   padding: 20px;
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Style for the search text container */
@@ -55,9 +53,6 @@ header {
   padding: 2px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
 /* Style for the search title */
@@ -68,18 +63,17 @@ header {
   margin: 0; /* Remove margin to center vertically */
 }
 
+
 /* Style for the search subtitle */
 .search-subtitle {
   font-size: 18px;
   color: #6886ff; /* Adjust the color as needed */
-  margin: 0; /* Remove margin to center vertically */
 }
 
 /* Navigation styles */
 nav ul {
   list-style-type: none;
   display: flex;
-
   justify-content: center; /* Center the categories horizontally */
   align-items: center; /* Center the categories vertically */
 }
@@ -118,7 +112,7 @@ main {
 
 /* Heading styles */
 h1, h2 {
-  text-align: center;
+  text-align: left;
 }
 
 /* Styles for the Maps page */
@@ -174,8 +168,9 @@ nav.maps-page ul li a {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #333333;
+  background: #fff;
   transition: opacity 0.75s, visibility 0.75s;
+  /* footer is ivisible when the loader is visible */
 }
 
 .loader--hidden {
@@ -242,12 +237,13 @@ a {
   -webkit-text-decoration-skip: objects;
 }
 
+
+
 a:link, a:visited {
   text-decoration: none;
 }
 
-
-
+/* hamburger menu appears over everything */
 .hamburger{
   padding: 10px 15px; /* Add some padding around the bars */
   display: none;

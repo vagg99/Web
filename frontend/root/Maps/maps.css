@@ -291,3 +291,54 @@ select {
   top: 100%;
 }
 
+
+/* ----------------------------------------------- */
+
+/* CSS to style the scale control */
+
+.toggle-switch-scale {
+  width: 300px; /* Adjust the width to your desired value */
+  height: 24px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #40e0d0;
+  border-radius: 17px;
+  outline: none;
+  opacity: 1;
+  transition: background 0.4s;
+  cursor: pointer;
+}
+
+.toggle-switch-scale::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  border: 2px solid #40e0d0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.toggle-switch-scale::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.toggle-switch-scale::-ms-thumb {
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.toggle-switch-scale:checked {
+  background: red;
+}
+

@@ -119,7 +119,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  document.getElementById('ellipseScale').addEventListener('input', updateEllipse);
+  const scaleControl = document.getElementById('ellipseScale');
+  if (userIsAdmin) {
+    scaleControl.addEventListener('input', updateEllipse);
+  } else {
+    scaleControl.style.display = 'none';
+  }
 
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);

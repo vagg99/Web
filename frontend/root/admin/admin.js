@@ -184,6 +184,8 @@ function displayPlayers(page, players) {
   const endIndex = startIndex + playersPerPage;
   const playersToShow = players.slice(startIndex, endIndex);
 
+
+
   playersToShow.forEach((player, index) => {
       const listItem = document.createElement('li');
       listItem.innerHTML = `
@@ -235,12 +237,14 @@ let stock = {};
 
 //GRAPH 1
 let Chart1 = null;
-async function generateGraph() {
-  const year = parseInt(document.getElementById('year').value);
-  const month = parseInt(document.getElementById('month').value);
 
-  if (!year || !month){
-    alert("CHART1 : Παρακαλώ επιλέξτε έτος και μήνα");
+
+// Function to generate the graph for the first chart
+async function generateGraph() {
+  const selectedDate = document.getElementById('datePicker').value;
+  
+  if (!selectedDate) {
+    alert("Παρακαλώ επιλέξτε μια ημερομηνία.");
     return;
   }
 
@@ -249,49 +253,52 @@ async function generateGraph() {
     Chart1.destroy();
   }
 
+  const year = selectedDate.split('-')[0];
+  const month = selectedDate.split('-')[1];
+
   const filteredStock = stock.filter(item => {
-      const itemDate = new Date(item.discount.date);
-      return itemDate.getFullYear() === year && itemDate.getMonth() === (month - 1);
+    const itemDate = new Date(item.discount.date);
+    return itemDate.getFullYear() === parseInt(year) && itemDate.getMonth() === parseInt(month) - 1;
   });
 
   const daysInMonth = new Date(year, month, 0).getDate();
   const discountCounts = new Array(daysInMonth).fill(0);
 
   filteredStock.forEach(item => {
-      const itemDate = new Date(item.discount.date);
-      const day = itemDate.getDate();
-      discountCounts[day - 1]++;
+    const itemDate = new Date(item.discount.date);
+    const day = itemDate.getDate();
+    discountCounts[day - 1]++;
   });
 
   const ctx = document.getElementById('discountGraph').getContext('2d');
   Chart1 = new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: Array.from({ length: daysInMonth }, (_, i) => i + 1),
-          datasets: [{
-              label: 'Discount Counts',
-              data: discountCounts,
-              backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)'],
-              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
-              borderWidth: 1
-          }]
-      },
-      options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1,
-                    callback: function(value, index, values) {
-                        // Ensure that only integer values are displayed
-                        if (Number.isInteger(value)) {
-                            return value;
-                        }
-                    }
-                }
+    type: 'bar',
+    data: {
+      labels: Array.from({ length: daysInMonth }, (_, i) => i + 1),
+      datasets: [{
+        label: 'Discount Counts',
+        data: discountCounts,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1,
+            callback: function(value, index, values) {
+              // Ensure that only integer values are displayed
+              if (Number.isInteger(value)) {
+                return value;
+              }
             }
+          }
         }
       }
+    }
   });
 }
 

@@ -56,8 +56,13 @@ select {
   color: #007bff;
 }
 
+/*style for the delete button*/
+.leaflet-popup-content .delete-discount-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
 
-/* Style for Υποβολή Προσφοράς */
 .leaflet-popup-content button {
   display: inline;
   background-color: #007bff;
@@ -70,6 +75,7 @@ select {
   transition: background-color 0.3s ease-in-out;
   text-align: center; /* Center-align text */
 }
+
 
 /* Hover effect for buttons */
 .leaflet-popup-content button:hover {
@@ -186,6 +192,12 @@ select {
   cursor: not-allowed;
 }
 
+/* hover υποβοβλή logged out */
+#submit-discount-button.clickable-btn.logged-out {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 /* Style for the scrollable list */
 .popup-item-scroll-list {
   max-height: 200px;
@@ -254,7 +266,7 @@ select {
 
 /* Style for delete button */
 .delete-discount-button {
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
 }

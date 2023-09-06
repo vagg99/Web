@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
-    <!-- Add Chart.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>   <!-- Chart.js library -->
 </head>
 <body>
     <header>
@@ -91,23 +90,18 @@
     
     <div id="uploadMessage" style="display: none;"></div>
 
-
         <!-- Graph 1 Container -->
         <div class="graphs-container">
             <h2>Γράφημα 1</h2>
             <div>
-                <label for="year">Επιλέξτε έτος:</label>
-                <input type="number" id="year" min="2000" max="2099">
-            </div>
-            <div>
-                <label for="month">Επιλέξτε μήνα:</label>
-                <input type="number" id="month" min="1" max="12">
+                <label for="datePicker">Επιλέξτε έτος και μήνα:</label>
+                <input type="month" id="datePicker" value="2023-09">
             </div>
             <div>
                 <button id="generate-graph-button">Δημιουργία γραφήματος</button>
             </div>
             <canvas id="discountGraph"></canvas>
-        </div>
+        </div>     
 
         <!-- Graph 2 Container -->
         <div class="graphs-container">
@@ -132,11 +126,11 @@
 
         <!-- Leaderboard -->
         <div class="leaderboard-container">
-            <h2>Leaderboard</h2>
+            <h2 id="leaderboard-title">Leaderboard</h2>    
             <h5 id="leaderboard-header"></h5>
             <h5 id="leaderboard-header">
                 <span class="item-user">Χρήστης</span>
-                <span class="item-month-tokens">Τωρινά Tokens</span>
+                <span class="item-month-tokens">Μηνιαία Tokens</span>
                 <span class="item-tokens=">Συνολικά Tokens</span>
                 <span class="item-points">Συνολικοί Πόντοι</span>
             </h5>

@@ -336,7 +336,6 @@ function createPopupContent(data, shopName, distance, shopId) {
     output += "</div>";
   }
   
-
   output += `</div>`; // Close popup-item-scroll-list div
 
   // Αξιολόγηση Προσφορών

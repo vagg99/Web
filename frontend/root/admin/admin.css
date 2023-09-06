@@ -92,14 +92,12 @@
   color: #333;
 }
 
-.graphs-container input[type="number"],
-.graphs-container select {
+.graphs-container input[type="date"] {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
-
 /* Styles for chart buttons */
 .graphs-container .button-container {
   display: absolute; /* Display buttons horizontally */
@@ -127,23 +125,53 @@ canvas {
   height: auto;
 }
 
-/* Styles for leaderboard container */
+/* calendar stuff */
+
+
+/* Leaderboard container styles */
 .leaderboard-container {
-  background-color: #fff;
+  background-color: #f5f5f5;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 20px 0;
   text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+/* Leaderboard title styles */
+.leaderboard-container h2 {
+  font-size: 32px;
+  color: #0e3dc0;
+  margin-bottom: 30px;
+  display: inline-block;
+}
+
+/* leaderboard column title styles */
+.leaderboard-container h5 {
+  font-size: 18px;
+  color: #101627;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 /* Leaderboard header styles */
 .leaderboard-header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
   align-items: center;
   font-weight: bold;
   margin-bottom: 10px;
+  background-color: #0e3dc0;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .leaderboard-header .item {
@@ -162,59 +190,47 @@ canvas {
 }
 
 #leaderboard-list li {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr; /* Create four equal columns */
+  gap: 10px; /* Add space between columns */
   padding: 10px;
   background-color: #f0f0f0;
   margin-bottom: 10px;
   border-radius: 5px;
-  align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
 }
 
+/* Alternate row background color */
 #leaderboard-list li:nth-child(even) {
-  background-color: #e0e0e0;
+  background-color: #f5f5f5;
 }
 
+/* Leaderboard item styles */
+.column-item {
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  padding: 8px;
+  color: #333;
+}
 
-/* Styles for leaderboard item user */
-.item-user {
-  flex: 1;
-  padding: 2px;
+/* Hover effect for leaderboard rows */
+#leaderboard-list li {
+  transition: transform 0.3s, background-color 0.3s, color 0.3s;
+}
+
+#leaderboard-list li:hover {
+  background-color: #7293ec;
   color: #fff;
-  border-radius: 5px;
-  margin: 0 5px;
+  cursor: pointer;
+  transform: scale(1.02); /* Increase size on hover */
 }
 
-/* Styles for leaderboard item month tokens */
-.item-month-tokens {
-  flex: 1;
-  padding: 10px;
-
-  color: #fff;
-  border-radius: 5px;
-  margin: 0 5px;
-}
-
-/* Styles for leaderboard item total tokens */
-.item-tokens {
-  flex: 1;
-  padding: 10px;
-
-  color: #fff;
-  border-radius: 5px;
-  margin: 0 5px;
-}
-
-/* Styles for leaderboard item points */
-.item-points {
-  flex: 1;
-  padding: 10px;
-
-  color: #fff;
-  border-radius: 5px;
-  margin: 0 5px;
-}
 
 /* Pagination styles */
 .pagination {

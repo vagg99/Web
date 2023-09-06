@@ -169,8 +169,6 @@ nav.maps-page ul li a {
   align-items: center;
   justify-content: center;
   background: #fff;
-  transition: opacity 0.75s, visibility 0.75s;
-  /* footer is ivisible when the loader is visible */
 }
 
 .loader--hidden {

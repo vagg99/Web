@@ -13,7 +13,7 @@ async function handleDiscountSubmission(req, res) {
         const users = await getData('users');
         for (user in users) {
           if (users[user].username === req.session.user.username) {
-            userId = users[user]._id;
+            userId = users[user]._id.toString();
             break;
           }
         }

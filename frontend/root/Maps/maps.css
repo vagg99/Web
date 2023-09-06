@@ -297,16 +297,20 @@ select {
   align-items: center;
 }
 
-.sticky-footer {
-  padding-top: 100px;
-  position: fixed;
-  top: 100%;
-}
-
-
 /* ----------------------------------------------- */
 
 /* CSS to style the scale control */
+
+/* Add this new style for positioning the space element */
+section {
+  padding: 10px 20px; 
+  display: flex;
+  align-items: center;
+}
+
+.space {
+  flex-grow: 1; /* This will make the space element take up the remaining space on the right */
+}
 
 .toggle-switch-scale {
   width: 300px; /* Adjust the width to your desired value */
@@ -354,5 +358,9 @@ select {
   background: red;
 }
 
-
+/* footer */
+.sticky-footer {
+  position: sticky;
+  top: 100%;
+}
 

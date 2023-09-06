@@ -301,6 +301,17 @@ select {
 
 /* CSS to style the scale control */
 
+/* Add this new style for positioning the space element */
+section {
+  padding: 10px 20px; 
+  display: flex;
+  align-items: center;
+}
+
+.space {
+  flex-grow: 1; /* This will make the space element take up the remaining space on the right */
+}
+
 .toggle-switch-scale {
   width: 300px; /* Adjust the width to your desired value */
   height: 24px;

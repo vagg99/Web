@@ -141,7 +141,7 @@ function getUserLocation() {
         const { latitude, longitude } = position.coords;
         userLatitude = latitude;
         userLongitude = longitude;
-        map.setView([latitude, longitude], 15); // Set the view to user's location with zoom level 15
+        map.setView([latitude, longitude], 17); // Set the view to user's location with zoom level 17 (next smaller scale is 16)
         updateEllipse();
         userLocationMarker = L.marker([latitude, longitude] , { icon: CurrectLocationIcon })
           .addTo(map)

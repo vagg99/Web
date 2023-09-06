@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
-
   // hamburger menu
   const hamburger = document.querySelector(".hamburger");
   const navMenu = document.querySelector(".nav-menu");
   const loader = document.querySelector(".loader");
-
 
   hamburger.addEventListener("click", () => {
     hamburger.classList.toggle("active");
@@ -184,8 +182,6 @@ function displayPlayers(page, players) {
   const endIndex = startIndex + playersPerPage;
   const playersToShow = players.slice(startIndex, endIndex);
 
-
-
   playersToShow.forEach((player, index) => {
       const listItem = document.createElement('li');
       listItem.innerHTML = `
@@ -196,8 +192,6 @@ function displayPlayers(page, players) {
       `;
       leaderboardList.appendChild(listItem);
   });
-
-  
 }
 
 function displayPagination(length) {

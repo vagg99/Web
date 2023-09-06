@@ -1,0 +1,13 @@
+[
+    {
+      "_id": "54e9f57d3ea29c27c5cbab2b",
+      "store_id": "354449389",
+      "item_id": "1",
+      "in_stock": true,
+      "price": 43,
+      "on_discount": false,
+      "discount": {},
+      "user_id": "64ccdd565a5bb46dd07e5148",
+      "category": "8016e637b54241f8ad242ed1699bf2da", "subcategory" : "7e86994327f64e3ca967c09b5803966a"
+    }
+]

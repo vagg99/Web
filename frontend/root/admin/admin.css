@@ -8,11 +8,11 @@
 
 
 .upload-button {
-  background-color: #FF5733; /* Orange */
+  background-color: #3377FF;  /* Orange */
 }
 
 .delete-button {
-  background-color: #3377FF; /* Blue */
+  background-color: #FF5733; /* Blue */
 }
 
 /* Green */
@@ -20,11 +20,29 @@
   background-color: #33FF33;
 }
 
-/* Style for the file input label (Επιλογή αρχείου) */
-.choose-file-button {
+.file-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Style for the file input label (Επιλογή αρχείου) */
+.choose-file-button {
+  display: inline-block;
   background-color: #339cff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: auto; /* Let the width adjust to content */
+}
+
+/* Add a hover effect for the button */
+.choose-file-button:hover {
+  background-color: #4fa2ff; /* Adjust the color on hover */
 }
 
 .upload-button,

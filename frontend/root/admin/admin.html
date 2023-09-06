@@ -54,11 +54,12 @@
         <!-- Upload files -->
         <div class="file-container">
           <form action="/upload" method="post" enctype="multipart/form-data">
+            <!-- Add the hidden file input and wrap it inside a label -->
             <label for="jsonFileInput" class="choose-file-button">
-              <i class="fas fa-file-upload"></i> Επιλογή αρχείου
-          </label>
-          <input type="file" name="jsonFile" id="jsonFileInput">
-          </form>
+                <i class="fas fa-file-upload"></i> Επιλογή αρχείου
+            </label>
+            <input type="file" name="jsonFile" id="jsonFileInput" style="display: none;">
+        </form>
       </div>
   
       <div class="button-container">

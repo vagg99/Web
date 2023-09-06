@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
+  // Get references to the loader elements
+  const loaderContainer = document.getElementById('loader-container');
+  const loader = document.getElementById('loader');
 
   const params = new URLSearchParams(window.location.search);
   const shopId = params.get('shopId');
@@ -19,6 +22,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
 
   console.log(items.products);
+
+  // Hide the loader by fading it out
+  //loaderContainer.style.opacity = 0;
 
 });
 

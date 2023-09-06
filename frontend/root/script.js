@@ -44,8 +44,12 @@ window.addEventListener("load", async () => {
 });
 
 async function LoadDataInTheBeginning() {
-  await getAllStores();
-  await getAllDiscounts();
+  let StoresWithDiscounts = {};
+  const stores = await getAllStores();
+  const discounts = await getAllDiscounts();
+  await getCategories();
+  await displayAllStoresWithDiscounts(stores,discounts);
+  await getUserData();
 
   async function getAllDiscounts(){
     const response = await fetch('http://localhost:3000/getDiscountedItems?shopId=all');
@@ -57,6 +61,43 @@ async function LoadDataInTheBeginning() {
     const response = await fetch('http://localhost:3000/stores');
     const stores = await response.json();
     return stores;
+  }
+  
+  async function getAllDiscountsInShop(id){
+    const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
+    const discounts = await response.json();
+    return discounts;
+  }
+
+  async function displayAllStoresWithDiscounts(stores,discounts){
+
+    discounts.forEach(discount => {
+      StoresWithDiscounts[discount.store_id] = discount;
+    });
+  
+    stores.forEach(async store => {
+      const { id } = store;
+      if (StoresWithDiscounts[id]) {
+        await getAllDiscountsInShop(id);
+        await getItemsInStock(id);
+      }
+    });
+  }
+
+  async function getUserData(){
+    await fetch("http://localhost:3000/leaderboard");
+  }
+
+  async function getCategories() {
+    const response = await fetch('http://localhost:3000/getSubcategories');
+    const categories = await response.json();
+    return categories;
+  }
+
+  async function getItemsInStock(shopId) {
+    const response = await fetch(`http://localhost:3000/getStock?shopId=${shopId}`);
+    const discounts = await response.json();
+    return discounts;
   }
 }
 

@@ -92,37 +92,14 @@ function filterProducts(query) {
     return filteredProducts;
 }
 
-// Function to display search results
-function displayResults(results) {
-    productResults.innerHTML = '';
-    results.forEach(product => {
-    const productDiv = document.createElement('div');
-    productDiv.innerHTML = `
-            <img src="${product.item.img}" alt="${product.item.name}" width="100">
-            <p>${product.item.name}</p>
-            ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
-            <p>${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
-            <p>Στο Μαγαζί ${product.store.tags.name}</p>
-            <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
-            <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
-            <button class="submit-button">Υποβολή</button>
-    `;
-    productDiv.querySelector('.submit-button').addEventListener('click', () => {
-        const priceInput = productDiv.querySelector('input[type="number"]');
-        const price = priceInput.value;
-        if (price !== '') {
-          submitDiscount(product._id, price);
-        }
-    });
-    productResults.appendChild(productDiv);
-    });
-}
-
 // Event listener for search input
 searchInput.addEventListener('input', () => {
     const query = searchInput.value;
     const filteredProducts = filterProducts(query);
-    displayResults(filteredProducts);
+    productResults.innerHTML = '';
+    filteredProducts.forEach(product => {
+      displaySelectedProduct(product);
+    });
 });
 
 //Same functionality as above, but with the dropdown list
@@ -131,11 +108,11 @@ const productDropdown = document.getElementById('product');
 productDropdown.addEventListener('change', () => {
   const selectedProductId = productDropdown.value;
   const selectedProduct = items.products.find(product => product.item.id === selectedProductId);
+  productResults.innerHTML = '';
   displaySelectedProduct(selectedProduct);
 });
 
 function displaySelectedProduct(product) {
-  productResults.innerHTML = '';
   const productDiv = document.createElement('div');
   productDiv.innerHTML = `
           <img src="${product.item.img}" alt="${product.item.name}" width="100">

@@ -69,8 +69,9 @@ async function getPointsforSubmission(userId,pointsToAdd){
 }
 
 // 5_a_i and 5_a_ii rules
-function twenty_percent_smaller(newprice,oldprice){
-    return ((newprice / oldprice) < 0.8);
+function twenty_percent_smaller(newprice, oldprice) {
+  const twentyPercentOfOldPrice = 0.2 * oldprice;
+  return (newprice <= oldprice - twentyPercentOfOldPrice)
 }
 
 module.exports = {

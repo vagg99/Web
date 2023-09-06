@@ -10,7 +10,7 @@ async function handleDiscountSubmission(req, res) {
     try {
       if (req.session.user) {
         let { productId, newprice , userId } = req.body;
-        const users = getData('users');
+        const users = await getData('users');
         for (user in users) {
           if (users[user].username === req.session.user.username) {
             userId = users[user]._id;

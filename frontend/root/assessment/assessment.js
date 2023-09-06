@@ -161,7 +161,7 @@ function displayProduct(item, productList, user) {
     });
 
     // if user has liked or disliked this product, mark the button as active
-    if (user && user.likesDislikes) {
+    if (user && user.likesDislikes && Object.keys(user.likesDislikes).length) {
         if (user.likesDislikes.likedDiscounts.includes(DiscountId)) {
             likeButton.classList.add("active");
         } else if (user.likesDislikes.dislikedDiscounts.includes(DiscountId)) {

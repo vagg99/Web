@@ -120,8 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const scaleControl = document.getElementById('ellipseScale');
-  const scaleToggle = document.getElementById('scaleToggle');
-  scaleToggle.addEventListener('change', handleCheckboxChange);
+  scaleControl.addEventListener('input', updateEllipse);
 
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
@@ -207,19 +206,7 @@ function updateEllipse() {
     dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
   }).addTo(map);
 }
-function handleCheckboxChange() {
-  const scaleControl = document.getElementById('ellipseScale');
-  const scaleToggle = document.getElementById('scaleToggle');
 
-  if (scaleToggle.checked) {
-    // Checkbox is checked (ticked), perform your action here
-    scaleControl.classList.remove('hidden'); // Show the scale control
-    scaleControl.addEventListener('input', updateEllipse);
-  } else {
-    // Checkbox is unchecked, perform your action here
-    scaleControl.classList.add('hidden'); // Hide the scale control
-  }
-}
 
 // Function to calculate the Haversine distance between two points
 function calculateHaversineDistance(point1, point2) {
@@ -337,9 +324,12 @@ async function onMarkerClick(marker,e,id,shopName){
         const deleteDiscountButton = document.querySelector(`#delete-discount-${discountedItems[i]._id}`);
         deleteDiscountButton.addEventListener('click', async () => {
           const discountContainer = document.querySelector(`#discount_${discountedItems[i]._id}`);
+          const title = document.querySelector('.popup-title');
           if (discountContainer) {
             discountContainer.style.display = 'none';
-            console.log('sending delete request...')
+            console.log('sending delete request...');
+            let length = discountedItems.length - 1;
+            title.innerHTML = `Βρέθηκ${length>1?"αν":"ε"} ${length} Προσφορ${length>1?"ές":"ά"}!`;
           }
           try {
             const response = await fetch(`http://localhost:3000/deleteDiscount?discountId=${encodeURIComponent(discountedItems[i]._id)}`, {

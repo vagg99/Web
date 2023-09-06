@@ -297,13 +297,6 @@ select {
   align-items: center;
 }
 
-.sticky-footer {
-  padding-top: 100px;
-  position: fixed;
-  top: 100%;
-}
-
-
 /* ----------------------------------------------- */
 
 /* CSS to style the scale control */
@@ -354,5 +347,9 @@ select {
   background: red;
 }
 
-
+/* footer */
+.sticky-footer {
+  position: sticky;
+  top: 100%;
+}
 

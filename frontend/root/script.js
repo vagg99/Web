@@ -47,6 +47,7 @@ async function LoadDataInTheBeginning() {
   let StoresWithDiscounts = {};
   const stores = await getAllStores();
   const discounts = await getAllDiscounts();
+  await getCategories();
   await displayAllStoresWithDiscounts(stores,discounts);
   await getUserData();
 
@@ -78,12 +79,25 @@ async function LoadDataInTheBeginning() {
       const { id } = store;
       if (StoresWithDiscounts[id]) {
         await getAllDiscountsInShop(id);
+        await getItemsInStock(id);
       }
     });
   }
 
   async function getUserData(){
     await fetch("http://localhost:3000/leaderboard");
+  }
+
+  async function getCategories() {
+    const response = await fetch('http://localhost:3000/getSubcategories');
+    const categories = await response.json();
+    return categories;
+  }
+
+  async function getItemsInStock(shopId) {
+    const response = await fetch(`http://localhost:3000/getStock?shopId=${shopId}`);
+    const discounts = await response.json();
+    return discounts;
   }
 }
 

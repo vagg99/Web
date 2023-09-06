@@ -207,80 +207,85 @@ document.addEventListener('DOMContentLoaded', async () => {
         const history = document.getElementById("history");
 
         // user's posted discounts
-        // Create the container for the submitted discounts section
-        const submittedDiscountsContainer = document.createElement("div");
-        submittedDiscountsContainer.innerHTML = `<label for="discounts-submited">Προσφορές που έχεις υποβάλει εσύ</label><ul id="discounts-submited"></ul>`;
-        history.appendChild(submittedDiscountsContainer);
+        if (userPostedItems.length > 0) {
+            // Create the container for the submitted discounts section
+            const submittedDiscountsContainer = document.createElement("div");
+            submittedDiscountsContainer.innerHTML = `<label for="discounts-submited">Προσφορές που έχεις υποβάλει εσύ</label><ul id="discounts-submited"></ul>`;
+            history.appendChild(submittedDiscountsContainer);
 
-        const discountsSubmitedList = document.getElementById("discounts-submited");
-        let output = "";
-        for (product of userPostedItems) {
-            let name = product.name;
-            let discount_price = product.discount.discount_price;
-            let date = product.discount.date;
-            let image = product.img;
-            let in_stock = product.in_stock;
+            const discountsSubmitedList = document.getElementById("discounts-submited");
+            let output = "";
+            for (product of userPostedItems) {
+                let name = product.name;
+                let discount_price = product.discount.discount_price;
+                let date = product.discount.date;
+                let image = product.img;
+                let in_stock = product.in_stock;
 
-            output += `
-                <li class="submitted-product-item">
-                <div class="submitted-product-image">
-                    <img src="${image}" alt="${name}" class="product-img">
-                </div>
-                    <div class="submitted-product-details">
-                        <span class="submitted-product-name">${name}</span>
-                        <span class="submitted-product-price">${discount_price}€</span>
-                        <span class="submitted-product-date">posted on ${date}</span>
-                    </div>
-                </li>
-            `;
-        }
-        discountsSubmitedList.innerHTML = output;
-
-        // Create the container for the likes/dislikes section
-        const likesDislikesContainer = document.createElement("div");
-        likesDislikesContainer.innerHTML = `<label for="discounts-liked-disliked">Likes και Dislikes που έχεις κάνει</label><ul id="discounts-liked-disliked"></ul>`;
-        history.appendChild(likesDislikesContainer);
-
-        const likedDislikedDiscountsList = document.getElementById("discounts-liked-disliked");
-        for (d in userLikedItems) {
-            userLikedItems[d].liked = true;
-            userLikedItems[d].disliked = false;
-        }
-        for (d in userDislikedItems) {
-            userDislikedItems[d].liked = false;
-            userDislikedItems[d].disliked = true;
-        }
-        // likes and dislikes that the user has made
-        const likedDislikedDiscounts = userLikedItems.concat(userDislikedItems);
-        output = "";
-        for (product of likedDislikedDiscounts) {
-            let name = product.name;
-            let discount_price = product.discount.discount_price;
-            let date = product.discount.date;
-            let image = product.img;
-            let in_stock = product.in_stock;
-            let liked = product.liked;
-            let disliked = product.disliked;
-            let op = product.username; // op = Original Poster , reddit slang
-
-            output += `
-                <li class="product-item">
-                    <div class="product-image">
+                output += `
+                    <li class="submitted-product-item">
+                    <div class="submitted-product-image">
                         <img src="${image}" alt="${name}" class="product-img">
                     </div>
-                    <div class="product-details">
-                        <span class="product-name">${name}</span>
-                        <span class="product-price">${discount_price}€</span>
-                        <span class="product-date">posted on ${date}</span>
-                        <span class="product-op">προσφορά by ${op}</span>
-                    </div>
-                    <div class="product-actions">
-                        <span class="product-liked">${liked ? "Liked" : "Disliked"}</span>
-                    </div>
-                </li>
-            `;
+                        <div class="submitted-product-details">
+                            <span class="submitted-product-name">${name}</span>
+                            <span class="submitted-product-price">${discount_price}€</span>
+                            <span class="submitted-product-date">posted on ${date}</span>
+                        </div>
+                    </li>
+                `;
+            }
+            discountsSubmitedList.innerHTML = output;
         }
-        likedDislikedDiscountsList.innerHTML = output;
+
+        // likes and dislikes that the user has made
+        if (userLikedItems > 0 || userDislikedItems > 0) {
+            // Create the container for the likes/dislikes section
+            const likesDislikesContainer = document.createElement("div");
+            likesDislikesContainer.innerHTML = `<label for="discounts-liked-disliked">Likes και Dislikes που έχεις κάνει</label><ul id="discounts-liked-disliked"></ul>`;
+            history.appendChild(likesDislikesContainer);
+
+            const likedDislikedDiscountsList = document.getElementById("discounts-liked-disliked");
+            for (d in userLikedItems) {
+                userLikedItems[d].liked = true;
+                userLikedItems[d].disliked = false;
+            }
+            for (d in userDislikedItems) {
+                userDislikedItems[d].liked = false;
+                userDislikedItems[d].disliked = true;
+            }
+            
+            const likedDislikedDiscounts = userLikedItems.concat(userDislikedItems);
+            output = "";
+            for (product of likedDislikedDiscounts) {
+                let name = product.name;
+                let discount_price = product.discount.discount_price;
+                let date = product.discount.date;
+                let image = product.img;
+                let in_stock = product.in_stock;
+                let liked = product.liked;
+                let disliked = product.disliked;
+                let op = product.username; // op = Original Poster , reddit slang
+
+                output += `
+                    <li class="product-item">
+                        <div class="product-image">
+                            <img src="${image}" alt="${name}" class="product-img">
+                        </div>
+                        <div class="product-details">
+                            <span class="product-name">${name}</span>
+                            <span class="product-price">${discount_price}€</span>
+                            <span class="product-date">posted on ${date}</span>
+                            <span class="product-op">προσφορά by ${op}</span>
+                        </div>
+                        <div class="product-actions">
+                            <span class="product-liked">${liked ? "Liked" : "Disliked"}</span>
+                        </div>
+                    </li>
+                `;
+            }
+            likedDislikedDiscountsList.innerHTML = output;
+        }
 
         if (userData.points) {
             monthlyPoints.value = userData.points.monthly;

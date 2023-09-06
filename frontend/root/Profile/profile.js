@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // likes and dislikes that the user has made
-        if (userLikedItems > 0 || userDislikedItems > 0) {
+        if (userLikedItems.length > 0 || userDislikedItems.length > 0) {
             // Create the container for the likes/dislikes section
             const likesDislikesContainer = document.createElement("div");
             likesDislikesContainer.innerHTML = `<label for="discounts-liked-disliked">Likes και Dislikes που έχεις κάνει</label><ul id="discounts-liked-disliked"></ul>`;

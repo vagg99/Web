@@ -1,63 +1,240 @@
-/* CSS Reset */
+/* Submission CSS */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: .4px;
 }
 
-.loader-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white overlay */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* Ensure it appears on top of other content */
-  opacity: 1; /* Initially fully visible */
-  transition: opacity 0.3s ease-in-out; /* Smooth fade transition */
-}
-
-.loader {
-  text-align: center;
-}
-
-.container-select, .container-results {
+/* Container styles for forms and products */
+.container-select,
+.container-results {
   max-width: 400px;
   margin: 15px auto;
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
+  border-radius: 10px; /* Increase border radius for a more modern look */
+  background-color: #f9f9f9; /* Light background color */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Slightly increased shadow for depth */
 }
+
 .container-results {
   margin-bottom: 50px;
 }
 
+/* Shop Title Container Styles */
+#shopTitle {
+  text-align: center;
+  font-size: 24px;
+  padding: 20px;
+  background: linear-gradient(135deg, #1e88e5, #00acc1);
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  animation: pulse 2s ease 3; /* Animation limited to 3 iterations */
+}
+
+/* Animation Keyframes */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Search container styles */
 .search {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
   margin-top: 30px;
 }
 
-h3 {
-  margin-bottom: 10px;
-}
-
+/* Label styles for form elements */
 label {
   display: block;
-  margin-left: 10px ;
+  margin-left: 10px;
+  font-weight: bold; /* Add some weight to labels for better visibility */
 }
 
-select {
-  padding: 5px;
-  display: block;
-  margin: 3px 0 10px 10px;
+/* Select input styles */
+select,
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: center; /* Center the text horizontally */
+  appearance: none; /* Remove default arrow on some browsers */
 }
 
-input{
-  width: 185px;
+/* Style for the dropdown arrow icon */
+select::after {
+  content: '\25BC'; /* Unicode character for a down-pointing triangle */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #555; /* Color of the dropdown arrow */
+  pointer-events: none; /* Prevent clicking on the arrow */
 }
+
+/* Style for the dropdown list options */
+select option {
+  text-align: center; /* Center the text horizontally within the options */
+}
+
+/* Style for the hover effect on options */
+select option:hover {
+  background-color: #ddd; /* Add a subtle hover background color */
+}
+
+/* Style for the focused option */
+select option:focus {
+  outline: none; /* Remove the default focus outline */
+  background-color: #f0f0f0; /* Add a background color when focused */
+}
+
+/* Button styles */
+button.submit-button {
+  background-color: #0e3dc0;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.submit-button:hover {
+  background-color: #0c36b5;
+}
+
+
+/* Styles for the result title */
+.result-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+
+/* Product result styles */
+#productResults {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.product-item {
+  flex-basis: calc(100% - 10px); /* Adjust the width of product items to make it more square */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.product-item:hover {
+  transform: scale(1.015); /* Add a slight scale effect on hover */
+}
+
+.product-item img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Styling for product name */
+.product-name {
+  font-weight: bold;
+  color: #333;
+  margin: 5px 0;
+}
+
+/* Styling for discount label */
+.discount-label {
+  color: #e74c3c; /* Red color for discounts */
+  margin: 5px 0;
+}
+
+/* Styling for product price */
+.product-price {
+  font-weight: bold;
+  color: #333;
+  margin: 5px 0;
+}
+
+/* Styling for store name */
+.store-name {
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Styling for availability */
+.availability {
+  font-weight: bold;
+  color: #333;
+  margin: 5px 0;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.price-input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: center;
+  appearance: none;
+}
+
+.submit-button {
+  background-color: #466eda;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%; /* Make the button take up the full width of its container */
+  margin-top: 10px; /* Add margin for separation */
+}
+
+.submit-button:hover {
+  background-color: #062581;
+}
+
 
 .sticky-footer {
   position: sticky;

@@ -1,13 +1,56 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  // Get references to the loader elements
-  const loaderContainer = document.getElementById('loader-container');
-  const loader = document.getElementById('loader');
 
+  const searchInput = document.getElementById('searchInput');
   const params = new URLSearchParams(window.location.search);
   const shopId = params.get('shopId');
 
   const shopTitle = document.getElementById("shopTitle");
   //shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
+
+  const categorySelect = document.getElementById("category");
+  const subcategoryContainer = document.getElementById("subcategory-container");
+  const subcategorySelect = document.getElementById("subcategory");
+  const productContainer = document.getElementById("product-container");
+  const productSelect = document.getElementById("product");
+
+  // Function to clear placeholder text on focus "Αναζήτηση προϊόντος..."
+  searchInput.addEventListener('focus', () => {
+    searchInput.placeholder = '';
+  });
+
+  // Function to restore placeholder text on blur (when focus is lost)
+  searchInput.addEventListener('blur', () => {
+    searchInput.placeholder = 'Αναζήτηση προϊόντος...';
+  });
+
+  // Event listener for category selection
+  categorySelect.addEventListener("change", () => {
+    const selectedCategoryId = categorySelect.value;
+
+    if (selectedCategoryId !== "0") {
+      // Show the subcategory container and populate subcategories
+      subcategoryContainer.style.display = "block";
+      populateSubcategories(selectedCategoryId);
+    } else {
+      // Hide the subcategory and product containers
+      subcategoryContainer.style.display = "none";
+      productContainer.style.display = "none";
+    }
+  });
+
+  // Event listener for subcategory selection
+  subcategorySelect.addEventListener("change", () => {
+    const selectedSubcategoryId = subcategorySelect.value;
+
+    if (selectedSubcategoryId !== "0") {
+      // Show the product container and populate products
+      productContainer.style.display = "block";
+      populateProducts(selectedSubcategoryId);
+    } else {
+      // Hide the product container
+      productContainer.style.display = "none";
+    }
+  });
 
   items = { products : [{id:"1337",name:"no product"}], categories : [] };
 
@@ -120,15 +163,16 @@ productDropdown.addEventListener('change', () => {
 
 function displaySelectedProduct(product) {
   const productDiv = document.createElement('div');
+  productDiv.classList.add('product-item');
   productDiv.innerHTML = `
-          <img src="${product.item.img}" alt="${product.item.name}" width="100">
-          <p>${product.item.name}</p>
-          ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
-          <p>${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
-          <p>Στο Μαγαζί ${product.store.tags.name}</p>
-          <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
-          <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
-          <button class="submit-button">Υποβολή</button>
+    <img src="${product.item.img}" alt="${product.item.name}" width="100">
+    <p class="product-name">${product.item.name}</p>
+    ${product.on_discount ? "<p class='discount-label'>Σε προσφορά</p>" : ""}
+    <p class="product-price">${product.on_discount ? ("Απο <s>"+product.price+"</s> - μόνο : "+product.discount.discount_price) : product.price}€ !</p>
+    <p class="store-name">Στο Μαγαζί ${product.store.tags.name}</p>
+    <p class="availability">Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
+    <input class="price-input" type="text" placeholder="Εισάγετε τιμή προσφοράς">
+    <button class="submit-button">Υποβολή</button>
   `;
   productDiv.querySelector('.submit-button').addEventListener('click', () => {
       const priceInput = productDiv.querySelector('input[type="number"]');
@@ -139,6 +183,7 @@ function displaySelectedProduct(product) {
   });
   productResults.appendChild(productDiv);
 }
+
 
 async function getCategories() {
   const response = await fetch('http://localhost:3000/getSubcategories');

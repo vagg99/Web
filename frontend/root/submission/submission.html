@@ -41,41 +41,57 @@
   </header>
 
   <main>
-    <h1>Υποβολή προσφοράς</h1>
-    <h2 id="shopTitle">Στο μαγαζί loading...</h2>
-    <div class="container-select">
-      <h3>Επιλέξτε κατηγορία, υποκατηγορία και προϊόν</h3>
-      <div class="dropdown">
-        <label for="category">Κατηγορία:</label>
-        <select id="category" onchange="populateSubcategories()">
-          <option value="0">Επιλέξτε κατηγορία</option>
-        </select>
-      </div>
-    
-      <div class="dropdown">
-        <label for="subcategory">Υποκατηγορία:</label>
-        <select id="subcategory" onchange="populateProducts()">
-          <option value="0">Επιλέξτε υποκατηγορία</option>
-        </select>
-      </div>
-    
-      <div class="dropdownProd">
-        <label for="product">Προϊόντα:</label>
-        <select id="product">
-          <option value="0">Επιλέξτε προϊόν</option>
-        </select>
-      </div>
+    <h1 class="main-title" id="mainTitle">Υποβολή προσφοράς</h1>
+    <h2 class="secondary-title" id="shopTitle">Στο μαγαζί loading...</h2>
 
-      <div class="search">
-          <h3>Γρήγορη αναζήτηση προϊόντος</h3>
-          <input type="text" id="searchInput" placeholder="Αναζήτηση προϊόντος...">
-      </div>
+    <!-- Quick Product Search container -->
+    <div class="search">
+        <h3 class="section-title">Γρήγορη αναζήτηση προϊόντος</h3>
+        <input type="text" id="searchInput" placeholder="Αναζήτηση προϊόντος...">
     </div>
 
-    <div class="container-results">
-      <h3>Αποτελέσματα Προϊόντων</h3>
+    <!-- Container for category selection -->
+    <div class="container-select">
+        <h3 class="section-title">Επιλέξτε κατηγορία:</h3>
+        <div class="dropdown">
+            <label for="category">Κατηγορία:</label>
+            <select id="category" onchange="populateSubcategories()">
+                <option value="0">Επιλέξτε κατηγορία</option>
+                <!-- Add your category options here -->
+            </select>
+        </div>
+    </div>
+    
+    <!-- Container for subcategory selection -->
+    <div class="container-select" id="subcategory-container" style="display: none;">
+        <h3 class="section-title">Επιλέξτε υποκατηγορία:</h3>
+        <div class="dropdown">
+            <label for="subcategory">Υποκατηγορία:</label>
+            <select id="subcategory" onchange="populateProducts()">
+                <option value="0">Επιλέξτε υποκατηγορία</option>
+                <!-- Add your subcategory options here -->
+            </select>
+        </div>
+    </div>
+    
+    <!-- Container for product selection -->
+    <div class="container-select" id="product-container" style="display: none;">
+        <h3 class="section-title">Επιλέξτε προϊόν:</h3>
+        <div class="dropdown">
+            <label for="product">Προϊόντα:</label>
+            <select id="product">
+                <option value="0">Επιλέξτε προϊόν</option>
+                <!-- Add your product options here -->
+            </select>
+        </div>
+    </div>
+
+
+    <div class="container-results" id="containerResults">
+      <h3 class="result-title">Αποτελέσματα Προϊόντων</h3>
       <div id="productResults"></div>
     </div>
+    
   </main>
 
 

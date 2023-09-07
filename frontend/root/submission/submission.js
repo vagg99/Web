@@ -2,13 +2,57 @@ const loaderContainer = document.getElementById('loader-container');
 const loadingText = document.getElementById('loading-text');
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Get references to the loader elements
-  const loader = document.getElementById('loader');
 
+  const searchInput = document.getElementById('searchInput');
   const params = new URLSearchParams(window.location.search);
   const shopId = params.get('shopId');
 
   const shopTitle = document.getElementById("shopTitle");
+
+  const categorySelect = document.getElementById("category");
+  const subcategoryContainer = document.getElementById("subcategory-container");
+  const subcategorySelect = document.getElementById("subcategory");
+  const productContainer = document.getElementById("product-container");
+  const productSelect = document.getElementById("product");
+
+  // Function to clear placeholder text on focus "Αναζήτηση προϊόντος..."
+  searchInput.addEventListener('focus', () => {
+    searchInput.placeholder = '';
+  });
+
+  // Function to restore placeholder text on blur (when focus is lost)
+  searchInput.addEventListener('blur', () => {
+    searchInput.placeholder = 'Αναζήτηση προϊόντος...';
+  });
+
+  // Event listener for category selection
+  categorySelect.addEventListener("change", () => {
+    const selectedCategoryId = categorySelect.value;
+
+    if (selectedCategoryId !== "0") {
+      // Show the subcategory container and populate subcategories
+      subcategoryContainer.style.display = "block";
+      populateSubcategories(selectedCategoryId);
+    } else {
+      // Hide the subcategory and product containers
+      subcategoryContainer.style.display = "none";
+      productContainer.style.display = "none";
+    }
+  });
+
+  // Event listener for subcategory selection
+  subcategorySelect.addEventListener("change", () => {
+    const selectedSubcategoryId = subcategorySelect.value;
+
+    if (selectedSubcategoryId !== "0") {
+      // Show the product container and populate products
+      productContainer.style.display = "block";
+      populateProducts(selectedSubcategoryId);
+    } else {
+      // Hide the product container
+      productContainer.style.display = "none";
+    }
+  });
 
   items = { products : [{id:"1337",name:"no product"}], categories : [] };
 
@@ -139,6 +183,7 @@ productDropdown.addEventListener('change', () => {
 
 function displaySelectedProduct(product) {
   const productDiv = document.createElement('div');
+  productDiv.classList.add('product-item');
   productDiv.innerHTML = `
         <div class="product-container">
           <div class="product" id="product-${product.item.id}">

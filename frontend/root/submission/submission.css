@@ -1,30 +1,51 @@
-/* CSS Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .loader-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white overlay */
+  background-color: rgba(255, 255, 255, 0.9);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Ensure it appears on top of other content */
-  opacity: 1; /* Initially fully visible */
-  transition: opacity 0.3s ease-in-out; /* Smooth fade transition */
+  z-index: 9998;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .loader {
   text-align: center;
+  position: relative;
 }
 
-.container-select, .container-results {
+.loading-text {
+  margin-top: 10px; /* Adjust this value to control the vertical spacing between the loader and text */
+  font-size: 16px;
+  color: rgb(31, 180, 31);
+  text-align: center;
+  display: none;
+  position: absolute;
+  top: 100%; /* Adjust this value to control the vertical positioning of the text */
+  transform: translateY(-50%);
+}
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* General Styles */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.container {
   max-width: 400px;
   margin: 15px auto;
   padding: 20px;
@@ -32,32 +53,123 @@
   border-radius: 5px;
   background-color: #fff;
 }
-.container-results {
-  margin-bottom: 50px;
+
+h3 {
+  margin-bottom: 10px;
+}
+
+/* Form Styles */
+
+.dropdown {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
 .search {
   margin-top: 30px;
 }
 
-h3 {
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* Results Styles */
+
+.container-results {
+  margin-top: 30px;
+}
+
+.product-item {
+  border: 1px solid #ddd;
+  padding: 10px;
   margin-bottom: 10px;
+  border-radius: 3px;
+  background-color: #fff;
 }
 
-label {
-  display: block;
-  margin-left: 10px ;
+/* Loader Styles */
+
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
-select {
-  padding: 5px;
-  display: block;
-  margin: 3px 0 10px 10px;
+.loader {
+  text-align: center;
+  position: relative;
 }
 
-input{
-  width: 185px;
+.loading-text {
+  font-size: 16px;
+  z-index: -1;
+  color: rgb(31, 180, 31);
+  text-align: center;
+  display: none;
+  position: absolute;
+  top: 100px;
 }
+
+.product-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.product {
+  flex: 1;
+}
+
+/* Center the message container vertically and horizontally */
+.message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display : none;
+}
+
+/* Style the green bubble */
+.message {
+  background-color: rgb(38, 159, 184);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-align: center;
+  display : none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Sticky Footer Styles */
 
 .sticky-footer {
   position: sticky;

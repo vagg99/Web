@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 const userPoints = {}; 
 let choiceTimeouts = {}; // Object to store choice timeouts for each product
-const cooldownDuration = 4000; // 2 seconds in milliseconds
+const cooldownDuration = 1000; // 2 seconds in milliseconds
 
 function displayProduct(item, productList, user) {
     const DiscountId = item._id;
@@ -216,6 +216,9 @@ function updateChoiceTimeout(productId, data) {
     clearTimeout(choiceTimeouts[productId]);
     choiceTimeouts[productId] = setTimeout(() => {
         sendChoiceToBackend(productId, data);
+        for (user in userPoints){
+            userPoints[user] = 0;
+        }
     }, cooldownDuration);
 }
 

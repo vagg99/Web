@@ -1,4 +1,37 @@
-/* Submission CSS */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.loader {
+  text-align: center;
+  position: relative;
+}
+
+.loading-text {
+  margin-top: 10px; /* Adjust this value to control the vertical spacing between the loader and text */
+  font-size: 16px;
+  color: rgb(31, 180, 31);
+  text-align: center;
+  display: none;
+  position: absolute;
+  top: 100%; /* Adjust this value to control the vertical positioning of the text */
+  transform: translateY(-50%);
+}
+
+
+
 * {
   margin: 0;
   padding: 0;

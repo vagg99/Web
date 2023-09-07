@@ -232,6 +232,20 @@ function displaySelectedProduct(product) {
   productResults.appendChild(productDiv);
 }
 
+// search form code 
+const icon = document.querySelector(".icon");
+const search = document.querySelector(".search");
+
+icon.onclick = function () {
+  search.classList.toggle("active");
+};
+
+const clearButton = document.querySelector(".clear");
+
+clearButton.onclick = function () {
+  document.getElementById('mysearch').value = '';
+};
+
 function twenty_percent_smaller(newprice, oldprice) {
   const twentyPercentOfOldPrice = 0.2 * oldprice;
   return (newprice <= oldprice - twentyPercentOfOldPrice)
@@ -294,3 +308,4 @@ async function submitDiscount(product, newprice) {
       console.error('Error uploading data:', error);
   }
 }
+

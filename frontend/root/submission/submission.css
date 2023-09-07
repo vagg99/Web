@@ -30,8 +30,6 @@
   transform: translateY(-50%);
 }
 
-
-
 * {
   margin: 0;
   padding: 0;
@@ -44,7 +42,7 @@
 .container-select,
 .container-results {
   max-width: 400px;
-  margin: 15px auto;
+  margin: 15px auto; /* Increase the margin for more vertical spacing */
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px; /* Increase border radius for a more modern look */
@@ -53,19 +51,42 @@
 }
 
 .container-results {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+}
+
+/* Modern title styles for Υποβολή προσφοράς */
+.main-title {
+  font-size: 32px; /* Increase font size */
+  font-weight: bold; /* Keep it bold */
+  color: #333; /* Choose a modern text color */
+  text-align: center; /* Center the text */
+  margin-bottom: 30px; /* Increase the margin-bottom for more separation */
+  letter-spacing: 1px; /* Adjust letter spacing for readability */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle text shadow */
+}
+
+/* Center the shop title relative to the page */
+.center-title {
+  text-align: center; /* Center the title horizontally within its container */
 }
 
 /* Shop Title Container Styles */
 #shopTitle {
-  text-align: center;
   font-size: 24px;
-  padding: 20px;
+  padding: 20px; /* Add padding to make it slightly wider than the text */
   background: linear-gradient(135deg, #1e88e5, #00acc1);
   color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  animation: pulse 2s ease 3; /* Animation limited to 3 iterations */
+  animation: pulse 2s ease 3;
+  text-align: center; /* Center the text */
+  margin: 30px auto; /* Increase margin for vertical spacing */
+  display: inline-block; /* Make the background size automatically to the content */
+}
+
+
+.main-title {
+  margin: 0 auto; /* Center the container horizontally on the page */
 }
 
 /* Animation Keyframes */
@@ -81,13 +102,138 @@
   }
 }
 
-/* Search container styles */
+/* Styles for the search form */
 .search {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+  border-radius: 60px;
+  box-shadow: 0 0 0 0 5px #6886ff;
+  transition: width 0.5s ease, left 0.5s ease; /* Add left transition */
+  left: 50%; /* Initially center the search form */
+  transform: translateX(-50%); /* Center horizontally */
+}
+
+/* Vertical spacing for the search container */
+.search-container {
   display: flex;
-  flex-direction: column;
-  align-items: center; /* Center horizontally */
-  justify-content: center; /* Center vertically */
-  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px; /* Increase the margin-bottom for more separation */
+}
+
+.section-title {
+  font-size: 24px; /* Adjust the font size as needed */
+  font-weight: bold; /* Make the text bold */
+  color: #333; /* Choose a suitable text color */
+  margin-bottom: 20px; /* Add spacing below the title */
+  text-align: center; /* Center the text horizontally */
+  letter-spacing: 1px; /* Add letter spacing for emphasis */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Add a subtle text shadow */
+}
+
+.search.active {
+  width: 360px;
+}
+
+.search .icon {
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  z-index: 1000;
+  cursor: pointer;
+  position: absolute;
+  background: #fff;
+  border-radius: 60px;
+  align-items: center;
+  justify-content: center;
+}
+
+.search .icon:before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid #6886ff;
+  transform: translate(-4px, -4px);
+}
+
+.search .icon:after {
+  content: "";
+  width: 3px;
+  height: 12px;
+  position: absolute;
+  background: #6886ff;
+  transform: translate(6px, 6px) rotate(315deg);
+}
+
+.search .input {
+  left: 60px;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.search .input input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  padding: 10px 0;
+  position: absolute;
+  vertical-align: middle; /* Align text vertically in the middle */
+  line-height: 60px; /* Set line-height to match the height of the container */
+}
+
+/* Local CSS for the search input */
+.search-container #searchInput.local-search-input {
+  text-align: left !important; /* Apply left text alignment */
+  border: none !important; /* Remove the border */
+  box-shadow: none;
+  width: calc(140%); /* Adjust the width to match div.input */
+  padding-left: 60px; /* Add padding to match the icon width */
+  margin-left: 0; /* Remove any margin that may affect positioning */
+}
+
+.clear {
+  top: 50%;
+  right: 15px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  cursor: pointer;
+  background: #ff0;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+}
+
+.clear:before {
+  width: 1px;
+  height: 15px;
+  content: "";
+  position: absolute;
+  background: #999;
+  transform: rotate(45deg);
+}
+
+.clear:after {
+  width: 1px;
+  height: 15px;
+  content: "";
+  position: absolute;
+  background: #999;
+  transform: rotate(315deg);
 }
 
 /* Label styles for form elements */
@@ -161,7 +307,7 @@ button.submit-button:hover {
 /* Styles for the result title */
 .result-title {
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   font-weight: bold;
   color: #333;
   text-align: center;
@@ -272,4 +418,21 @@ button.submit-button:hover {
 .sticky-footer {
   position: sticky;
   top: 100%;
+}
+
+
+.product-container {
+  display: flex; /* Use Flexbox to center align items */
+  flex-direction: column; /* Stack child elements vertically */
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text content */
+}
+
+.product {
+  /* Add any other styling for the product as needed */
+}
+
+.product img {
+  max-width: 100%; /* Ensure the image doesn't exceed the container's width */
+  margin: 0 auto; /* Center the image horizontally within the container */
 }

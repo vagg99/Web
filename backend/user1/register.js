@@ -1,7 +1,7 @@
 // Χρήστης : 1) Εγγραφή Χρήστη
 
 const { connectToDatabase , getData } = require('../utils/connectToDB.js');
-const { hash } = require('../utils/hash.js');
+const hash = require('../utils/hash.js');
 const cache = require('../utils/cache.js');
 const { StartingTokens } = require('../utils/constants.js');
 
@@ -59,4 +59,4 @@ async function handleRegistration(req, res) {
     }
 }
 
-module.exports = handleRegistration;
+module.exports = { handleRegistration };

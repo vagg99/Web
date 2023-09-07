@@ -1,3 +1,5 @@
+var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
 document.addEventListener('DOMContentLoaded', async () => {
     // Get references to the loader elements
     const loaderContainer = document.getElementById('loader-container');
@@ -33,6 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const emailField = document.getElementById("input-email");          //email
     const firstnameField = document.getElementById("input-first-name"); //firstname
     const lastnameField = document.getElementById("input-last-name");   //lastname
+    const passwordField1 = document.getElementById("input-password");   //password
+    const passwordField2 = document.getElementById("input-password2");  //password confirmation
     const addressField = document.getElementById("input-address");      //address
     const cityField = document.getElementById("input-city");            //city
     const countryField = document.getElementById("input-country");      //country
@@ -53,8 +57,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         input.readOnly = true;
     });
 
-    // Function to toggle the buttons
-    const toggleButtons = (editMode) => {
+    // Function to toggle the "Επεξεργασία" , "Αποθήκευση", "Ακύρωση" buttons
+    function toggleButtons(editMode) {
         if (editMode) {
             editButton.style.display = "none";
             saveButton.style.display = "inline-block";
@@ -71,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Save
     const saveButton = document.createElement("button");
-    saveButton.textContent = "Save changes";
+    saveButton.textContent = "Αποθήκευση";
     saveButton.classList.add("btn", "btn-sm", "btn-success");
     saveButton.style.display = "inline-block"; // Initially hidden
 
@@ -81,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Cancel
     const cancelButton = document.createElement("button");
-    cancelButton.textContent = "Cancel";
+    cancelButton.textContent = "Ακύρωση";
     cancelButton.classList.add("btn", "btn-sm", "btn-danger");
     cancelButton.style.display = "inline-block"; // Initially hidden
 
@@ -105,17 +109,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         inputFields.forEach(input => {
             input.readOnly = true; // Set input fields back to read-only
         });
-        editMode = false;
         toggleButtons(false); // Toggle buttons to their original state
         restoreOriginalFieldValues(userData); // Restore original field values
     });
 
     // Add event listener to the save button
     saveButton.addEventListener("click", async () => {
+        if (passwordField1.value || passwordField2.value) {
+            if (passwordField1.value != passwordField2.value) {
+                alert("Passwords don't match");
+                return;
+            }
+            if (!passwordRegex.test(passwordField1.value)) {
+                alert("Password must be at least 8 characters long, contain at least 1 uppercase letter, 1 number and 1 special character");
+                return;
+            }
+            userData.newpassword = passwordField1.value;
+            passwordField1.value = "";
+            passwordField2.value = "";
+        }
         inputFields.forEach(input => {
             input.readOnly = true; // Set input fields back to read-only
         });
-        editMode = false;
         toggleButtons(false); // Toggle buttons to their original state
         updateUserDataWithFormValues(userData); // Update user data with form values
         // Send the updated user data to the server
@@ -150,6 +165,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Populate the form fields using the userData object
         if (userData.firstname) firstnameField2.textContent = userData.firstname;
         if (userData.lastname) lastnameField2.textContent = userData.lastname;
+        passwordField1.value = "";
+        passwordField2.value = "";
         if (userData.address) {
             if (userData.address.city) cityField2.textContent = userData.address.city;
             if (userData.address.country) countryField2.textContent = userData.address.country;
@@ -185,28 +202,90 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (userData) {
         // On First run populate the form fields with the user data
-        restoreOriginalFieldValues(userData);      
+        restoreOriginalFieldValues(userData);
+
+        const history = document.getElementById("history");
 
         // user's posted discounts
-        const discountsSubmitedList = document.getElementById("discounts-submited");
-        discountsSubmitedList.innerHTML = userPostedItems.map(product => 
-            `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date}</li>`
-        ).join("");
+        if (userPostedItems.length > 0) {
+            // Create the container for the submitted discounts section
+            const submittedDiscountsContainer = document.createElement("div");
+            submittedDiscountsContainer.innerHTML = `<label for="discounts-submited">Προσφορές που έχεις υποβάλει εσύ</label><ul id="discounts-submited"></ul>`;
+            history.appendChild(submittedDiscountsContainer);
 
-        const likedDislikedDiscountsList = document.getElementById("discounts-liked-disliked");
-        for (d in userLikedItems) {
-            userLikedItems[d].liked = true;
-            userLikedItems[d].disliked = false;
+            const discountsSubmitedList = document.getElementById("discounts-submited");
+            let output = "";
+            for (product of userPostedItems) {
+                let name = product.name;
+                let discount_price = product.discount.discount_price;
+                let date = product.discount.date;
+                let image = product.img;
+                let in_stock = product.in_stock;
+
+                output += `
+                    <li class="submitted-product-item">
+                    <div class="submitted-product-image">
+                        <img src="${image}" alt="${name}" class="product-img">
+                    </div>
+                        <div class="submitted-product-details">
+                            <span class="submitted-product-name">${name}</span>
+                            <span class="submitted-product-price">${discount_price}€</span>
+                            <span class="submitted-product-date">posted on ${date}</span>
+                        </div>
+                    </li>
+                `;
+            }
+            discountsSubmitedList.innerHTML = output;
         }
-        for (d in userDislikedItems) {
-            userDislikedItems[d].liked = false;
-            userDislikedItems[d].disliked = true;
-        }
+
         // likes and dislikes that the user has made
-        const likedDislikedDiscounts = userLikedItems.concat(userDislikedItems);
-        likedDislikedDiscountsList.innerHTML = likedDislikedDiscounts.map(product => 
-            `<li class="li-styled">${product.name} - ${product.discount.discount_price}€ - posted on ${product.discount.date} - προσφορά by ${product.username} - user has : ${product.liked ? "liked" : "disliked"} this</li>`
-        ).join("");
+        if (userLikedItems.length > 0 || userDislikedItems.length > 0) {
+            // Create the container for the likes/dislikes section
+            const likesDislikesContainer = document.createElement("div");
+            likesDislikesContainer.innerHTML = `<label for="discounts-liked-disliked">Likes και Dislikes που έχεις κάνει</label><ul id="discounts-liked-disliked"></ul>`;
+            history.appendChild(likesDislikesContainer);
+
+            const likedDislikedDiscountsList = document.getElementById("discounts-liked-disliked");
+            for (d in userLikedItems) {
+                userLikedItems[d].liked = true;
+                userLikedItems[d].disliked = false;
+            }
+            for (d in userDislikedItems) {
+                userDislikedItems[d].liked = false;
+                userDislikedItems[d].disliked = true;
+            }
+            
+            const likedDislikedDiscounts = userLikedItems.concat(userDislikedItems);
+            output = "";
+            for (product of likedDislikedDiscounts) {
+                let name = product.name;
+                let discount_price = product.discount.discount_price;
+                let date = product.discount.date;
+                let image = product.img;
+                let in_stock = product.in_stock;
+                let liked = product.liked;
+                let disliked = product.disliked;
+                let op = product.username; // op = Original Poster , reddit slang
+
+                output += `
+                    <li class="product-item">
+                        <div class="product-image">
+                            <img src="${image}" alt="${name}" class="product-img">
+                        </div>
+                        <div class="product-details">
+                            <span class="product-name">${name}</span>
+                            <span class="product-price">${discount_price}€</span>
+                            <span class="product-date">posted on ${date}</span>
+                            <span class="product-op">προσφορά by ${op}</span>
+                        </div>
+                        <div class="product-actions">
+                            <span class="product-liked">${liked ? "Liked" : "Disliked"}</span>
+                        </div>
+                    </li>
+                `;
+            }
+            likedDislikedDiscountsList.innerHTML = output;
+        }
 
         if (userData.points) {
             monthlyPoints.value = userData.points.monthly;

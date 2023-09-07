@@ -50,18 +50,35 @@
   </header>
 
   <main>
-    <section>
-      <h2>Αναζήτηση</h2>
-      <form id="searchForm" action="#">
-        <input type="text" id="searchInput" name="search" placeholder="Αναζήτηση Προϊόντος">
-      </form>
+    <section class="search-container">
+      <div class="search-image">
+        <img src="images/ekatanalotisShoppingCart_64.png" alt="Search Image">
+      </div>
+      <div class="search-text">
+        <h2 class="search-title">Βρείτε τις καλύτερες προσφορές εδώ</h2>
+        <h3 class="search-subtitle">Δες στο χάρτη</h3>
+      </div>
     </section>
+
+  <!-- Container for the Slick Slider -->
+  <div class="slider-container">
+    <div class="slider">
+      <div><img src="images/slider1.jpg" alt="Slide 1"></div>
+      <div><img src="images/slider2.jpg" alt="Slide 2"></div>
+      <div><img src="images/slider3.jpg" alt="Slide 3"></div>
+      <div><img src="images/slider4.jpg" alt="Slide 4"></div>
+    </div>
+  </div>
   </main>
 
   <footer class="sticky-footer">
     &copy; 2023 All rights reserved.
   </footer>
 
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
   <script src="script.js"></script>
   <script src="auth/auth.js"></script>
 </body>

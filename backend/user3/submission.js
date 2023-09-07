@@ -10,17 +10,17 @@ async function handleDiscountSubmission(req, res) {
     try {
       if (req.session.user) {
         let { productId, newprice , userId } = req.body;
-        const users = getData('users');
+        const users = await getData('users');
         for (user in users) {
           if (users[user].username === req.session.user.username) {
-            userId = users[user]._id;
+            userId = users[user]._id.toString();
             break;
           }
         }
         newprice = Number(newprice);
   
         const collection = await connectToDatabase("stock");
-        const product = await collection.findOne({ _id: new ObjectId(productId) });
+        const product = await collection.findOne({ _id: productId });
   
         if (!product) {
           res.status(404).json({ error: 'Product not found' });
@@ -58,7 +58,7 @@ async function handleDiscountSubmission(req, res) {
           achievements["5_a_ii"] = true;
         }
   
-        const result = await collection.updateOne({ _id: new ObjectId(productId) }, { $set: {
+        const result = await collection.updateOne({ _id: productId }, { $set: {
           on_discount : true,
           discount: { 
             discount_price: newprice,

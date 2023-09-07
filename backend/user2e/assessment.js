@@ -2,7 +2,7 @@
 
 const { connectToDatabase } = require('../utils/connectToDB.js');
 const { ObjectId } = require('mongodb');
-const updateLikeDislikePoints = require('../user5b/addPoints.js');
+const { updateLikeDislikePoints } = require('../user5b/addPoints.js');
 const cache = require('../utils/cache.js');
 
 async function handleLikesDislikesUpdate(req, res){
@@ -27,7 +27,10 @@ async function handleLikesDislikesUpdate(req, res){
         // ALSO ADD LIKE OR DISLIKE (TO USER WHO CLICKED THE BUTTON) SO IT CAN BE SEEN ON PROFILE
         let updateObject = {};
         if (action === 'like') { updateObject = { $push: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'dislike') { updateObject = { $push: { 'likesDislikes.dislikedDiscounts': discountId } }; } else if (action === 'unlike') { updateObject = { $pull: { 'likesDislikes.likedDiscounts': discountId } }; } else if (action === 'undislike') { updateObject = { $pull: { 'likesDislikes.dislikedDiscounts': discountId } }; }
-        if (updateObject.length) await userCollection.updateOne({ username: username }, updateObject);
+        let result2 = null;
+        if (Object.keys(updateObject).length && user.likesDislikes && Object.keys(user.likesDislikes).length) {
+          result2 = await userCollection.updateOne({ username: username }, updateObject);
+        }
   
         // ADD POINTS TO USER THAT POSTED THE DISCOUNT (NOT THE ONE THAT CLICKED THE BUTTON)
         await updateLikeDislikePoints(points);
@@ -43,4 +46,4 @@ async function handleLikesDislikesUpdate(req, res){
     }
 }
 
-module.exports = handleLikesDislikesUpdate;
+module.exports = { handleLikesDislikesUpdate };

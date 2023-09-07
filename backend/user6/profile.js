@@ -4,6 +4,7 @@ const { connectToDatabase } = require('../utils/connectToDB.js');
 const { ObjectId } = require('mongodb');
 const cache = require('../utils/cache.js');
 const { TTLS } = require('../utils/constants.js');
+const hash = require('../utils/hash.js');
 
 async function getUserInfo(req, res) {
     try {
@@ -26,7 +27,35 @@ async function getUserInfo(req, res) {
         delete user.isAdmin;
         
         // RETURN ALL THE DISCOUNTS THIS USER HAS POSTED
-        const userPostedItems = await stockCollection.aggregate([
+        const userPostedItemsOLD = await stockCollection.aggregate([
+          {
+            $match: { user_id: new ObjectId(user._id) , on_discount : true }
+          },
+          {
+            $lookup: {
+              from: "items",
+              localField: "item_id",
+              foreignField: "id",
+              as: "item"
+            }
+          },
+          {
+            $unwind: "$item"
+          },
+          {
+            $project: {
+              _id: 1,
+              user_id: 1,
+              item_id: 1,
+              price: 1,
+              discount: 1,
+              in_stock : 1,
+              img: "$item.img",
+              name: "$item.name"
+            }
+          }
+        ]).toArray();
+        const userPostedItemsNEW = await stockCollection.aggregate([
           {
             $match: { user_id: user._id.toString() , on_discount : true }
           },
@@ -54,14 +83,13 @@ async function getUserInfo(req, res) {
             }
           }
         ]).toArray();
-        
-  
+        const userPostedItems = userPostedItemsNEW.concat(userPostedItemsOLD);
         // Convert string IDs to ObjectIDs for liked and disliked products
         let likedDiscountsObjectIDs = []
         let dislikedDiscountsObjectIDs = [];
-        if (user.likesDislikes) {
-          likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts.map(id => new ObjectId(id));
-          dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts.map(id => new ObjectId(id));
+        if (user.likesDislikes && Object.keys(user.likesDislikes).length) {
+          likedDiscountsObjectIDs = user.likesDislikes.likedDiscounts;//.map(id => new ObjectId(id)); // uncomment if i fuck it up again
+          dislikedDiscountsObjectIDs = user.likesDislikes.dislikedDiscounts;//.map(id => new ObjectId(id)); // and restore it as object
         }
   
         // RETURN ALL THE DISCOUNTS THIS USER HAS LIKED OR DISLIKED
@@ -163,8 +191,13 @@ async function handleProfileUpdate(req, res) {
         let isAdmin = user.isAdmin;
         const updateObject = req.body;
         delete updateObject._id; // Remove the _id field from the updateObject
-        updateObject.password_hashed = password_hashed;
+        if (updateObject.newpassword) {
+          updateObject.password_hashed = hash(updateObject.username, updateObject.newpassword);
+        } else {
+          updateObject.password_hashed = password_hashed;
+        }
         updateObject.isAdmin = isAdmin;
+        delete updateObject.newpassword;
         const result = await userCollection.updateOne(
           { _id: userId }, // Use the original _id here
           { $set: updateObject }

@@ -23,4 +23,4 @@ async function getLeaderboard() {
     return leaderboard;
 }
 
-module.exports = getLeaderboard;
+module.exports = { getLeaderboard };

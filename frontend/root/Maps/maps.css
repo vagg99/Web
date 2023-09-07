@@ -33,11 +33,11 @@ select {
   vertical-align: middle;
 }
 
-/* Custom styles for Leaflet popup container */
+
 .leaflet-popup-content {
   background-color: #ffffff;
   color: #333333;
-  border: 2px solid #007bff;
+  border: 2px solid #4b98eb;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   max-width: 300px; /* Set a maximum width for the popup */
@@ -48,7 +48,7 @@ select {
   margin-right: 10px; /* Adjust as needed */
 }
 
-/* Style for popup title */
+/* Style for popup letters */
 .leaflet-popup-content h2 {
   font-size: 20px;
   font-weight: bold;
@@ -56,16 +56,13 @@ select {
   color: #007bff;
 }
 
-/* Style for buttons inside the popup */
-.leaflet-popup-content .button-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%; /* Ensure buttons span the width of the popup */
-  margin-top: auto; /* Push buttons to the bottom */
-  display: inline-block;
+/*style for the delete button*/
+.leaflet-popup-content .delete-discount-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-/* Style for each button */
 .leaflet-popup-content button {
   display: inline;
   background-color: #007bff;
@@ -76,13 +73,21 @@ select {
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s ease-in-out;
-  width: 45%;
   text-align: center; /* Center-align text */
 }
+
 
 /* Hover effect for buttons */
 .leaflet-popup-content button:hover {
   background-color: #0056b3;
+}
+
+/* Αξιολόγηση Προσφοράς */
+.assessment-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px; /* Add margin to position the button below the list */
 }
 
 /* search box */
@@ -134,6 +139,7 @@ select {
   margin-bottom: 20px; /* Adjust this value as needed */
 }
 
+
 .clickable-btn.logged-out {
   background-color: gray;
   cursor: not-allowed;
@@ -163,16 +169,6 @@ select {
   align-items: flex-start;
 }
 
-.popup-item-container button {
-  border: none;
-  background-color: transparent;
-  color: #007bff;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 0;
-  margin-top: 5px;
-}
-
 .button-container {
   margin-top: 15px;
 }
@@ -186,34 +182,44 @@ select {
 
 }
 
-/* Style for the assessment button */
-#assessment-button {
-  border: none;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 8px 16px;
-  border-radius: 4px;
-}
-
 #assessment-button:hover {
   background-color: #0056b3;
 }
 
+/* hover αξιολόγηση logged out */
 #assessment-button.logged-out {
   background-color: #ccc;
   cursor: not-allowed;
 }
 
-/* scrollable list */
-.popup-item-scroll-list {
-  max-height: 200px; /* Set the desired max height for the scrollable list */
-  overflow-y: auto;
-  margin-bottom: 10px; /* Add some bottom margin for spacing */
-  padding-right: 28px;
+/* hover υποβοβλή logged out */
+#submit-discount-button.clickable-btn.logged-out {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
+/* Style for the scrollable list */
+.popup-item-scroll-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding-right: 10px; /* Add some right padding for better alignment */
+  border: 1px solid #ccc; /* Add a border for separation */
+  border-radius: 5px; /* Rounded corners for the list */
+  background-color: #f9f9f9; /* Light background color */
+}
+
+/* Style for individual list items */
+.popup-item-container {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Add a border between items */
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover effect for list items */
+.popup-item-container:hover {
+  background-color: #e6e6e6; /* Change background color on hover */
+}
 
 /* Style for price */
 .price {
@@ -260,7 +266,7 @@ select {
 
 /* Style for delete button */
 .delete-discount-button {
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
 }
@@ -291,9 +297,70 @@ select {
   align-items: center;
 }
 
+/* ----------------------------------------------- */
+
+/* CSS to style the scale control */
+
+/* Add this new style for positioning the space element */
+section {
+  padding: 10px 20px; 
+  display: flex;
+  align-items: center;
+}
+
+.space {
+  flex-grow: 1; /* This will make the space element take up the remaining space on the right */
+}
+
+.toggle-switch-scale {
+  width: 300px; /* Adjust the width to your desired value */
+  height: 24px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #40e0d0;
+  border-radius: 17px;
+  outline: none;
+  opacity: 1;
+  transition: background 0.4s;
+  cursor: pointer;
+}
+
+.toggle-switch-scale::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  border: 2px solid #40e0d0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.toggle-switch-scale::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.toggle-switch-scale::-ms-thumb {
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.toggle-switch-scale:checked {
+  background: red;
+}
+
+/* footer */
 .sticky-footer {
-  padding-top: 100px;
-  position: fixed;
+  position: sticky;
   top: 100%;
 }
 

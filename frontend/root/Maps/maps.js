@@ -4,6 +4,19 @@ var map = L.map('map')
 // Add the tile layer (OpenStreetMap as an example)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
+// Distance needed to be considered "near" a shop
+let distanceThreshold = 0.0005; // 0.0005 represents 50 meters in degrees (approximate)
+
+// User's location :
+let userLatitude = null;
+let userLongitude = null;
+
+// Ellipse and diameters for the user's location
+let ellipse = null;
+let diameter1 = null;
+let diameter2 = null;
+
+// Check if the user is logged in
 let userLoggedIn = false;
 fetch('http://localhost:3000/check-user-auth', {
   method: 'GET',
@@ -106,6 +119,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  const scaleControl = document.getElementById('ellipseScale');
+  scaleControl.addEventListener('input', updateEllipse);
+
   // populate subcategory filter on page load
   populateSubcategories(subcategorySelect);
 
@@ -123,10 +139,13 @@ function getUserLocation() {
     navigator.geolocation.getCurrentPosition(
       function(position) {
         const { latitude, longitude } = position.coords;
-        map.setView([latitude, longitude], 15); // Set the view to user's location with zoom level 15
+        userLatitude = latitude;
+        userLongitude = longitude;
+        map.setView([latitude, longitude], 17); // Set the view to user's location with zoom level 17 (next smaller scale is 16)
+        updateEllipse();
         userLocationMarker = L.marker([latitude, longitude] , { icon: CurrectLocationIcon })
           .addTo(map)
-          .bindPopup('You are here!') // Custom popup message for the user's location
+          .bindPopup('Βρίσκεσαι εδώ!') // Custom popup message for the user's location
           .openPopup();
         map.setView(view, 12);
       },
@@ -138,25 +157,70 @@ function getUserLocation() {
     console.error('Geolocation is not available in this browser.');
   }
 }
+function updateEllipse() {
+  distanceThreshold = parseFloat(document.getElementById('ellipseScale').value);
+
+  const rotationDegrees = 0;
+  const numberOfSegments = 360;
+  const semiMajorAxisMeters = distanceThreshold;
+  const semiMinorAxisMeters = distanceThreshold;
+
+  if (ellipse) {
+    map.removeLayer(ellipse);
+  }
+  if (diameter1) {
+    map.removeLayer(diameter1);
+  }
+  if (diameter2) {
+    map.removeLayer(diameter2);
+  }
+
+
+  const latlngs = [];
+
+  for (let i = 0; i <= 360; i += 360 / numberOfSegments) {
+    const angleRadians = (i + rotationDegrees) * (Math.PI / 180);
+    const x = userLatitude + (semiMajorAxisMeters * Math.cos(angleRadians));
+    const y = userLongitude + (semiMinorAxisMeters * Math.sin(angleRadians));
+    latlngs.push([x, y]);
+  }
+
+  ellipse = L.polyline(latlngs, { color: CurrentLocationColor }).addTo(map);
+
+  // Calculate coordinates for the endpoints of the diameters
+  const latLngs = [
+    [userLatitude, userLongitude - semiMinorAxisMeters], // Adjust the longitude difference to control the length of the diameters
+    [userLatitude, userLongitude + semiMinorAxisMeters],
+    [userLatitude - semiMajorAxisMeters, userLongitude], // Adjust the latitude difference to control the length of the diameters
+    [userLatitude + semiMajorAxisMeters, userLongitude],
+  ];
+
+  // Create polyline segments for the diameters with dashed lines
+  diameter1 = L.polyline(latLngs.slice(0, 2), {
+    color: CurrentLocationColor, // Color of the first diameter
+    dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
+  }).addTo(map);
+
+  diameter2 = L.polyline(latLngs.slice(2), {
+    color: CurrentLocationColor, // Color of the second diameter
+    dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
+  }).addTo(map);
+}
+
 
 // Function to calculate the Haversine distance between two points
 function calculateHaversineDistance(point1, point2) {
-  const R = 6371000; // Earth's radius in meters
-  
-  const lat1 = point1.lat * (Math.PI / 180);
-  const lon1 = point1.lng * (Math.PI / 180);
-  const lat2 = point2.lat * (Math.PI / 180);
-  const lon2 = point2.lng * (Math.PI / 180);
-  
+  const lat1 = point1.lat;
+  const lon1 = point1.lng;
+  const lat2 = point2.lat;
+  const lon2 = point2.lng;
+
   const dLat = lat2 - lat1;
   const dLon = lon2 - lon1;
-  
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1) * Math.cos(lat2) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  
-  const distance = R * c;
+
+  // Use the Pythagorean theorem to calculate the distance in degrees
+  const distance = Math.sqrt(dLat * dLat + dLon * dLon);
+
   return distance;
 }
 
@@ -236,13 +300,11 @@ async function onMarkerClick(marker,e,id,shopName){
     const userLatLng = userLocationMarker.getLatLng();
     distance = calculateHaversineDistance(userLatLng, clickedLatLng);
     // Υποβολή Προσφοράς
-    //if (distance <= 0.05) {// 0.05 represents 50 meters in degrees (approximate) , The clicked marker is less than 50 meters away from the user's location marker
-      if (userLoggedIn) {
-        popupContent += `<button id="submit-discount-button" class="button-container shop-container" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
-      } else {
-        popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
-      }
-    //}
+    if (distance <= distanceThreshold && userLoggedIn) {
+      popupContent += `<button id="submit-discount-button" class="button-container shop-container" onclick="location.href='../Submission/submission.html?shopId=${encodeURIComponent(id)}'">Υποβολή Προσφοράς</button>`;
+    } else {
+      popupContent += `<button id="submit-discount-button" class="clickable-btn logged-out" disabled>Υποβολή Προσφοράς</button>`;
+    }
     marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
   } catch (error) {
     console.error('Error calculating distance:', error);
@@ -250,10 +312,9 @@ async function onMarkerClick(marker,e,id,shopName){
   try {
     const response = await fetch(`http://localhost:3000/getDiscountedItems?shopId=${id}`);
     const discountedItems = await response.json();
-
-    console.log(discountedItems);
     
     if (discountedItems.length) {
+      console.log(discountedItems);
       popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
       await marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
     }
@@ -263,9 +324,12 @@ async function onMarkerClick(marker,e,id,shopName){
         const deleteDiscountButton = document.querySelector(`#delete-discount-${discountedItems[i]._id}`);
         deleteDiscountButton.addEventListener('click', async () => {
           const discountContainer = document.querySelector(`#discount_${discountedItems[i]._id}`);
+          const title = document.querySelector('.popup-title');
           if (discountContainer) {
             discountContainer.style.display = 'none';
-            console.log('sending delete request...')
+            console.log('sending delete request...');
+            let length = discountedItems.length - 1;
+            title.innerHTML = `Βρέθηκ${length>1?"αν":"ε"} ${length} Προσφορ${length>1?"ές":"ά"}!`;
           }
           try {
             const response = await fetch(`http://localhost:3000/deleteDiscount?discountId=${encodeURIComponent(discountedItems[i]._id)}`, {
@@ -295,7 +359,7 @@ function createPopupContent(data, shopName, distance, shopId) {
   let output = `<div class="discount">`;
   // Βρέθηκαν 2 Προσφορές / Βρέθηκε 1 Προσφορά
   output += `<div class='popup-title'>
-    Βρέθηκ${data.length>1?"αν":"ε"} ${data.length} Προσφορ${data.length>1?"ές":"ά"} !
+    Βρέθηκ${data.length>1?"αν":"ε"} ${data.length} Προσφορ${data.length>1?"ές":"ά"}!
   </div>`;
 
   output += `<div class="popup-item-scroll-list">`;
@@ -336,12 +400,11 @@ function createPopupContent(data, shopName, distance, shopId) {
     output += "</div>";
   }
   
-
   output += `</div>`; // Close popup-item-scroll-list div
 
   // Αξιολόγηση Προσφορών
-  output += `<div class="button-container shop-container" data-shop-id="${encodeURIComponent(shopId)}">`;
-  if (userLoggedIn) {
+  output += `<div class="button-container shop-container assessment-button" data-shop-id="${encodeURIComponent(shopId)}">`;
+  if (distance <= distanceThreshold && userLoggedIn) {
     output += `<button id="assessment-button" class="clickable-btn" onclick="location.href='../assessment/assessment.html?shopId=${encodeURIComponent(
       shopId
     )}'">Αξιολόγιση Προσφορών</button>`;

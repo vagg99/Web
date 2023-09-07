@@ -1,10 +1,14 @@
+const loaderContainer = document.getElementById('loader-container');
+const loadingText = document.getElementById('loading-text');
+
 document.addEventListener('DOMContentLoaded', async () => {
+  // Get references to the loader elements
+  const loader = document.getElementById('loader');
 
   const params = new URLSearchParams(window.location.search);
   const shopId = params.get('shopId');
 
   const shopTitle = document.getElementById("shopTitle");
-  //shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
 
   items = { products : [{id:"1337",name:"no product"}], categories : [] };
 
@@ -12,15 +16,36 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   populateCategories();
 
-  shopTitle.innerHTML = `Στο μαγαζί loading.....`;
+  shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
 
-  items.products = await getItemsInStock(shopId);
-
-  shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
+  try {
+    items.products = await getItemsInStock(shopId);
+    shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
+  } catch (error){
+    alert("Αυτο το μαγαζί δεν εχει αντικείμενα στο stock του");
+    shopTitle.innerHTML = "Αυτο το μαγαζί δεν εχει αντικείμενα στο stock του\n Shop Id : " + shopId;
+  }
 
   console.log(items.products);
 
+  // Hide the loader by fading it out
+  loaderContainer.style.opacity = 0;
+  loaderContainer.style['z-index'] = -1;
+
 });
+
+function showLoader() {
+  loaderContainer.style.opacity = 1;
+  loaderContainer.style.zIndex = 9998;
+  loadingText.style.display = 'block';
+  loadingText.style['z-index'] = 9999;
+}
+function hideLoader() {
+  loaderContainer.style.opacity = 0;
+  loaderContainer.style.zIndex = -1;
+  loadingText.style.display = 'none';
+  loadingText.style['z-index'] = -1;
+}
 
 // Sample data for categories, subcategories, and products
 let items = {};
@@ -92,37 +117,14 @@ function filterProducts(query) {
     return filteredProducts;
 }
 
-// Function to display search results
-function displayResults(results) {
-    productResults.innerHTML = '';
-    results.forEach(product => {
-    const productDiv = document.createElement('div');
-    productDiv.innerHTML = `
-            <img src="${product.item.img}" alt="${product.item.name}" width="100">
-            <p>${product.item.name}</p>
-            ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
-            <p>${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
-            <p>Στο Μαγαζί ${product.store.tags.name}</p>
-            <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
-            <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
-            <button class="submit-button">Υποβολή</button>
-    `;
-    productDiv.querySelector('.submit-button').addEventListener('click', () => {
-        const priceInput = productDiv.querySelector('input[type="number"]');
-        const price = priceInput.value;
-        if (price !== '') {
-          submitDiscount(product._id, price);
-        }
-    });
-    productResults.appendChild(productDiv);
-    });
-}
-
 // Event listener for search input
 searchInput.addEventListener('input', () => {
     const query = searchInput.value;
     const filteredProducts = filterProducts(query);
-    displayResults(filteredProducts);
+    productResults.innerHTML = '';
+    filteredProducts.forEach(product => {
+      displaySelectedProduct(product);
+    });
 });
 
 //Same functionality as above, but with the dropdown list
@@ -131,37 +133,65 @@ const productDropdown = document.getElementById('product');
 productDropdown.addEventListener('change', () => {
   const selectedProductId = productDropdown.value;
   const selectedProduct = items.products.find(product => product.item.id === selectedProductId);
+  productResults.innerHTML = '';
   displaySelectedProduct(selectedProduct);
 });
 
 function displaySelectedProduct(product) {
-  productResults.innerHTML = '';
   const productDiv = document.createElement('div');
   productDiv.innerHTML = `
-          <img src="${product.item.img}" alt="${product.item.name}" width="100">
-          <p>${product.item.name}</p>
-          ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
-          <p>${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
-          <p>Στο Μαγαζί ${product.store.tags.name}</p>
-          <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
-          <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
-          <button class="submit-button">Υποβολή</button>
+        <div class="product-container">
+          <div class="product" id="product-${product.item.id}">
+            <img src="${product.item.img}" alt="${product.item.name}" width="100">
+            <p>${product.item.name}</p>
+            ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
+            <p id="product-${product.item.id}-price">${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
+            <p>Στο Μαγαζί ${product.store.tags.name}</p>
+            <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
+            <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
+            <button class="submit-button">Υποβολή</button>
+          </div>
+          <div class="message-container" id="message-container-${product.item.id}">
+            <div class="message" id="message-${product.item.id}"></div>
+          </div>
+        </div>
   `;
   productDiv.querySelector('.submit-button').addEventListener('click', () => {
-      const priceInput = productDiv.querySelector('input[type="number"]');
-      const price = priceInput.value;
-      if (price !== '') {
-        submitDiscount(product._id, price);
+    const priceInput = productDiv.querySelector('input[type="number"]');
+    const price = priceInput.value;
+    if (price !== '') {
+      if (price < 0) {
+        say(product.item.id, "Η τιμή πρέπει να είναι θετική");
+        return;
       }
+
+      if (price >= product.price) {
+        say(product.item.id, "Η τιμή πρέπει να είναι μικρότερη απο την τιμή του προϊόντος");
+        return;
+      }
+
+      if (product.on_discount && price >= product.discount.discount_price) {
+        say(product.item.id, "Η τιμή πρέπει να είναι μικρότερη απο την τιμή της προσφοράς");
+        return;
+      }
+
+      if (product.on_discount && !twenty_percent_smaller(price,product.discount.discount_price)) {
+        say(product.item.id, "Η τιμή πρέπει να είναι τουλάχιστον 20% μικρότερη απο την τιμή της προσφοράς");
+        return;
+      }
+
+      submitDiscount(product, price);
+      showLoader();
+    }
   });
   productResults.appendChild(productDiv);
 }
 
-async function getAllItems() {
-  const response = await fetch('http://localhost:3000/getItems');
-  const items = await response.json();
-  return items;
+function twenty_percent_smaller(newprice, oldprice) {
+  const twentyPercentOfOldPrice = 0.2 * oldprice;
+  return (newprice <= oldprice - twentyPercentOfOldPrice)
 }
+
 async function getCategories() {
   const response = await fetch('http://localhost:3000/getSubcategories');
   const categories = await response.json();
@@ -173,7 +203,22 @@ async function getItemsInStock(shopId) {
   return discounts;
 }
 
-async function submitDiscount(productId, newprice) {
+function say(id, message) {
+  const messageContainer = document.getElementById(`message-container-${id}`);
+  messageContainer.style.display = 'block';
+  const element = document.getElementById(`message-${id}`)
+  element.innerHTML = message;
+  element.style.display = 'block';
+  setTimeout(() => {
+    element.innerHTML = '';
+    element.style.display = 'none';
+    messageContainer.style.display = 'none';
+  }, 3000);
+}
+
+async function submitDiscount(product, newprice) {
+  const productId = product._id;
+  const idForMessage = product.item.id;
   console.log(JSON.stringify({ productId, newprice }))
 
   let userId = "64ccdd565a5bb46dd07e5148"; // default , toy vaggeli nomizo
@@ -188,15 +233,19 @@ async function submitDiscount(productId, newprice) {
       body: JSON.stringify({ productId, newprice , userId })
     });
 
-    const result = await response.text();
+    const result = await response.json();
 
     if (response.ok) {
         console.log("success!",result);
+        say(idForMessage, "Επιτυχής υποβολή!!");
+        const priceElement = document.getElementById(`product-${idForMessage}-price`);
+        priceElement.innerHTML = `Απο <s>${product.price}</s> - <s>μοοονο : ${product.discount.discount_price}€ !</s> - μοοονο : ${newprice}€ !`;
     } else {
         console.log("rip",result);
+        say(idForMessage, "Αποτυχία υποβολής.  " + result.error);
     }
+    hideLoader();
   } catch (error) {
       console.error('Error uploading data:', error);
-      say(messageDiv, 'An error occurred.');
   }
 }

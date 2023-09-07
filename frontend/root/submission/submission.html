@@ -42,13 +42,27 @@
 
   <main>
     <h1 class="main-title" id="mainTitle">Υποβολή προσφοράς</h1>
-    <h2 class="secondary-title" id="shopTitle">Στο μαγαζί loading...</h2>
-
-    <!-- Quick Product Search container -->
-    <div class="search">
-        <h3 class="section-title">Γρήγορη αναζήτηση προϊόντος</h3>
-        <input type="text" id="searchInput" placeholder="Αναζήτηση προϊόντος...">
+    <div class="center-title">
+      <h1 class="main-title" id="shopTitle">Στο μαγαζί loading...</h1>
     </div>
+
+    <div class="search-container">
+      <!-- Quick Product Search container -->
+      <section>
+        <h3 class="section-title">Γρήγορη αναζήτηση προϊόντος</h3>
+        
+        <div class="search">
+          <div class="icon"></div>
+
+          <div class="input">
+            <input type="text" placeholder="Αναζήτηση προϊόντος..." id="searchInput" class="local-search-input">
+          </div>
+
+          <span class="clear" onclick="clearSearch()">x</span>
+        </div>
+      </section>
+    </div>
+    
 
     <!-- Container for category selection -->
     <div class="container-select">

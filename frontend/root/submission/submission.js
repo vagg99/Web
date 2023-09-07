@@ -60,9 +60,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   shopTitle.innerHTML = `Στο μαγαζί loading.....`;
 
-  items.products = await getItemsInStock(shopId);
-
-  shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
+  try {
+    items.products = await getItemsInStock(shopId);
+    shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
+  } catch (error){
+    alert("Αυτο το μαγαζί δεν εχει αντικείμενα στο stock του");
+    shopTitle.innerHTML = "Αυτο το μαγαζί δεν εχει αντικείμενα στο stock του\n Shop Id : " + shopId;
+  }
 
   console.log(items.products);
 

@@ -370,11 +370,17 @@ function createPopupContent(data, shopName, distance, shopId) {
     let date = data[i].discount.date;
     let likes = data[i].discount.likes;
     let dislikes = data[i].discount.dislikes;
-    let apothema = data[i].in_stock ? "Ναι" : "Όχι";
+    let apothema = data[i].in_stock ? "Ναι" : "Όχι"; // Determine if it's in stock
     let achievements = data[i].discount.achievements;
-    
+
+    // Add "out-of-stock" class if the product is out of stock
+    let containerClass = "popup-item-container discount-item";
+    if (apothema === "Όχι") {
+      containerClass += " out-of-stock";
+    }
+
     output += `
-    <div class="popup-item-container discount-item" id="discount_${data[i]._id}">
+    <div class="${containerClass}" id="discount_${data[i]._id}">
         <div class="discount-enumeration">${i + 1}</div>
         <div class="product-name">${product}</div>
         <div class="price">💰 Τιμή ${price}€</div>

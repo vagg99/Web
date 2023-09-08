@@ -47,7 +47,7 @@
 /* title font related "Σύνδεση" */
 .wrapper .form-container form h2 {
     font-size: 1.7rem;
-    text-align: absolute;
+    text-align: center;
     color: var(--titleColor);
 }
 

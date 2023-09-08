@@ -232,7 +232,7 @@ function displaySelectedProduct(product) {
   productResults.appendChild(productDiv);
 }
 
-// search form code 
+// search form code here (outside any function)
 const icon = document.querySelector(".icon");
 const search = document.querySelector(".search");
 

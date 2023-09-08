@@ -112,12 +112,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         toggleButtons(false); // Toggle buttons to their original state
         restoreOriginalFieldValues(userData); // Restore original field values
     });
+   
 
     // Add event listener to the save button
     saveButton.addEventListener("click", async () => {
         if (passwordField1.value || passwordField2.value) {
             if (passwordField1.value != passwordField2.value) {
-                alert("Passwords don't match");
+                showPasswordMismatchPopup();
                 return;
             }
             if (!passwordRegex.test(passwordField1.value)) {
@@ -302,6 +303,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("User not found");
     }
 });
+
+function showPasswordMismatchPopup() {
+    const popup = document.getElementById('password-mismatch-popup');
+    popup.style.display = 'block';
+}
+
+function closePopup() {
+    const popup = document.getElementById('password-mismatch-popup');
+    popup.style.display = 'none';
+}
 
 // Function to send the updated user data to the server
 async function updateUserInfo(userData) {

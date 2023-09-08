@@ -30,148 +30,409 @@
   transform: translateY(-50%);
 }
 
-
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: .4px;
 }
 
-/* General Styles */
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-}
-
-.container {
+/* Container styles for forms and products */
+.container-select,
+.container-results {
   max-width: 400px;
-  margin: 15px auto;
+  margin: 15px auto; /* Increase the margin for more vertical spacing */
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
+  border-radius: 10px; /* Increase border radius for a more modern look */
+  background-color: #f9f9f9; /* Light background color */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Slightly increased shadow for depth */
 }
-
-h3 {
-  margin-bottom: 10px;
-}
-
-/* Form Styles */
-
-.dropdown {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-.search {
-  margin-top: 30px;
-}
-
-input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-/* Results Styles */
 
 .container-results {
-  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+/* Modern title styles for Υποβολή προσφοράς */
+.main-title {
+  font-size: 32px; /* Increase font size */
+  font-weight: bold; /* Keep it bold */
+  color: #333; /* Choose a modern text color */
+  text-align: center; /* Center the text */
+  margin-bottom: 30px; /* Increase the margin-bottom for more separation */
+  letter-spacing: 1px; /* Adjust letter spacing for readability */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle text shadow */
+}
+
+/* Center the shop title relative to the page */
+.center-title {
+  text-align: center; /* Center the title horizontally within its container */
+}
+
+/* Shop Title Container Styles */
+#shopTitle {
+  font-size: 24px;
+  padding: 20px; /* Add padding to make it slightly wider than the text */
+  background: linear-gradient(135deg, #1e88e5, #00acc1);
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  animation: pulse 2s ease 3;
+  text-align: center; /* Center the text */
+  margin: 30px auto; /* Increase margin for vertical spacing */
+  display: inline-block; /* Make the background size automatically to the content */
+}
+
+
+.main-title {
+  margin: 0 auto; /* Center the container horizontally on the page */
+}
+
+/* Animation Keyframes */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Styles for the search form */
+.search {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+  border-radius: 60px;
+  box-shadow: 0 0 0 0 5px #6886ff;
+  transition: width 0.5s ease, left 0.5s ease; /* Add left transition */
+  left: 50%; /* Initially center the search form */
+  transform: translateX(-50%); /* Center horizontally */
+}
+
+/* Vertical spacing for the search container */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px; /* Increase the margin-bottom for more separation */
+}
+
+.section-title {
+  font-size: 24px; /* Adjust the font size as needed */
+  font-weight: bold; /* Make the text bold */
+  color: #333; /* Choose a suitable text color */
+  margin-bottom: 20px; /* Add spacing below the title */
+  text-align: center; /* Center the text horizontally */
+  letter-spacing: 1px; /* Add letter spacing for emphasis */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Add a subtle text shadow */
+}
+
+.search.active {
+  width: 360px;
+}
+
+.search .icon {
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  z-index: 1000;
+  cursor: pointer;
+  position: absolute;
+  background: #fff;
+  border-radius: 60px;
+  align-items: center;
+  justify-content: center;
+}
+
+.search .icon:before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid #6886ff;
+  transform: translate(-4px, -4px);
+}
+
+.search .icon:after {
+  content: "";
+  width: 3px;
+  height: 12px;
+  position: absolute;
+  background: #6886ff;
+  transform: translate(6px, 6px) rotate(315deg);
+}
+
+.search .input {
+  left: 60px;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.search .input input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  padding: 10px 0;
+  position: absolute;
+  vertical-align: middle; /* Align text vertically in the middle */
+  line-height: 60px; /* Set line-height to match the height of the container */
+}
+
+/* Local CSS for the search input */
+.search-container #searchInput.local-search-input {
+  text-align: left !important; /* Apply left text alignment */
+  border: none !important; /* Remove the border */
+  box-shadow: none;
+  width: calc(140%); /* Adjust the width to match div.input */
+  padding-left: 60px; /* Add padding to match the icon width */
+  margin-left: 0; /* Remove any margin that may affect positioning */
+}
+
+.clear {
+  top: 50%;
+  right: 15px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  cursor: pointer;
+  background: #ff0;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+}
+
+.clear:before {
+  width: 1px;
+  height: 15px;
+  content: "";
+  position: absolute;
+  background: #999;
+  transform: rotate(45deg);
+}
+
+.clear:after {
+  width: 1px;
+  height: 15px;
+  content: "";
+  position: absolute;
+  background: #999;
+  transform: rotate(315deg);
+}
+
+/* Label styles for form elements */
+label {
+  display: block;
+  margin-left: 10px;
+  font-weight: bold; /* Add some weight to labels for better visibility */
+}
+
+/* Select input styles */
+select,
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: center; /* Center the text horizontally */
+  appearance: none; /* Remove default arrow on some browsers */
+}
+
+/* Style for the dropdown arrow icon */
+select::after {
+  content: '\25BC'; /* Unicode character for a down-pointing triangle */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #555; /* Color of the dropdown arrow */
+  pointer-events: none; /* Prevent clicking on the arrow */
+}
+
+/* Style for the dropdown list options */
+select option {
+  text-align: center; /* Center the text horizontally within the options */
+}
+
+/* Style for the hover effect on options */
+select option:hover {
+  background-color: #ddd; /* Add a subtle hover background color */
+}
+
+/* Style for the focused option */
+select option:focus {
+  outline: none; /* Remove the default focus outline */
+  background-color: #f0f0f0; /* Add a background color when focused */
+}
+
+/* Button styles */
+button.submit-button {
+  background-color: #0e3dc0;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.submit-button:hover {
+  background-color: #0c36b5;
+}
+
+
+/* Styles for the result title */
+.result-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+
+/* Product result styles */
+#productResults {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
 }
 
 .product-item {
-  border: 1px solid #ddd;
+  flex-basis: calc(100% - 10px); /* Adjust the width of product items to make it more square */
   padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 3px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
-/* Loader Styles */
+.product-item:hover {
+  transform: scale(1.015); /* Add a slight scale effect on hover */
+}
 
-.loader-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
+.product-item img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Styling for product name */
+.product-name {
+  font-weight: bold;
+  color: #333;
+  margin: 5px 0;
+}
+
+/* Styling for discount label */
+.discount-label {
+  color: #e74c3c; /* Red color for discounts */
+  margin: 5px 0;
+}
+
+/* Styling for product price */
+.product-price {
+  font-weight: bold;
+  color: #333;
+  margin: 5px 0;
+}
+
+/* Styling for store name */
+.store-name {
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Styling for availability */
+.availability {
+  font-weight: bold;
+  color: #333;
+  margin: 5px 0;
+}
+
+.input-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  z-index: 9998;
-  opacity: 1;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.loader {
   text-align: center;
-  position: relative;
 }
 
-.loading-text {
-  font-size: 16px;
-  z-index: -1;
-  color: rgb(31, 180, 31);
-  text-align: center;
-  display: none;
-  position: absolute;
-  top: 100px;
-}
-
-.product-container {
-  display: flex;
-  align-items: flex-start;
-}
-
-.product {
-  flex: 1;
-}
-
-/* Center the message container vertically and horizontally */
-.message-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
+.price-input {
   width: 100%;
-  height: 100%;
-  display : none;
-}
-
-/* Style the green bubble */
-.message {
-  background-color: rgb(38, 159, 184);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  color: #333;
   text-align: center;
-  display : none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  appearance: none;
 }
 
+.submit-button {
+  background-color: #466eda;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%; /* Make the button take up the full width of its container */
+  margin-top: 10px; /* Add margin for separation */
+}
 
+.submit-button:hover {
+  background-color: #062581;
+}
 
-/* Sticky Footer Styles */
 
 .sticky-footer {
   position: sticky;
   top: 100%;
+}
+
+
+.product-container {
+  display: flex; /* Use Flexbox to center align items */
+  flex-direction: column; /* Stack child elements vertically */
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text content */
+}
+
+.product {
+  /* Add any other styling for the product as needed */
+}
+
+.product img {
+  max-width: 100%; /* Ensure the image doesn't exceed the container's width */
+  margin: 0 auto; /* Center the image horizontally within the container */
 }

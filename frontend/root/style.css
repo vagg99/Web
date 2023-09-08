@@ -153,11 +153,6 @@ nav.maps-page ul li a {
   color: #555; /* Placeholder text color */
 }
 
-
-#searchButton:hover {
-  background: linear-gradient(to right, #0000ff, #00ff00);
-}
-
 /* Loading spinner styles */
 .loader {
   position: fixed;
@@ -385,8 +380,8 @@ a:link, a:visited {
 
 .slick-dots li button {
   font-size: 0; /* Hide the dot's content */
-  width: 10px; /* Adjust the dot's width */
-  height: 10px; /* Adjust the dot's height */
+  width: 20px; /* Adjust the dot's width */
+  height: 20px; /* Adjust the dot's height */
   background: #999; /* Dot color */
   border: none;
   border-radius: 50%; /* Make it a circle */
@@ -394,11 +389,10 @@ a:link, a:visited {
   transition: background-color 0.3s ease; /* Add a smooth transition */
 }
 
-/* Style for the active dot */
-.slick-dots li.slick-active button {
-  background: #0e3dc0; /* Active dot color */
+/* Change the background color of the dots on hover */
+.slick-dots li button:hover {
+  background-color: #777777; /* New background color on hover */
 }
-
 
 footer {
   font-family: Open Sans, sans-serif;

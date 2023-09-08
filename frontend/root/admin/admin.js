@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  
   // LEADERBOARD
 
   document.getElementById('refresh-button').addEventListener('click', refreshLeaderboard);

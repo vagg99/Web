@@ -63,6 +63,18 @@ select {
   cursor: pointer;
 }
 
+/* On hover effect */
+.popup-item-container .delete-discount-button:hover {
+  background-color: rgb(169, 169, 169);
+}
+
+/* Style for delete button */
+.delete-discount-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .leaflet-popup-content button {
   display: inline;
   background-color: #007bff;
@@ -75,6 +87,13 @@ select {
   transition: background-color 0.3s ease-in-out;
   text-align: center; /* Center-align text */
 }
+
+/* Style for out-of-stock items */
+.popup-item-container.out-of-stock {
+  opacity: 0.3; /* Adjust the opacity value as needed */
+
+}
+
 
 
 /* Hover effect for buttons */
@@ -145,10 +164,6 @@ select {
   cursor: not-allowed;
 }
 
-/* On hover effect */
-.popup-item-container .delete-discount-button:hover {
-  background-color: rgb(169, 169, 169);
-}
 
 /* discount popup */
 /* Λίστα προσφορών! */
@@ -264,12 +279,7 @@ select {
   margin-top: 5px;
 }
 
-/* Style for delete button */
-.delete-discount-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
+
 
 /* Container for enumeration and product name */
 .enumeration-product-container {

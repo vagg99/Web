@@ -87,53 +87,64 @@
 }
 
 
-/* Styles for chart containers */
+/* Style for graph containers */
 .graphs-container {
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin: 20px 0;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Styles for chart titles */
+/* Style for graph container titles */
 .graphs-container h2 {
   font-size: 24px;
-  color: #0e3dc0;
+  color: #0e3dc0; /* Text color (adjust to your preference) */
   margin-bottom: 10px;
+  text-align: center; /* Center-align the title */
+  background-color: #f0f0f0; /* Background color (adjust to your preference) */
+  padding: 10px; /* Add some padding for spacing */
+  border-radius: 5px; /* Rounded corners */
+  font-family: Arial, sans-serif; /* Choose your preferred font family */
 }
 
-/* Styles for chart labels and input fields */
+
+
 .graphs-container label {
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
+  font-size: 16px;
+  margin-right: 10px;
 }
 
-.graphs-container input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-/* Styles for chart buttons */
-.graphs-container .button-container {
-  display: absolute; /* Display buttons horizontally */
+.graphs-container select,
+.graphs-container input[type="month"] {
+  font-size: 16px;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .graphs-container button {
-  background-color: #0e3dc0;
+  font-size: 18px;
+  padding: 10px 20px;
+  background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
+
+/* Center-align the button */
+.graphs-container button {
+  display: block;
+  margin: 0 auto;
+}
+
 
 .graphs-container button:hover {
   background-color: #6886ff;
 }
+
 
 /* Styles for chart canvas */
 canvas {
@@ -144,11 +155,41 @@ canvas {
 }
 
 /* calendar stuff */
+/* Style for the date picker input */
+#datePicker {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px; /* Adjust the font size */
+  background-color: #fff; /* Background color (adjust to your preference) */
+  color: #333; /* Text color (adjust to your preference) */
+}
+
+
+
+/* Style for the "Create Graph" button */
+#generate-graph-button {
+  background-color: #0e3dc0; /* Button background color (adjust to your preference) */
+  color: #fff; /* Button text color (adjust to your preference) */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px; /* Adjust the font size */
+  margin-top: 10px; /* Add margin to separate it from the date picker */
+}
+
+/* Add hover effect for the button */
+#generate-graph-button:hover {
+  background-color: #6886ff; /* Adjust the color on hover */
+}
 
 
 /* Leaderboard container styles */
 .leaderboard-container {
-  background-color: #f5f5f5;
+  background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -289,4 +330,55 @@ canvas {
 .sticky-footer {
   position: sticky;
   top: 100%;
+}
+
+/* Styles for screens smaller than 768px (e.g., smartphones) */
+@media (max-width: 768px) {
+  /* Adjust the header styles for smaller screens */
+  .header-text {
+    text-align: center; /* Center-align the header text */
+  }
+
+  /* Center-align the navigation menu */
+  .nav-menu {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+
+  /* Adjust styles for individual navigation items */
+  .nav-item {
+    margin-bottom: 10px;
+  }
+
+  /* Add styles for the hamburger menu icon */
+  .hamburger {
+    display: block; /* Show the hamburger menu icon */
+    margin: 20px auto; /* Center-align the icon */
+  }
+
+  /* Adjust the leaderboard container styles for smaller screens */
+  .leaderboard-container {
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
+
+  /* Adjust styles for the leaderboard list items */
+  #leaderboard-list li {
+    grid-template-columns: 1fr; /* Display a single column on smaller screens */
+  }
+
+  /* Center-align leaderboard header */
+  .leaderboard-header {
+    text-align: center;
+    grid-template-columns: 1fr; /* Display a single column on smaller screens */
+  }
+
+  /* Adjust the styles for the pagination */
+  .pagination {
+    text-align: center;
+  }
+
+  
 }

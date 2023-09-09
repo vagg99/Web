@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   uploadItemsButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
     if (!file) {
-      say(messageDiv, 'Please select a file.');
+      sayPopup('Παρακαλώ διαλέξτε ένα αρχείο για ανέβασμα.');
       return;
     }
     const fileReader = new FileReader();
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   uploadStoresButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
     if (!file) {
-      say(messageDiv, 'Please select a file.');
+      sayPopup('Παρακαλώ διαλέξτε ένα αρχείο για ανέβασμα.');
       return;
     }
     const fileReader = new FileReader();
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   uploadStockButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
     if (!file) {
-      say(messageDiv, 'Please select a file.');
+      sayPopup('Παρακαλώ διαλέξτε ένα αρχείο για ανέβασμα.');
       return;
     }
     const fileReader = new FileReader();
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       } catch (error) {
         console.error('Error deleting data:', error);
-        say(messageDiv, 'An error occurred.');
+        sayPopup('An error occurred.');
       }
     }
   }
@@ -425,6 +425,22 @@ function populateSubcategories() {
     }
   }
 }
+
+// popup messages
+function sayPopup(message) {
+  const popup = document.getElementById('popup');
+  const popupMessage = document.getElementById('popup-message');
+
+  popupMessage.textContent = message;
+  popup.style.display = 'block';
+
+  // Close the popup when the close button is clicked
+  const closePopupButton = document.getElementById('close-popup');
+  closePopupButton.addEventListener('click', () => {
+    popup.style.display = 'none';
+  });
+}
+
 async function getCategories() {
   const response = await fetch('http://localhost:3000/getSubcategories');
   const categories = await response.json();

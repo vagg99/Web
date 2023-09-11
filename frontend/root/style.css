@@ -6,6 +6,25 @@
   letter-spacing: .4px;
 }
 
+/* hamburger menu appears over everything */
+.hamburger{
+  padding: 10px 15px; /* Add some padding around the bars */
+  display: none;
+  cursor: pointer;
+}
+
+/* hamburger bars */
+.bar{
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background-color: #0e3dc0;
+}
+
+
 /* Header styles */
 header {
   background-color: #ebf4ff;
@@ -236,23 +255,6 @@ a:link, a:visited {
   text-decoration: none;
 }
 
-/* hamburger menu appears over everything */
-.hamburger{
-  padding: 10px 15px; /* Add some padding around the bars */
-  display: none;
-  cursor: pointer;
-}
-
-/* hamburger bars */
-.bar{
-  display: block;
-  width: 25px;
-  height: 3px;
-  margin: 5px auto;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  background-color: #0e3dc0;
-}
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {

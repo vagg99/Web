@@ -5,10 +5,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   const navMenu = document.querySelector(".nav-menu");
   const loader = document.querySelector(".loader");
 
+  // hamburger menu functionality
   hamburger.addEventListener("click", () => {
     hamburger.classList.toggle("active");
     navMenu.classList.toggle("active");
   });
+
+  document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("active");
+  }));
+
+  // if you scroll down the hamburger menu will disappear
+  window.addEventListener("scroll", () => {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("active");
+  });
+
   // Upload data to the database
 
   const fileInput = document.getElementById('jsonFileInput');

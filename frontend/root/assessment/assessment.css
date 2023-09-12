@@ -151,3 +151,8 @@
     position: sticky;
     top: 100%;
 }
+
+/* small screen styles */
+@media screen and (max-width: 768px) {
+
+}

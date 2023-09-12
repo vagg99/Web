@@ -19,7 +19,7 @@
     position: absolute;
     top: 65%;   /* page centering */
     left: 57%;  /* page centering */
-    transform: translate(-50%, -50%); /* page centering */
+    transform: translate(-50%, -45%); /* page centering */
     width: 35rem;
     height: 50rem; /* wrapper height*/
 }
@@ -121,19 +121,27 @@ form .form-group input:valid~i {
 
 /* password requirment colors */
 .completed {
-    color: green;
+    color: rgb(53, 182, 53);
 }
 /* password requirment colors */
 .missing {
-    color: red;
+    color: rgb(248, 44, 44);
 }
+
 
 .wrapper .form-container form .forgot-pass a {
     color: var(--labelColor);
     text-decoration: none;
     font-size: 0.9rem; /* forgot password question size */
     padding-top: 1rem;
+    margin-bottom: 1rem;
     transform: all .5s ease;
+    transition: all .5s ease;
+}
+
+/* forgot-password bottom margin */
+.wrapper .form-container form .forgot-pass {
+    margin-bottom: 1rem;
 }
 
 .wrapper .form-container form .forgot-pass a:hover {
@@ -192,7 +200,7 @@ form .form-group input:valid~i {
     }
 
     50% {
-        transform: translateX(-50rem) scale(1.1);
+        transform: translateX(-35rem) scale(1.1);
     }
 
     100% {
@@ -227,7 +235,7 @@ form .form-group input:valid~i {
     }
 
     50% {
-        transform: translateX(50rem) scale(1.1);
+        transform: translateX(35rem) scale(1.1);
     }
 
     100% {
@@ -252,31 +260,17 @@ form .form-group input:valid~i {
     }
 }
 
-.password-warning {
-    display: none;
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    width: 100%;
-    background-color: #ffcccc;
-    border: 1px solid #ff5555;
-    border-radius: 5px;
-    padding: 8px;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
-.password-warning i {
-    color: #ff5555;
-    margin-right: 5px;
-}
 
 .password-requirements-container {
+    width: 100%;
+    padding: 0 1rem;
+    border-radius: 0.5rem;
     margin-bottom: 10px;
     padding: 10px;
-    background-color: #f8f8f8;
+    background-color: transparent;
     border-radius: 5px;
     border: 1px solid #ccc;
+    border: 0.1rem solid var(--labelColor);
 }
 
 .password-requirements {
@@ -322,21 +316,83 @@ to accommodate the space for the eye button: */
     width: calc(100% - 3.5rem); /* Adjusted width value */
 }
 
+/* footer at the very bottom of the page (under the forms) */
+.sticky-footer {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    flex-shrink: 0; 
+    padding-top: 10rem;    /* more top padding */
+}
+
 /* media query for smaller screens */
 @media (max-width: 768px) {
     .wrapper {
-        top: 50%; /* Center vertically on smaller screens */
-        transform: translate(-50%, -50%);
-        width: 90%; /* Adjust width for smaller screens */
-        height: auto; /* Allow height to adjust based on content */
+        position: absolute;
+        top: 79%; /* Center vertically on smaller screens */
+        transform: translate(-60%, -50%);
+        width: 75%; /* Adjust width for smaller screens */
     }
 
     .wrapper .form-container {
-        width: 100%; /* Take full width on smaller screens */
-        height: auto; /* Allow height to adjust based on content */
+        width: 100%; /* Adjust width for smaller screens */
+        height: 100%; /* Adjust height for smaller screens */
     }
 
     .wrapper .form-container form .form-group {
-        width: 100%; /* Take full width on smaller screens */
+        width: 100%; /* Adjust width for smaller screens */
+    }
+
+    /* reduce the height of the two wrapper forms */
+    .wrapper .form-container.sign-up {
+        height: 65%; /* Adjust height for smaller screens */
+    }
+
+    .wrapper .form-container.sign-in {
+        height: 65%; /* Adjust height for smaller screens */
+    }
+
+    /* Adjust the margin-top for the title "Εγγραφή" */
+    .wrapper .form-container.sign-up .signUpTitle {
+        margin-top: 0.9rem; /* Adjusted margin-top value */
+    }
+
+    /* Adjust the margin-bottom for the SignUp->SignIn question link */
+    .wrapper .form-container.sign-up .link {
+        margin: 0.5rem 0; /* Adjusted margin value */
+    }
+
+    /* adjust the size of the buttons */
+    .wrapper .form-container form .btn {
+        height: 3rem;
+        font-size: 1rem;
+    }
+
+    /* smaller and more compact password requirements */
+    .password-requirements-container {
+        width: 100%;
+        padding: 0 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: transparent;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        border: 0.1rem solid var(--labelColor);
+    }
+
+    /* smaller requirement container */
+    .password-requirements {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* footer */
+    .sticky-footer {
+        position: absolute;
+        top: 130%;
     }
 }

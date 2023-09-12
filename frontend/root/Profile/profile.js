@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loaderContainer = document.getElementById('loader-container');
     const loader = document.getElementById('loader');
 
+    // hamburger menu
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+
     // Fetch the user's information from the server
     const userResponse = await fetch(`http://localhost:3000/getUserInfo`, {
         method: "GET",
@@ -93,6 +97,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     cancelButton.style.backgroundColor = "#f5365c";
     cancelButton.style.color = "#fff";
+
+    // hamburger menu event listeners
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+        });
+
+    document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    }));
+
+    // if you scroll down the hamburger menu will disappear
+    window.addEventListener("scroll", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    });
 
     // Add event listener to the edit button
     editButton.addEventListener("click", () => {

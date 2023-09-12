@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script defer src="../auth/user.js"></script>
-  <title>Αξιολόγηση Προσφορών | e-Καταναλωτής</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>error 404</title>
   <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="stylesheet" type="text/css" href="assessment.css">
+  <link rel="stylesheet" type="text/css" href="pageNotFound.css">
 </head>
 <body>
+  
   <header>
     <div class="header-left">
       <a href="../index.html">
@@ -19,11 +19,11 @@
       </div>
     </div>
     <nav>
-      <ul>
+      <ul class="nav-menu">
         <li class="nav-item">
           <a href="../index.html" class="nav-link">Αρχική</a>
         </li>
-        <li class="nav-item" id="loginLink" style="display: none;">
+        <li class="nav-item" id="loginLink" style="display: block;">
           <a href="../Registration/registration.html" class="nav-link">Σύνδεση</a>
         </li>
         <li class="nav-item">
@@ -32,7 +32,7 @@
         <li class="nav-item" id="profileLink" style="display: none;">
           <a href="../Profile/profile.html" class="nav-link">Προφίλ</a>
         </li>
-        <li class="nav-item" id="adminDashboardBtn" style="display: none;">
+        <li class="nav-item"  id="adminDashboardBtn" style="display: none;">
           <a href="../admin/admin.html" class="nav-link">Admin</a>
         </li>
         <li class="nav-item" id="logoutBtn" style="display: none;">
@@ -46,23 +46,26 @@
       </div>
     </nav>
   </header>
-
-  <main>
-    <!-- Page Title -->
-    <div>
-      <h1 id="page-title"></h1>
+  <section id="not-found">
+    <div id="title">Σφάλμα</div>
+    <div class="circles">
+      <p>404<br>
+       <small>Δε βρέθηκε η σελίδα...</small>
+      </p>
+      <span class="circle big"></span>
+      <span class="circle med"></span>
+      <span class="circle small"></span>
     </div>
-    <ul class="product-container info-container" id="productContainer">
-      <!-- Products will be added here dynamically -->
-    </ul>
+  </section>
+
   </main>
-  
 
   <footer class="sticky-footer">
     &copy; 2023 All rights reserved.
   </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script src="pageNotFound.js"></script>
+  <script src="../script.js"></script>
   <script src="../auth/auth.js"></script>
-  <script src="assessment.js"></script>
 </body>
 </html>

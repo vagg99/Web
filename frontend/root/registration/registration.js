@@ -20,8 +20,14 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   if (!passwordRegex.test(password)) {
     // clear the password field
     spinner.style.display = 'none';
-    showPopup('Invalid password');  // error popup
+    showPopup('Μη έγκυρος κωδικός');  // error popup
     document.getElementById('password').value = '';
+    // Hide the password requirements container and reset the class of each requirement element
+    document.querySelector('.password-requirements-container').style.display = 'none';
+    updateRequirementClass('lengthRequirement', false);         // 8 characters
+    updateRequirementClass('capitalLetterRequirement', false);  // 1 capital letter
+    updateRequirementClass('numberRequirement', false);         // 1 number
+    updateRequirementClass('specialCharRequirement', false);    // 1 special character
     return;
   }
 
@@ -64,6 +70,7 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
     // Hide the spinner after registration error
     spinner.style.display = 'none';
   }
+
 });
 
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
@@ -256,3 +263,27 @@ function setupFormSwapping() {
 
 // Call the function to set up the form swapping functionality
 setupFormSwapping();
+
+// when the password form is cleared, hide the password requirements
+document.getElementById('password').addEventListener('input', function() {
+  if (this.value === '') {
+    document.querySelector('.password-requirements-container').style.display = 'none';
+    // Hide the warning message
+    document.getElementById('passwordWarning').style.display = 'none';
+  }
+});
+
+// password warning message only appears for 3 seconds 
+document.getElementById('password').addEventListener('input', function() {
+  if (this.value !== '') {
+    setTimeout(() => {
+      document.getElementById('passwordWarning').style.display = 'none';
+    }, 5000);
+  }
+});
+
+// event listener for the hamburger menu
+document.querySelector('.hamburger').addEventListener('click', function() {
+  this.classList.toggle('active');
+  document.querySelector('.nav-menu').classList.toggle('active');
+});

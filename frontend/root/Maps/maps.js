@@ -58,16 +58,13 @@ let userLocationMarker = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
 
+
+
   let stores = await getAllStores();
   let discounts = await getAllDiscounts();
 
   const hamburger = document.querySelector(".hamburger");
   const navMenu = document.querySelector(".nav-menu");
-
-  hamburger.addEventListener("click", () => {
-    hamburger.classList.toggle("active");
-    navMenu.classList.toggle("active");
-  });
 
   // Search box functionality
   const searchBox = document.getElementById('search-box');
@@ -89,6 +86,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   subcategorySelect.addEventListener('change', () => {
     filterShops('');
   });
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+  });
+
 
   function filterShops(query){
     displayAllStores(stores);

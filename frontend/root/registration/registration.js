@@ -287,3 +287,15 @@ document.querySelector('.hamburger').addEventListener('click', function() {
   this.classList.toggle('active');
   document.querySelector('.nav-menu').classList.toggle('active');
 });
+
+// event listener for the nav links
+document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', function() {
+  document.querySelector('.hamburger').classList.remove('active');
+  document.querySelector('.nav-menu').classList.remove('active');
+}));
+
+// if you scroll down the hamburger menu will disappear
+window.addEventListener('scroll', function() {
+  document.querySelector('.hamburger').classList.remove('active');
+  document.querySelector('.nav-menu').classList.remove('active');
+});

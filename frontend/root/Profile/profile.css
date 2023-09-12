@@ -216,32 +216,6 @@ textarea.form-control {
   align-items: center;
 }
 
-@media (min-width: 576px) {
-  .form-inline label {
-    display: flex;
-    margin-bottom: 0;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .form-inline .form-group {
-    display: flex;
-    margin-bottom: 0;
-    flex: 0 0 auto;
-    flex-flow: row wrap;
-    align-items: center;
-  }
-
-  .form-inline .form-control {
-    display: inline-block;
-    width: auto;
-    vertical-align: middle;
-  }
-
-  .form-inline .input-group {
-    width: auto;
-  }
-}
 
 .btn {
   font-size: 1rem;
@@ -669,13 +643,6 @@ button.bg-white:focus {
   display: flex !important;
 }
 
-@media (min-width: 768px) {
-
-  .d-md-flex {
-    display: flex !important;
-  }
-}
-
 @media (min-width: 992px) {
 
   .d-lg-inline-block {
@@ -788,36 +755,26 @@ button.bg-white:focus {
 .m-auto {
   margin: auto !important;
 }
-
-@media (min-width: 768px) {
-
-  .mt-md-5 {
-    margin-top: 3rem !important;
-  }
-
-  .pt-md-4 {
-    padding-top: 1.5rem !important;
-  }
-
-  .pb-md-4 {
-    padding-bottom: 1.5rem !important;
-  }
-}
-
-@media (min-width: 992px) {
-
-  .pl-lg-4 {
-    padding-left: 1.5rem !important;
-  }
-
+@media (max-width: 768px) {
   .pt-lg-8 {
     padding-top: 8rem !important;
   }
+}
 
+
+@media (min-width: 768px) {
+  /* Styles for screens with a minimum width of 768px */
+  .pl-lg-4 {
+    padding-left: 1.5rem !important;
+  }
+  .pt-lg-8 {
+    padding-top: 8rem !important;
+  }
   .ml-lg-auto {
     margin-left: auto !important;
   }
 }
+
 
 @media (min-width: 1200px) {
 
@@ -1044,12 +1001,7 @@ a.text-white:focus {
   padding: 1rem 0;
 }
 
-@media (min-width: 768px) {
-  .main-content .container-fluid {
-    padding-right: 39px !important;
-    padding-left: 39px !important;
-  }
-}
+
 
 /* form outter line shading */
 .form-control-alternative {
@@ -1073,34 +1025,13 @@ a.text-white:focus {
 
 /* Media queries for responsiveness */
 
-/* Show profile under navigation bar when in window mode */
-@media screen and (max-width: 1024px) {
-  .navbar {
-    flex-direction: column; /* Stack items vertically */
-    align-items: stretch; /* Stretch to full width */
-  }
-
-  .profile {
-    display: block; /* Show the profile section */
-  }
-
-  .footer {
-    position: sticky;
-    top: 100%;
-  }
-}
 
 .navbar-search-dark .focused .input-group {
   border-color: rgba(255, 255, 255, .9);
 }
 
 @media (min-width: 992px) {
-  .navbar .dropdown-menu {
-    margin: 0;
-    pointer-events: none;
-    opacity: 0;
-  }
-  
+
 .progress {
   overflow: hidden;
   height: 8px;
@@ -1292,4 +1223,3 @@ footer {
   font-style: italic;
   color: #777;
 }
-

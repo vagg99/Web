@@ -380,7 +380,12 @@ canvas {
     text-align: center;
   }
 
-  
+  /* buttons inside the button container  are all the same size */
+  .button-container button {
+    width: 100%;
+    height: 100px;
+  }
+   
 }
 
 .popup {

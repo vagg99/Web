@@ -11,7 +11,7 @@ async function handleIndividualDiscountDeletion(req, res) {
       const discountId = req.query.discountId;
       const collection = await connectToDatabase("stock");
       const objectIdDiscountId = new ObjectId(discountId);
-      const result = await collection.updateOne({ _id: discountId }, { $set: { "discount": {}, "on_discount": false } });
+      const result = await collection.updateOne({ _id: objectIdDiscountId }, { $set: { "discount": {}, "on_discount": false } });
       res.status(200).json(result);
     } catch (error) {
       console.error('Error deleting discount:', error);

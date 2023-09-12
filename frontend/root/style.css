@@ -1,3 +1,5 @@
+/* global style.css */
+
 * {
   margin: 0;
   padding: 0;
@@ -11,8 +13,20 @@
   padding: 10px 15px; /* Add some padding around the bars */
   display: none;
   cursor: pointer;
-  
 }
+
+/* nav menu active appears over everything EXCEPT for the hamburger menu */
+.nav-menu.active{
+  z-index: 1;
+}
+
+/* hamburger menu active appears over everything EXCEPT for the nav menu */
+
+.hamburger.active{
+  z-index: 2;
+}
+
+
 
 /* hamburger bars */
 .bar{
@@ -190,26 +204,7 @@ nav.maps-page ul li a {
   opacity: 0;
   visibility: hidden;
 }
-/*
-.loader::after {
-  content: "";
-  width: 75px;
-  height: 75px;
-  border: 15px solid #dddddd;
-  border-top-color: #009578;
-  border-radius: 50%;
-  animation: loading 0.75s ease infinite;
-}
 
-@keyframes loading {
-  from {
-    transform: rotate(0turn);
-  }
-  to {
-    transform: rotate(1turn);
-  }
-}
-*/
 /* Background image for the entire body */
 body {
   background-image: url('images/e-katanalotis_background.png');
@@ -250,8 +245,6 @@ a {
   -webkit-text-decoration-skip: objects;
 }
 
-
-
 a:link, a:visited {
   text-decoration: none;
 }
@@ -259,6 +252,7 @@ a:link, a:visited {
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {
+
   .hamburger{
     display: block;
   }
@@ -274,6 +268,7 @@ a:link, a:visited {
   .hamburger.active .bar:nth-child(3){
     transform: translateY(-8px) rotate(-45deg);
   }
+
   .nav-menu{
     position:fixed;
     right: -100%; /* appear from the right */
@@ -286,6 +281,8 @@ a:link, a:visited {
     transition: 0.3s;
     text-decoration-color: #0e3dc0;
     font-weight: bold; /* make the letters bold */
+    /* appears right under the header */
+    margin-top: 60px;
   }
 
   /* styles for the custom menu title */
@@ -309,6 +306,8 @@ a:link, a:visited {
   .nav-menu.active{
     right: 0;
   }
+
+  
 }
 
 /* Background images for different screen sizes */

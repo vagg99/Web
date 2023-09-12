@@ -50,6 +50,7 @@
     </nav>
   </header>
     <div class="wrapper">
+        <!-- Sign Up -->
         <div class="form-container sign-up">
             <form id="registrationForm" action="#">
                 <h2 class="signUpTitle">Εγγραφή</h2>
@@ -71,15 +72,13 @@
                 </div>
                 <div class="password-requirements-container">
                     <div class="password-requirements">
-                        <p class="requirement" id="lengthRequirement">8 χαρακτήρες</p>
-                        <p class="requirement" id="capitalLetterRequirement">ένα κεφαλαίο γράμμα</p>
-                        <p class="requirement" id="numberRequirement">ένας αριθμός</p>
-                        <p class="requirement" id="specialCharRequirement">ένας ειδικός χαρακτήρας</p>
+                        <p class="requirement" id="lengthRequirement">Τουλάχιστον 8 χαρακτήρες</p>
+                        <p class="requirement" id="capitalLetterRequirement">Ένα κεφαλαίο γράμμα</p>
+                        <p class="requirement" id="numberRequirement">Ένας αριθμός</p>
+                        <p class="requirement" id="specialCharRequirement">Ένας ειδικός χαρακτήρας</p>
                     </div>
                 </div>                
                 <div class="password-warning" id="passwordWarning">
-                    <i class="fas fa-cloud"></i>
-                    <p>Password must be at least 8 characters long, contain at least one capital letter, one number, and one special character.</p>
                 </div>
                 
                 <button type="submit" class="btn">
@@ -91,6 +90,7 @@
                 </div>
             </form>
         </div>
+        <!-- Sign In -->
         <div class="form-container sign-in">
             <form id="loginForm" action="#">
                 <h2>Σύνδεση</h2>
@@ -106,7 +106,7 @@
                     <button class="toggle-password" id="togglePassword2"><i class="fas fa-eye"></i></button>
                 </div>
                 <div class="forgot-pass">
-                    <a href="#">Ξέχασες τον κωδικό;</a>
+                    <a href="../pageNotFound/pageNotFound.html">Ξέχασες τον κωδικό;</a>
                 </div>
                 <button type="submit" class="btn" id="loginButton">
                     <span class="spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span> 
@@ -123,8 +123,9 @@
           <!-- The success message will be displayed here -->
         </div>
       </div>
-    <footer class="footer">
-		&copy; 2023 All rights reserved.
+
+    <footer class="sticky-footer">
+        &copy; 2023 All rights reserved.
     </footer>
 
     <script src="https://kit.fontawesome.com/9e5ba2e3f5.js" crossorigin="anonymous"></script>

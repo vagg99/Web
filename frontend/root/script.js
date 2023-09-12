@@ -100,4 +100,3 @@ async function LoadDataInTheBeginning() {
     return discounts;
   }
 }
-

@@ -45,7 +45,7 @@ async function handleDeletion(req, res) {
       res.status(200).json(`Deleted ${result.deletedCount} ${collectionName}.`);
       cache.flushAll();
     } catch (error) {
-      console.error(`Error deleting ${collectionName}:`, error);
+      console.error(`Error deleting a database idk which one:`, error);
       res.status(500).json({ error: 'Internal server error' });
     }
 }

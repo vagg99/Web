@@ -171,6 +171,8 @@ function getUserLocation() {
   }
 }
 function updateEllipse() {
+  map.closePopup();
+  
   distanceThreshold = parseFloat(document.getElementById('ellipseScale').value);
 
   const rotationDegrees = 0;

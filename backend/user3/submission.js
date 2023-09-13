@@ -20,7 +20,7 @@ async function handleDiscountSubmission(req, res) {
         newprice = Number(newprice);
   
         const collection = await connectToDatabase("stock");
-        const product = await collection.findOne({ _id: productId });
+        const product = await collection.findOne({ _id: new ObjectId(productId) });
   
         if (!product) {
           res.status(404).json({ error: 'Product not found' });
@@ -58,7 +58,7 @@ async function handleDiscountSubmission(req, res) {
           achievements["5_a_ii"] = true;
         }
   
-        const result = await collection.updateOne({ _id: productId }, { $set: {
+        const result = await collection.updateOne({ _id: new ObjectId(productId) }, { $set: {
           on_discount : true,
           discount: { 
             discount_price: newprice,

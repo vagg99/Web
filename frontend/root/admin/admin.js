@@ -178,17 +178,20 @@ async function fetchPlayersData() {
   }
 }
 
+let currentPage = 1; // Add a variable to keep track of the current page
+
 async function refreshLeaderboard() {
   try {
       const players = await fetchPlayersData();
-      displayPlayers(1, players);
-      displayPagination(players.length);
+      displayPlayers(currentPage, players); // Display the current page
+      displayPagination(players.length, players);
   } catch (error) {
       console.error('Error refreshing leaderboard:', error);
   }
 }
 
 function displayPlayers(page, players) {
+  currentPage = page; // Update the current page
   const leaderboardList = document.getElementById('leaderboard-list');
   leaderboardList.innerHTML = '';
 
@@ -208,7 +211,7 @@ function displayPlayers(page, players) {
   });
 }
 
-function displayPagination(length) {
+function displayPagination(length, players) {
   const totalPages = Math.ceil(length / playersPerPage);
   const paginationContainer = document.querySelector('.pagination');
   paginationContainer.innerHTML = '';
@@ -218,6 +221,11 @@ function displayPagination(length) {
   prevArrow.id = 'prevPage';
   prevArrow.className = 'arrow';
   prevArrow.innerHTML = '&#9664;';
+  prevArrow.addEventListener('click', () => {
+      if (currentPage > 1) {
+          displayPlayers(currentPage - 1, players); // Display the previous page
+      }
+  });
   paginationContainer.appendChild(prevArrow);
 
   for (let page = 1; page <= totalPages; page++) {
@@ -225,8 +233,10 @@ function displayPagination(length) {
       pageLink.href = '#';
       pageLink.textContent = page;
 
-      pageLink.addEventListener('click', () => {
-          displayPlayers(page);
+      pageLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        displayPlayers(page, players); // Display the clicked page
+        window.scrollTo(0, document.body.scrollHeight);
       });
 
       paginationContainer.appendChild(pageLink);
@@ -237,8 +247,12 @@ function displayPagination(length) {
   nextArrow.id = 'nextPage';
   nextArrow.className = 'arrow';
   nextArrow.innerHTML = '&#9654;';
+  nextArrow.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+          displayPlayers(currentPage + 1, players); // Display the next page
+      }
+  });
   paginationContainer.appendChild(nextArrow);
-
 }
 
 let stock = {};

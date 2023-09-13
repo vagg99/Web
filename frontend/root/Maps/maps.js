@@ -170,6 +170,9 @@ function getUserLocation() {
     console.error('Geolocation is not available in this browser.');
   }
 }
+
+// Function to update the ellipse and diameters
+// This function is called when the user changes the distance threshold
 function updateEllipse() {
   map.closePopup();
   
@@ -189,7 +192,6 @@ function updateEllipse() {
   if (diameter2) {
     map.removeLayer(diameter2);
   }
-
 
   const latlngs = [];
 
@@ -220,6 +222,12 @@ function updateEllipse() {
     color: CurrentLocationColor, // Color of the second diameter
     dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
   }).addTo(map);
+
+  // Update the label text to show the current radius in meters rounded to 2 decimal points
+  const radiusLabel = document.getElementById('radius-label');
+  const roundedRadius = (distanceThreshold * 100000).toFixed(2); // Round to 2 decimal points
+  radiusLabel.textContent = `Ακτίνα: ${roundedRadius} μέτρα`;
+
 }
 
 

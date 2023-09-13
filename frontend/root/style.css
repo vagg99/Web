@@ -307,6 +307,10 @@ a:link, a:visited {
     right: 0;
   }
 
+  /* slider doesn't have arrows */
+  .slider-container .slick-arrow {
+    display: none;
+  }
   
 }
 

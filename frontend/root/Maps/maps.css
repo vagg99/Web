@@ -322,6 +322,20 @@ section {
   flex-grow: 1; /* This will make the space element take up the remaining space on the right */
 }
 
+/* slider-label visualization */
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333333;   /* contrast */
+  font-size: 14px;
+  padding-right: 10px;    /* right padding  */
+}
+
+.slider-label p {
+  margin: 0;
+}
+
 .toggle-switch-scale {
   width: 300px; /* Adjust the width to your desired value */
   height: 24px;

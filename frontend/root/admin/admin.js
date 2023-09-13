@@ -5,10 +5,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   const navMenu = document.querySelector(".nav-menu");
   const loader = document.querySelector(".loader");
 
+  // hamburger menu functionality
   hamburger.addEventListener("click", () => {
     hamburger.classList.toggle("active");
     navMenu.classList.toggle("active");
   });
+
+  document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("active");
+  }));
+
+  // if you scroll down the hamburger menu will disappear
+  window.addEventListener("scroll", () => {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("active");
+  });
+
   // Upload data to the database
 
   const fileInput = document.getElementById('jsonFileInput');
@@ -23,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   uploadItemsButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
     if (!file) {
-      say(messageDiv, 'Please select a file.');
+      sayPopup('Παρακαλώ διαλέξτε ένα αρχείο για ανέβασμα.');
       return;
     }
     const fileReader = new FileReader();
@@ -38,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   uploadStoresButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
     if (!file) {
-      say(messageDiv, 'Please select a file.');
+      sayPopup('Παρακαλώ διαλέξτε ένα αρχείο για ανέβασμα.');
       return;
     }
     const fileReader = new FileReader();
@@ -51,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   uploadStockButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
     if (!file) {
-      say(messageDiv, 'Please select a file.');
+      sayPopup('Παρακαλώ διαλέξτε ένα αρχείο για ανέβασμα.');
       return;
     }
     const fileReader = new FileReader();
@@ -109,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       } catch (error) {
         console.error('Error deleting data:', error);
-        say(messageDiv, 'An error occurred.');
+        sayPopup('An error occurred.');
       }
     }
   }
@@ -165,17 +178,20 @@ async function fetchPlayersData() {
   }
 }
 
+let currentPage = 1; // Add a variable to keep track of the current page
+
 async function refreshLeaderboard() {
   try {
       const players = await fetchPlayersData();
-      displayPlayers(1, players);
-      displayPagination(players.length);
+      displayPlayers(currentPage, players); // Display the current page
+      displayPagination(players.length, players);
   } catch (error) {
       console.error('Error refreshing leaderboard:', error);
   }
 }
 
 function displayPlayers(page, players) {
+  currentPage = page; // Update the current page
   const leaderboardList = document.getElementById('leaderboard-list');
   leaderboardList.innerHTML = '';
 
@@ -195,7 +211,7 @@ function displayPlayers(page, players) {
   });
 }
 
-function displayPagination(length) {
+function displayPagination(length, players) {
   const totalPages = Math.ceil(length / playersPerPage);
   const paginationContainer = document.querySelector('.pagination');
   paginationContainer.innerHTML = '';
@@ -205,6 +221,11 @@ function displayPagination(length) {
   prevArrow.id = 'prevPage';
   prevArrow.className = 'arrow';
   prevArrow.innerHTML = '&#9664;';
+  prevArrow.addEventListener('click', () => {
+      if (currentPage > 1) {
+          displayPlayers(currentPage - 1, players); // Display the previous page
+      }
+  });
   paginationContainer.appendChild(prevArrow);
 
   for (let page = 1; page <= totalPages; page++) {
@@ -212,8 +233,10 @@ function displayPagination(length) {
       pageLink.href = '#';
       pageLink.textContent = page;
 
-      pageLink.addEventListener('click', () => {
-          displayPlayers(page);
+      pageLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        displayPlayers(page, players); // Display the clicked page
+        window.scrollTo(0, document.body.scrollHeight);
       });
 
       paginationContainer.appendChild(pageLink);
@@ -224,8 +247,12 @@ function displayPagination(length) {
   nextArrow.id = 'nextPage';
   nextArrow.className = 'arrow';
   nextArrow.innerHTML = '&#9654;';
+  nextArrow.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+          displayPlayers(currentPage + 1, players); // Display the next page
+      }
+  });
   paginationContainer.appendChild(nextArrow);
-
 }
 
 let stock = {};
@@ -425,6 +452,22 @@ function populateSubcategories() {
     }
   }
 }
+
+// popup messages
+function sayPopup(message) {
+  const popup = document.getElementById('popup');
+  const popupMessage = document.getElementById('popup-message');
+
+  popupMessage.textContent = message;
+  popup.style.display = 'block';
+
+  // Close the popup when the close button is clicked
+  const closePopupButton = document.getElementById('close-popup');
+  closePopupButton.addEventListener('click', () => {
+    popup.style.display = 'none';
+  });
+}
+
 async function getCategories() {
   const response = await fetch('http://localhost:3000/getSubcategories');
   const categories = await response.json();

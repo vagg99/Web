@@ -26,11 +26,25 @@ window.addEventListener("load", async () => {
   
   });
 
+  // hamburger menu functionality
   hamburger.addEventListener("click", () => {
     hamburger.classList.toggle("active");
     navMenu.classList.toggle("active");
   });
 
+  document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("active");
+  }));
+
+  // if you scroll down the hamburger menu will disappear
+  window.addEventListener("scroll", () => {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("active");
+  });
+
+
+  // slider for the main page
   $(document).ready(function(){
     $('.slider').slick({
       slidesToShow: 1,
@@ -100,4 +114,3 @@ async function LoadDataInTheBeginning() {
     return discounts;
   }
 }
-

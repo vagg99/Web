@@ -34,7 +34,7 @@ async function getItemsInStockFromDatabase(storeId,on_discount=false) {
     aggregationPipeline.push(
       {
         $addFields: {
-          store_id_int: { $toInt: "$store_id" }
+          store_id_int: { $toDouble: "$store_id" }
         }
       },
       {

@@ -3,6 +3,10 @@ const loadingText = document.getElementById('loading-text');
 
 document.addEventListener('DOMContentLoaded', async () => {
 
+  // hamburger menu
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".nav-menu");
+
   const searchInput = document.getElementById('searchInput');
   const params = new URLSearchParams(window.location.search);
   const shopId = params.get('shopId');
@@ -75,6 +79,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Hide the loader by fading it out
   loaderContainer.style.opacity = 0;
   loaderContainer.style['z-index'] = -1;
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+  });
+
+  document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("active");
+  }));
+
+  // if you scroll down the hamburger menu will disappear
+  window.addEventListener("scroll", () => {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("active");
+  });
+
 
 });
 

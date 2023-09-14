@@ -267,3 +267,4 @@ async function sendChoiceToBackend(productId, likes_dislikes_in_stock) {
         console.error('Error sending data to backend:', error);
     }
 }
+

@@ -42,7 +42,6 @@ hr {
   }
 }
 
-
 .container-fluid {
   width: 100%;
   margin-right: auto;
@@ -755,9 +754,31 @@ button.bg-white:focus {
 .m-auto {
   margin: auto !important;
 }
+
+/* mobile version */
 @media (max-width: 768px) {
   .pt-lg-8 {
     padding-top: 8rem !important;
+  }
+
+  /* better row align items */
+  .align-items-lg-center {
+    align-items: center !important;
+  }
+
+  /* button in column for mobile */
+  .btn {
+    text-align: center;
+    margin-bottom: .5rem; /* vertical gap between buttons */
+    margin-left: -.5rem;
+    width: 120%;
+    font-size: 32px;
+  } 
+
+  /* .col-4 better for mobile */
+  .col-4 {
+    display: inline;  
+    padding-top: .5rem;
   }
 }
 
@@ -1184,10 +1205,6 @@ footer {
   border-radius: 5px;
   font-weight: bold;
 }
-
-
-
-
 
 .submitted-product-item {
   border: 1px solid #ddd;

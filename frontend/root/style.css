@@ -95,11 +95,11 @@ header {
   margin: 0; /* Remove margin to center vertically */
 }
 
-
 /* Style for the search subtitle */
-.search-subtitle {
+.search-subtitle a {  
   font-size: 18px;
   color: #6886ff; /* Adjust the color as needed */
+  text-decoration: none; 
 }
 
 /* Navigation styles */
@@ -196,6 +196,7 @@ nav.maps-page ul li a {
   align-items: center;
   justify-content: center;
   background: #fff;
+  z-index: 9999;
 }
 
 .loader--hidden {

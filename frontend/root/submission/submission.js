@@ -64,14 +64,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   populateCategories();
 
-  shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
+  shopTitle.innerHTML = `Στο κατάστημα ${shopId}`;
 
   try {
     items.products = await getItemsInStock(shopId);
-    shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
+    shopTitle.innerHTML = `${items.products[0].store.tags.name}`;
   } catch (error){
-    alert("Αυτο το μαγαζί δεν εχει αντικείμενα στο stock του");
-    shopTitle.innerHTML = "Αυτο το μαγαζί δεν εχει αντικείμενα στο stock του\n Shop Id : " + shopId;
+    alert("Αυτο το κατάστημα δεν εχει αντικείμενα στο stock του");
+    shopTitle.innerHTML = "Αυτο το κατάστημα δεν εχει αντικείμενα στο stock του\n Shop Id : " + shopId;
   }
 
   console.log(items.products);
@@ -204,6 +204,7 @@ productDropdown.addEventListener('change', () => {
 
 function displaySelectedProduct(product) {
   const productDiv = document.createElement('div');
+ 
   productDiv.classList.add('product-item');
   productDiv.innerHTML = `
         <div class="product-container">
@@ -212,7 +213,7 @@ function displaySelectedProduct(product) {
             <p>${product.item.name}</p>
             ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
             <p id="product-${product.item.id}-price">${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
-            <p>Στο Μαγαζί ${product.store.tags.name}</p>
+            <p>Στο κατάστημα ${product.store.tags.name}</p>
             <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
             <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
             <button class="submit-button">Υποβολή</button>
@@ -222,6 +223,22 @@ function displaySelectedProduct(product) {
           </div>
         </div>
   `;
+
+    // Assuming you have a reference to your input field
+    const priceInput = productDiv.querySelector('input[type="number"]');
+
+    // Add a focus event listener to clear the placeholder text
+    priceInput.addEventListener('focus', () => {
+      priceInput.placeholder = ''; // Clear the placeholder text
+    });
+  
+    // Add a blur event listener to restore the placeholder text if the input is empty
+    priceInput.addEventListener('blur', () => {
+      if (!priceInput.value) {
+        priceInput.placeholder = 'Εισάγετε τιμή προσφοράς';
+      }
+    });
+  
   productDiv.querySelector('.submit-button').addEventListener('click', () => {
     const priceInput = productDiv.querySelector('input[type="number"]');
     const price = priceInput.value;
@@ -299,34 +316,48 @@ function say(id, message) {
 async function submitDiscount(product, newprice) {
   const productId = product._id;
   const idForMessage = product.item.id;
-  console.log(JSON.stringify({ productId, newprice }))
+  console.log(JSON.stringify({ productId, newprice }));
 
-  let userId = "64ccdd565a5bb46dd07e5148"; // default , toy vaggeli nomizo
+  let userId = "64ccdd565a5bb46dd07e5148"; // default, you can replace this with your user's ID
 
   try {
     const response = await fetch(`http://localhost:3000/submitDiscount`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify({ productId, newprice , userId })
+      body: JSON.stringify({ productId, newprice, userId }),
     });
 
     const result = await response.json();
 
     if (response.ok) {
-        console.log("success!",result);
-        say(idForMessage, "Επιτυχής υποβολή!!");
-        const priceElement = document.getElementById(`product-${idForMessage}-price`);
-        priceElement.innerHTML = `Απο <s>${product.price}</s> - <s>μοοονο : ${product.discount.discount_price}€ !</s> - μοοονο : ${newprice}€ !`;
+      // Show a SweetAlert2 success popup
+      Swal.fire({
+        icon: 'success',
+        title: 'Επιτυχής υποβολή!',
+        text: 'Η τιμή προσφοράς ανανεώθηκε με επιτυχία.',
+        confirmButtonText: 'Εντάξει',
+      });
+
+      // Update the price displayed on the page
+      const priceElement = document.getElementById(`product-${idForMessage}-price`);
+      priceElement.innerHTML = `Απο <s>${product.price}</s> - <s>μοοονο : ${product.discount.discount_price}€ !</s> - μοοονο : ${newprice}€ !`;
     } else {
-        console.log("rip",result);
-        say(idForMessage, "Αποτυχία υποβολής.  " + result.error);
+      // Show a SweetAlert2 error popup
+      Swal.fire({
+        icon: 'error',
+        title: 'Αποτυχία υποβολής',
+        text: `Αποτυχία υποβολής. ${result.error}`,
+        confirmButtonText: 'Εντάξει',
+        confirmButtonColor: '#6886ff'
+      });
     }
+
     hideLoader();
   } catch (error) {
-      console.error('Error uploading data:', error);
+    console.error('Error uploading data:', error);
   }
 }
 

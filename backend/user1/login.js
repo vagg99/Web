@@ -8,7 +8,7 @@ async function loginUser(username, password) {
     let password_hashed = hash(username,password);
     for (user in users) {
       if (users[user].username === username && users[user].password_hashed === password_hashed) {
-        return {message:'User logged in successfully!', user : users[user]};
+        return {message:'Επιτυχής σύνδεση χρήστη!', user : users[user]};
       }
     }
     return {message:false,user:false};
@@ -23,7 +23,7 @@ async function handleLogin(req, res) {
 
       if (!message){
         res.writeHead(403, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Wrong username or password.' }));
+        res.end(JSON.stringify({ error: 'Λάθος όνομα χρήστη ή κωδικός.' }));
         return;
       }
       req.session.user = {

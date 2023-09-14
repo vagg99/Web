@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="../auth/user.js"></script>
-  <title>Αξιολόγηση Προσφορών | e-Καταναλωτής</title>
-  <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
+  <title>Αξιολόγηση Προσφορών</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="../style.css">
   <link rel="stylesheet" type="text/css" href="assessment.css">
+  <link rel="icon" href="../images/ekatanalotisShoppingCart_32.png" type="image/png">
 </head>
 <body>
+
   <header>
     <div class="header-left">
       <a href="../index.html">
@@ -19,7 +22,7 @@
       </div>
     </div>
     <nav>
-      <ul>
+      <ul class="nav-menu">
         <li class="nav-item">
           <a href="../index.html" class="nav-link">Αρχική</a>
         </li>
@@ -38,19 +41,19 @@
         <li class="nav-item" id="logoutBtn" style="display: none;">
           <a href="#" class="nav-link">Log Out</a>
         </li>
-      </ul>
-      <div class="hamburger">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>  
-      </div>
-    </nav>
+        </ul>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>  
+        </div>
+      </nav>
   </header>
 
   <main>
     <!-- Page Title -->
-    <div>
-      <h1 id="page-title"></h1>
+    <div class="center-title">
+      <h1 class="shop-title" id="page-title"></h1>
     </div>
     <ul class="product-container info-container" id="productContainer">
       <!-- Products will be added here dynamically -->

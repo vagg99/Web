@@ -5,6 +5,38 @@
     margin: 0;
 }
 
+/* Center the shop title relative to the page */
+.center-title {
+    text-align: center; /* Center the title horizontally within its container */
+  }
+
+.shop-title {
+    color: #2EBDD1;
+    font-size: 24px;
+    padding: 20px;
+    background: linear-gradient(135deg, #1e88e5, #00acc1);
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s ease 2;
+    text-align: center; /* Center the text */
+    margin: 1rem auto; /* vertical spacing */
+    display: inline-block; /* Make the background size automatically to the content */
+}
+
+/* Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.07);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+  
 /* Styles for product header */
 .product-header {
     display: flex;
@@ -23,9 +55,6 @@
 /* Styles for individual product */
 .product {
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
 }
@@ -86,7 +115,8 @@
     align-items: l;
     text-align: left;
     padding-right: 2rem;
-    gap: 10px;
+    position: relative;
+    top: -0.5rem;
 }
 
 .likes-dislikes button {
@@ -123,7 +153,7 @@
 
 /* Styles for in stock button */
 .instock-button {
-    margin-top: 1rem;
+    margin-top: 0.4rem;
     padding: 5px 10px;
     font-size: 14px;
     background-color: #2EBDD1;
@@ -147,12 +177,43 @@
     box-shadow: none; /* Remove shadow for out-of-stock */
 }
 
+
 .sticky-footer {
     position: sticky;
     top: 100%;
 }
 
-/* small screen styles */
-@media screen and (max-width: 768px) {
+/* Styles for smaller screens (max-width: 768px) */
+@media (max-width: 768px) {
+    /* Rearrange product item for smaller screens */
+    .product {
+        flex-direction: column;
+        align-items: center; /* Center-align items vertically */
+        text-align: center; /* Center-align text */
+    }
 
+    /* Product image on top left */
+    .product-image {
+        width: 50%; /* Adjust the width as needed */
+        height: auto;
+        padding-left: 0;
+    }
+
+    /* Likes-Dislikes on top right */
+    .likes-dislikes {
+        position: relative;
+        top: 0;
+        right: 0;
+        padding-right: 0;
+        margin-bottom: 10px;
+    }
+
+    /* Product details at the bottom with smaller font size */
+    .product-details-container {
+        padding-left: 0;
+        padding-right: 0;
+        text-align: center;
+        font-size: 14px; /* Adjust the font size as needed */
+        margin-top: 10px; /* Adjust the margin as needed */
+    }
 }

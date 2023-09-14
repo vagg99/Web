@@ -34,12 +34,12 @@ async function handleRegistration(req, res) {
         for (user in users) {
           if (users[user].username === username) {
             res.writeHead(409, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'Username already exists' }));
+            res.end(JSON.stringify({ error: 'Το συγκεκριμένο όνομα χρησιμοποιείται από άλλο λογαριασμό.' }));
             return;
           }
           if (users[user].email === email) {
             res.writeHead(409, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'Email already exists' }));
+            res.end(JSON.stringify({ error: 'Το συγκεκριμένο e-mail χρησιμοποιείται από άλλο λογαριασμό.' }));
             return;
           }
         }

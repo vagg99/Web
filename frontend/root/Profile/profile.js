@@ -143,7 +143,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
             if (!passwordRegex.test(passwordField1.value)) {
-                alert("Password must be at least 8 characters long, contain at least 1 uppercase letter, 1 number and 1 special character");
+                // if password doesn't match regex use sweetalert2 
+                Swal.fire({
+                    title: 'Μη αποδεκτός κωδικός',
+                    text: 'Ο κωδικός πρέπει να περιέχει τουλάχιστον 8 χαρακτήρες, έναν αριθμό, ένα κεφαλαίο γράμμα και έναν ειδικό χαρακτήρα',
+                    icon: 'error',
+                    confirmButtonText: 'Εντάξει',
+                    confirmButtonColor: '#6886ff'
+                });
                 return;
             }
             userData.newpassword = passwordField1.value;
@@ -325,14 +332,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+// use sweetalert2 for password mismatch popup
 function showPasswordMismatchPopup() {
-    const popup = document.getElementById('password-mismatch-popup');
-    popup.style.display = 'block';
-}
-
-function closePopup() {
-    const popup = document.getElementById('password-mismatch-popup');
-    popup.style.display = 'none';
+    Swal.fire({
+        icon: 'error',
+        title: 'Οι κωδικοί δεν ταιριάζουν',
+        text: 'Βεβαιωθείτε ότι έχετε πληκτρολογήσει σωστά τον κωδικό σας',
+        confirmButtonText: 'Εντάξει',
+        confirmButtonColor: '#6886ff'
+    });
 }
 
 // Function to send the updated user data to the server

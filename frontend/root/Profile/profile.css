@@ -42,7 +42,6 @@ hr {
   }
 }
 
-
 .container-fluid {
   width: 100%;
   margin-right: auto;
@@ -755,12 +754,44 @@ button.bg-white:focus {
 .m-auto {
   margin: auto !important;
 }
+
+/* mobile version */
 @media (max-width: 768px) {
+  /* Styles for the hamburger menu list to appear lower on the page */
+  .nav-menu{
+    margin-top: 27rem;
+  }
+
   .pt-lg-8 {
     padding-top: 8rem !important;
   }
-}
 
+  /* better row align items */
+  .align-items-lg-center {
+    align-items: center !important;
+  }
+
+  /* button in column for mobile */
+  .btn {
+    text-align: center;
+    margin-bottom: .5rem; /* vertical gap between buttons */
+    margin-left: -.5rem;
+    width: 120%;
+    font-size: 32px;
+  } 
+
+  /* .col-4 better for mobile */
+  .col-4 {
+    display: inline;  
+    padding-top: .5rem;
+  }
+
+  /* popup */
+  div:where(.swal2-container) div:where(.swal2-popup) {
+    width: 90%;
+    height: 90%;
+  }
+}
 
 @media (min-width: 768px) {
   /* Styles for screens with a minimum width of 768px */
@@ -1024,12 +1055,6 @@ a.text-white:focus {
 }
 
 /* Media queries for responsiveness */
-
-
-.navbar-search-dark .focused .input-group {
-  border-color: rgba(255, 255, 255, .9);
-}
-
 @media (min-width: 992px) {
 
 .progress {
@@ -1184,10 +1209,6 @@ footer {
   border-radius: 5px;
   font-weight: bold;
 }
-
-
-
-
 
 .submitted-product-item {
   border: 1px solid #ddd;

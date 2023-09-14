@@ -61,7 +61,7 @@
                     <i class="fas fa-file-upload"></i> Επιλογή αρχείου
                 </label>
                 <input type="file" name="jsonFile" id="jsonFileInput" style="display: none;">
-            </form>
+            </form>    
         </div>        
   
       <div class="button-container">
@@ -91,8 +91,9 @@
         </button>
     </div>
 
-    <!-- Add the span element to display the selected file's name -->
-    <span id="selectedFileName"></span>
+    <!-- Filename -->
+    <span class="selected-file-text"></span>
+    <span id="selectedFileName" class="filename-font"></span>
 
     <div id="uploadMessage" style="display: none;"></div>
 
@@ -160,6 +161,8 @@
     <footer class="sticky-footer">
       &copy; 2023 All rights reserved.
     </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- popups -->
     <script src="../auth/auth.js"></script>
     <script src="admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

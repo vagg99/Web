@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const pageTitle = document.getElementById("page-title");
     pageTitle.innerHTML = shopName;
 
-
     console.log(discountedItems);
 
     const productList = document.getElementById("productContainer");
@@ -267,4 +266,5 @@ async function sendChoiceToBackend(productId, likes_dislikes_in_stock) {
         console.error('Error sending data to backend:', error);
     }
 }
+
 

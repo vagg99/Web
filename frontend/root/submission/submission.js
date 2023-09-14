@@ -64,14 +64,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   populateCategories();
 
-  shopTitle.innerHTML = `Στο μαγαζί  ${shopId}`;
+  shopTitle.innerHTML = `Στο κατάστημα ${shopId}`;
 
   try {
     items.products = await getItemsInStock(shopId);
-    shopTitle.innerHTML = `Στο μαγαζί  ${items.products[0].store.tags.name}`;
+    shopTitle.innerHTML = `${items.products[0].store.tags.name}`;
   } catch (error){
-    alert("Αυτο το μαγαζί δεν εχει αντικείμενα στο stock του");
-    shopTitle.innerHTML = "Αυτο το μαγαζί δεν εχει αντικείμενα στο stock του\n Shop Id : " + shopId;
+    alert("Αυτο το κατάστημα δεν εχει αντικείμενα στο stock του");
+    shopTitle.innerHTML = "Αυτο το κατάστημα δεν εχει αντικείμενα στο stock του\n Shop Id : " + shopId;
   }
 
   console.log(items.products);
@@ -213,7 +213,7 @@ function displaySelectedProduct(product) {
             <p>${product.item.name}</p>
             ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
             <p id="product-${product.item.id}-price">${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
-            <p>Στο Μαγαζί ${product.store.tags.name}</p>
+            <p>Στο κατάστημα ${product.store.tags.name}</p>
             <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
             <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
             <button class="submit-button">Υποβολή</button>
@@ -351,6 +351,7 @@ async function submitDiscount(product, newprice) {
         title: 'Αποτυχία υποβολής',
         text: `Αποτυχία υποβολής. ${result.error}`,
         confirmButtonText: 'Εντάξει',
+        confirmButtonColor: '#6886ff'
       });
     }
 

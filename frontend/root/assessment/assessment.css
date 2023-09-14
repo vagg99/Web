@@ -5,6 +5,38 @@
     margin: 0;
 }
 
+/* Center the shop title relative to the page */
+.center-title {
+    text-align: center; /* Center the title horizontally within its container */
+  }
+
+.shop-title {
+    color: #2EBDD1;
+    font-size: 24px;
+    padding: 20px;
+    background: linear-gradient(135deg, #1e88e5, #00acc1);
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s ease 2;
+    text-align: center; /* Center the text */
+    margin: 1rem auto; /* vertical spacing */
+    display: inline-block; /* Make the background size automatically to the content */
+}
+
+/* Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.07);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+  
 /* Styles for product header */
 .product-header {
     display: flex;
@@ -184,6 +216,4 @@
         font-size: 14px; /* Adjust the font size as needed */
         margin-top: 10px; /* Adjust the margin as needed */
     }
-
-
 }

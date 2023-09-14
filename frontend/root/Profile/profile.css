@@ -757,6 +757,11 @@ button.bg-white:focus {
 
 /* mobile version */
 @media (max-width: 768px) {
+  /* Styles for the hamburger menu list to appear lower on the page */
+  .nav-menu{
+    margin-top: 27rem;
+  }
+
   .pt-lg-8 {
     padding-top: 8rem !important;
   }
@@ -780,8 +785,13 @@ button.bg-white:focus {
     display: inline;  
     padding-top: .5rem;
   }
-}
 
+  /* popup */
+  div:where(.swal2-container) div:where(.swal2-popup) {
+    width: 90%;
+    height: 90%;
+  }
+}
 
 @media (min-width: 768px) {
   /* Styles for screens with a minimum width of 768px */
@@ -1045,12 +1055,6 @@ a.text-white:focus {
 }
 
 /* Media queries for responsiveness */
-
-
-.navbar-search-dark .focused .input-group {
-  border-color: rgba(255, 255, 255, .9);
-}
-
 @media (min-width: 992px) {
 
 .progress {

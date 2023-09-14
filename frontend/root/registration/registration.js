@@ -176,11 +176,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 //   }, 10000);
 // }
 
-
-// Popup function
-// -> call by: showPopup(error.message / data.message);
-
-// use sweetalert2 popup messages
+// sweetalert2 popup messages
 // for success messages
 function showPopup(message) {
   Swal.fire({
@@ -188,7 +184,7 @@ function showPopup(message) {
     icon: 'success',
     title: message,
     showConfirmButton: false,
-    timer: 1500
+    timer: 1500 // 1.5 seconds
   });
 }
 
@@ -199,10 +195,9 @@ function showErrorPopup(error) {
     icon: 'error',
     title: error,
     showConfirmButton: false,
-    timer: 1500
+    timer: 1500 // 1.5 seconds
   });
 }
-
 
 // Attach event listener to the password input for real-time validation
 document.getElementById('password').addEventListener('input', validatePassword);

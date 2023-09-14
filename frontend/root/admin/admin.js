@@ -33,6 +33,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   const deleteStockButton = document.getElementById('deleteStockButton');
   const messageDiv = document.getElementById('uploadMessage');
 
+  // Inside your event listener for the file input
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (file) {
+        const fileName = file.name;
+        document.getElementById('selectedFileName').textContent = `Selected File: ${fileName}`;
+    } else {
+        document.getElementById('selectedFileName').textContent = ''; // Clear the filename if no file is selected
+    }
+  });
+
+  // filename appears on the input
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (file) {
+      const fileName = file.name;
+      fileInput.nextElementSibling.innerText = fileName;
+    }
+  });
+
   uploadItemsButton.addEventListener('click', async () => {
     const file = fileInput.files[0];
     if (!file) {
@@ -331,7 +351,7 @@ async function generateGraph2() {
   const subcategory = document.getElementById('subcategory').value;
 
   if (category == "0" ){
-    alert("CHART2 : Παρακαλώ επιλέξτε κατηγορία");
+    sayPopup("Παρακαλώ επιλέξτε κατηγορία");
     return;
   }
 
@@ -453,18 +473,13 @@ function populateSubcategories() {
   }
 }
 
-// popup messages
+// use sweetalert2 for popup messages
 function sayPopup(message) {
-  const popup = document.getElementById('popup');
-  const popupMessage = document.getElementById('popup-message');
-
-  popupMessage.textContent = message;
-  popup.style.display = 'block';
-
-  // Close the popup when the close button is clicked
-  const closePopupButton = document.getElementById('close-popup');
-  closePopupButton.addEventListener('click', () => {
-    popup.style.display = 'none';
+  Swal.fire({
+    title: message,
+    icon: 'info',
+    confirmButtonText: 'OK',
+    confirmButtonColor: '#0E3DC0'
   });
 }
 

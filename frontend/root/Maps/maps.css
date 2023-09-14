@@ -94,8 +94,6 @@ select {
 
 }
 
-
-
 /* Hover effect for buttons */
 .leaflet-popup-content button:hover {
   background-color: #0056b3;
@@ -114,50 +112,32 @@ select {
   padding: 12px;
   border: none;
   border-radius: 5px;
-  width: 300px;
+  width: 320px;
   font-size: 16px;
   background-color: #f5f5f5;
 }
 
-#search-btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
+/* Style for the magnifying glass icon */
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease-in-out;
+  color: #333; /* Change the color as needed */
+  /* remove the hover effect */
+
 }
 
-#search-btn:hover {
-  background-color: #0056b3;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px; /* Adjust as needed */
-}
-
-.home-icon {
-  margin-right: 10px;
-}
-
-.header-text {
-  margin-left: 10px;
-}
-
-/* Center the header text vertically */
-.header-text h1 {
-  line-height: 1.2;
+/* Style for the search input container */
+.search-container {
+  position: relative;
 }
 
 /* Add space between search and map */
 .space {
   margin-bottom: 20px; /* Adjust this value as needed */
 }
-
 
 .clickable-btn.logged-out {
   background-color: gray;
@@ -386,4 +366,50 @@ section {
 .sticky-footer {
   position: sticky;
   top: 100%;
+}
+
+/* smaller screen */
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+  /* Adjust the styles for smaller screens here */
+  #map {
+    height: 200px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  /* section adjustments so that the elements are displayed in a column */
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* search box with no padding on the left */
+  #search-box {
+    margin-left: 0;
+    padding: 12px 0 12px 12px;
+  }
+
+  /* smaller range slider */
+  .toggle-switch-scale {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* also center the range slider label */
+  .slider-label {
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* subcategories appear on the right of the search-type container */
+  .subcategories {
+    margin-left: 0;
+    margin-top: 10px; /* Add some spacing between the elements */
+  }
 }

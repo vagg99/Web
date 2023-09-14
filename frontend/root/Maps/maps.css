@@ -8,7 +8,7 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background-color: #ebf4ff;  /* light blue color for scroll down default */
 }
 
 input[type="text"] {
@@ -114,7 +114,7 @@ select {
   border-radius: 5px;
   width: 320px;
   font-size: 16px;
-  background-color: #f5f5f5;
+  background-color: #fff;
 }
 
 /* Style for the magnifying glass icon */
@@ -372,6 +372,12 @@ section {
 
 /* Media Query for Smaller Screens */
 @media (max-width: 768px) {
+  
+  /* nav menu active appears over everything EXCEPT for the hamburger menu */
+  .nav-menu.active{
+    z-index: 10000;
+  }
+
   /* Adjust the styles for smaller screens here */
   #map {
     height: 200px;
@@ -394,6 +400,25 @@ section {
     padding: 12px 0 12px 12px;
   }
 
+  .category-container {
+    /* top margin for the category container */
+    margin-top: 10px;
+    display: flex;
+    width: 320px; /* same width as the search box */
+  }
+
+  /* Style for the category select */
+  #search-type {
+    margin-right: 10px; /* Add spacing between selects */
+    margin-left: 0; /* no left margin */
+    width: 150px; /* same width as the subcategory select */
+  }
+
+  /* Style for the subcategory select */
+  #subcategory {
+    margin-left: auto; /* push the select to the right */
+  }
+
   /* smaller range slider */
   .toggle-switch-scale {
     width: 200px;
@@ -405,11 +430,21 @@ section {
   .slider-label {
     display: block;
     margin: 0 auto;
+    margin-bottom: 10px;
   }
 
-  /* subcategories appear on the right of the search-type container */
-  .subcategories {
-    margin-left: 0;
-    margin-top: 10px; /* Add some spacing between the elements */
+  /* slightly thinner popup */
+  .leaflet-popup-content {
+    max-width: 250px;
+  }
+
+  /* slightly smaller font size for the popup */
+  .leaflet-popup-content h2 {
+    font-size: 18px;
+  }
+
+  /* slightly smaller font size for the popup */
+  .leaflet-popup-content button {
+    font-size: 12px;
   }
 }

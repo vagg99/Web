@@ -1,8 +1,27 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
-    //hamburger menu
+    // hamburger menu
     const hamburger = document.querySelector(".hamburger");
     const navMenu = document.querySelector(".nav-menu");
+    const loader = document.querySelector(".loader");
+
+    // hamburger menu functionality
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+    });
+
+    document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    }));
+
+    // if you scroll down the hamburger menu will disappear
+    window.addEventListener("scroll", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    });
+
 
     const params = new URLSearchParams(window.location.search);
 
@@ -33,24 +52,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     discountedItems.forEach(item => {
         displayProduct(item, productList, user);
     });
-
-    // hamburger menu functionality
-    hamburger.addEventListener("click", () => {
-        hamburger.classList.toggle("active");
-        navMenu.classList.toggle("active");
-    });
-    
-    document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
-        hamburger.classList.remove("active");
-        navMenu.classList.remove("active");
-    }));
-
-    // if you scroll down the hamburger menu will disappear
-    window.addEventListener("scroll", () => {
-        hamburger.classList.remove("active");
-        navMenu.classList.remove("active");
-    });
-
 });
 
 const userPoints = {}; 
@@ -75,39 +76,35 @@ function displayProduct(item, productList, user) {
     if (!userPoints[username]) { userPoints[username] = 0; }
 
     const newProductItem = document.createElement("li");
-    newProductItem.classList.add("product-item", stockClass); // Add the stock class here
+    newProductItem.classList.add("product-item", stockClass);
 
     newProductItem.innerHTML = `
-        <div class="product-header">
+        <div class="product">
             <img src="${product_image_link}" alt="Product Image" class="product-image">
-            <div class="product-details-container">
-                <div class="product-details">
-                    <div class="info">
-                        <h3 class="product-name">${productName}</h3>
-                        <p class="price">Τιμή: ${price}€</p>
-                        <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
-                        <p>Η Προσφορά υποβλήθηκε απο το Χρήστη ${username} με ${totalPoints} συνολικούς Πόντους</p>
-                        ${achievements['5_a_i'] ? `<p>Επίτευγμα 5_a_i : </p><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">` : ''}
-                        ${achievements['5_a_ii'] ? `<p>Επίτευγμα 5_a_ii : </p><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">` : ''}
-                    </div>
-                </div>
-                <button class="instock-button" data-product-id="${DiscountId}" >${in_stock ? 'In Stock' : 'Out of Stock'}</button>
-            </div>
             <div class="likes-dislikes">
                 <div class="rating">
-                <!-- Thumbs up -->
-                    <p>Likes: <span class="likes ">${likes}</span></p>
-                    <p>Dislikes: <span class="dislikes">${dislikes}</span></p>
-                        <button class="like-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
+                    <button class="like-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
                         <i class="fas fa-thumbs-up fa-3x like" aria-hidden="true"></i>
-                        </button>
-                        <button class="dislike-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
+                    </button>
+                    <button class="dislike-button ${!in_stock ? 'disabled inactive' : ''}" data-product-id="${DiscountId}">
                         <i class="fas fa-thumbs-down fa-3x like" aria-hidden="true"></i>
-                        </button>
+                    </button>
+                    <p>Likes: <span class="likes">${likes}</span></p>
+                    <p>Dislikes: <span class="dislikes">${dislikes}</span></p>
                 </div>
+            </div>
+            <div class="product-details-container">
+                <h3 class="product-name">${productName}</h3>
+                <p class="price">Τιμή: ${price}€</p>
+                <p class="date">Η προσφορά υποβλήθηκε στις ${date}</p>
+                <p>Η Προσφορά υποβλήθηκε απο το χρήστη "${username}" με ${totalPoints} συνολικούς Πόντους</p>
+                ${achievements['5_a_i'] ? `<p>Επίτευγμα 5_a_i : </p><img src="../images/5_a_i.ico" alt="5_a_i_complete" class="icon">` : ''}
+                ${achievements['5_a_ii'] ? `<p>Επίτευγμα 5_a_ii : </p><img src="../images/5_a_ii.ico" alt="5_a_ii_complete" class="icon">` : ''}
+                <button class="instock-button" data-product-id="${DiscountId}">${in_stock ? 'In Stock' : 'Out of Stock'}</button>
             </div>
         </div>
     `;
+
 
     const likeButton = newProductItem.querySelector(".like-button");
     const dislikeButton = newProductItem.querySelector(".dislike-button");

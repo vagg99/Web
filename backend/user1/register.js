@@ -19,7 +19,7 @@ async function registerUser(username, email, password) {
     const result = await collection.insertOne(userData);
     cache.del('users');
     if (result.insertedId) {
-      return 'User registered successfully!';
+      return 'Ο Χρήστης Εγγράφηκε με επιτυχία !';
     } else {
       throw new Error('Failed to register user.');
     }

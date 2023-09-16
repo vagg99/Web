@@ -307,3 +307,12 @@ window.addEventListener('scroll', function() {
   document.querySelector('.hamburger').classList.remove('active');
   document.querySelector('.nav-menu').classList.remove('active');
 });
+
+// code for triggering "Enter" key
+document.getElementById('password2').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        // Fake a click event on the login button to fix Enter key
+        document.getElementById('loginButton').click();
+    }
+});

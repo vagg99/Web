@@ -343,7 +343,11 @@ async function submitDiscount(product, newprice) {
 
       // Update the price displayed on the page
       const priceElement = document.getElementById(`product-${idForMessage}-price`);
-      priceElement.innerHTML = `Απο <s>${product.price}</s> - <s>μοοονο : ${product.discount.discount_price}€ !</s> - μοοονο : ${newprice}€ !`;
+      if (product.discount) {
+        priceElement.innerHTML = `Απο <s>${product.price}</s> - <s>μοοονο : ${product.discount.discount_price}€ !</s> - μοοονο : ${newprice}€ !`;
+      } else {
+        priceElement.innerHTML = `Απο <s>${product.price}</s> - μοοονο : ${newprice}€ !`;
+      }
     } else {
       // Show a SweetAlert2 error popup
       Swal.fire({

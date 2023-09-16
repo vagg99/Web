@@ -71,7 +71,12 @@ async function handleDiscountSubmission(req, res) {
         }});
   
         if (p) getPointsforSubmission(userId,p)
+        
         cache.flushAll();
+        //cache.del(req.session.user.username);
+        //cache.del(`discounted_${storeId}`);
+        //cache.del(`non_discounted_${storeId}`);
+
         res.status(200).json(result);
       } else {
         res.status(403).json({ error: 'Forbidden' });

@@ -16,6 +16,9 @@ let ellipse = null;
 let diameter1 = null;
 let diameter2 = null;
 
+// Μηνυμα για οταν ενα μαγαζι δεν εχει ονομα
+const unNamedShop = "Ανώνυμο Μαγαζί";
+
 // Check if the user is logged in
 let userLoggedIn = false;
 fetch('http://localhost:3000/check-user-auth', {
@@ -264,7 +267,7 @@ async function displayAllStores(stores){
   //stores = await getAllStores();
   stores.forEach(store => {
     const { id, lat, lon } = store;
-    const name = store.tags.name;
+    const name = store.tags.name ? store.tags.name : unNamedShop;
     const marker = L.marker([lat, lon] , { icon: ShopIcon })
       .addTo(map)
       .bindPopup(`<b>${name}</b>`)
@@ -297,7 +300,7 @@ async function displayAllStoresWithDiscounts(stores,discounts){
 
   stores.forEach(store => {
     const { id, lat, lon } = store;
-    const name = store.tags.name;
+    const name = store.tags.name ? store.tags.name : unNamedShop;
     if (StoresWithDiscounts[id]) {
       const marker = L.marker([lat, lon] , { icon: DiscountShopIcon })
         .addTo(map)

@@ -81,7 +81,7 @@
                 <div class="password-warning" id="passwordWarning">
                 </div>
                 
-                <button type="submit" class="btn">
+                <button type="submit" class="btn" id="registerButton">
                     <span class="spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span> 
                     Εγγράψου
                 </button>
@@ -135,6 +135,13 @@
 
     <!-- code for triggering "Enter" key -->
     <script>
+        document.getElementById('password').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent the default form submission behavior
+                document.getElementById('registerButton').click(); // Programmatically trigger a click event on the login button
+            }
+        });
+        
         document.getElementById('password2').addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); // Prevent the default form submission behavior

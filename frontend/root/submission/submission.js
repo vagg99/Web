@@ -331,8 +331,18 @@ async function submitDiscount(product, newprice) {
     });
 
     const result = await response.json();
-
+    
     if (response.ok) {
+      // Update the price displayed on the page
+      const priceElement = document.getElementById(`product-${idForMessage}-price`);
+      if (product.discount) {
+        priceElement.innerHTML = `Απο <s>${product.price}€</s> - <s>μοοονο : ${product.discount.discount_price}€ !</s> - μοοονο : ${newprice}€ !`;
+      } else {
+        priceElement.innerHTML = `Απο <s>${product.price}€</s> - μοοονο : ${newprice}€ !`;
+      }
+
+      hideLoader();
+
       // Show a SweetAlert2 success popup
       Swal.fire({
         icon: 'success',
@@ -341,10 +351,10 @@ async function submitDiscount(product, newprice) {
         confirmButtonText: 'Εντάξει',
       });
 
-      // Update the price displayed on the page
-      const priceElement = document.getElementById(`product-${idForMessage}-price`);
-      priceElement.innerHTML = `Απο <s>${product.price}</s> - <s>μοοονο : ${product.discount.discount_price}€ !</s> - μοοονο : ${newprice}€ !`;
     } else {
+      
+      hideLoader();
+
       // Show a SweetAlert2 error popup
       Swal.fire({
         icon: 'error',
@@ -355,7 +365,7 @@ async function submitDiscount(product, newprice) {
       });
     }
 
-    hideLoader();
+    
   } catch (error) {
     console.error('Error uploading data:', error);
   }

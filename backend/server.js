@@ -5,11 +5,11 @@
 // 'express' , 'mongodb' , 'node-cron' , 'jssha' , 'cors' , 'express-session' , 'cookie-parser' , 'node-cache'
 */
 
-const express = require('express');
-const cron = require('node-cron');
-const cors = require('cors');
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
+const express = require('express'); 
+const cron = require('node-cron'); // FOR TIMERS
+const cors = require('cors'); // FOR HTTPS CONNECTIONS
+const session = require('express-session'); // FOR COOKIES
+const cookieParser = require('cookie-parser'); // FOR COOKIES
 
 const cache = require('./utils/cache.js');
 const { TTLS , port , secret , frontend } = require('./utils/constants.js');
@@ -63,7 +63,6 @@ app.post('/logout', (req, res) => {
           // Clear the session cookie
           res.clearCookie('sessionid');
           res.clearCookie('connect.sid');
-          // Redirect or send a success message
           res.sendStatus(200);
       }
   });

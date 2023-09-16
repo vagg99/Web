@@ -9,9 +9,9 @@ async function getLeaderboard() {
       if (users[i].points && users[i].tokens) {
         leaderboard.push({
           username: users[i].username,
-          // Αν το τρεχον σκορ (μηνιαιο) του χρηστη ειναι αρνητικο , δειξε στο leaderboard
-          // μονο το συνολικο (παλιο) score
-          // Αν ειναι θετικο , δειξε στο leaderboard το αθροισμα του μηνιαιου και του συνολιου
+          // Αν το τρεχον σκορ (μηνιαιο) του χρηστη ειναι αρνητικο , 
+          // δειξε στο leaderboard μονο το συνολικο (παλιο) score.
+          // Αν ειναι θετικο , δειξε στο leaderboard το αθροισμα του μηνιαιου και του συνολικου
           points :
             (users[i].points["monthly"] >= 0) ? users[i].points["total"] + users[i].points["monthly"] : users[i].points["total"]
           ,

@@ -308,7 +308,15 @@ window.addEventListener('scroll', function() {
   document.querySelector('.nav-menu').classList.remove('active');
 });
 
-// code for triggering "Enter" key
+// code for triggering "Enter" key in register
+document.getElementById('password').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        // Fake a click event on the login button to fix Enter key
+        document.getElementById('registerButton').click();
+    }
+});
+// code for triggering "Enter" key in login
 document.getElementById('password2').addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         event.preventDefault();

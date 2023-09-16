@@ -1,6 +1,9 @@
 const loaderContainer = document.getElementById('loader-container');
 const loadingText = document.getElementById('loading-text');
 
+// Μηνυμα για οταν ενα μαγαζι δεν εχει ονομα
+const unNamedShop = "Ανώνυμο Μαγαζί";
+
 document.addEventListener('DOMContentLoaded', async () => {
 
   // hamburger menu
@@ -68,7 +71,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     items.products = await getItemsInStock(shopId);
-    shopTitle.innerHTML = `${items.products[0].store.tags.name}`;
+    let shopName = items.products[0].store.tags.name;
+    shopTitle.innerHTML = shopName ? shopName : unNamedShop ;
   } catch (error){
     alert("Αυτο το κατάστημα δεν εχει αντικείμενα στο stock του");
     shopTitle.innerHTML = "Αυτο το κατάστημα δεν εχει αντικείμενα στο stock του\n Shop Id : " + shopId;

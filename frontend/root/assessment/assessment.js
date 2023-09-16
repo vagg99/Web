@@ -1,3 +1,6 @@
+// Μηνυμα για οταν ενα μαγαζι δεν εχει ονομα
+const unNamedShop = "Ανώνυμο Μαγαζί";
+
 document.addEventListener('DOMContentLoaded', async () => {
 
     // hamburger menu
@@ -41,6 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let shopName = "this shop has no items";
     if (discountedItems) shopName = discountedItems[0].store.tags.name;
+    if (!shopName) shopName = unNamedShop;
     const pageTitle = document.getElementById("page-title");
     pageTitle.innerHTML = shopName;
 

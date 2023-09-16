@@ -318,7 +318,7 @@ async function submitDiscount(product, newprice) {
   const idForMessage = product.item.id;
   console.log(JSON.stringify({ productId, newprice }));
 
-  let userId = "64ccdd565a5bb46dd07e5148"; // default, you can replace this with your user's ID
+  let userId = "64ccdd565a5bb46dd07e5148"; // default user to prevent some bugs in mongodb aggregation
 
   try {
     const response = await fetch(`http://localhost:3000/submitDiscount`, {

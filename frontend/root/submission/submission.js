@@ -216,8 +216,7 @@ function displaySelectedProduct(product) {
             <img src="${product.item.img}" alt="${product.item.name}" width="100">
             <p>${product.item.name}</p>
             ${product.on_discount ? "<p>Σε προσφορά</p>" : ""}
-            <p id="product-${product.item.id}-price">${product.on_discount ? ("Απο <s>"+product.price+"</s> - μοοονο : "+product.discount.discount_price) : product.price}€ !</p>
-            <p>Στο κατάστημα ${product.store.tags.name}</p>
+            <p id="product-${product.item.id}-price">Τιμή : ${product.on_discount ? ("Απο <s>"+product.price+"€</s> - μοοονο : "+product.discount.discount_price + "€ !") : product.price + "€"}</p>
             <p>Διαθέσιμο : ${product.in_stock ? "ναι" : "οχι"}</p>
             <input type="number" placeholder="Εισάγετε τιμή προσφοράς">
             <button class="submit-button">Υποβολή</button>
@@ -228,7 +227,6 @@ function displaySelectedProduct(product) {
         </div>
   `;
 
-    // Assuming you have a reference to your input field
     const priceInput = productDiv.querySelector('input[type="number"]');
 
     // Add a focus event listener to clear the placeholder text
@@ -339,7 +337,7 @@ async function submitDiscount(product, newprice) {
     if (response.ok) {
       // Update the price displayed on the page
       const priceElement = document.getElementById(`product-${idForMessage}-price`);
-      if (product.discount) {
+      if (product.discount && product.discount.discount_price) {
         priceElement.innerHTML = `Απο <s>${product.price}€</s> - <s>μοοονο : ${product.discount.discount_price}€ !</s> - μοοονο : ${newprice}€ !`;
       } else {
         priceElement.innerHTML = `Απο <s>${product.price}€</s> - μοοονο : ${newprice}€ !`;

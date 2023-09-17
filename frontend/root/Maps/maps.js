@@ -59,10 +59,13 @@ const view = [38.24511060644045, 21.7364112438391];
 
 let userLocationMarker = null;
 
+let stores = null;
+let discounts = null;
+
 document.addEventListener('DOMContentLoaded', async () => {
   
-  let stores = await getAllStores();
-  let discounts = await getAllDiscounts();
+  stores = await getAllStores();
+  discounts = await getAllDiscounts();
 
   const hamburger = document.querySelector(".hamburger");
   const navMenu = document.querySelector(".nav-menu");
@@ -89,8 +92,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   function filterShops(query){
-    displayAllStores(stores);
-    displayAllStoresWithDiscounts(stores,discounts);
+    displayAllStores();
+    displayAllStoresWithDiscounts();
     switch (searchType.value) {
       case 'shop':
         markers.forEach(marker => {
@@ -142,7 +145,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   populateSubcategories(subcategorySelect);
 
   // Initially display only the stores that have discounts
-  displayAllStoresWithDiscounts(stores,discounts);
+  displayAllStoresWithDiscounts();
 
   // Ο χαρτης εστιαζει αρχικα στην τοποθεσια του χρηστη
   getUserLocation();
@@ -263,7 +266,7 @@ async function getAllStores() {
 }
 
 let markers = []
-async function displayAllStores(stores){
+async function displayAllStores(){
   //stores = await getAllStores();
   stores.forEach(store => {
     const { id, lat, lon } = store;
@@ -292,7 +295,7 @@ async function populateSubcategories(subcategorySelect) {
 }
 
 let StoresWithDiscounts = {};
-async function displayAllStoresWithDiscounts(stores,discounts){
+async function displayAllStoresWithDiscounts(){
 
   discounts.forEach(discount => {
     StoresWithDiscounts[discount.store_id] = discount;
@@ -344,8 +347,9 @@ async function onMarkerClick(marker,e,id,shopName){
       popupContent += createPopupContent(discountedItems,shopName,distance,marker.storeId);
       await marker.bindPopup(popupContent,{className: 'custom-popup',maxWidth: 300}).openPopup();
     }
-
+    
     if (userIsAdmin) {
+      let length = discountedItems.length;
       for (let i = 0 ; i < discountedItems.length ; i++) {
         const deleteDiscountButton = document.querySelector(`#delete-discount-${discountedItems[i]._id}`);
         deleteDiscountButton.addEventListener('click', async () => {
@@ -354,8 +358,14 @@ async function onMarkerClick(marker,e,id,shopName){
           if (discountContainer) {
             discountContainer.style.display = 'none';
             console.log('sending delete request...');
-            let length = discountedItems.length - 1;
-            title.innerHTML = `Βρέθηκ${length>1?"αν":"ε"} ${length} Προσφορ${length>1?"ές":"ά"}!`;
+            length--;
+            title.innerHTML = `
+              Βρέθηκ${length>1?"αν":"ε"} ${length} Προσφορ${length>1?"ές":"ά"}!
+            `;
+            if (length === 0) {
+              marker.closePopup();
+              marker.removeFrom(map);
+            }
           }
           try {
             const response = await fetch(`http://localhost:3000/deleteDiscount?discountId=${encodeURIComponent(discountedItems[i]._id)}`, {
@@ -371,6 +381,10 @@ async function onMarkerClick(marker,e,id,shopName){
             }
           } catch (error) {
             console.error('Error during delete:', error);
+          }
+          if (length === 0) {
+            stores = await getAllStores();
+            discounts = await getAllDiscounts();
           }
         });
       }

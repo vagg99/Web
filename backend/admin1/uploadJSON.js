@@ -7,6 +7,8 @@ async function handleJSONUpload(req, res) {
     const collectionName = req.query.collection;
     const jsonData = req.body; // This will be the parsed JSON data from the request body
     
+    console.debug(`Uploading JSON data to collection "${collectionName}"...`);
+    
     if (!jsonData) {
       return res.status(400).send('No JSON data uploaded.');
     }
@@ -46,10 +48,14 @@ async function handleJSONUpload(req, res) {
   
       // Send a response indicating success
       res.send(`JSON data uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
+      console.debug(`JSON data uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
   
       cache.flushAll();
       // reset cache
-      getData(collectionName);
+      console.debug(`Cache flushed successfully.`);
+      console.debug(`resetting cache...`);
+      await getData(collectionName);
+      console.debug(`Cache reset successfully.`);
     } catch (error) {
       console.error('Error processing JSON:', error);
       res.status(400).send('Error processing JSON data.');
@@ -62,6 +68,7 @@ async function handleDeletion(req, res) {
       const collection = await connectToDatabase(collectionName);
       const result = await collection.deleteMany({});
       res.status(200).json(`Deleted ${result.deletedCount} ${collectionName}.`);
+      console.debug(`Deleted ${result.deletedCount} ${collectionName}.`);
       cache.flushAll();
     } catch (error) {
       console.error(`Error deleting a database idk which one:`, error);

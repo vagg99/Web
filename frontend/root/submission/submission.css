@@ -200,7 +200,7 @@
   border: none !important; /* Remove the border */
   box-shadow: none;
   width: calc(140%); /* Adjust the width to match div.input */
-  padding-left: 60px; /* Add padding to match the icon width */
+  padding-left: 4.5rem; /* Add padding to match the icon width */
   margin-left: 0; /* Remove any margin that may affect positioning */
 }
 
@@ -420,7 +420,6 @@ button.submit-button:hover {
   top: 100%;
 }
 
-
 .product-container {
   display: flex; /* Use Flexbox to center align items */
   flex-direction: column; /* Stack child elements vertically */
@@ -428,11 +427,25 @@ button.submit-button:hover {
   text-align: center; /* Center text content */
 }
 
-.product {
-  /* Add any other styling for the product as needed */
-}
-
 .product img {
   max-width: 100%; /* Ensure the image doesn't exceed the container's width */
   margin: 0 auto; /* Center the image horizontally within the container */
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+  /* remove the background color */
+  background-color: transparent;
+}
+
+/* Styles for screens smaller than 768px (e.g., smartphones) */
+@media (max-width: 768px) {
+
+  .search.active {
+    width: 100%;
+  }
+
+  .search .input input {
+    padding-left: 60px;
+  }
+
 }

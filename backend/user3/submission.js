@@ -23,27 +23,27 @@ async function handleDiscountSubmission(req, res) {
         const product = await collection.findOne({ _id: new ObjectId(productId) });
   
         if (!product) {
-          res.status(404).json({ error: 'Product not found' });
+          res.status(404).json({ error: 'Το προϊόν δε βρέθηκε' });
           return;
         }
   
         if (newprice < 0) {
-          res.status(400).json({ error: 'Invalid price' });
+          res.status(400).json({ error: 'Μη αποδεκτή τιμή' });
           return;
         }
   
         if (newprice >= product.price) {
-          res.status(400).json({ error: 'Discount price must be lower than the original price' });
+          res.status(400).json({ error: 'Η εισαγώμενη τιμή πρέπει να είναι χαμηλότερη από την αρχική τιμή' });
           return;
         }
   
         if (product.on_discount && newprice >= product.discount.discount_price) {
-          res.status(400).json({ error: 'Discount price must be lower than the current discount price' });
+          res.status(400).json({ error: 'Η εισαγώμενη τιμή πρέπει να είναι μικρότερη από την πιο πρόσφατη προσφορά' });
           return;
         }
   
         if (product.on_discount && !twenty_percent_smaller(newprice,product.discount.discount_price)) {
-          res.status(400).json({ error: 'Discount price must be at least 20% lower than the current discount price' });
+          res.status(400).json({ error: 'Η εισαγώμενη έκτπτωση πρέπει να είναι τουλάχιστον 20% μικρότερη από την πιο πρόσφατη προσφορά' });
           return;
         }
         

@@ -17,7 +17,7 @@ let diameter1 = null;
 let diameter2 = null;
 
 // Μηνυμα για οταν ενα μαγαζι δεν εχει ονομα
-const unNamedShop = "Ανώνυμο Μαγαζί";
+const unNamedShop = "Ανώνυμο Κατάστημα";
 
 // Check if the user is logged in
 let userLoggedIn = false;
@@ -208,7 +208,10 @@ function updateEllipse() {
     latlngs.push([x, y]);
   }
 
-  ellipse = L.polyline(latlngs, { color: CurrentLocationColor }).addTo(map);
+  ellipse = L.polyline(latlngs, { color: grayEllipse }).addTo(map);
+  // the covered area inside the circle is also colored, but in a lighter shade
+  L.circle([userLatitude, userLongitude], { radius: distanceThreshold, color: grayEllipse, fillOpacity: 0.8 }).addTo(map);
+
 
   // Calculate coordinates for the endpoints of the diameters
   const latLngs = [
@@ -220,12 +223,12 @@ function updateEllipse() {
 
   // Create polyline segments for the diameters with dashed lines
   diameter1 = L.polyline(latLngs.slice(0, 2), {
-    color: CurrentLocationColor, // Color of the first diameter
+    color: grayEllipse, // Color of the first diameter
     dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
   }).addTo(map);
 
   diameter2 = L.polyline(latLngs.slice(2), {
-    color: CurrentLocationColor, // Color of the second diameter
+    color: grayEllipse, // Color of the second diameter
     dashArray: '10, 10', // Dashed line style (10px dash, 10px gap)
   }).addTo(map);
 
@@ -493,7 +496,9 @@ function divIconSettings(color) {
   }
 }
 
+
 const CurrentLocationColor = "#40e0d0";
+const grayEllipse = "#969696";
 const ShopColor = "#5A5A5A";
 const DiscountShopColor = "#FF0000";
 

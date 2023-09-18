@@ -99,6 +99,34 @@ select {
   background-color: #0056b3;
 }
 
+/* pulse animation for the userlocationmarker */
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+/* Style for the user location marker */
+.user-location-marker {
+  height: 20px;
+  width: 20px;
+  background-color: #007bff;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+  z-index: 1000;
+}
+
 /* Αξιολόγηση Προσφοράς */
 .assessment-button {
   display: flex;
@@ -258,8 +286,6 @@ select {
 .achievement {
   margin-top: 5px;
 }
-
-
 
 /* Container for enumeration and product name */
 .enumeration-product-container {

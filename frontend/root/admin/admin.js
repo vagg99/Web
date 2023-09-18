@@ -286,7 +286,7 @@ async function generateGraph() {
   const selectedDate = document.getElementById('datePicker').value;
   
   if (!selectedDate) {
-    alert("Παρακαλώ επιλέξτε μια ημερομηνία.");
+    sayPopup("Παρακαλώ επιλέξτε μια ημερομηνία.");
     return;
   }
 
@@ -406,14 +406,14 @@ document.getElementById('nextWeekButton').addEventListener('click', showNextWeek
 
 let currentWeekIndex = 0;
 
-function showPreviousWeek() {
-  if (Math.abs(currentWeekIndex) - 1 < AverageDiscounts.data.length - 1) {
+function showNextWeek() {
+  if (currentWeekIndex > 0) {
     currentWeekIndex--;
     updateChart(currentWeekIndex);
   }
 }
 
-function showNextWeek() {
+function showPreviousWeek() {
   if (currentWeekIndex < AverageDiscounts.data.length - 1) {
     currentWeekIndex++;
     updateChart(currentWeekIndex);

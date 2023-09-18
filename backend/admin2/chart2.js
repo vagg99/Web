@@ -52,8 +52,8 @@ async function handleAverageDiscounts(req, res) {
             }
 
             // Add the labels and data for the week
-            labels.unshift(weekLabels);
-            data.unshift(weekData);
+            labels.push(weekLabels);
+            data.push(weekData);
 
             // Move to the previous week
             currentDate.setDate(currentDate.getDate() - 7);

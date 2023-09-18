@@ -8,6 +8,7 @@ async function loginUser(username, password) {
     let password_hashed = hash(username,password);
     for (user in users) {
       if (users[user].username === username && users[user].password_hashed === password_hashed) {
+        console.debug(`User ${username} logged in successfully!`);
         return {message:'Επιτυχής σύνδεση χρήστη!', user : users[user]};
       }
     }
@@ -18,6 +19,9 @@ async function handleLogin(req, res) {
   if (req.method === 'POST' && req.url === '/login') {
     try {
       const { username, password } = req.body;
+
+      console.debug(`User ${username} is trying to log in`);
+
       // Call the loginUser function to check if the user exists
       const {message,user} = await loginUser(username, password);
 

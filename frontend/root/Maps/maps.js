@@ -297,6 +297,8 @@ async function populateSubcategories(subcategorySelect) {
 let StoresWithDiscounts = {};
 async function displayAllStoresWithDiscounts(){
 
+  StoresWithDiscounts = {};
+
   discounts.forEach(discount => {
     StoresWithDiscounts[discount.store_id] = discount;
   });
@@ -383,8 +385,10 @@ async function onMarkerClick(marker,e,id,shopName){
             console.error('Error during delete:', error);
           }
           if (length === 0) {
+            console.log("that was the last discount , resetting cache ...");
             stores = await getAllStores();
             discounts = await getAllDiscounts();
+            console.log("cache reset.");
           }
         });
       }

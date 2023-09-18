@@ -298,19 +298,24 @@ async function generateGraph() {
   const year = selectedDate.split('-')[0];
   const month = selectedDate.split('-')[1];
 
-  const filteredStock = stock.filter(item => {
-    const itemDate = new Date(item.discount.date);
-    return itemDate.getFullYear() === parseInt(year) && itemDate.getMonth() === parseInt(month) - 1;
-  });
+
 
   const daysInMonth = new Date(year, month, 0).getDate();
-  const discountCounts = new Array(daysInMonth).fill(0);
 
-  filteredStock.forEach(item => {
-    const itemDate = new Date(item.discount.date);
-    const day = itemDate.getDate();
-    discountCounts[day - 1]++;
+  const data = {
+    year: year,
+    month: month
+  }
+
+  const response = await fetch(`http://localhost:3000/getChart1Data?year=${year.toString()}&month=${month.toString()}`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    credentials: 'include'
   });
+
+  const discountCounts = await response.json();
 
   const ctx = document.getElementById('discountGraph').getContext('2d');
   Chart1 = new Chart(ctx, {

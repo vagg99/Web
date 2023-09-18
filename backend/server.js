@@ -5,6 +5,8 @@
 // 'express' , 'mongodb' , 'node-cron' , 'jssha' , 'cors' , 'express-session' , 'cookie-parser' , 'node-cache'
 */
 
+const isDebugMode = false;
+
 const express = require('express'); 
 const cron = require('node-cron'); // FOR TIMERS
 const cors = require('cors'); // FOR HTTPS CONNECTIONS
@@ -25,6 +27,7 @@ const { handleLikesDislikesUpdate } = require('./user2e/assessment.js');
 const { handleDiscountSubmission } = require('./user3/submission.js');
 const { handleJSONUpload , handleDeletion } = require('./admin1/uploadJSON.js');
 const { handleIndividualDiscountDeletion } = require('./admin5/deleteDiscount.js');
+const { handleDiscountCounts } = require('./admin2/chart1.js');
 
 const app = express();
 
@@ -46,6 +49,11 @@ app.use(express.static('public'));
 cron.schedule("0 0 0 1 * *", distributeTokens); // DISTRIBUTES TOKENS EVERY MONTH
 cron.schedule("0 0 * * *", deleteOldDiscounts); // CHECK EVERYDAY FOR DISCOUNT THAT ARE A WEEK OLD AND DELETE THEM
 
+console.debug = function(args){
+  if (isDebugMode){
+    console.log(args);
+  }
+}
 
 // POST request for registration
 app.post('/register', handleRegistration);
@@ -159,6 +167,9 @@ app.get('/getSubcategories', async (req, res) => {
   }
 });
 
+// GET request for fetching data for chart1
+app.get('/getChart1Data', handleDiscountCounts);
+
 // GET request for fetching user info for displaying in profile
 app.get('/getUserInfo', getUserInfo);
 
@@ -181,5 +192,7 @@ app.post('/delete', handleDeletion);
 app.delete('/deleteDiscount', handleIndividualDiscountDeletion);
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server started !`);
+  if (isDebugMode) console.debug(`Running in debug mode.`);
+  console.log(`(Server is running on http://localhost:${port})`);
 });

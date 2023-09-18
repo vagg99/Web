@@ -304,13 +304,11 @@ async function generateGraph() {
 
   const data = {
     year: year,
-    month: month,
-    daysInMonth: daysInMonth
+    month: month
   }
 
-  const response = await fetch(`http://localhost:3000/getChart1Data`, {
-    method: 'POST',
-    body: JSON.stringify(data),
+  const response = await fetch(`http://localhost:3000/getChart1Data?year=${year.toString()}&month=${month.toString()}`, {
+    method: 'GET',
     headers: {
         'Content-Type': 'application/json'
     },

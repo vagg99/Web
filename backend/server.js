@@ -28,6 +28,7 @@ const { handleDiscountSubmission } = require('./user3/submission.js');
 const { handleJSONUpload , handleDeletion } = require('./admin1/uploadJSON.js');
 const { handleIndividualDiscountDeletion } = require('./admin5/deleteDiscount.js');
 const { handleDiscountCounts } = require('./admin2/chart1.js');
+const { handleAverageDiscounts } = require('./admin2/chart2.js');
 
 const app = express();
 
@@ -167,8 +168,11 @@ app.get('/getSubcategories', async (req, res) => {
   }
 });
 
-// GET request for fetching data for chart1
+// GET request for fetching data for Chart 1
 app.get('/getChart1Data', handleDiscountCounts);
+
+// GET request for fetching data for Chart 2
+app.get('/getChart2Data', handleAverageDiscounts);
 
 // GET request for fetching user info for displaying in profile
 app.get('/getUserInfo', getUserInfo);

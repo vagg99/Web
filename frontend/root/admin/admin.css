@@ -95,7 +95,7 @@
   text-align: center;
   display: flex;
   justify-content: center;
-  overflow-x: scroll;
+  overflow-x: auto;
   /* margin above and below */
   margin-top: 10px;
   margin-bottom: 10px;
@@ -388,10 +388,8 @@ canvas {
 @media (max-width: 768px) {
   /* case where the selectedFileName is too long use a scrollable container for the filename */
   #selectedFileName {
-    overflow-x: scroll;
+    overflow-x: auto;
   }
-
-
 
   /* Adjust the header styles for smaller screens */
   .header-text {

@@ -246,22 +246,22 @@ function displaySelectedProduct(product) {
     const price = priceInput.value;
     if (price !== '') {
       if (price < 0) {
-        say(product.item.id, "Η τιμή πρέπει να είναι θετική");
+        showErrorPopup("Η τιμή πρέπει να είναι θετική");
         return;
       }
 
       if (price >= product.price) {
-        say(product.item.id, "Η τιμή πρέπει να είναι μικρότερη απο την τιμή του προϊόντος");
+        showErrorPopup("Η τιμή πρέπει να είναι μικρότερη απο την τιμή του προϊόντος");
         return;
       }
 
       if (product.on_discount && price >= product.discount.discount_price) {
-        say(product.item.id, "Η τιμή πρέπει να είναι μικρότερη απο την τιμή της προσφοράς");
+        showErrorPopup("Η τιμή πρέπει να είναι μικρότερη απο την τιμή της προσφοράς");
         return;
       }
 
       if (product.on_discount && !twenty_percent_smaller(price,product.discount.discount_price)) {
-        say(product.item.id, "Η τιμή πρέπει να είναι τουλάχιστον 20% μικρότερη απο την τιμή της προσφοράς");
+        showErrorPopup("Η τιμή πρέπει να είναι τουλάχιστον 20% μικρότερη απο την τιμή της προσφοράς");
         return;
       }
 
@@ -302,7 +302,20 @@ async function getItemsInStock(shopId) {
   return discounts;
 }
 
-function say(id, message) {
+// for error messages
+function showErrorPopup(error) {
+  Swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: error,
+    confirmButtonText: 'Εντάξει',
+    confirmButtonColor: '#f27474'
+    //timer: 3500 // 1.5 seconds
+  });
+}
+
+
+/* function say(id, message) {
   const messageContainer = document.getElementById(`message-container-${id}`);
   messageContainer.style.display = 'block';
   const element = document.getElementById(`message-${id}`)
@@ -313,7 +326,7 @@ function say(id, message) {
     element.style.display = 'none';
     messageContainer.style.display = 'none';
   }, 3000);
-}
+} */
 
 async function submitDiscount(product, newprice) {
   const productId = product._id;
@@ -338,9 +351,9 @@ async function submitDiscount(product, newprice) {
       // Update the price displayed on the page
       const priceElement = document.getElementById(`product-${idForMessage}-price`);
       if (product.discount && product.discount.discount_price) {
-        priceElement.innerHTML = `Απο <s>${product.price}€</s> - <s>μοοονο : ${product.discount.discount_price}€ !</s> - μοοονο : ${newprice}€ !`;
+        priceElement.innerHTML = `Απο <s>${product.price}€</s> - <s>μόνο : ${product.discount.discount_price}€ !</s> - μόνο : ${newprice}€ !`;
       } else {
-        priceElement.innerHTML = `Απο <s>${product.price}€</s> - μοοονο : ${newprice}€ !`;
+        priceElement.innerHTML = `Απο <s>${product.price}€</s> - μόνο : ${newprice}€ !`;
       }
 
       hideLoader();

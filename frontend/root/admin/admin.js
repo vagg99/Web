@@ -407,7 +407,7 @@ document.getElementById('nextWeekButton').addEventListener('click', showNextWeek
 let currentWeekIndex = 0;
 
 function showPreviousWeek() {
-  if (Math.abs(currentWeekIndex) < AverageDiscounts.data.length - 1) {
+  if (Math.abs(currentWeekIndex) - 1 < AverageDiscounts.data.length - 1) {
     currentWeekIndex--;
     updateChart(currentWeekIndex);
   }
@@ -422,9 +422,11 @@ function showNextWeek() {
 
 function updateChart(weekIndex) {
   const weekChangeData = AverageDiscounts.data[weekIndex];
+  const weekChangeLabels = AverageDiscounts.labels[weekIndex];
   console.log(weekChangeData);
   console.log(AverageDiscounts.data);
   Chart2.data.datasets[0].data = weekChangeData;
+  Chart2.data.labels = weekChangeLabels;
   Chart2.update();
 }
 

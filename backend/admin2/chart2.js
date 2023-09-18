@@ -47,13 +47,13 @@ async function handleAverageDiscounts(req, res) {
                     i
                 );
 
-                weekLabels.push(dayDate.toDateString());
-                weekData.push(averageDiscountPercentage);
+                weekLabels.unshift(dayDate.toDateString());
+                weekData.unshift(averageDiscountPercentage);
             }
 
             // Add the labels and data for the week
-            labels.push(weekLabels);
-            data.push(weekData);
+            labels.unshift(weekLabels);
+            data.unshift(weekData);
 
             // Move to the previous week
             currentDate.setDate(currentDate.getDate() - 7);

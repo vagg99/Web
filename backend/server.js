@@ -5,7 +5,7 @@
 // 'express' , 'mongodb' , 'node-cron' , 'jssha' , 'cors' , 'express-session' , 'cookie-parser' , 'node-cache'
 */
 
-const isDebugMode = false;
+const isDebugMode = true;
 
 const express = require('express'); 
 const cron = require('node-cron'); // FOR TIMERS

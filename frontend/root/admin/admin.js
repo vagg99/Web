@@ -343,6 +343,7 @@ async function generateGraph() {
 
 //GRAPH 2
 let Chart2 = null;
+let AverageDiscounts = {data:[]};
 async function generateGraph2() {
   const category = document.getElementById('category').value;
   const subcategory = document.getElementById('subcategory').value;
@@ -365,16 +366,18 @@ async function generateGraph2() {
     credentials: 'include'
   });
 
-  const AverageDiscounts = await response.json();
+  AverageDiscounts = await response.json();
+
+  console.log(AverageDiscounts);
 
   const ctx = document.getElementById('discountGraph2').getContext('2d');
   Chart2 = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: AverageDiscounts.labels,
+      labels: AverageDiscounts.labels[0],
       datasets: [{
         label: 'Average Discount Percentage',
-        data: AverageDiscounts.data,
+        data: AverageDiscounts.data[0],
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1
@@ -396,6 +399,33 @@ async function generateGraph2() {
       }
     }
   });
+}
+
+document.getElementById('previousWeekButton').addEventListener('click', showPreviousWeek);
+document.getElementById('nextWeekButton').addEventListener('click', showNextWeek);
+
+let currentWeekIndex = 0;
+
+function showPreviousWeek() {
+  if (Math.abs(currentWeekIndex) < AverageDiscounts.data.length - 1) {
+    currentWeekIndex--;
+    updateChart(currentWeekIndex);
+  }
+}
+
+function showNextWeek() {
+  if (currentWeekIndex < AverageDiscounts.data.length - 1) {
+    currentWeekIndex++;
+    updateChart(currentWeekIndex);
+  }
+}
+
+function updateChart(weekIndex) {
+  const weekChangeData = AverageDiscounts.data[weekIndex];
+  console.log(weekChangeData);
+  console.log(AverageDiscounts.data);
+  Chart2.data.datasets[0].data = weekChangeData;
+  Chart2.update();
 }
 
 let items = {};

@@ -6,7 +6,6 @@
   align-items: center; /* Vertically center buttons */
 }
 
-
 .upload-button {
   background-color: #3377FF;  /* Orange */
 }
@@ -199,11 +198,24 @@ canvas {
   margin-top: 10px; /* Add margin to separate it from the date picker */
 }
 
-/* Add hover effect for the button */
-#generate-graph-button:hover {
-  background-color: #6886ff; /* Adjust the color on hover */
+#previousWeekButton{
+  width: 225px;
+
 }
 
+#nextWeekButton{
+  width: 225px;
+
+}
+
+/* weekButtons same line */
+.weekButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+}
 
 /* Leaderboard container styles */
 .leaderboard-container {
@@ -406,6 +418,22 @@ canvas {
   /* category select box is the same width as the subcategory select box */
   .graphs-container select {
     width: 100%;
+  }
+
+  #previousWeekButton{
+    width: 130px;
+  }
+
+  #nextWeekButton{
+    width: 130px;
+  }
+
+  /* weekButtons same size*/
+  #weekButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
   }
 
   /* Adjust the leaderboard container styles for smaller screens */

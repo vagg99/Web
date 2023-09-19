@@ -90,7 +90,7 @@ function calculateAverageDiscountPercentage(category, subcategory, currentDate, 
 
     if (relevantItems.length === 0) {
         console.debug('No relevant items found for the day.');
-        return 0; // Return 0 if there are no relevant items
+        return 0;
     }
 
     const totalDiscountPercentage = relevantItems.reduce((sum, item) => {

@@ -63,7 +63,6 @@ app.post('/logout', (req, res) => {
           // Clear the session cookie
           res.clearCookie('sessionid');
           res.clearCookie('connect.sid');
-          // Redirect or send a success message
           res.sendStatus(200);
       }
   });

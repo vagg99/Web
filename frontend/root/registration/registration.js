@@ -20,7 +20,7 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   if (!passwordRegex.test(password)) {
     // clear the password field
     spinner.style.display = 'none';
-    showPopup('Μη έγκυρος κωδικός');  // error popup
+    showErrorPopup('Μη έγκυρος κωδικός');  // error popup
     document.getElementById('password').value = '';
     // Hide the password requirements container and reset the class of each requirement element
     document.querySelector('.password-requirements-container').style.display = 'none';
@@ -45,7 +45,7 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
 
     if (response.status === 409){
       console.log(data.error); 
-      showPopup(data.error);  // error popup
+      showErrorPopup(data.error);  // error popup
       // Hide the spinner after registration error
       spinner.style.display = 'none';
       return;
@@ -66,7 +66,7 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
   } catch (error) {
     console.error('Error during registration:', error);
     // Handle errors and show an error message to the user, if needed
-    showPopup('An error occurred during registration. Please try again later.');  // error popup
+    showErrorPopup('An error occurred during registration. Please try again later.');  // error popup
     // Hide the spinner after registration error
     spinner.style.display = 'none';
   }
@@ -97,7 +97,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const data = await response.json();
     if (response.status === 403){
       console.log(data.error); 
-      showPopup(data.error);  // error popup
+      showErrorPopup(data.error);  // error popup
       setTimeout(() => {
         spinner.style.display = 'none';}, 1337); 
       return;
@@ -146,7 +146,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
   } catch (error) {
     console.error('Error during login:', error);
     // Handle errors and show an error message to the user, if needed
-    showPopup(error.message);  // error popup
+    showErrorPopup(error.message);  // error popup
     // Hide the spinner after login error
     spinner.style.display = 'none';
   }
@@ -176,19 +176,27 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 //   }, 10000);
 // }
 
+// sweetalert2 popup messages
+// for success messages
+function showPopup(message) {
+  Swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: message,
+    showConfirmButton: false,
+    timer: 1500 // 1.5 seconds
+  });
+}
 
-// Popup function
-// -> call by: showPopup(error.message / data.message);
-
-function showPopup(message, duration = 1000) {
-  const popupContainer = document.getElementById('popupContainer');
-  const popupContent = document.getElementById('popupContent');
-  popupContent.textContent = message;
-  popupContainer.style.display = 'flex';
-
-  setTimeout(() => {
-    popupContainer.style.display = 'none';
-  }, duration);
+// for error messages
+function showErrorPopup(error) {
+  Swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: error,
+    showConfirmButton: false,
+    timer: 1500 // 1.5 seconds
+  });
 }
 
 // Attach event listener to the password input for real-time validation

@@ -1,14 +1,14 @@
 /* CSS specific to the maps page goes here */
 #map {
   width: 100%;
-  height: 400px; /* Set the desired height for your map */
+  height: 700px; /* Set the desired height for your map */
   border: 1px solid #ccc;
   border-radius: 15px;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background-color: #ebf4ff;  /* light blue color for scroll down default */
 }
 
 input[type="text"] {
@@ -94,8 +94,6 @@ select {
 
 }
 
-
-
 /* Hover effect for buttons */
 .leaflet-popup-content button:hover {
   background-color: #0056b3;
@@ -114,50 +112,32 @@ select {
   padding: 12px;
   border: none;
   border-radius: 5px;
-  width: 300px;
+  width: 320px;
   font-size: 16px;
-  background-color: #f5f5f5;
+  background-color: #fff;
 }
 
-#search-btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
+/* Style for the magnifying glass icon */
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease-in-out;
+  color: #333; /* Change the color as needed */
+  /* remove the hover effect */
+
 }
 
-#search-btn:hover {
-  background-color: #0056b3;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px; /* Adjust as needed */
-}
-
-.home-icon {
-  margin-right: 10px;
-}
-
-.header-text {
-  margin-left: 10px;
-}
-
-/* Center the header text vertically */
-.header-text h1 {
-  line-height: 1.2;
+/* Style for the search input container */
+.search-container {
+  position: relative;
 }
 
 /* Add space between search and map */
 .space {
   margin-bottom: 20px; /* Adjust this value as needed */
 }
-
 
 .clickable-btn.logged-out {
   background-color: gray;
@@ -322,6 +302,20 @@ section {
   flex-grow: 1; /* This will make the space element take up the remaining space on the right */
 }
 
+/* slider-label visualization */
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333333;   /* contrast */
+  font-size: 14px;
+  padding-right: 10px;    /* right padding  */
+}
+
+.slider-label p {
+  margin: 0;
+}
+
 .toggle-switch-scale {
   width: 300px; /* Adjust the width to your desired value */
   height: 24px;
@@ -372,4 +366,87 @@ section {
 .sticky-footer {
   position: sticky;
   top: 100%;
+}
+
+/* smaller screen */
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+  
+  /* nav menu active appears over everything EXCEPT for the hamburger menu */
+  .nav-menu.active{
+    z-index: 10000;
+  }
+
+  /* Adjust the styles for smaller screens here */
+  #map {
+    height: 500px;
+    width: 110%;
+    margin-left: -5%;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  /* section adjustments so that the elements are displayed in a column */
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* search box with no padding on the left */
+  #search-box {
+    margin-left: 0;
+    padding: 12px 0 12px 12px;
+  }
+
+  .category-container {
+    /* top margin for the category container */
+    margin-top: 10px;
+    display: flex;
+    width: 320px; /* same width as the search box */
+  }
+
+  /* Style for the category select */
+  #search-type {
+    margin-right: 10px; /* Add spacing between selects */
+    margin-left: 0; /* no left margin */
+    width: 150px; /* same width as the subcategory select */
+  }
+
+  /* Style for the subcategory select */
+  #subcategory {
+    margin-left: auto; /* push the select to the right */
+  }
+
+  /* smaller range slider */
+  .toggle-switch-scale {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* also center the range slider label */
+  .slider-label {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  }
+
+  /* slightly thinner popup */
+  .leaflet-popup-content {
+    max-width: 250px;
+  }
+
+  /* slightly smaller font size for the popup */
+  .leaflet-popup-content h2 {
+    font-size: 18px;
+  }
+
+  /* slightly smaller font size for the popup */
+  .leaflet-popup-content button {
+    font-size: 12px;
+  }
 }

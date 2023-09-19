@@ -26,8 +26,6 @@
   z-index: 2;
 }
 
-
-
 /* hamburger bars */
 .bar{
   display: block;
@@ -97,11 +95,11 @@ header {
   margin: 0; /* Remove margin to center vertically */
 }
 
-
 /* Style for the search subtitle */
-.search-subtitle {
+.search-subtitle a {  
   font-size: 18px;
   color: #6886ff; /* Adjust the color as needed */
+  text-decoration: none; 
 }
 
 /* Navigation styles */
@@ -198,6 +196,7 @@ nav.maps-page ul li a {
   align-items: center;
   justify-content: center;
   background: #fff;
+  z-index: 9999;
 }
 
 .loader--hidden {
@@ -247,67 +246,6 @@ a {
 
 a:link, a:visited {
   text-decoration: none;
-}
-
-
-/* Media query for smaller screens */
-@media (max-width: 768px) {
-
-  .hamburger{
-    display: block;
-  }
-
-  .hamburger.active .bar:nth-child(1){
-    transform: translateY(8px) rotate(45deg);
-  }
-
-  .hamburger.active .bar:nth-child(2){
-    opacity: 0;
-  }
-
-  .hamburger.active .bar:nth-child(3){
-    transform: translateY(-8px) rotate(-45deg);
-  }
-
-  .nav-menu{
-    position:fixed;
-    right: -100%; /* appear from the right */
-    top: 70;
-    gap: 0px;
-    flex-direction: column;
-    background-color: #fff;
-    width: 100%;
-    text-align: left;
-    transition: 0.3s;
-    text-decoration-color: #0e3dc0;
-    font-weight: bold; /* make the letters bold */
-    /* appears right under the header */
-    margin-top: 60px;
-  }
-
-  /* styles for the custom menu title */
-  .menu-title {
-    padding: 15px;
-    color: black; /* Set the title color */
-    font-weight: bold;
-  }
-
-  /* Change the color of the navigation items in the hamburger menu */
-  .nav-menu a {
-    color: #0e3dc0; /* Change to your desired color */
-    text-decoration: none;
-  }
-
-  .nav-item{
-    margin: 16px 0;
-  }
-
-  /* appear from the right */
-  .nav-menu.active{
-    right: 0;
-  }
-
-  
 }
 
 /* Background images for different screen sizes */
@@ -408,4 +346,78 @@ footer {
   position: fixed;
   bottom: 0;
   flex-shrink: 0;
+}
+
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .hamburger{
+    display: block;
+  }
+
+  .hamburger.active .bar:nth-child(1){
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .hamburger.active .bar:nth-child(2){
+    opacity: 0;
+  }
+
+  .hamburger.active .bar:nth-child(3){
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .nav-menu{
+    position:fixed;
+    right: -100%; /* appear from the right */
+    top: 70;
+    gap: 0px;
+    flex-direction: column;
+    background-color: #fff;
+    width: 100%;
+    text-align: left;
+    transition: 0.3s;
+    text-decoration-color: #0e3dc0;
+    font-weight: bold; /* make the letters bold */
+    /* appears right under the header */
+    margin-top: 60px;
+  }
+
+  /* styles for the custom menu title */
+  .menu-title {
+    padding: 15px;
+    color: black; /* Set the title color */
+    font-weight: bold;
+  }
+
+  /* Change the color of the navigation items in the hamburger menu */
+  .nav-menu a {
+    color: #0e3dc0; /* Change to your desired color */
+    text-decoration: none;
+  }
+
+  .nav-item{
+    margin: 16px 0;
+  }
+
+  /* appear from the right */
+  .nav-menu.active{
+    right: 0;
+  }
+
+  /* hide the before after arrows */
+  .slick-prev:before, .slick-next:before {
+    display: none;
+  }
+
+  /* search title has better spacing */
+  .search-title {
+    font-size: 20px;
+  }
+
+  /* search subtitle has better spacing */
+  .search-subtitle {
+    font-size: 16px;
+    margin-top: 10px;
+  }
 }

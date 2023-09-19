@@ -89,7 +89,7 @@
   margin: 0 auto; /* Center the container horizontally on the page */
 }
 
-/* Animation Keyframes */
+/* Animation */
 @keyframes pulse {
   0% {
     transform: scale(1);

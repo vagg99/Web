@@ -13,6 +13,7 @@ window.addEventListener("load", async () => {
   window.addEventListener("DOMContentLoaded", async () => {
     const loader = document.querySelector(".loader");
   
+    // Hide the loader after the page loads
     loader.addEventListener("transitionend", () => {
       document.body.removeChild(loader);
     });

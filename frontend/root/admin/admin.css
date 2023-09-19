@@ -79,13 +79,29 @@
   }
 }
 
-
 /* Add spacing and alignment for button text */
 .upload-button i,
 .delete-button i {
   margin-right: 10px; /* Add space between icon and text */
 }
 
+/* Style for the selected filename */
+#selectedFileName {
+  display: inline-block;
+  margin-left: 10px; /* Adjust the margin as needed to separate it from the button */
+  font-weight: bold; /* Make the filename text bold */
+  color:#414040;
+  /* centered text */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  overflow-x: scroll;
+  /* margin above and below */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* GRAPHS */
 
 /* Style for graph containers */
 .graphs-container {
@@ -125,13 +141,15 @@
 }
 
 .graphs-container button {
-  font-size: 18px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #0e3dc0; /* Button background color (adjust to your preference) */
+  color: #fff; /* Button text color (adjust to your preference) */
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px; /* Adjust the font size */
+  margin-top: 10px; /* Add margin to separate it from the date picker */
 }
 
 /* Center-align the button */
@@ -332,62 +350,6 @@ canvas {
   top: 100%;
 }
 
-/* Styles for screens smaller than 768px (e.g., smartphones) */
-@media (max-width: 768px) {
-  /* Adjust the header styles for smaller screens */
-  .header-text {
-    text-align: center; /* Center-align the header text */
-  }
-
-  /* Center-align the navigation menu */
-  .nav-menu {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-  }
-
-  /* Adjust styles for individual navigation items */
-  .nav-item {
-    margin-bottom: 10px;
-  }
-
-  /* Add styles for the hamburger menu icon */
-  .hamburger {
-    display: block; /* Show the hamburger menu icon */
-    margin: 20px auto; /* Center-align the icon */
-  }
-
-  /* Adjust the leaderboard container styles for smaller screens */
-  .leaderboard-container {
-    padding: 10px; /* Reduce padding for smaller screens */
-  }
-
-  /* Adjust styles for the leaderboard list items */
-  #leaderboard-list li {
-    grid-template-columns: 1fr; /* Display a single column on smaller screens */
-  }
-
-  /* Center-align leaderboard header */
-  .leaderboard-header {
-    text-align: center;
-    grid-template-columns: 1fr; /* Display a single column on smaller screens */
-  }
-
-  /* Adjust the styles for the pagination */
-  .pagination {
-    text-align: center;
-  }
-
-  /* buttons inside the button container  are all the same size */
-  .button-container button {
-    width: 100%;
-    height: 100px;
-  }
-   
-}
-
 .popup {
   display: none;
   position: fixed;
@@ -419,4 +381,65 @@ canvas {
   top: 10px;
   right: 10px;
   cursor: pointer;
+}
+
+
+/* Styles for screens smaller than 768px (e.g., smartphones) */
+@media (max-width: 768px) {
+  /* case where the selectedFileName is too long use a scrollable container for the filename */
+  #selectedFileName {
+    overflow-x: scroll;
+  }
+
+
+
+  /* Adjust the header styles for smaller screens */
+  .header-text {
+    text-align: center; /* Center-align the header text */
+  }
+
+  /* chart 2 container styles */
+  /* Choose category shows under the label "Κατηγορία" */
+  .graphs-container label {
+    display: block; /* Display the label as a block element */
+    margin-bottom: 10px; /* Add some bottom margin to separate it from the date picker */
+  }
+
+  /* category select box is the same width as the subcategory select box */
+  .graphs-container select {
+    width: 100%;
+  }
+
+  /* Adjust the leaderboard container styles for smaller screens */
+  .leaderboard-container {
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
+
+  /* Adjust styles for the leaderboard list items */
+  #leaderboard-list li {
+    grid-template-columns: 1fr; /* Display a single column on smaller screens */
+  }
+
+  /* Center-align leaderboard header */
+  .leaderboard-header {
+    text-align: center;
+    grid-template-columns: 1fr; /* Display a single column on smaller screens */
+  }
+
+  /* Adjust the styles for the pagination */
+  .pagination {
+    text-align: center;
+  }
+
+  /* buttons inside the button container  are all the same size */
+  .button-container button {
+    width: 70%;
+    height: 70px;
+  }  
+
+  /*leaderboard h5 does not show up on smaller screens*/
+  .leaderboard-container h5 {
+    display: none;
+  }
+
 }

@@ -19,7 +19,7 @@
     position: absolute;
     top: 65%;   /* page centering */
     left: 57%;  /* page centering */
-    transform: translate(-50%, -45%); /* page centering */
+    transform: translate(-60%, -45%); /* page centering */
     width: 35rem;
     height: 50rem; /* wrapper height*/
 }

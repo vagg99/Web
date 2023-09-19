@@ -12,18 +12,37 @@ async function handleJSONUpload(req, res) {
     }
   
     try {
-      // Transform jsonData into an array of insert operations
-      const insertOperations = jsonData.map(item => ({
-        insertOne: {
-          document: item
-        }
-      }));
+      let updateOperations;
+      if (collectionName == 'stock') {
+        // Prepare an array of update operations based on store_id and item_id
+        updateOperations = jsonData.map(item => ({
+          updateOne: {
+            filter: {
+              store_id: item.store_id,
+              item_id: item.item_id
+            },
+            update: { $set: item }, // Update the entire document with the new data
+            upsert: true // Create a new document if it doesn't exist
+          }
+        }));
+      } else {
+        // Prepare an array of update operations based on id
+        updateOperations = jsonData.map(item => ({
+          updateOne: {
+            filter: {
+              id: item.id,
+            },
+            update: { $set: item }, // Update the entire document with the new data
+            upsert: true // Create a new document if it doesn't exist
+          }
+        }));
+      }
   
       // Connect to MongoDB
       const collection = await connectToDatabase(collectionName);
   
       // Perform bulkWrite to insert multiple documents at once
-      const result = await collection.bulkWrite(insertOperations);
+      const result = await collection.bulkWrite(updateOperations);
   
       // Send a response indicating success
       res.send(`JSON data uploaded and processed successfully to collection "${collectionName}". Inserted ${result.insertedCount} items.`);
